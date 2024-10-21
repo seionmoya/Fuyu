@@ -4,6 +4,7 @@ namespace Fuyu.Backend.EFT.DTO.Templates
 	public enum EEquipmentBuildType
 	{
 		Custom,
-		Standard
+		Standard,
+		Storage
 	}
 }

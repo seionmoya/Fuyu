@@ -36,13 +36,22 @@ namespace Fuyu.Common.Hashing
 		[JsonConstructor]
 		public MongoId([JsonProperty("$value")] string id)
 		{
-			if (id == null || id.Length != 24)
+			if (id != string.Empty)
 			{
-				throw new ArgumentOutOfRangeException($"Critical MongoId error: incorrect length. Id: {id}");
+				if (id == null || id.Length != 24)
+				{
+					throw new ArgumentOutOfRangeException($"Critical MongoId error: incorrect length. Id: {id}");
+				}
+
+				_timeStamp = GetTimestamp(id);
+				_counter = GetCounter(id);
+			}
+			else
+			{
+				_timeStamp = 0;
+				_counter = 0;
 			}
 			
-            _timeStamp = GetTimestamp(id);
-			_counter = GetCounter(id);
 
 			GenerateNew();
 		}
