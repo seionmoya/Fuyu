@@ -22,8 +22,14 @@ namespace Fuyu.Backend.EFT.Services
             // replace ids
             foreach (var item in items)
             {
+                // replace item id
                 item._id = newIds[item._id];
-                item.parentId = newIds[item.parentId];
+
+                // replace item's parent id
+                if (item.parentId != null)
+                {
+                    item.parentId = newIds[item.parentId];
+                }
             }
 
             return items;

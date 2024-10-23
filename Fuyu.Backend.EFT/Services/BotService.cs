@@ -9,25 +9,25 @@ using Fuyu.Common.Serialization;
 namespace Fuyu.Backend.EFT.Services
 {
     // NOTE: regarding how BotService is designed;
-    // - the goal is to make a very simple bot generator that can easily be
+    // * The goal is to make a very simple bot generator that can easily be
     //   replaced by mods
-    // - profiles are not stored in EftDatabase because ideally a completely
+    // * Profiles are not stored in EftDatabase because ideally a completely
     //   different generation system not depending on this data
     // -- seionmoya, 2024-10-21
     public static class BotService
     {
-        private static Dictionary<EBotRole, string> _profiles;
+        private static readonly Dictionary<EBotRole, string> _profiles;
         
         static BotService()
         {
             _profiles = new Dictionary<EBotRole, string>()
             {
-                { EBotRole.marksman,                    Resx.GetText("eft", "database.bots.marksman.json") },
-                { EBotRole.assault,                     Resx.GetText("eft", "database.bots.assault.json") },
+                { EBotRole.marksman,                    Resx.GetText("eft", "database.bots.marksman.json")                },
+                { EBotRole.assault,                     Resx.GetText("eft", "database.bots.assault.json")                 },
                 { EBotRole.bossTest,                    null },
-                { EBotRole.bossBully,                   Resx.GetText("eft", "database.bots.bossbully.json") },
+                { EBotRole.bossBully,                   Resx.GetText("eft", "database.bots.bossbully.json")               },
                 { EBotRole.followerTest,                null },
-                { EBotRole.followerBully,               Resx.GetText("eft", "database.bots.followerbully.json") },
+                { EBotRole.followerBully,               Resx.GetText("eft", "database.bots.followerbully.json")           },
                 { EBotRole.bossKilla,                   null },
                 { EBotRole.bossKojaniy,                 null },
                 { EBotRole.followerKojaniy,             null },
@@ -41,15 +41,15 @@ namespace Fuyu.Backend.EFT.Services
                 { EBotRole.followerSanitar,             null },
                 { EBotRole.test,                        null },
                 { EBotRole.assaultGroup,                null },
-                { EBotRole.sectantWarrior,              Resx.GetText("eft", "database.bots.sectantwarrior.json") },
-                { EBotRole.sectantPriest,               Resx.GetText("eft", "database.bots.sectantpriest.json") },
-                { EBotRole.bossTagilla,                 Resx.GetText("eft", "database.bots.bosstagilla.json") },
+                { EBotRole.sectantWarrior,              Resx.GetText("eft", "database.bots.sectantwarrior.json")          },
+                { EBotRole.sectantPriest,               Resx.GetText("eft", "database.bots.sectantpriest.json")           },
+                { EBotRole.bossTagilla,                 Resx.GetText("eft", "database.bots.bosstagilla.json")             },
                 { EBotRole.followerTagilla,             null },
                 { EBotRole.exUsec,                      null },
                 { EBotRole.gifter,                      null },
-                { EBotRole.bossKnight,                  Resx.GetText("eft", "database.bots.bossknight.json") },
-                { EBotRole.followerBigPipe,             Resx.GetText("eft", "database.bots.followerbigpipe.json") },
-                { EBotRole.followerBirdEye,             Resx.GetText("eft", "database.bots.followerbirdeye.json") },
+                { EBotRole.bossKnight,                  Resx.GetText("eft", "database.bots.bossknight.json")              },
+                { EBotRole.followerBigPipe,             Resx.GetText("eft", "database.bots.followerbigpipe.json")         },
+                { EBotRole.followerBirdEye,             Resx.GetText("eft", "database.bots.followerbirdeye.json")         },
                 { EBotRole.bossZryachiy,                null },
                 { EBotRole.followerZryachiy,            null },
                 { EBotRole.bossBoar,                    null },
@@ -67,16 +67,16 @@ namespace Fuyu.Backend.EFT.Services
                 { EBotRole.followerKolontayAssault,     null },
                 { EBotRole.followerKolontaySecurity,    null },
                 { EBotRole.shooterBTR,                  null },
-                { EBotRole.bossPartisan,                Resx.GetText("eft", "database.bots.bosspartisan.json") },
+                { EBotRole.bossPartisan,                Resx.GetText("eft", "database.bots.bosspartisan.json")            },
                 { EBotRole.spiritWinter,                null },
                 { EBotRole.spiritSpring,                null },
                 { EBotRole.peacemaker,                  null },
                 { EBotRole.pmcBEAR,                     null },
                 { EBotRole.pmcUSEC,                     null },
                 { EBotRole.skier,                       null },
-                { EBotRole.sectantPredvestnik,          Resx.GetText("eft", "database.bots.sectantpredvestnik.json") },
-                { EBotRole.sectantPrizrak,              Resx.GetText("eft", "database.bots.sectantprizrak.json") },
-                { EBotRole.sectantOni,                  Resx.GetText("eft", "database.bots.sectantoni.json") }
+                { EBotRole.sectantPredvestnik,          Resx.GetText("eft", "database.bots.sectantpredvestnik.json")      },
+                { EBotRole.sectantPrizrak,              Resx.GetText("eft", "database.bots.sectantprizrak.json")          },
+                { EBotRole.sectantOni,                  Resx.GetText("eft", "database.bots.sectantoni.json")              }
             };
         }
 
