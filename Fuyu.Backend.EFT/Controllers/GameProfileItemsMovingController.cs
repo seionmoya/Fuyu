@@ -41,6 +41,9 @@ namespace Fuyu.Backend.EFT.Controllers
 			var response = new ItemEventResponse
 			{
 				ProfileChanges = {
+					// NOTE: Possibly make this a method where we can do
+					// context.GetProfileChange() and if it doesn't exist add it
+					// -- nexus4880, 2024-10-22
 					{ profile.Pmc._id, new ProfileChange() },
 					{ profile.Savage._id, new ProfileChange() }
 				},
