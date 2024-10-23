@@ -14,7 +14,20 @@ namespace Fuyu.Backend.BSG.ItemEvents.Models
         [DataMember(Name = "code")]
         public string ErrorCode { get; set; }
 
-		[DataMember(Name = "data")]
-		public object Data;
+		// NOTE: Used only if ErrorCode == EBackendErrorCode.InsufficientNumberInStock
+		/*
+         * 	
+			[JsonProperty("itemId")]
+			public string ItemId;
+			
+			[JsonProperty("requestedCount")]
+			public int RequestedCount;
+
+			[JsonProperty("actualCount")]
+			public int ActualCount;
+         */
+        // -- nexus4880, 2024-10-22
+		[DataMember(Name = "data"/*, EmitDefaultValue = false*/)]
+        public object Data { get; set; }
 	}
 }
