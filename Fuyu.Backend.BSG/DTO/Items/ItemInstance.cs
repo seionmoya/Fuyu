@@ -14,7 +14,7 @@ namespace Fuyu.Backend.EFT.DTO.Items
 
         // emits when 'null'
         [DataMember(EmitDefaultValue = false)]
-        public MongoId parentId;
+        public MongoId? parentId;
 
         // emits when 'null'
         [DataMember(EmitDefaultValue = false)]

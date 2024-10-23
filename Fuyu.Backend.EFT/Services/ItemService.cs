@@ -28,7 +28,7 @@ namespace Fuyu.Backend.EFT.Services
                 // replace item's parent id
                 if (item.parentId != null)
                 {
-                    item.parentId = newIds[item.parentId];
+                    item.parentId = newIds[item.parentId.Value];
                 }
             }
 
