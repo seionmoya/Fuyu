@@ -1,5 +1,6 @@
 ﻿using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.ItemEvents;
+using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Backend.EFT.ItemEvents.Controllers;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
@@ -41,11 +42,13 @@ namespace Fuyu.Backend.EFT.Controllers
                 InventoryWarnings = []
             };
 
+            int requestIndex = 0;
             foreach (var itemRequest in requestData)
             {
                 var action = itemRequest.Value<string>("Action");
-                var itemEventContext = new ItemEventContext(sessionId, action, itemRequest, response);
+                var itemEventContext = new ItemEventContext(sessionId, action, requestIndex, itemRequest, response);
                 await _router.RouteAsync(itemEventContext);
+                requestIndex++;
 			}
 
             await context.SendJsonAsync(Json.Stringify(new ResponseBody<ItemEventResponse>
