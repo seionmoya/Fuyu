@@ -11,6 +11,6 @@ namespace Fuyu.Backend.BSG.DTO.Responses
         public Dictionary<string, ProfileChange> ProfileChanges { get; set; } = [];
 
         [DataMember(Name = "warnings")]
-        public InventoryWarning[] InventoryWarnings = [];
+        public List<InventoryWarning> InventoryWarnings = [];
     }
 }
