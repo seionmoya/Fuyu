@@ -67,7 +67,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         [DataMember]
         public RagfairInfo RagfairInfo;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public Dictionary<MongoId, TraderInfo> TradersInfo;
 
         [DataMember]
