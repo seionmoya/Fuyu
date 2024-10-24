@@ -22,7 +22,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         public float value;
 
         [DataMember(EmitDefaultValue = false)]
-        public MongoId templateId;
+        public MongoId? templateId;
 
         [DataMember]
         public bool passive;
@@ -31,9 +31,9 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         public bool visible;
 
 		[DataMember(EmitDefaultValue = false)]
-		public bool production;
+		public bool? production;
 
         [DataMember(EmitDefaultValue = false)]
-        public MongoId[] filter;
+        public MongoId?[] filter;
     }
 }
