@@ -4,12 +4,17 @@ namespace Fuyu.Common.IO
 {
     public static class Terminal
     {
+        private static object _lock = new object();
+
         public static void WriteLine(string text)
         {
             var line = $"{text}\n";
 
-            Console.Write(line);
-            WriteToFile(line);
+            lock (_lock)
+            {
+                Console.Write(line);
+                WriteToFile(line);
+            }
         }
 
         public static void WriteLine(object o)
