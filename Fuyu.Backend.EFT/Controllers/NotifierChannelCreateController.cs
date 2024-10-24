@@ -20,11 +20,10 @@ namespace Fuyu.Backend.EFT.Controllers
             {
                 data = new NotifierChannelCreateResponse()
                 {
-                    server = "localhost:8010",
-                    channel_id = channelId,
-                    url = string.Empty,
-                    notifierServer = $"http://localhost:8010/push/notifier/get/{channelId}",
-                    ws = $"ws://localhost:8010/push/notifier/getwebsocket/{channelId}"
+                    Server = "localhost:8010",
+                    ChannelId = channelId,
+                    URL = $"http://localhost:8010/push/notifier/get/{channelId}",
+                    WS = $"ws://localhost:8010/push/notifier/getwebsocket/{channelId}"
                 }
             };
 
