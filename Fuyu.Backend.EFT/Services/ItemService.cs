@@ -79,27 +79,36 @@ namespace Fuyu.Backend.EFT.Services
             }
 
             // regenerate inventory items
-            foreach (var item in inventory.items)
+            if (inventory.items != null)
             {
-                if (!mapping.ContainsKey(item._id))
+                foreach (var item in inventory.items)
                 {
-                    mapping.Add(item._id, new MongoId(true));
+                    if (!mapping.ContainsKey(item._id))
+                    {
+                        mapping.Add(item._id, new MongoId(true));
+                    }
+                }
+
+                RegenerateItemIds(inventory.items, mapping);
+            }
+
+            // regenerate inventory fastpanel
+            if (inventory.fastPanel != null)
+            {
+                foreach (var kvp in inventory.fastPanel)
+                {
+                    inventory.fastPanel[kvp.Key] = mapping[kvp.Value];
                 }
             }
 
-            RegenerateItemIds(inventory.items, mapping);
-
-            // regenerate inventory fastpanel
-            foreach (var kvp in inventory.fastPanel)
-            {
-                inventory.fastPanel[kvp.Key] = mapping[kvp.Value];
-            }
-
             // regenerate inventory favorite items
-            for (var i = 0; i < inventory.favoriteItems.Length; ++i)
+            if (inventory.favoriteItems != null)
             {
-                var itemId = inventory.favoriteItems[i];
-                inventory.favoriteItems[i] = mapping[itemId];
+                for (var i = 0; i < inventory.favoriteItems.Length; ++i)
+                {
+                    var itemId = inventory.favoriteItems[i];
+                    inventory.favoriteItems[i] = mapping[itemId];
+                }
             }
         }
     }
