@@ -54,7 +54,7 @@ namespace Fuyu.Backend.EFT.Services
             if (inventory.stash != null)
             {
                 mapping.Add(inventory.stash.Value, new MongoId(true));
-                inventory.equipment = mapping[inventory.stash.Value];
+                inventory.stash = mapping[inventory.stash.Value];
             }
 
             // regenerate inventory quest raid items

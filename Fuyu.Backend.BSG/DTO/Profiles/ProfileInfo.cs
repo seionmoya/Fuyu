@@ -101,7 +101,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         [DataMember]
         public bool HasPveGame;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public Ban[] Bans;
     }
 }
