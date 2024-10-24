@@ -15,25 +15,23 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         public MongoId equipment;
 
         [DataMember]
-        public MongoId stash;
+        public MongoId? stash;
 
         [DataMember]
-        public MongoId sortingTable;
+        public MongoId? sortingTable;
 
         [DataMember]
-        public MongoId questRaidItems;
+        public MongoId? questRaidItems;
 
         [DataMember]
-        public MongoId questStashItems;
+        public MongoId? questStashItems;
 
-        // TODO: proper type
         [DataMember]
         public Dictionary<string, MongoId> fastPanel;
 
         [DataMember]
         public Dictionary<string, MongoId> hideoutAreaStashes;
 
-        // TODO: proper type
         [DataMember]
         public MongoId[] favoriteItems;
     }

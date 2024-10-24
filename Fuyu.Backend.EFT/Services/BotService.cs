@@ -103,7 +103,7 @@ namespace Fuyu.Backend.EFT.Services
 
             // regenerate all ids
             profile._id = new MongoId(true);
-            profile.Inventory.items = ItemService.RegenerateItemIds(profile.Inventory.items);
+            ItemService.RegenerateInventoryIds(profile.Inventory);
 
             return profile;
         }
