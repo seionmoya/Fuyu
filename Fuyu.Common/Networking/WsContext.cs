@@ -69,7 +69,7 @@ namespace Fuyu.Common.Networking
 
         public async Task CloseAsync()
         {
-            await _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+            await _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
         }
     }
 }
