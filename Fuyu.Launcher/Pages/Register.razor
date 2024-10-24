@@ -21,10 +21,12 @@
                 <MudPaper Class="pa-4" Elevation="4">
                     <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
                         <MudTextField @bind-Value="_username" Label="Username" Required="true" RequiredError="Required" />
-                        <MudTextField @bind-Value="_password" Label="Password" Required="true" RequiredError="Required"
-                                        InputType="InputType.Password"
-                                        HelperText="Choose a strong password" />
-                        <MudTextField T="string" Label="Repeat the Password" Required="true" InputType="InputType.Password" Validation="@(new Func<string, string>(PasswordMatch))" />
+                        <MudTextField @bind-Value="_password" @bind-Value:after="Password_Changed" Label="Password" Required="true" RequiredError="Required"
+                                InputType="InputType.Password"
+                                HelperText="Choose a strong password" />
+                        <MudTextField @ref="_repeatPwField" T="string" Label="Repeat the Password" Required="true"
+                                InputType="InputType.Password"
+                                Validation="@(new Func<string, string>(PasswordMatch))" />
                         <div class="d-flex align-center justify-center mt-6">
                             <MudButton Variant="Variant.Filled" Color="Color.Tertiary" Disabled="@(!_success)" OnClick="Register_Clicked">Register</MudButton>
                         </div>
@@ -43,9 +45,16 @@
     private string _username = string.Empty;
     private string _password = string.Empty;
 
+    private MudTextField<string> _repeatPwField;
+
     private string PasswordMatch(string arg)
     {
         return _password != arg ? "Passwords don't match" : null;
+    }
+
+    public void Password_Changed()
+    {
+        _repeatPwField.Validate();
     }
 
     public void Register_Clicked()
