@@ -17,7 +17,8 @@ namespace Fuyu.Backend.EFT.DTO.Items
 
         // emits when 'false'
         [DataMember(EmitDefaultValue = false)]
-        public bool isSearched;
+        public bool? isSearched;
+    }
 
 		public bool Equals(LocationInGrid other)
 		{

@@ -39,10 +39,10 @@ namespace Fuyu.Backend.EFT.DTO.Locations
         public bool RandomTimeSpawn;
 
         [DataMember(EmitDefaultValue = false)]
-        public bool ForceSpawn;
+        public bool? ForceSpawn;
 
         [DataMember(EmitDefaultValue = false)]
-        public bool IgnoreMaxBots;
+        public bool? IgnoreMaxBots;
 
         [DataMember]
         public string TriggerName;
@@ -51,7 +51,7 @@ namespace Fuyu.Backend.EFT.DTO.Locations
         public string TriggerId;
 
         [DataMember(EmitDefaultValue = false)]
-        public int Delay;
+        public int? Delay;
 
         // NOTE: server-side only
         [DataMember]

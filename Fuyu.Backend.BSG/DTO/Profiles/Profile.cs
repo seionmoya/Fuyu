@@ -15,7 +15,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         public int aid;
 
         [DataMember(EmitDefaultValue = false)]
-        public MongoId savage;
+        public MongoId? savage;
 
         [DataMember]
         public ProfileInfo Info;
