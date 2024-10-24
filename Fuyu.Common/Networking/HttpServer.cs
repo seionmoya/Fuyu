@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -82,10 +83,8 @@ namespace Fuyu.Common.Networking
             try
             {
                 var context = new WsContext(listenerContext.Request, listenerContext.Response, ws);
-
                 var time = DateTime.UtcNow.ToString();
                 Terminal.WriteLine($"[{time}][{Name}][WS  ] {context.Path}");
-
                 await WsRouter.RouteAsync(context);
             }
             catch (Exception ex)
