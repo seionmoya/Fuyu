@@ -99,6 +99,12 @@ namespace Fuyu.Backend.EFT.Services
 
         private static Profile GenerateBot(EBotRole role)
         {
+            // TODO: remove this rimuru top 1 pls fix immediately
+            if (role == EBotRole.pmcBEAR || role == EBotRole.pmcUSEC)
+            {
+                role = EBotRole.assault;
+            }
+
             var profile = Json.Parse<Profile>(_profiles[role]);
 
             // regenerate all ids
