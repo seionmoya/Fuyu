@@ -15,10 +15,14 @@ namespace Fuyu.Common.Networking
   			// match static paths
 		}
 
-		public virtual Task OnConnectAsync(WsContext context)
-        {
+		public override Task RunAsync(WsContext context)
+		{
+			context.OnCloseEvent += OnCloseAsync;
+			context.OnTextEvent += OnTextAsync;
+			context.OnBinaryEvent += OnBinaryAsync;
+
             return Task.CompletedTask;
-        }
+		}
 
         public virtual Task OnCloseAsync(WsContext context)
         {
@@ -33,14 +37,6 @@ namespace Fuyu.Common.Networking
         public virtual Task OnBinaryAsync(WsContext context, byte[] binary)
         {
             return Task.CompletedTask;
-        }
-
-        public async Task InitializeAsync(WsContext context)
-        {
-            context.OnCloseAsync = OnCloseAsync;
-            context.OnTextAsync = OnTextAsync;
-            context.OnBinaryAsync = OnBinaryAsync;
-            await OnConnectAsync(context);
         }
 	}
 }
