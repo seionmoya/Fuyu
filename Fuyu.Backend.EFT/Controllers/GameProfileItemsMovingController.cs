@@ -32,6 +32,7 @@ namespace Fuyu.Backend.EFT.Controllers
 			ItemEventRouter.AddController<UnbindItemEventController>();
 			ItemEventRouter.AddController<AddToWishListItemEventController>();
 			ItemEventRouter.AddController<RemoveFromWishListItemEventController>();
+			ItemEventRouter.AddController<ChangeWishlistItemCategoryItemEventController>();
 		}
 
 		public override async Task RunAsync(HttpContext context, JObject request)
