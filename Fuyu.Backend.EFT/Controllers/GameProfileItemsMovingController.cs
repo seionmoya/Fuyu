@@ -39,6 +39,7 @@ namespace Fuyu.Backend.EFT.Controllers
 			ItemEventRouter.AddController<ExamineItemEventController>();
 			ItemEventRouter.AddController<RecodeItemEventController>();
 			ItemEventRouter.AddController<TagItemEventController>();
+			ItemEventRouter.AddController<ToggleItemEventController>();
 		}
 
 		public override async Task RunAsync(HttpContext context, JObject request)
