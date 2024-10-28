@@ -6,7 +6,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 	public class Note
 	{
 		[DataMember(Name = "Time")]
-		public float Time { get; set; }
+		public float Created { get; set; }
 
 		[DataMember(Name = "Text")]
 		public string Text { get; set; }
