@@ -13,7 +13,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Models
 		[DataMember(Name = "TagName")]
 		public string Name { get; set; }
 
-		// TODO: proper type
+		// TODO: proper type (TaxonomyColor)
 		[DataMember(Name = "TagColor")]
 		public int Color { get; set; }
 	}
