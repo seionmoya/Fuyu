@@ -37,6 +37,7 @@ namespace Fuyu.Backend.EFT.Controllers
 			ItemEventRouter.AddController<EditNoteItemEventController>();
 			ItemEventRouter.AddController<DeleteNoteItemEventController>();
 			ItemEventRouter.AddController<ExamineItemEventController>();
+			ItemEventRouter.AddController<RecodeItemEventController>();
 		}
 
 		public override async Task RunAsync(HttpContext context, JObject request)
