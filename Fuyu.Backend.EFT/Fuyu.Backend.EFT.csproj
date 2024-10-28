@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="embedded\database\files\trader\avatar\54cb50c76803fa8b248b4571.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\54cb57776803fa99248b456e.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\579dc571d53a0658a154fbec.png" />
+    <None Remove="embedded\database\files\trader\avatar\58330581ace78e27b8b10cee.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\5935c25fb3acc3127c3d8cd9.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\5a7c2eca46aef81a7ca2145d.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\5ac3b86a86f77461491d1ad8.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\5ac3b934156ae10c4430e83c.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\5c0647fdd443bc2504c2d371.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\638f541a29ffd1183d187f57.jpg" />
+    <None Remove="embedded\database\files\trader\avatar\656f0f98d80a697f855d34b1.jpg" />
     <None Remove="embedded\database\traderavatars\rimuru.jpg" />
     <None Remove="embedded\database\traderavatars\rimuru.png" />
   </ItemGroup>
@@ -95,6 +106,17 @@
     <EmbeddedResource Include="embedded/database/client.settings.json" />
     <EmbeddedResource Include="embedded/database/client.trading.api.traderSettings.json" />
     <EmbeddedResource Include="embedded/database/client.weather.json" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\54cb50c76803fa8b248b4571.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\54cb57776803fa99248b456e.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\579dc571d53a0658a154fbec.png" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\58330581ace78e27b8b10cee.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\5935c25fb3acc3127c3d8cd9.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\5a7c2eca46aef81a7ca2145d.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\5ac3b86a86f77461491d1ad8.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\5ac3b934156ae10c4430e83c.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\5c0647fdd443bc2504c2d371.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\638f541a29ffd1183d187f57.jpg" />
+    <EmbeddedResource Include="embedded\database\files\trader\avatar\656f0f98d80a697f855d34b1.jpg" />
     <EmbeddedResource Include="embedded\database\traderavatars\rimuru.jpg" />
     <EmbeddedResource Include="embedded\database\traderavatars\rimuru.png" />
   </ItemGroup>

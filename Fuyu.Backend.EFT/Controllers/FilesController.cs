@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Common.IO;
@@ -22,17 +21,22 @@ namespace Fuyu.Backend.EFT.Controllers
 		{
 			var parameters = context.GetPathParameters(this);
 			var path = parameters["path"];
-			if (path.Contains("trader/avatar"))
+			var extension = path.Split('.').Last();
+			var targetFile = path.Replace('/', '.');
+			var resourceLocation = $"database.files.{targetFile}";
+
+			try
 			{
-				var extension = path.Split('.').Last();
-				using Stream stream = Resx.GetStream("eft", "database.traderavatars.rimuru." + extension);
+				using Stream stream = Resx.GetStream("eft", resourceLocation);
 				byte[] buffer = new byte[stream.Length];
 				stream.ReadExactly(buffer, 0, buffer.Length);
 
 				return context.SendBinaryAsync(buffer, $"image/{extension}", false);
 			}
-
-			throw new Exception($"Unhandled file path: {path}");
+			catch (Exception ex)
+			{
+				throw new Exception($"Unhandled file request, resource might not exist: {resourceLocation}", ex);
+			}
 		}
 	}
 }
