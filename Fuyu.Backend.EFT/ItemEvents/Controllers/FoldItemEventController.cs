@@ -28,9 +28,14 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 			// potentially have an extension or helper method
 			// that would add the updatable for us if null
 			// -- nexus4880, 2024-10-24
+
+			/* Leaving old code here for later discussion -- nexus4880, 2024-10-27
 			var upd = item.upd ??= new ItemUpdatable();
 			var foldable = upd.Foldable ??= new ItemFoldableComponent();
 			foldable.Folded = request.Value;
+			*/
+
+			item.GetUpd<ItemFoldableComponent>().Folded = request.Value;
 
 			return Task.CompletedTask;
 		}
