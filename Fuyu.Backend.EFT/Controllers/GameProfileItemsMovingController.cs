@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers
 {
-	public class GameProfileItemsMovingController : HttpController<JObject>
+    public class GameProfileItemsMovingController : HttpController<JObject>
 	{
 		public ItemEventRouter ItemEventRouter { get; } = new ItemEventRouter();
 
@@ -36,6 +36,7 @@ namespace Fuyu.Backend.EFT.Controllers
 			ItemEventRouter.AddController<AddNoteItemEventController>();
 			ItemEventRouter.AddController<EditNoteItemEventController>();
 			ItemEventRouter.AddController<DeleteNoteItemEventController>();
+			ItemEventRouter.AddController<ExamineItemEventController>();
 		}
 
 		public override async Task RunAsync(HttpContext context, JObject request)
