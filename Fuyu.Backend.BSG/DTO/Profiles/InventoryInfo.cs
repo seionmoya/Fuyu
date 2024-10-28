@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Common.Hashing;
 
@@ -9,7 +12,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
     public class InventoryInfo
     {
         [DataMember]
-        public ItemInstance[] items;
+        public List<ItemInstance> items;
 
         [DataMember]
         public MongoId equipment;
@@ -34,5 +37,26 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 
         [DataMember]
         public MongoId[] favoriteItems;
+
+        public List<ItemInstance> RemoveItem(ItemInstance item)
+		{
+			return InventoryService.RemoveItem(this, item);
+		}
+
+        public List<ItemInstance> RemoveItem(MongoId id)
+		{
+            var item = items.Find(i => i._id == id);
+			if (item == null)
+            {
+                throw new Exception($"Failed to find item with id {id} in inventory");
+            }
+
+			return InventoryService.RemoveItem(this, item);
+		}
+
+        public List<ItemInstance> GetItemsByTemplate(MongoId tpl)
+        {
+            return items.Where(i => i._tpl == tpl).ToList();
+        }
     }
 }

@@ -3,8 +3,6 @@ using System;
 namespace Fuyu.Common.Collections
 {
 	public readonly struct Union<T1, T2> : IUnion
-		where T1 : IEquatable<T1>
-		where T2 : IEquatable<T2>
 	{
 		// NOTE: While we could just use object I have intentionally used
 		// separate fields here in order to avoid boxing value types

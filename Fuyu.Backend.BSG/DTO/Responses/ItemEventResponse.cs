@@ -8,10 +8,16 @@ namespace Fuyu.Backend.BSG.DTO.Responses
     [DataContract]
     public class ItemEventResponse
     {
-        [DataMember(Name = "profileChanges")]
-        public Dictionary<MongoId, ProfileChange> ProfileChanges { get; set; } = [];
+        public ItemEventResponse()
+        {
+            ProfileChanges = [];
+			InventoryWarnings = [];
+        }
+
+		[DataMember(Name = "profileChanges")]
+        public Dictionary<MongoId, ProfileChange> ProfileChanges { get; set; }
 
         [DataMember(Name = "warnings")]
-        public List<InventoryWarning> InventoryWarnings = [];
-    }
+        public List<InventoryWarning> InventoryWarnings { get; set; }
+	}
 }

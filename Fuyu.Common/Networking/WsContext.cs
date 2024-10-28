@@ -71,5 +71,10 @@ namespace Fuyu.Common.Networking
         {
             await _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
         }
-    }
+
+		public override string ToString()
+		{
+			return $"{GetType().Name}:{Path}";
+		}
+	}
 }

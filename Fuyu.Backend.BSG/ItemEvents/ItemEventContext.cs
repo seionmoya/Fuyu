@@ -1,4 +1,5 @@
 ﻿using Fuyu.Backend.BSG.DTO.Responses;
+using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Common.Networking;
 using Newtonsoft.Json.Linq;
 
@@ -21,9 +22,23 @@ namespace Fuyu.Backend.BSG.ItemEvents
             Response = response;
         }
 
+        public void AppendInventoryError(string errorMessage, int code = 0)
+        {
+			Response.InventoryWarnings.Add(new InventoryWarning
+            {
+                ErrorCode = code.ToString(),
+                ErrorMessage = errorMessage
+            });
+        }
+
         public T GetData<T>()
         {
             return Data.ToObject<T>();
         }
-    }
+
+		public override string ToString()
+		{
+			return $"{GetType().Name}:{Action}({Data})";
+		}
+	}
 }

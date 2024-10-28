@@ -69,6 +69,9 @@ namespace Fuyu.Backend.EFT.Servers
             HttpRouter.AddController<SurveyController>();
             HttpRouter.AddController<TraderSettingsController>();
             HttpRouter.AddController<WeatherController>();
+            HttpRouter.AddController<FilesController>();
+            HttpRouter.AddController<ClientItemsPriceController>();
+            HttpRouter.AddController<GetTraderAssortController>();
 
             // EFT-WS
             WsRouter.AddController<PushNotiferGetWebsocketController>();

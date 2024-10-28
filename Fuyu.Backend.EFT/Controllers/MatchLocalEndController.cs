@@ -36,7 +36,7 @@ namespace Fuyu.Backend.EFT.Controllers
             var stash = profile.Pmc.Inventory.items.First(i => i._id == profile.Pmc.Inventory.stash);
             var questStashItems = profile.Pmc.Inventory.items.First(i => i._id == profile.Pmc.Inventory.questStashItems);
 
-			body.results.profile.Inventory.items = body.results.profile.Inventory.items.Prepend(stash).Prepend(questStashItems).ToArray();
+			body.results.profile.Inventory.items = body.results.profile.Inventory.items.Prepend(stash).Prepend(questStashItems).ToList();
 
 			// save gear
 			// TODO:
