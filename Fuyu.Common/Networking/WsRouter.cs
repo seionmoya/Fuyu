@@ -11,11 +11,22 @@ namespace Fuyu.Common.Networking
         public override async Task RouteAsync(WsContext context)
         {
             var matches = GetAllMatching(context);
-            foreach (var match in matches)
+            var tasks = new Task[matches.Count];
+			for (var i = 0; i < matches.Count; i++)
             {
-                await match.InitializeAsync(context);
-                await match.RunAsync(context);
+                tasks[i] = matches[i].RunAsync(context);
             }
-        }
-    }
+
+            await Task.WhenAll(tasks);
+
+			while (context.IsOpen())
+			{
+				await context.PollAsync();
+			}
+
+			// NOTE: No need to call context.CloseAsync here
+			// because ReceiveAsync will handle that for us
+            // -- nexus4880, 2024-10-23
+		}
+	}
 }

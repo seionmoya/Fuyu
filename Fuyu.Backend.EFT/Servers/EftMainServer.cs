@@ -14,6 +14,7 @@ namespace Fuyu.Backend.EFT.Servers
             // Custom
             HttpRouter.AddController<FuyuGameLoginController>();
             HttpRouter.AddController<FuyuGameRegisterController>();
+
             // EFT
             HttpRouter.AddController<AccountCustomizationController>();
             HttpRouter.AddController<AchievementListController>();

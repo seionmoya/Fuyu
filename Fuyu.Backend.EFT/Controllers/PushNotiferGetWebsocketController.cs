@@ -6,12 +6,12 @@ namespace Fuyu.Backend.EFT.Controllers
 {
 	public partial class PushNotiferGetWebsocketController : WsController
 	{
-		private int _tick;
-
 		public PushNotiferGetWebsocketController() : base(PathExpression())
 		{
 		}
 
+		// NOTE: No event registrations as I am not implementing anything
+		// -- nexus4880, 2024-10-23
 		public override Task RunAsync(WsContext context)
 		{
 			return Task.CompletedTask;
