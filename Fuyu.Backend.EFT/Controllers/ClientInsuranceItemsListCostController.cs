@@ -23,6 +23,7 @@ namespace Fuyu.Backend.EFT.Controllers
 			var account = EftOrm.GetAccount(context.GetSessionId());
 			var profile = EftOrm.GetProfile(account.PveId);
 			var items = profile.Pmc.Inventory.items.FindAll(i => body.ItemIds.Contains(i._id));
+
 			if (items.Count != body.ItemIds.Length)
 			{
 				return context.SendJsonAsync(Json.Stringify(new ResponseBody<InsuranceCostResponse>
@@ -33,6 +34,7 @@ namespace Fuyu.Backend.EFT.Controllers
 
 			var response = new InsuranceCostResponse(body.Traders.Length);
 			var prices = new Dictionary<MongoId, int>(items.Count);
+
 			foreach (var item in items)
 			{
 				prices[item._tpl] = 1;
