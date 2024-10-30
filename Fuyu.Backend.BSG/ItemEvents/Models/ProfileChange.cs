@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.ItemEvents.Models
 {
-    [DataContract]
+	[DataContract]
     public class ProfileChange
     {
         public ProfileChange()
@@ -15,32 +14,12 @@ namespace Fuyu.Backend.BSG.ItemEvents.Models
 		}
 
 		[DataMember(Name = "experience")]
-        public int Experience;
+        public int Experience { get; set; }
 
         [DataMember(Name = "recipeUnlocked")]
-        public Dictionary<string, bool> UnlockedRecipes;
+        public Dictionary<MongoId, bool> UnlockedRecipes { get; set; }
 
-        [DataMember(Name = "items")]
-        public ItemChanges Items;
-	}
-
-	[DataContract]
-	public class ItemChanges
-	{
-        public ItemChanges()
-        {
-            New = [];
-            Change = [];
-            Delete = [];
-        }
-
-		[DataMember(Name = "new")]
-        public List<ItemInstance> New { get; set; }
-
-		[DataMember(Name = "change")]
-        public List<ItemInstance> Change { get; set; }
-
-		[DataMember(Name = "del")]
-        public List<ItemInstance> Delete { get; set; }
+		[DataMember(Name = "items")]
+        public ItemChanges Items { get; set; }
 	}
 }
