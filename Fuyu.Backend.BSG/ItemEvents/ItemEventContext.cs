@@ -27,7 +27,8 @@ namespace Fuyu.Backend.BSG.ItemEvents
 			Response.InventoryWarnings.Add(new InventoryWarning
             {
                 ErrorCode = code.ToString(),
-                ErrorMessage = errorMessage
+                ErrorMessage = errorMessage,
+                RequestIndex = RequestIndex
             });
         }
 
