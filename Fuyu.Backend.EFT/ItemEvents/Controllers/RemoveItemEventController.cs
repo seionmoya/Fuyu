@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemEvents;
 using Fuyu.Backend.BSG.ItemEvents.Controllers;
 using Fuyu.Backend.BSG.ItemEvents.Models;
+using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Backend.EFT.ItemEvents.Models;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Controllers
@@ -21,7 +22,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 			if (itemToRemove == null)
 			{
-				context.AppendInventoryError("Item was not found on backend");
+				context.AppendInventoryError($"Failed to find item on backend: {request.Item}, removing it");
 
 				return Task.CompletedTask;
 			}

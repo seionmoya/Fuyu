@@ -21,7 +21,8 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 			if (item == null)
 			{
-				context.AppendInventoryError("Item not found on backend");
+				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { _id = request.Item });
+				context.AppendInventoryError($"Failed to find item on backend: {request.Item}, removing it");
 
 				return Task.CompletedTask;
 			}

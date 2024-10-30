@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemEvents;
@@ -21,7 +20,10 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 			var item = profile.Pmc.Inventory.items.FirstOrDefault(i => i._id == request.ItemId);
 			if (item == null)
 			{
-				throw new Exception($"Failed to find item with id: {request.ItemId}");
+				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { _id = request.ItemId });
+				context.AppendInventoryError($"Failed to find item on backend: {request.ItemId}, removing it");
+
+				return Task.CompletedTask;
 			}
 
 			// NOTE: I would like to not have to do this...

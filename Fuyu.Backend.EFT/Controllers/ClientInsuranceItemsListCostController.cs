@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +32,11 @@ namespace Fuyu.Backend.EFT.Controllers
 			}
 
 			var response = new InsuranceCostResponse(body.Traders.Length);
-			var prices = items.ToDictionary(i => i._tpl, _ => 1);
+			var prices = new Dictionary<MongoId, int>(items.Count);
+			foreach (var item in items)
+			{
+				prices[item._tpl] = 1;
+			}
 
 			foreach (var trader in body.Traders)
 			{

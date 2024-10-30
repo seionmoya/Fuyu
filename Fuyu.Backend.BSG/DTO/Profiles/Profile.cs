@@ -42,7 +42,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         public Dictionary<string, ConditionCounter> TaskConditionCounters;
 
         [DataMember]
-        public InsuredItem[] InsuredItems;
+        public List<InsuredItem> InsuredItems;
 
         [DataMember]
         public HideoutInfo Hideout;
