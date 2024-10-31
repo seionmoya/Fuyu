@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemEvents;
 using Fuyu.Backend.BSG.ItemEvents.Controllers;
-using Fuyu.Backend.BSG.ItemEvents.Models;
-using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Backend.EFT.ItemEvents.Models;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Controllers
@@ -18,7 +15,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		{
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
-			var itemToRemove = profile.Pmc.Inventory.items.FirstOrDefault(i => i._id == request.Item);
+			var itemToRemove = profile.Pmc.Inventory.items.Find(i => i._id == request.Item);
 
 			if (itemToRemove == null)
 			{

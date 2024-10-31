@@ -3,8 +3,6 @@ using Fuyu.Backend.EFT.ItemEvents.Models;
 using Fuyu.Backend.BSG.ItemEvents.Controllers;
 using System.Threading.Tasks;
 using System;
-using Fuyu.Backend.BSG.ItemEvents.Models;
-using System.Linq;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 {
@@ -32,9 +30,9 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
             var account = EftOrm.GetAccount(context.SessionId);
             var profile = EftOrm.GetProfile(account.PveId);
             var inventory = profile.Pmc.Inventory;
-			var roubles = inventory.GetItemsByTemplate("5449016a4bdc2d6f028b456f").FirstOrDefault();
+			var roubles = inventory.GetItemsByTemplate("5449016a4bdc2d6f028b456f");
 
-            if (roubles == null)
+            if (roubles.Count == 0)
             {
                 context.AppendInventoryError("You don't have any roubles and I'm too dumb to add items so I can't pay you");
 
@@ -57,8 +55,9 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
                 }
             }
 
-			roubles.upd.StackObjectsCount += request.Price;
-			context.Response.ProfileChanges[profile.Pmc._id].Items.Change.Add(roubles);
+            var roublesItem = roubles[0];
+			roublesItem.upd.StackObjectsCount += request.Price;
+			context.Response.ProfileChanges[profile.Pmc._id].Items.Change.Add(roublesItem);
 
 			return Task.CompletedTask;
         }

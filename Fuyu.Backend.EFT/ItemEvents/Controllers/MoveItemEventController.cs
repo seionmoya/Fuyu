@@ -2,7 +2,6 @@
 using Fuyu.Backend.EFT.ItemEvents.Models;
 using Fuyu.Common.IO;
 using Fuyu.Backend.BSG.ItemEvents.Controllers;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Controllers
@@ -18,7 +17,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
             var str = context.Data.ToString();
             var account = EftOrm.GetAccount(context.SessionId);
             var profile = EftOrm.GetProfile(account.PveId);
-            var item = profile.Pmc.Inventory.items.FirstOrDefault(i => i._id == request.Item);
+            var item = profile.Pmc.Inventory.items.Find(i => i._id == request.Item);
 
             if (item is not null)
             {
