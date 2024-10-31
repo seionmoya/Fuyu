@@ -18,7 +18,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
 			var pmc = profile.Pmc;
-			var inventoryItems = pmc.Inventory.items;
+			var inventoryItems = pmc.Inventory.Items;
 			var insuredItems = new List<InsuredItem>(request.Items.Length);
 
 			foreach (var itemIdToInsure in request.Items)

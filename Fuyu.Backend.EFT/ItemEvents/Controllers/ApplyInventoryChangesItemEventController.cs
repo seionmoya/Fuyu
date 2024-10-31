@@ -19,7 +19,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
         {
             var account = EftOrm.GetAccount(context.SessionId);
             var profile = EftOrm.GetProfile(account.PveId);
-            var profileItems = new ThreadDictionary<MongoId, ItemInstance>(profile.Pmc.Inventory.items.ToDictionary(i => i._id, i => i));
+            var profileItems = new ThreadDictionary<MongoId, ItemInstance>(profile.Pmc.Inventory.Items.ToDictionary(i => i._id, i => i));
 
             Parallel.ForEach(request.ChangedItems, changedItem =>
             {

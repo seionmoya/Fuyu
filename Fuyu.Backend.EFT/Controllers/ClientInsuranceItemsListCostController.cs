@@ -22,7 +22,7 @@ namespace Fuyu.Backend.EFT.Controllers
 		{
 			var account = EftOrm.GetAccount(context.GetSessionId());
 			var profile = EftOrm.GetProfile(account.PveId);
-			var items = profile.Pmc.Inventory.items.FindAll(i => body.ItemIds.Contains(i._id));
+			var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i._id));
 
 			if (items.Count != body.ItemIds.Length)
 			{

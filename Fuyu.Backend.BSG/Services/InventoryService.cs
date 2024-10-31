@@ -9,9 +9,9 @@ namespace Fuyu.Backend.BSG.Services
 	{
 		public static List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
 		{
-			var itemsToRemove = ItemService.GetItemAndChildren(inventory.items, item);
+			var itemsToRemove = ItemService.GetItemAndChildren(inventory.Items, item);
 
-			inventory.items.RemoveAll(i => itemsToRemove.Contains(i));
+			inventory.Items.RemoveAll(i => itemsToRemove.Contains(i));
 
 			return itemsToRemove;
 		}
@@ -24,41 +24,41 @@ namespace Fuyu.Backend.BSG.Services
 			var mapping = new Dictionary<MongoId, MongoId>();
 
 			// regenerate inventory equipment
-			mapping.Add(inventory.equipment, new MongoId(true));
-			inventory.equipment = mapping[inventory.equipment];
+			mapping.Add(inventory.Equipment, new MongoId(true));
+			inventory.Equipment = mapping[inventory.Equipment];
 
 			// regenerate inventory stash
-			if (inventory.stash != null)
+			if (inventory.Stash != null)
 			{
-				mapping.Add(inventory.stash.Value, new MongoId(true));
-				inventory.stash = mapping[inventory.stash.Value];
+				mapping.Add(inventory.Stash.Value, new MongoId(true));
+				inventory.Stash = mapping[inventory.Stash.Value];
 			}
 
 			// regenerate inventory quest raid items
-			if (inventory.questRaidItems != null)
+			if (inventory.QuestRaidItems != null)
 			{
-				mapping.Add(inventory.questRaidItems.Value, new MongoId(true));
-				inventory.questRaidItems = mapping[inventory.questRaidItems.Value];
+				mapping.Add(inventory.QuestRaidItems.Value, new MongoId(true));
+				inventory.QuestRaidItems = mapping[inventory.QuestRaidItems.Value];
 			}
 
 			// regenerate inventory quest stash items
-			if (inventory.questStashItems != null)
+			if (inventory.QuestStashItems != null)
 			{
-				mapping.Add(inventory.questStashItems.Value, new MongoId(true));
-				inventory.questStashItems = mapping[inventory.questStashItems.Value];
+				mapping.Add(inventory.QuestStashItems.Value, new MongoId(true));
+				inventory.QuestStashItems = mapping[inventory.QuestStashItems.Value];
 			}
 
 			// regenerate inventory sorting table
-			if (inventory.sortingTable != null)
+			if (inventory.SortingTable != null)
 			{
-				mapping.Add(inventory.sortingTable.Value, new MongoId(true));
-				inventory.sortingTable = mapping[inventory.sortingTable.Value];
+				mapping.Add(inventory.SortingTable.Value, new MongoId(true));
+				inventory.SortingTable = mapping[inventory.SortingTable.Value];
 			}
 
 			// regenerate inventory items
-			if (inventory.items != null)
+			if (inventory.Items != null)
 			{
-				foreach (var item in inventory.items)
+				foreach (var item in inventory.Items)
 				{
 					if (!mapping.ContainsKey(item._id))
 					{
@@ -66,25 +66,25 @@ namespace Fuyu.Backend.BSG.Services
 					}
 				}
 
-				ItemService.RegenerateItemIds(inventory.items, mapping);
+				ItemService.RegenerateItemIds(inventory.Items, mapping);
 			}
 
 			// regenerate inventory fastpanel
-			if (inventory.fastPanel != null)
+			if (inventory.FastPanel != null)
 			{
-				foreach (var kvp in inventory.fastPanel)
+				foreach (var kvp in inventory.FastPanel)
 				{
-					inventory.fastPanel[kvp.Key] = mapping[kvp.Value];
+					inventory.FastPanel[kvp.Key] = mapping[kvp.Value];
 				}
 			}
 
 			// regenerate inventory favorite items
-			if (inventory.favoriteItems != null)
+			if (inventory.FavoriteItems != null)
 			{
-				for (var i = 0; i < inventory.favoriteItems.Length; ++i)
+				for (var i = 0; i < inventory.FavoriteItems.Length; ++i)
 				{
-					var itemId = inventory.favoriteItems[i];
-					inventory.favoriteItems[i] = mapping[itemId];
+					var itemId = inventory.FavoriteItems[i];
+					inventory.FavoriteItems[i] = mapping[itemId];
 				}
 			}
 		}

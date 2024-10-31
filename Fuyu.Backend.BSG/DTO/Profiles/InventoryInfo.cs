@@ -11,41 +11,41 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
     [DataContract]
     public class InventoryInfo
     {
-        [DataMember]
-        public List<ItemInstance> items;
+        [DataMember(Name = "items")]
+        public List<ItemInstance> Items { get; set; }
 
-        [DataMember]
-        public MongoId equipment;
+        [DataMember(Name = "equipment")]
+        public MongoId Equipment { get; set; }
 
-        [DataMember]
-        public MongoId? stash;
+		[DataMember(Name = "stash")]
+        public MongoId? Stash { get; set; }
 
-        [DataMember]
-        public MongoId? sortingTable;
+		[DataMember(Name = "sortingTable")]
+        public MongoId? SortingTable { get; set; }
 
-        [DataMember]
-        public MongoId? questRaidItems;
+		[DataMember(Name = "questRaidItems")]
+        public MongoId? QuestRaidItems { get; set; }
 
-        [DataMember]
-        public MongoId? questStashItems;
+		[DataMember(Name = "questStashItems")]
+        public MongoId? QuestStashItems { get; set; }
 
-        [DataMember]
-        public Dictionary<string, MongoId> fastPanel;
+		[DataMember(Name = "fastPanel")]
+        public Dictionary<string, MongoId> FastPanel { get; set; }
 
-        [DataMember]
-        public Dictionary<string, MongoId> hideoutAreaStashes;
+		[DataMember(Name = "hideoutAreaStashes")]
+        public Dictionary<string, MongoId> HideoutAreaStashes { get; set; }
 
-        [DataMember]
-        public MongoId[] favoriteItems;
+		[DataMember(Name = "favoriteItems")]
+        public MongoId[] FavoriteItems { get; set; }
 
-        public List<ItemInstance> RemoveItem(ItemInstance item)
+		public List<ItemInstance> RemoveItem(ItemInstance item)
 		{
 			return InventoryService.RemoveItem(this, item);
 		}
 
         public List<ItemInstance> RemoveItem(MongoId id)
 		{
-            var item = items.Find(i => i._id == id);
+            var item = Items.Find(i => i._id == id);
 			if (item == null)
             {
                 throw new Exception($"Failed to find item with id {id} in inventory");
@@ -56,7 +56,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 
         public List<ItemInstance> GetItemsByTemplate(MongoId tpl)
         {
-            return items.Where(i => i._tpl == tpl).ToList();
+            return Items.Where(i => i._tpl == tpl).ToList();
         }
     }
 }

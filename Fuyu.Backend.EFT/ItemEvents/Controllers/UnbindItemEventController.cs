@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
 
-			if (!profile.Pmc.Inventory.fastPanel.TryGetValue(request.Index, out var boundItemId))
+			if (!profile.Pmc.Inventory.FastPanel.TryGetValue(request.Index, out var boundItemId))
 			{
 				context.AppendInventoryError("Nothing is bound to that slot on the backend");
 
@@ -30,7 +30,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 				return Task.CompletedTask;
 			}
 
-			profile.Pmc.Inventory.fastPanel.Remove(request.Index);
+			profile.Pmc.Inventory.FastPanel.Remove(request.Index);
 
 			return Task.CompletedTask;
 		}

@@ -20,7 +20,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
 
-			profile.Pmc.Inventory.fastPanel[request.Index] = request.Item;
+			profile.Pmc.Inventory.FastPanel[request.Index] = request.Item;
 
 			return Task.CompletedTask;
 		}

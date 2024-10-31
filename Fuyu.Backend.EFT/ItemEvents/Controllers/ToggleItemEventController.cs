@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		{
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
-			var item = profile.Pmc.Inventory.items.Find(i => i._id == request.Item);
+			var item = profile.Pmc.Inventory.Items.Find(i => i._id == request.Item);
 			
 			if (item == null)
 			{

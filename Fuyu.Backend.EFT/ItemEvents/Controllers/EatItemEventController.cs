@@ -21,7 +21,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 			var index = 0;
 			ItemInstance item = null;
 
-			foreach (var _item in profile.Pmc.Inventory.items)
+			foreach (var _item in profile.Pmc.Inventory.Items)
 			{
 				if (_item._id == request.Item)
 				{

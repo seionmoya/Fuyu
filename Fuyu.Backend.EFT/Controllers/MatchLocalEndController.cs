@@ -30,13 +30,13 @@ namespace Fuyu.Backend.EFT.Controllers
 			// -- nexus4880, 2024-10-14
 			body.results.profile.Info.LowerNickname = profile.Pmc.Info.LowerNickname;
 
-			body.results.profile.Inventory.stash = profile.Pmc.Inventory.stash;
-            body.results.profile.Inventory.questStashItems = profile.Pmc.Inventory.questStashItems;
+			body.results.profile.Inventory.Stash = profile.Pmc.Inventory.Stash;
+            body.results.profile.Inventory.QuestStashItems = profile.Pmc.Inventory.QuestStashItems;
 
-            var stash = profile.Pmc.Inventory.items.First(i => i._id == profile.Pmc.Inventory.stash);
-            var questStashItems = profile.Pmc.Inventory.items.First(i => i._id == profile.Pmc.Inventory.questStashItems);
+            var stash = profile.Pmc.Inventory.Items.First(i => i._id == profile.Pmc.Inventory.Stash);
+            var questStashItems = profile.Pmc.Inventory.Items.First(i => i._id == profile.Pmc.Inventory.QuestStashItems);
 
-			body.results.profile.Inventory.items = body.results.profile.Inventory.items.Prepend(stash).Prepend(questStashItems).ToList();
+			body.results.profile.Inventory.Items = body.results.profile.Inventory.Items.Prepend(stash).Prepend(questStashItems).ToList();
 
 			// save gear
 			// TODO:
