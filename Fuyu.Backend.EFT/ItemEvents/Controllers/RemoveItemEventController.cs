@@ -19,7 +19,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 			if (itemToRemove == null)
 			{
-				context.AppendInventoryError($"Failed to find item on backend: {request.Item}, removing it");
+				context.AppendInventoryError($"Failed to find item on backend: {request.Item}");
 
 				return Task.CompletedTask;
 			}
