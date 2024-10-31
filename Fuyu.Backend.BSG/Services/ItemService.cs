@@ -39,31 +39,31 @@ namespace Fuyu.Backend.BSG.Services
             RegenerateItemIds(items, mapping);
         }
 
-        public static List<MongoId> GetItemAndChildren(List<ItemInstance> items, ItemInstance item)
+        public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, ItemInstance item)
         {
             return GetItemAndChildren(items, item._id);
         }
 
-        public static List<MongoId> GetItemAndChildren(List<ItemInstance> items, MongoId id)
+        public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
         {
-			List<MongoId> itemsToRemove = [id];
+			List<MongoId> idsToReturn = [id];
 			bool foundNewItem = true;
 			while (foundNewItem)
 			{
 				foundNewItem = false;
 				var found = items.Where(
-                    i => !itemsToRemove.Contains(i._id)
+                    i => !idsToReturn.Contains(i._id)
                     && i.parentId.HasValue
-                    && itemsToRemove.Contains(i.parentId.Value));
+                    && idsToReturn.Contains(i.parentId.Value));
 
 				if (found.Any())
 				{
 					foundNewItem = true;
-					itemsToRemove.AddRange(found.Select(i => i._id));
+					idsToReturn.AddRange(found.Select(i => i._id));
 				}
 			}
 
-            return itemsToRemove;
+            return items.Where(i => idsToReturn.Contains(i._id)).ToList();
 		}
     }
 }

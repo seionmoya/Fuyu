@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Fuyu.Backend.BSG.DTO.Profiles;
 using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Common.Hashing;
@@ -11,13 +10,10 @@ namespace Fuyu.Backend.BSG.Services
 		public static List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
 		{
 			var itemsToRemove = ItemService.GetItemAndChildren(inventory.items, item);
-			// TODO: Change this later, I would rather itemsToRemove be List<ItemInstance>
-			// -- nexus4880, 2024-10-26
-			var itemInstances = inventory.items.Where(i => itemsToRemove.Contains(i._id)).ToList();
 
-			inventory.items.RemoveAll(i => itemsToRemove.Contains(i._id));
+			inventory.items.RemoveAll(i => itemsToRemove.Contains(i));
 
-			return itemInstances;
+			return itemsToRemove;
 		}
 
 		// NOTE:
