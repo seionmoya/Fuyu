@@ -44,6 +44,16 @@ namespace Fuyu.Backend.BSG.Services
             return GetItemAndChildren(items, item.Id);
         }
 
+		public static bool IsChildItem(ItemInstance item, List<MongoId> ids)
+        {
+            if (!item.ParentId.HasValue)
+            {
+                return false;
+            }
+
+            return ids.FindIndex(i => i == item.ParentId.Value) != -1;
+        }
+
         public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
         {
 			List<MongoId> idsToReturn = [id];
@@ -53,8 +63,7 @@ namespace Fuyu.Backend.BSG.Services
 				foundNewItem = false;
 				var found = items.Where(
                     i => !idsToReturn.Contains(i.Id)
-                    && i.ParentId.HasValue
-                    && idsToReturn.Contains(i.ParentId.Value));
+                    && IsChildItem(i, idsToReturn));
 
 				if (found.Any())
 				{
