@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.DTO.Responses;
-using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Backend.EFT.DTO.Trading;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
@@ -32,16 +31,21 @@ namespace Fuyu.Backend.EFT.Controllers
 			if (parameters.TryGetValue("traderId", out var traderId))
 			{
 				// trader
-				var currencyCourses = new Dictionary<MongoId, double> {
-						{ "5449016a4bdc2d6f028b456f", 1d },
-						{ "5696686a4bdc2da3298b456a", 1d },
-						{ "569668774bdc2da2298b4568", 1d },
-						{ "5d235b4d86f7742e017bc88a", 1d }
+
+				// NOTE: taken from dump client.items.prices
+				// -- nexus4880, 2024-10-31
+				var currencyCourses = new Dictionary<MongoId, double>
+				{
+					{ "5449016a4bdc2d6f028b456f", 1d    },	// RUB
+					{ "569668774bdc2da2298b4568", 144d  },	// EUR
+					{ "5696686a4bdc2da3298b456a", 136d  },	// USD
+					{ "5d235b4d86f7742e017bc88a", 7500d }	// GP Coin
 				};
 
 				response.data = new SupplyData
 				{
 					CurrencyCourses = currencyCourses,
+					// Every item is worth 1000 RUB for testing
 					MarketPrices = profile.Pmc.Inventory.Items.DistinctBy(i => i.TemplateId).ToDictionary(i => i.TemplateId, _ => 1000d),
 					SupplyNextTime = (int)TimeSpan.FromSeconds(5d).Ticks
 				};
