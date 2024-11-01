@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,32 +22,31 @@ namespace Fuyu.Backend.EFT.Controllers
 			var account = EftOrm.GetAccount(context.GetSessionId());
 			var profile = EftOrm.GetProfile(account.PveId);
 			var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
+			var response = new ResponseBody<InsuranceCostResponse>();
 
-			if (items.Count != body.ItemIds.Length)
+			if (items.Count == body.ItemIds.Length)
 			{
-				return context.SendJsonAsync(Json.Stringify(new ResponseBody<InsuranceCostResponse>
+				var insuranceCost = new InsuranceCostResponse(body.Traders.Length);
+				var prices = new Dictionary<MongoId, int>(items.Count);
+
+				foreach (var item in items)
 				{
-					errmsg = "One or more items could not be found on the backend"
-				}));
+					prices[item.TemplateId] = 1;
+				}
+
+				foreach (var trader in body.Traders)
+				{
+					insuranceCost[trader] = prices;
+				}
+
+				response.data = insuranceCost;
+			}
+			else
+			{
+				response.errmsg = "One or more items could not be found on the backend";
 			}
 
-			var response = new InsuranceCostResponse(body.Traders.Length);
-			var prices = new Dictionary<MongoId, int>(items.Count);
-
-			foreach (var item in items)
-			{
-				prices[item.TemplateId] = 1;
-			}
-
-			foreach (var trader in body.Traders)
-			{
-				response[trader] = prices;
-			}
-
-			return context.SendJsonAsync(Json.Stringify(new ResponseBody<InsuranceCostResponse>
-			{
-				data = response
-			}));
+			return context.SendJsonAsync(Json.Stringify(response));
 		}
 	}
 }
