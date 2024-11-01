@@ -2,7 +2,6 @@
 using Fuyu.Backend.BSG.ItemEvents;
 using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Backend.EFT.ItemEvents.Controllers;
-using Fuyu.Common.IO;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 using Newtonsoft.Json.Linq;
@@ -53,7 +52,7 @@ namespace Fuyu.Backend.EFT.Controllers
 			var account = EftOrm.GetAccount(sessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
 			var requestData = request.Value<JArray>("data");
-			var response = new ItemEventResponse();
+			var itemEventResponse = new ItemEventResponse();
 			/*{
 				
 				ProfileChanges = {
@@ -67,23 +66,24 @@ namespace Fuyu.Backend.EFT.Controllers
 				
 			};*/
 
-			response.ProfileChanges[profile.Pmc._id] = new ProfileChange();
-			response.ProfileChanges[profile.Savage._id] = new ProfileChange();
+			itemEventResponse.ProfileChanges[profile.Pmc._id] = new ProfileChange();
+			itemEventResponse.ProfileChanges[profile.Savage._id] = new ProfileChange();
 
-			int requestIndex = 0;
+			var requestIndex = 0;
 			foreach (var itemRequest in requestData)
 			{
 				var action = itemRequest.Value<string>("Action");
-				var itemEventContext = new ItemEventContext(sessionId, action, requestIndex, itemRequest, response);
+				var itemEventContext = new ItemEventContext(sessionId, action, requestIndex, itemRequest, itemEventResponse);
 				await ItemEventRouter.RouteAsync(itemEventContext);
 				requestIndex++;
 			}
 
-			Terminal.WriteLine(Json.Stringify(response));
-			await context.SendJsonAsync(Json.Stringify(new ResponseBody<ItemEventResponse>
+			var response = new ResponseBody<ItemEventResponse>
 			{
-				data = response
-			}));
+				data = itemEventResponse
+			};
+
+			await context.SendJsonAsync(Json.Stringify(response));
 		}
 	}
 }
