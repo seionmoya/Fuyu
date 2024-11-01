@@ -32,9 +32,10 @@ namespace Fuyu.Backend.EFT.DTO.Items
 
         public T GetUpd<T>() where T: class, new()
         {
-            // NOTE: ??= means assign thisUpd to upd but if upd is null create a new instance
-            // -- nexus4880, 2024-10-27
-            upd ??= new ItemUpdatable();
+            if (upd == null)
+            {
+                upd = new ItemUpdatable();
+            }
 
 			// NOTE: Intentionally letting this throw here. The idea is that GetUpd should
 			// create T if it doesn't exist meaning most usage would be GetUpd<Upd>().Value
