@@ -75,7 +75,12 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         [DataMember]
         public MoneyTransferLimitInfo moneyTransferLimitData;
 
-        public Dictionary<MongoId, EWishlistGroup> GetWishList()
+		// NOTE: Deserialization works but is deserialized as
+		// an array because the profile has "WishList": [] by default
+        // instead we should access it from this method which will
+        // turn it into a Dictionary if it isn't one already
+        // -- nexus4880, 2024-10-31
+		public Dictionary<MongoId, EWishlistGroup> GetWishList()
         {
             if (!WishList.IsValue1)
             {
