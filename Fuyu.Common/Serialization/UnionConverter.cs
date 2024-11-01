@@ -23,6 +23,11 @@ namespace Fuyu.Common.Serialization
 					// is no other way of seeing if a type can be deserialized
 					// -- nexus4880, 2024-10-14
 					var result = serializer.Deserialize(reader, type);
+					if (result == null)
+					{
+						// Cannot gather type info from null...
+						continue;
+					}
 
 					// NOTE: This intentionally uses Activator.CreateInstance in order
 					// to return a Union<T1, T2> from T1 or T2 directly
@@ -34,7 +39,11 @@ namespace Fuyu.Common.Serialization
 				}
 			}
 
-			throw new JsonSerializationException();
+			// Assume we will be working with T1
+			var defaultT1 = Activator.CreateInstance(objectType.GenericTypeArguments[0]);
+
+			// Return new Union<T1, T2>(T1);
+			return Activator.CreateInstance(objectType, defaultT1);
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
