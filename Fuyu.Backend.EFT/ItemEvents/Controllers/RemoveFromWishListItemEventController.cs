@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		{
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
-			var wishList = profile.Pmc.WishList.Value1;
+			var wishList = profile.Pmc.GetWishList();
 
 			foreach (var itemToRemove in request.Items)
 			{

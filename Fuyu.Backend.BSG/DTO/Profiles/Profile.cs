@@ -74,5 +74,15 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 
         [DataMember]
         public MoneyTransferLimitInfo moneyTransferLimitData;
+
+        public Dictionary<MongoId, EWishlistGroup> GetWishList()
+        {
+            if (!WishList.IsValue1)
+            {
+                WishList = new Dictionary<MongoId, EWishlistGroup>();
+            }
+
+            return WishList.Value1;
+        }
     }
 }
