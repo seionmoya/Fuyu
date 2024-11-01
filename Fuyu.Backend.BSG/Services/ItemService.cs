@@ -55,9 +55,13 @@ namespace Fuyu.Backend.BSG.Services
         }
 
         public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
-        {
-			List<MongoId> idsToReturn = [id];
-			bool foundNewItem = true;
+		{
+			var foundNewItem = true;
+			var idsToReturn = new List<MongoId>
+            {
+                id
+            };
+
 			while (foundNewItem)
 			{
 				foundNewItem = false;
