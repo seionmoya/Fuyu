@@ -33,8 +33,8 @@ namespace Fuyu.Backend.EFT.Controllers
 			body.results.profile.Inventory.Stash = profile.Pmc.Inventory.Stash;
             body.results.profile.Inventory.QuestStashItems = profile.Pmc.Inventory.QuestStashItems;
 
-            var stash = profile.Pmc.Inventory.Items.First(i => i._id == profile.Pmc.Inventory.Stash);
-            var questStashItems = profile.Pmc.Inventory.Items.First(i => i._id == profile.Pmc.Inventory.QuestStashItems);
+            var stash = profile.Pmc.Inventory.Items.First(i => i.Id == profile.Pmc.Inventory.Stash);
+            var questStashItems = profile.Pmc.Inventory.Items.First(i => i.Id == profile.Pmc.Inventory.QuestStashItems);
 
 			body.results.profile.Inventory.Items = body.results.profile.Inventory.Items.Prepend(stash).Prepend(questStashItems).ToList();
 

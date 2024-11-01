@@ -23,7 +23,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 			foreach (var itemIdToInsure in request.Items)
 			{
-				var itemInstance = inventoryItems.Find(i => i._id == itemIdToInsure);
+				var itemInstance = inventoryItems.Find(i => i.Id == itemIdToInsure);
 				if (itemInstance == null)
 				{
 					context.AppendInventoryError("Failed to find one or more items on backend");

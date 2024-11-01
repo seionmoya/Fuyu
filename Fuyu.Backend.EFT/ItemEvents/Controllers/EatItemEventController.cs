@@ -23,7 +23,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 			foreach (var _item in profile.Pmc.Inventory.Items)
 			{
-				if (_item._id == request.Item)
+				if (_item.Id == request.Item)
 				{
 					item = _item;
 					break;

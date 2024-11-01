@@ -16,11 +16,11 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		{
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
-			var item = profile.Pmc.Inventory.Items.Find(i => i._id == request.Item);
+			var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
 			
 			if (item == null)
 			{
-				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { _id = request.Item });
+				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { Id = request.Item });
 				context.AppendInventoryError($"Failed to find item on backend: {request.Item}, removing it");
 
 				return Task.CompletedTask;

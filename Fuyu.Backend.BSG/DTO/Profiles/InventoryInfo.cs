@@ -45,7 +45,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 
         public List<ItemInstance> RemoveItem(MongoId id)
 		{
-            var item = Items.Find(i => i._id == id);
+            var item = Items.Find(i => i.Id == id);
 			if (item == null)
             {
                 throw new Exception($"Failed to find item with id {id} in inventory");
@@ -56,7 +56,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 
         public List<ItemInstance> GetItemsByTemplate(MongoId tpl)
         {
-            return Items.Where(i => i._tpl == tpl).ToList();
+            return Items.Where(i => i.TemplateId == tpl).ToList();
         }
     }
 }

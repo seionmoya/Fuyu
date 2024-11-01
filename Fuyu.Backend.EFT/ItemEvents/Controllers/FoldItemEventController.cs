@@ -16,10 +16,10 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		{
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
-			var item = profile.Pmc.Inventory.Items.Find(i => i._id == request.ItemId);
+			var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.ItemId);
 			if (item == null)
 			{
-				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { _id = request.ItemId });
+				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { Id = request.ItemId });
 				context.AppendInventoryError($"Failed to find item on backend: {request.ItemId}, removing it");
 
 				return Task.CompletedTask;
@@ -32,9 +32,9 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 			/* Leaving old code here for later discussion -- nexus4880, 2024-10-27*/
 
-			item.upd ??= new ItemUpdatable();
-			item.upd.Foldable ??= new ItemFoldableComponent();
-			item.upd.Foldable.Folded = request.Value;
+			item.Updatable ??= new ItemUpdatable();
+			item.Updatable.Foldable ??= new ItemFoldableComponent();
+			item.Updatable.Foldable.Folded = request.Value;
 			
 
 			item.GetUpdatable<ItemFoldableComponent>().Folded = request.Value;

@@ -56,7 +56,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
             }
 
             var roublesItem = roubles[0];
-			roublesItem.upd.StackObjectsCount += request.Price;
+			roublesItem.Updatable.StackObjectsCount += request.Price;
 			context.Response.ProfileChanges[profile.Pmc._id].Items.Change.Add(roublesItem);
 
 			return Task.CompletedTask;

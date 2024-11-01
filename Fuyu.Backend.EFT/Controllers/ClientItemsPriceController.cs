@@ -42,7 +42,7 @@ namespace Fuyu.Backend.EFT.Controllers
 				response.data = new SupplyData
 				{
 					CurrencyCourses = currencyCourses,
-					MarketPrices = profile.Pmc.Inventory.Items.DistinctBy(i => i._tpl).ToDictionary(i => i._tpl, _ => 1000d),
+					MarketPrices = profile.Pmc.Inventory.Items.DistinctBy(i => i.TemplateId).ToDictionary(i => i.TemplateId, _ => 1000d),
 					SupplyNextTime = (int)TimeSpan.FromSeconds(5d).Ticks
 				};
 			}

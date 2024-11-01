@@ -8,46 +8,49 @@ namespace Fuyu.Backend.EFT.DTO.Items
     [DataContract]
 	public class ItemInstance
     {
-        [DataMember]
-        public MongoId _id;
+        [DataMember(Name = "_id")]
+        public MongoId Id { get; set; }
 
-        [DataMember]
-        public MongoId _tpl;
+		[DataMember(Name = "_tpl")]
+        public MongoId TemplateId { get; set; }
 
-        // emits when 'null'
-        [DataMember(EmitDefaultValue = false)]
-        public MongoId? parentId;
+		// emits when 'null'
+		[DataMember(Name = "parentId", EmitDefaultValue = false)]
+        public MongoId? ParentId { get; set; }
 
-        // emits when 'null'
-        [DataMember(EmitDefaultValue = false)]
-        public string slotId;
+		// emits when 'null'
+		[DataMember(Name = "slotId", EmitDefaultValue = false)]
+        public string SlotId { get; set; }
 
-        // emits when 'null'
-        [DataMember(EmitDefaultValue = false)]
-        public Union<LocationInGrid, int> location;
+		// emits when 'null'
+		[DataMember(Name = "location", EmitDefaultValue = false)]
+        public Union<LocationInGrid, int> Location { get; set; }
 
-        // emits when 'null'
-        [DataMember(EmitDefaultValue = false)]
-        public ItemUpdatable upd;
+		// emits when 'null'
+		[DataMember(Name = "upd", EmitDefaultValue = false)]
+        public ItemUpdatable Updatable { get; set; }
 
         public T GetUpdatable<T>() where T: class, new()
         {
-            if (upd == null)
+            if (Updatable == null)
             {
-                upd = new ItemUpdatable();
+                Updatable = new ItemUpdatable();
             }
 
-			// NOTE: Intentionally letting this throw here. The idea is that GetUpd should
-			// create T if it doesn't exist meaning most usage would be GetUpd<Upd>().Value
-            // which means a null check after calling this would be undesirable
-            // -- nexus4880, 2024-10-27
-			var field = upd.GetType().GetFields().First(f => f.FieldType == typeof(T));
-            var value = field.GetValue(upd) as T;
+			// NOTE: Intentionally letting this throw here. The idea is that GetUpdatable should
+			// create T if it doesn't exist meaning most usage would be GetUpdatable<Upd>().Value
+			// which means a null check after calling this would be undesirable
+			// -- nexus4880, 2024-10-27
+			var field = Updatable.GetType()
+                .GetProperties()
+                .First(f => f.PropertyType == typeof(T));
+
+            var value = field.GetValue(Updatable) as T;
 
             if (value == null)
             {
 				value = new T();
-                field.SetValue(upd, value);
+                field.SetValue(Updatable, value);
             }
 
             return value;

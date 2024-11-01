@@ -60,9 +60,9 @@ namespace Fuyu.Backend.BSG.Services
 			{
 				foreach (var item in inventory.Items)
 				{
-					if (!mapping.ContainsKey(item._id))
+					if (!mapping.ContainsKey(item.Id))
 					{
-						mapping.Add(item._id, new MongoId(true));
+						mapping.Add(item.Id, new MongoId(true));
 					}
 				}
 

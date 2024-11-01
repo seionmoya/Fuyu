@@ -17,13 +17,13 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
             var str = context.Data.ToString();
             var account = EftOrm.GetAccount(context.SessionId);
             var profile = EftOrm.GetProfile(account.PveId);
-            var item = profile.Pmc.Inventory.Items.Find(i => i._id == request.Item);
+            var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
 
             if (item is not null)
             {
-                item.location = request.To.Location;
-                item.parentId = request.To.Id;
-                item.slotId = request.To.Container;
+                item.Location = request.To.Location;
+                item.ParentId = request.To.Id;
+                item.SlotId = request.To.Container;
                 Terminal.WriteLine($"{request.Item} moved to {request.To.Location}");
             }
             else

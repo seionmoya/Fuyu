@@ -13,12 +13,12 @@ namespace Fuyu.Backend.BSG.Services
             foreach (var item in items)
             {
                 // replace item id
-                item._id = mapping[item._id];
+                item.Id = mapping[item.Id];
 
                 // replace item's parent id
-                if (item.parentId != null)
+                if (item.ParentId != null)
                 {
-                    item.parentId = mapping[item.parentId.Value];
+                    item.ParentId = mapping[item.ParentId.Value];
                 }
             }
         }
@@ -30,9 +30,9 @@ namespace Fuyu.Backend.BSG.Services
             // find all old ids
             foreach (var item in items)
             {
-                if (!mapping.ContainsKey(item._id))
+                if (!mapping.ContainsKey(item.Id))
                 {
-                    mapping.Add(item._id, new MongoId(true));
+                    mapping.Add(item.Id, new MongoId(true));
                 }
             }
 
@@ -41,7 +41,7 @@ namespace Fuyu.Backend.BSG.Services
 
         public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, ItemInstance item)
         {
-            return GetItemAndChildren(items, item._id);
+            return GetItemAndChildren(items, item.Id);
         }
 
         public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
@@ -52,18 +52,18 @@ namespace Fuyu.Backend.BSG.Services
 			{
 				foundNewItem = false;
 				var found = items.Where(
-                    i => !idsToReturn.Contains(i._id)
-                    && i.parentId.HasValue
-                    && idsToReturn.Contains(i.parentId.Value));
+                    i => !idsToReturn.Contains(i.Id)
+                    && i.ParentId.HasValue
+                    && idsToReturn.Contains(i.ParentId.Value));
 
 				if (found.Any())
 				{
 					foundNewItem = true;
-					idsToReturn.AddRange(found.Select(i => i._id));
+					idsToReturn.AddRange(found.Select(i => i.Id));
 				}
 			}
 
-            return items.Where(i => idsToReturn.Contains(i._id)).ToList();
+            return items.Where(i => idsToReturn.Contains(i.Id)).ToList();
 		}
     }
 }

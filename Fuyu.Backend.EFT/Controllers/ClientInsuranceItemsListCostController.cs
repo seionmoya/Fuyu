@@ -22,7 +22,7 @@ namespace Fuyu.Backend.EFT.Controllers
 		{
 			var account = EftOrm.GetAccount(context.GetSessionId());
 			var profile = EftOrm.GetProfile(account.PveId);
-			var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i._id));
+			var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
 
 			if (items.Count != body.ItemIds.Length)
 			{
@@ -37,7 +37,7 @@ namespace Fuyu.Backend.EFT.Controllers
 
 			foreach (var item in items)
 			{
-				prices[item._tpl] = 1;
+				prices[item.TemplateId] = 1;
 			}
 
 			foreach (var trader in body.Traders)
