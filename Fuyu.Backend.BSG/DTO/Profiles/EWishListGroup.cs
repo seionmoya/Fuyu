@@ -1,4 +1,4 @@
-﻿namespace Fuyu.Backend.EFT.DTO.Items
+﻿namespace Fuyu.Backend.BSG.DTO.Profiles
 {
 	public enum EWishlistGroup
 	{

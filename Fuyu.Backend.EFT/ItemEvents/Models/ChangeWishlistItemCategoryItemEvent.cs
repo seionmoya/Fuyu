@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.DTO.Profiles;
 using Fuyu.Backend.BSG.ItemEvents.Models;
-using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Models

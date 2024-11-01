@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.DTO.Profiles
@@ -48,19 +49,17 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         public HideoutInfo Hideout;
 
         [DataMember]
-        public BonusInfo[] Bonuses;
+        public List<BonusInfo> Bonuses;
 
-        // TODO: proper type
         [DataMember]
-        public object[] WishList;
+        public Union<Dictionary<MongoId, EWishlistGroup>, object[]> WishList;
 
         [DataMember]
         public NotesInfo Notes;
 
         [DataMember]
-        public QuestInfo[] Quests;
+        public List<QuestInfo> Quests;
 
-        // TODO: proper type
         [DataMember]
         public Dictionary<MongoId, int> Achievements;
 
@@ -68,7 +67,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
         public RagfairInfo RagfairInfo;
 
         [DataMember(EmitDefaultValue = false)]
-        public Dictionary<MongoId, TraderInfo> TradersInfo;
+        public Union<Dictionary<MongoId, TraderInfo>, object[]> TradersInfo;
 
         [DataMember]
         public UnlockedInfo UnlockedInfo;

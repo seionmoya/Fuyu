@@ -15,8 +15,12 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		{
 			var account = EftOrm.GetAccount(context.SessionId);
 			var profile = EftOrm.GetProfile(account.PveId);
-			// fuuuuuuuuck this isnt set :((
-			var wishList = profile.Pmc.WishList;
+			var wishList = profile.Pmc.WishList.Value1;
+
+			foreach ((var itemId, var wishlistGroup) in request.Items)
+			{
+				wishList[itemId] = wishlistGroup;
+			}
 
 			return Task.CompletedTask;
 		}

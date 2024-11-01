@@ -13,6 +13,12 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 		public override Task RunAsync(ItemEventContext context, ChangeWishlistItemCategoryItemEvent request)
 		{
+			var account = EftOrm.GetAccount(context.SessionId);
+			var profile = EftOrm.GetProfile(account.PveId);
+			var wishList = profile.Pmc.WishList.Value1;
+
+			wishList[request.Item] = request.Category;
+
 			return Task.CompletedTask;
 		}
 	}

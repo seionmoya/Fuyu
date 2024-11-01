@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemEvents;
 using Fuyu.Backend.BSG.ItemEvents.Controllers;
 using Fuyu.Backend.EFT.ItemEvents.Models;
@@ -17,6 +13,15 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 		public override Task RunAsync(ItemEventContext context, RemoveFromWishListItemEvent request)
 		{
+			var account = EftOrm.GetAccount(context.SessionId);
+			var profile = EftOrm.GetProfile(account.PveId);
+			var wishList = profile.Pmc.WishList.Value1;
+
+			foreach (var itemToRemove in request.Items)
+			{
+				wishList.Remove(itemToRemove);
+			}
+
 			return Task.CompletedTask;
 		}
 	}
