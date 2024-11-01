@@ -25,18 +25,6 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 				return Task.CompletedTask;
 			}
 
-			// NOTE: I would like to not have to do this...
-			// potentially have an extension or helper method
-			// that would add the updatable for us if null
-			// -- nexus4880, 2024-10-24
-
-			/* Leaving old code here for later discussion -- nexus4880, 2024-10-27*/
-
-			item.Updatable ??= new ItemUpdatable();
-			item.Updatable.Foldable ??= new ItemFoldableComponent();
-			item.Updatable.Foldable.Folded = request.Value;
-			
-
 			item.GetUpdatable<ItemFoldableComponent>().Folded = request.Value;
 
 			return Task.CompletedTask;
