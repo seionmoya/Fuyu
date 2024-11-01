@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -27,9 +26,7 @@ namespace Fuyu.Backend.EFT.Controllers
 
 			try
 			{
-				using Stream stream = Resx.GetStream("eft", resourceLocation);
-				byte[] buffer = new byte[stream.Length];
-				stream.ReadExactly(buffer, 0, buffer.Length);
+				var buffer = Resx.GetBytes("eft", resourceLocation);
 
 				return context.SendBinaryAsync(buffer, $"image/{extension}", false);
 			}
