@@ -30,7 +30,7 @@ namespace Fuyu.Backend.EFT.DTO.Items
         [DataMember(EmitDefaultValue = false)]
         public ItemUpdatable upd;
 
-        public T GetUpd<T>() where T: class, new()
+        public T GetUpdatable<T>() where T: class, new()
         {
             if (upd == null)
             {
