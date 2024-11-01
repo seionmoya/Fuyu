@@ -54,7 +54,8 @@ namespace Fuyu.Backend.BSG.Services
             return ids.FindIndex(i => i == item.ParentId.Value) != -1;
         }
 
-        public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
+		// TODO: make the LINQ pattern more explicit
+		public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
 		{
 			var foundNewItem = true;
 			var idsToReturn = new List<MongoId>
