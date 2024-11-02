@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.BSG.DTO.Profiles
 {
@@ -88,6 +89,13 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
             }
 
             return WishList.Value1;
+        }
+
+        // NOTE: Write proper clone method later
+        // -- nexus4880, 2024-11-1
+        public Profile Clone()
+        {
+            return Json.Clone<Profile>(this);
         }
     }
 }
