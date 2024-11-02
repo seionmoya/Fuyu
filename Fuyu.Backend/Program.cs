@@ -12,6 +12,7 @@ namespace Fuyu.Backend
         {
             CoreDatabase.Load();
             EftDatabase.Load();
+            TraderDatabase.Load();
 
             var coreServer = new CoreServer();
             coreServer.RegisterServices();

@@ -22,7 +22,7 @@ namespace Fuyu.Backend.EFT.DTO.Locations
         public string Name;
 
         [DataMember]
-        public BundleAddress Scene;
+        public ResourceKey Scene;
 
         [DataMember]
         public float Area;

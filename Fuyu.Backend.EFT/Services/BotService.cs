@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Fuyu.Backend.BSG.DTO.Bots;
 using Fuyu.Backend.BSG.DTO.Profiles;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFT.DTO.Bots;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
@@ -109,7 +110,7 @@ namespace Fuyu.Backend.EFT.Services
 
             // regenerate all ids
             profile._id = new MongoId(true);
-            ItemService.RegenerateInventoryIds(profile.Inventory);
+            InventoryService.RegenerateIds(profile.Inventory);
 
             return profile;
         }

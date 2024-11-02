@@ -31,6 +31,41 @@ namespace Fuyu.Backend.EFT
             return null;
         }
 
+        public static EftProfile GetActiveProfile(string sessionId)
+        {
+            return GetActiveProfile(GetAccount(sessionId));
+        }
+
+        public static EftProfile GetActiveProfile(EftAccount account)
+        {
+            var profiles = GetProfiles();
+            string profileId = null;
+
+            switch (account.CurrentSession)
+            {
+                case ESessionMode.Regular:
+                    profileId = account.PvpId;
+                    break;
+
+                case ESessionMode.Pve:
+                    profileId = account.PveId;
+                    break;
+
+                default:
+                    throw new Exception($"Unhandled session mode: {account.CurrentSession}");
+            }
+
+            foreach (var profile in profiles)
+            {
+                if (profile.Pmc._id == profileId)
+                {
+                    return profile;
+                }
+            }
+
+            return null;
+        }
+
         public static void SetOrAddProfile(EftProfile profile)
         {
             var profiles = GetProfiles();

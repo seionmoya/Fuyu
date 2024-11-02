@@ -1,20 +1,19 @@
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.DTO.Friends;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.EFT.DTO.Responses
 {
     [DataContract]
     public class FriendListResponse
     {
-        // TODO: proper type
         [DataMember]
-        public object[] Friends;
+        public ChatRoomMember[] Friends;
 
-        // TODO: proper type
         [DataMember]
-        public object[] Ignore;
+        public MongoId[] Ignore;
 
-        // TODO: proper type
         [DataMember]
-        public object[] InIgnoreList;
+        public MongoId[] InIgnoreList;
     }
 }

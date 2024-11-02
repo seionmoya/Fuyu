@@ -21,12 +21,13 @@ namespace Fuyu.Backend.EFT.Services
             };
 
             // generate new ids
-            var pmcId = new MongoId(accountId).ToString();
+            var pmcId = new MongoId(true).ToString();
             var savageId = new MongoId(pmcId, 1, false).ToString();
 
             // set profile info
             profile.Pmc._id    = pmcId;
             profile.Pmc.aid    = accountId;
+
             profile.Savage._id = savageId;
             profile.Savage.aid = accountId;
 
@@ -39,11 +40,7 @@ namespace Fuyu.Backend.EFT.Services
 
         public static string WipeProfile(EftAccount account, string side, string headId, string voiceId)
         {
-            // get existing profile info
-            // TODO:
-            // * PVP-PVE state detection
-            // -- seionmoya, 2024/09/06
-            var profile = EftOrm.GetProfile(account.PveId);
+            var profile = EftOrm.GetActiveProfile(account);
             var pmcId = profile.Pmc._id;
             var savageId = profile.Savage._id;
 

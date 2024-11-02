@@ -3,8 +3,6 @@ using System;
 namespace Fuyu.Common.Collections
 {
 	public readonly struct Union<T1, T2> : IUnion
-		where T1 : IEquatable<T1>
-		where T2 : IEquatable<T2>
 	{
 		// NOTE: While we could just use object I have intentionally used
 		// separate fields here in order to avoid boxing value types
@@ -134,26 +132,38 @@ namespace Fuyu.Common.Collections
 			{
 				if (IsValue1 && union.IsValue1)
 				{
-					return Value1.Equals(union.Value1);
+					if (Value1 != null)
+					{
+						return Value1.Equals(union.Value1);
+					}
 				}
 
 				if (!IsValue1 && !union.IsValue1)
 				{
-					return Value2.Equals(union.Value2);
+					if (Value2 != null)
+					{
+						return Value2.Equals(union.Value2);
+					}
 				}
 			}
 			else if (obj is T1 t1)
 			{
 				if (IsValue1)
 				{
-					return Value1.Equals(t1);
+					if (Value1 != null)
+					{
+						return Value1.Equals(t1);
+					}
 				}
 			}
 			else if (obj is T2 t2)
 			{
 				if (!IsValue1)
 				{
-					return Value2.Equals(t2);
+					if (Value2 != null)
+					{
+						return Value2.Equals(t2);
+					}
 				}
 			}
 

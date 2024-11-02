@@ -89,7 +89,8 @@ namespace Fuyu.Backend.EFT.Services
                 Edition = edition,
                 Username = username,
                 PvpId = pvpId,
-                PveId = pveId
+                PveId = pveId,
+                CurrentSession = ESessionMode.Pve
             };
 
             EftOrm.SetOrAddAccount(account);

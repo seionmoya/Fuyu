@@ -16,12 +16,8 @@ namespace Fuyu.Backend.EFT.Controllers
         public override async Task RunAsync(HttpContext context, MatchLocalEndRequest body)
         {
             var sessionId = context.GetSessionId();
-            var account = EftOrm.GetAccount(sessionId);
-
-            // TODO:
-            // * PVP-PVE state detection
-            // -- seionmoya, 2024-08-28
-            var profile = EftOrm.GetProfile(account.PveId);
+            
+            var profile = EftOrm.GetActiveProfile(sessionId);
 
 			// NOTE: This data is not present in what the client sends as one of BSG's anticheat measures
             // which prevents your inraid inventory info from knowing what is in someone's stash
@@ -30,13 +26,13 @@ namespace Fuyu.Backend.EFT.Controllers
 			// -- nexus4880, 2024-10-14
 			body.results.profile.Info.LowerNickname = profile.Pmc.Info.LowerNickname;
 
-			body.results.profile.Inventory.stash = profile.Pmc.Inventory.stash;
-            body.results.profile.Inventory.questStashItems = profile.Pmc.Inventory.questStashItems;
+			body.results.profile.Inventory.Stash = profile.Pmc.Inventory.Stash;
+            body.results.profile.Inventory.QuestStashItems = profile.Pmc.Inventory.QuestStashItems;
 
-            var stash = profile.Pmc.Inventory.items.First(i => i._id == profile.Pmc.Inventory.stash);
-            var questStashItems = profile.Pmc.Inventory.items.First(i => i._id == profile.Pmc.Inventory.questStashItems);
+            var stash = profile.Pmc.Inventory.Items.First(i => i.Id == profile.Pmc.Inventory.Stash);
+            var questStashItems = profile.Pmc.Inventory.Items.First(i => i.Id == profile.Pmc.Inventory.QuestStashItems);
 
-			body.results.profile.Inventory.items = body.results.profile.Inventory.items.Prepend(stash).Prepend(questStashItems).ToArray();
+			body.results.profile.Inventory.Items = body.results.profile.Inventory.Items.Prepend(stash).Prepend(questStashItems).ToList();
 
 			// save gear
 			// TODO:

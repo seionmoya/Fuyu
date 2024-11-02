@@ -90,5 +90,10 @@ namespace Fuyu.Common.Networking
                 await OnCloseEvent(this);
 			}
         }
-    }
+
+		public override string ToString()
+		{
+			return $"{GetType().Name}:{Path}";
+		}
+	}
 }

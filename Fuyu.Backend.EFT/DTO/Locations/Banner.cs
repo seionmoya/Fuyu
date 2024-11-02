@@ -10,6 +10,6 @@ namespace Fuyu.Backend.EFT.DTO.Locations
         public string id;
 
         [DataMember]
-        public BundleAddress pic;
+        public ResourceKey pic;
     }
 }
