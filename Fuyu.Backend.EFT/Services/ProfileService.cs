@@ -47,7 +47,7 @@ namespace Fuyu.Backend.EFT.Services
             // create profiles
             var edition = EftOrm.GetWipeProfile(account.Edition);
 
-            profile.Savage = edition[EPlayerSide.Savage].Profile;
+            profile.Savage = edition[EPlayerSide.Savage].Profile.Clone();
 
             // NOTE: Case-sensitive
             // -- seionmoya, 2024-10-13
@@ -65,7 +65,7 @@ namespace Fuyu.Backend.EFT.Services
                 
                 default:
                     throw new Exception("Unsupported faction");
-            }        
+            }
 
             // setup savage
             profile.Savage._id = savageId;
