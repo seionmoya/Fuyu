@@ -1,15 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.ItemEvents.Models
 {
-    [DataContract]
+	[DataContract]
     public class ProfileChange
     {
-        [DataMember(Name = "experience")]
-        public int Experience;
+        public ProfileChange()
+        {
+            UnlockedRecipes = [];
+			Items = new ItemChanges();
+		}
+
+		[DataMember(Name = "experience")]
+        public int Experience { get; set; }
 
         [DataMember(Name = "recipeUnlocked")]
-        public Dictionary<string, bool> UnlockedRecipes = [];
-    }
+        public Dictionary<MongoId, bool> UnlockedRecipes { get; set; }
+
+		[DataMember(Name = "items")]
+        public ItemChanges Items { get; set; }
+	}
 }

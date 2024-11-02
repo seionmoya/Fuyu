@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Common.Hashing;
 
@@ -8,33 +11,52 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
     [DataContract]
     public class InventoryInfo
     {
-        [DataMember]
-        public ItemInstance[] items;
+        [DataMember(Name = "items")]
+        public List<ItemInstance> Items { get; set; }
 
-        [DataMember]
-        public MongoId equipment;
+        [DataMember(Name = "equipment")]
+        public MongoId Equipment { get; set; }
 
-        [DataMember]
-        public MongoId stash;
+		[DataMember(Name = "stash")]
+        public MongoId? Stash { get; set; }
 
-        [DataMember]
-        public MongoId sortingTable;
+		[DataMember(Name = "sortingTable")]
+        public MongoId? SortingTable { get; set; }
 
-        [DataMember]
-        public MongoId questRaidItems;
+		[DataMember(Name = "questRaidItems")]
+        public MongoId? QuestRaidItems { get; set; }
 
-        [DataMember]
-        public MongoId questStashItems;
+		[DataMember(Name = "questStashItems")]
+        public MongoId? QuestStashItems { get; set; }
 
-        // TODO: proper type
-        [DataMember]
-        public Dictionary<string, MongoId> fastPanel;
+		[DataMember(Name = "fastPanel")]
+        public Dictionary<string, MongoId> FastPanel { get; set; }
 
-        [DataMember]
-        public Dictionary<string, MongoId> hideoutAreaStashes;
+		[DataMember(Name = "hideoutAreaStashes")]
+        public Dictionary<string, MongoId> HideoutAreaStashes { get; set; }
 
-        // TODO: proper type
-        [DataMember]
-        public MongoId[] favoriteItems;
+		[DataMember(Name = "favoriteItems")]
+        public MongoId[] FavoriteItems { get; set; }
+
+		public List<ItemInstance> RemoveItem(ItemInstance item)
+		{
+			return InventoryService.RemoveItem(this, item);
+		}
+
+        public List<ItemInstance> RemoveItem(MongoId id)
+		{
+            var item = Items.Find(i => i.Id == id);
+			if (item == null)
+            {
+                throw new Exception($"Failed to find item with id {id} in inventory");
+            }
+
+			return InventoryService.RemoveItem(this, item);
+		}
+
+        public List<ItemInstance> GetItemsByTemplate(MongoId tpl)
+        {
+            return Items.Where(i => i.TemplateId == tpl).ToList();
+        }
     }
 }

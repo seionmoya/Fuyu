@@ -42,7 +42,7 @@ System.IO.File.WriteAllText($@"{respath}{file}_{time}.json", text2);
 
 This saves EFT's websocket commns to disk.
 
-1. search for `DisplayMessageNotification`
+1. search for `DisplayNotification`
 2. modify `method_7`: insert this after `gclass2 = message.ParseJsonTo(Array.Empty<JsonConverter>());`
 
 ```cs

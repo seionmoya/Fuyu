@@ -99,6 +99,11 @@ namespace Fuyu.Common.Networking
             await SendAsync(null, "plain/text", status, false);
         }
 
+        public Task SendBinaryAsync(byte[] data, string mime, bool zipped = true)
+        {
+            return SendAsync(data, mime, HttpStatusCode.OK, zipped);
+        }
+
         public async Task SendJsonAsync(string text, bool zipped = true)
         {
             var encoded = Encoding.UTF8.GetBytes(text);
@@ -113,5 +118,10 @@ namespace Fuyu.Common.Networking
         {
             Response.Close();
         }
-    }
+
+		public override string ToString()
+		{
+			return $"{GetType().Name}:{Path}(HasBody:{HasBody()})";
+		}
+	}
 }

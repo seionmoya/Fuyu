@@ -9,13 +9,12 @@ namespace Fuyu.Common.IO
         public static void WriteLine(string text)
         {
             var line = $"{text}\n";
+
             lock (_lock)
             {
                 Console.Write(line);
+                WriteToFile(line);
             }
-
-            return;
-            WriteToFile(line);
         }
 
         public static void WriteLine(object o)

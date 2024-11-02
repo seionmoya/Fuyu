@@ -16,12 +16,8 @@ namespace Fuyu.Backend.EFT.Controllers
         public override async Task RunAsync(HttpContext context)
         {
             var sessionId = context.GetSessionId();
-            var account = EftOrm.GetAccount(sessionId);
-
-            // TODO:
-            // * PVP-PVE state detection
-            // -- seionmoya, 2024/08/28
-            var profile = EftOrm.GetProfile(account.PveId);
+            
+            var profile = EftOrm.GetActiveProfile(sessionId);
 
             var response = new ResponseBody<ProfileStatusResponse>()
             {

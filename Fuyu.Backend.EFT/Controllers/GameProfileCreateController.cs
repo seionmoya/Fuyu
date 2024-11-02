@@ -20,8 +20,7 @@ namespace Fuyu.Backend.EFT.Controllers
         public override Task RunAsync(HttpContext context, GameProfileCreateRequest request)
         {
             var sessionId = context.GetSessionId();
-            var accountId = EftOrm.GetSession(sessionId);
-            var account = EftOrm.GetAccount(accountId);
+            var account = EftOrm.GetAccount(sessionId);
             var pmcId = ProfileService.WipeProfile(account, request.side, request.headId, request.voiceId);
             var response = new ResponseBody<GameProfileCreateResponse>()
             {

@@ -5,19 +5,16 @@ namespace Fuyu.Backend.EFT.DTO.Responses
     [DataContract]
     public class NotifierChannelCreateResponse
     {
-        [DataMember]
-        public string server;
+        [DataMember(Name = "server")]
+        public string Server { get; set; }
 
-        [DataMember]
-        public string channel_id;
+        [DataMember(Name = "channel_id")]
+        public string ChannelId { get; set; }
 
-        [DataMember]
-        public string url;
+        [DataMember(Name = "url")]
+        public string URL { get; set; }
 
-        [DataMember]
-        public string notifierServer;
-
-        [DataMember]
-        public string ws;
+        [DataMember(Name = "ws")]
+        public string WS { get; set; }
     }
 }

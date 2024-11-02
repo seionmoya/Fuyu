@@ -11,6 +11,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="embedded/database/bots/assault.json" />
+    <EmbeddedResource Include="embedded/database/bots/bossbully.json" />
+    <EmbeddedResource Include="embedded/database/bots/bossknight.json" />
+    <EmbeddedResource Include="embedded/database/bots/bosstagilla.json" />
+    <EmbeddedResource Include="embedded/database/bots/bosspartisan.json" />
+    <EmbeddedResource Include="embedded/database/bots/followerbigpipe.json" />
+    <EmbeddedResource Include="embedded/database/bots/followerbirdeye.json" />
+    <EmbeddedResource Include="embedded/database/bots/followerbully.json" />
+    <EmbeddedResource Include="embedded/database/bots/marksman.json" />
+    <EmbeddedResource Include="embedded/database/bots/sectantoni.json" />
+    <EmbeddedResource Include="embedded/database/bots/sectantpredvestnik.json" />
+    <EmbeddedResource Include="embedded/database/bots/sectantpriest.json" />
+    <EmbeddedResource Include="embedded/database/bots/sectantprizrak.json" />
+    <EmbeddedResource Include="embedded/database/bots/sectantwarrior.json" />
     <EmbeddedResource Include="embedded/database/locales/client.languages.json" />
     <EmbeddedResource Include="embedded/database/locales/client.locale-ch.json" />
     <EmbeddedResource Include="embedded/database/locales/client.locale-cz.json" />
@@ -76,5 +90,18 @@
     <EmbeddedResource Include="embedded/database/client.settings.json" />
     <EmbeddedResource Include="embedded/database/client.trading.api.traderSettings.json" />
     <EmbeddedResource Include="embedded/database/client.weather.json" />
+    <EmbeddedResource Include="embedded/database/files/quest/icon/65899d03adeac0191c51e880.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/579dc571d53a0658a154fbec.png" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/59b91ca086f77469a81232e4.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/59b91cab86f77469aa5343ca.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/59b91cb486f77469a81232e5.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/59b91cbd86f77469aa5343cb.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/5a7c2ebb86f7746e324a06ab.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/5ac3b86a86f77461491d1ad8.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/5c06531a86f7746319710e1b.jpg" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/638f541a29ffd1183d187f57.png" />
+    <EmbeddedResource Include="embedded/database/files/trader/avatar/656f0f98d80a697f855d34b1.png" />
+    <EmbeddedResource Include="embedded/database/traderavatars/rimuru.jpg" />
+    <EmbeddedResource Include="embedded/database/traderavatars/rimuru.png" />
   </ItemGroup>
 </Project>

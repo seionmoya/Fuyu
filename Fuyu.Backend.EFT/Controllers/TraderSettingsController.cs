@@ -1,5 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Fuyu.Backend.BSG.DTO.Responses;
+using Fuyu.Backend.EFT.DTO.Trading;
 using Fuyu.Common.Networking;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers
 {
@@ -11,7 +15,12 @@ namespace Fuyu.Backend.EFT.Controllers
 
         public override async Task RunAsync(HttpContext context)
         {
-            await context.SendJsonAsync(EftOrm.GetTraders());
+            var response = new ResponseBody<IEnumerable<TraderTemplate>>
+            {
+                data = TraderDatabase.GetTraderTemplates().Values
+            };
+
+            await context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

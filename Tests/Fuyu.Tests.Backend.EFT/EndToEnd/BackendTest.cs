@@ -15,6 +15,7 @@ using Fuyu.Backend.EFT.DTO.Raid;
 using Fuyu.Backend.EFT.DTO.Requests;
 using Fuyu.Backend.EFT.Servers;
 using AccountService = Fuyu.Backend.Core.Services.AccountService;
+using Fuyu.Backend.EFT.DTO.Accounts;
 
 namespace Fuyu.Tests.Backend.EFT.EndToEnd
 {
@@ -230,7 +231,10 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         [TestMethod]
         public async Task TestClientGameMode()
         {
-            var response = await _eftMainClient.GetAsync("/client/game/mode");
+            var request = new ClientGameModeRequest { SessionMode = ESessionMode.Pve };
+            var requestJson = Json.Stringify(request);
+            var requestBytes = Encoding.UTF8.GetBytes(requestJson);
+            var response = await _eftMainClient.PostAsync("/client/game/mode", requestBytes);
             var result = Encoding.UTF8.GetString(response.Body);
 
             Assert.IsFalse(string.IsNullOrEmpty(result));
