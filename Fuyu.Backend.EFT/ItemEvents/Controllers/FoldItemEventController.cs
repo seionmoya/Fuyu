@@ -14,9 +14,9 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 		public override Task RunAsync(ItemEventContext context, FoldItemEvent request)
 		{
-			var account = EftOrm.GetAccount(context.SessionId);
-			var profile = EftOrm.GetProfile(account.PveId);
+			var profile = EftOrm.GetActiveProfile(context.SessionId);
 			var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.ItemId);
+
 			if (item == null)
 			{
 				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { Id = request.ItemId });

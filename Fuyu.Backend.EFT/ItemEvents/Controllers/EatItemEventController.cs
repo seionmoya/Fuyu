@@ -16,8 +16,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		// This method only finds the item, as well as the index. Actually consuming/deleting the item needs to be done.
 		public override Task RunAsync(ItemEventContext context, EatItemEvent request)
 		{
-			var account = EftOrm.GetAccount(context.SessionId);
-			var profile = EftOrm.GetProfile(account.PveId);
+			var profile = EftOrm.GetActiveProfile(context.SessionId);
 			var index = 0;
 			ItemInstance item = null;
 

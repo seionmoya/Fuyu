@@ -13,8 +13,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 		public override Task RunAsync(ItemEventContext context, EditNoteItemEvent request)
 		{
-			var account = EftOrm.GetAccount(context.SessionId);
-			var profile = EftOrm.GetProfile(account.PveId);
+			var profile = EftOrm.GetActiveProfile(context.SessionId);
 			var notes = profile.Pmc.Notes.Notes;
 			
 			if (request.Index < 0 || request.Index > notes.Count)

@@ -27,8 +27,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
         public Task SellToTrader(ItemEventContext context, TradingConfirmItemEvent request)
         {
-            var account = EftOrm.GetAccount(context.SessionId);
-            var profile = EftOrm.GetProfile(account.PveId);
+            var profile = EftOrm.GetActiveProfile(context.SessionId);
             var inventory = profile.Pmc.Inventory;
 			var roubles = inventory.GetItemsByTemplate("5449016a4bdc2d6f028b456f");
 

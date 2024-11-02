@@ -4,6 +4,7 @@ using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.EFT.DTO.Responses;
 using Fuyu.Backend.EFT.DTO.Requests;
+using Fuyu.Backend.EFT.DTO.Accounts;
 
 namespace Fuyu.Backend.EFT.Controllers
 {
@@ -16,6 +17,12 @@ namespace Fuyu.Backend.EFT.Controllers
 		public override Task RunAsync(HttpContext context, ClientGameModeRequest body)
 		{
 			var account = EftOrm.GetAccount(context.GetSessionId());
+
+			if (body.SessionMode == null)
+			{
+				body.SessionMode = ESessionMode.Pve;
+			}
+
 			account.CurrentSession = body.SessionMode;
 			
 			var response = new ResponseBody<GameModeResponse>()

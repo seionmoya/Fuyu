@@ -24,8 +24,7 @@ namespace Fuyu.Backend.EFT.Controllers
 		public override Task RunAsync(HttpContext context)
 		{
 			var parameters = context.GetPathParameters(this);
-			var account = EftOrm.GetAccount(context.GetSessionId());
-			var profile = EftOrm.GetProfile(account.PveId);
+			var profile = EftOrm.GetActiveProfile(context.GetSessionId());
 			var response = new ResponseBody<Union<SupplyData, Dictionary<MongoId, float>>>();
 
 			if (parameters.TryGetValue("traderId", out var traderId))

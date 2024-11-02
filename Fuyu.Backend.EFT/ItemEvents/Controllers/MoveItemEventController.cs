@@ -14,12 +14,10 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
         public override Task RunAsync(ItemEventContext context, MoveItemEvent request)
         {
-            var str = context.Data.ToString();
-            var account = EftOrm.GetAccount(context.SessionId);
-            var profile = EftOrm.GetProfile(account.PveId);
+            var profile = EftOrm.GetActiveProfile(context.SessionId);
             var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
 
-            if (item is not null)
+            if (item != null)
             {
                 item.Location = request.To.Location;
                 item.ParentId = request.To.Id;

@@ -7,6 +7,6 @@ namespace Fuyu.Backend.EFT.DTO.Requests
 	public class ClientGameModeRequest
 	{
 		[DataMember(Name = "sessionMode")]
-		public ESessionMode SessionMode { get; set; }
+		public ESessionMode? SessionMode { get; set; }
 	}
 }

@@ -49,8 +49,7 @@ namespace Fuyu.Backend.EFT.Controllers
 			}
 
 			var sessionId = context.GetSessionId();
-			var account = EftOrm.GetAccount(sessionId);
-			var profile = EftOrm.GetProfile(account.PveId);
+			var profile = EftOrm.GetActiveProfile(sessionId);
 			var requestData = request.Value<JArray>("data");
 			var itemEventResponse = new ItemEventResponse();
 			/*{

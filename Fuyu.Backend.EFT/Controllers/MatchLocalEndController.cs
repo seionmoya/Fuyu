@@ -16,12 +16,8 @@ namespace Fuyu.Backend.EFT.Controllers
         public override async Task RunAsync(HttpContext context, MatchLocalEndRequest body)
         {
             var sessionId = context.GetSessionId();
-            var account = EftOrm.GetAccount(sessionId);
-
-            // TODO:
-            // * PVP-PVE state detection
-            // -- seionmoya, 2024-08-28
-            var profile = EftOrm.GetProfile(account.PveId);
+            
+            var profile = EftOrm.GetActiveProfile(sessionId);
 
 			// NOTE: This data is not present in what the client sends as one of BSG's anticheat measures
             // which prevents your inraid inventory info from knowing what is in someone's stash

@@ -17,8 +17,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 		public override Task RunAsync(ItemEventContext context, BindItemEvent request)
 		{
-			var account = EftOrm.GetAccount(context.SessionId);
-			var profile = EftOrm.GetProfile(account.PveId);
+			var profile = EftOrm.GetActiveProfile(context.SessionId);
 
 			profile.Pmc.Inventory.FastPanel[request.Index] = request.Item;
 

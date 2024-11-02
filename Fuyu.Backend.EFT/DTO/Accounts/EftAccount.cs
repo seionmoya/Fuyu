@@ -21,6 +21,6 @@ namespace Fuyu.Backend.EFT.DTO.Accounts
         public string PveId { get; set; }
 
 		[DataMember]
-        public ESessionMode CurrentSession { get; set; }
+        public ESessionMode? CurrentSession { get; set; }
     }
 }

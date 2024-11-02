@@ -31,6 +31,11 @@ namespace Fuyu.Backend.EFT
             return null;
         }
 
+        public static EftProfile GetActiveProfile(string sessionId)
+        {
+            return GetActiveProfile(GetAccount(sessionId));
+        }
+
         public static EftProfile GetActiveProfile(EftAccount account)
         {
             var profiles = GetProfiles();
@@ -50,11 +55,11 @@ namespace Fuyu.Backend.EFT
                     throw new Exception($"Unhandled session mode: {account.CurrentSession}");
             }
 
-            for (var i = 0; i < profiles.Count; ++i)
+            foreach (var profile in profiles)
             {
-                if (profiles[i].Pmc._id == profileId)
+                if (profile.Pmc._id == profileId)
                 {
-                    return profiles[i];
+                    return profile;
                 }
             }
 

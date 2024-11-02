@@ -17,8 +17,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
         public override Task RunAsync(ItemEventContext context, ApplyInventoryChangesEvent request)
         {
-            var account = EftOrm.GetAccount(context.SessionId);
-            var profile = EftOrm.GetProfile(account.PveId);
+            var profile = EftOrm.GetActiveProfile(context.SessionId);
             var profileItems = new ThreadDictionary<MongoId, ItemInstance>(profile.Pmc.Inventory.Items.ToDictionary(i => i.Id, i => i));
 
             Parallel.ForEach(request.ChangedItems, changedItem =>
