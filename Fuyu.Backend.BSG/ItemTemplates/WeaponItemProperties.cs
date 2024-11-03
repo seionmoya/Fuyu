@@ -1,6 +1,6 @@
-using System;
-using System.Numerics;
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.DTO.Common;
+using Fuyu.Common.Collections;
 
 namespace Fuyu.Backend.BSG.ItemTemplates
 {
@@ -248,7 +248,7 @@ namespace Fuyu.Backend.BSG.ItemTemplates
 		public float BaseMalfunctionChance;
 
 		[DataMember(Name = "AimSensitivity")]
-		public float AimSensitivity = 1f;
+		public Union<float, float[][]> AimSensitivity = 1f;
 
 		[DataMember(Name = "DurabilityBurnRatio")]
 		public float DurabilityBurnRatio = 1f;
@@ -309,18 +309,5 @@ namespace Fuyu.Backend.BSG.ItemTemplates
 
 		[DataMember(Name = "BurstShotsCount")]
 		public int BurstShotsCount = 3;
-	}
-
-	[Flags]
-	public enum EFireMode : byte
-	{
-		fullauto = 0,
-		single = 1,
-		doublet = 2,
-		burst = 3,
-		doubleaction = 4,
-		semiauto = 5,
-		grenadeThrowing = 6,
-		greanadePlanting = 7
 	}
 }

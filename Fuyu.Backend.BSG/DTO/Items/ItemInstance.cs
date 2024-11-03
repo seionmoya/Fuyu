@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.DTO.Services;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 
@@ -30,30 +31,28 @@ namespace Fuyu.Backend.EFT.DTO.Items
 		[DataMember(Name = "upd", EmitDefaultValue = false)]
         public ItemUpdatable Updatable { get; set; }
 
-        public T GetUpdatable<T>() where T: class, new()
+        public T GetUpdatable<T>(bool createIfNull = true) where T: class, new()
         {
-            if (Updatable == null)
-            {
-                Updatable = new ItemUpdatable();
-            }
+			var targetProperty = typeof(ItemUpdatable).GetProperties().First(p => p.PropertyType == typeof(T));
+            object currentValue = null;
 
-			// NOTE: Intentionally letting this throw here. The idea is that GetUpdatable should
-			// create T if it doesn't exist meaning most usage would be GetUpdatable<Upd>().Value
-			// which means a null check after calling this would be undesirable
-			// -- nexus4880, 2024-10-27
-			var field = Updatable.GetType()
-                .GetProperties()
-                .First(f => f.PropertyType == typeof(T));
+			if (Updatable != null)
+			{
+				currentValue = targetProperty.GetValue(Updatable);
+			}
 
-            var value = field.GetValue(Updatable) as T;
+            if (currentValue == null && createIfNull)
+			{
+				currentValue = ItemFactoryService.CreateItemComponent(TemplateId, typeof(T), true);
+				if (Updatable == null)
+				{
+					Updatable = new ItemUpdatable();
+				}
 
-            if (value == null)
-            {
-				value = new T();
-                field.SetValue(Updatable, value);
-            }
+				targetProperty.SetValue(Updatable, currentValue);
+			}
 
-            return value;
-        }
+			return (T)currentValue;
+		}
     }
 }

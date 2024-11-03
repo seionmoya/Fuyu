@@ -35,6 +35,9 @@ namespace Fuyu.Backend.BSG.ItemTemplates
 		[DataMember(Name = "BlocksFolding")]
 		public bool BlocksFolding;
 
+		[DataMember(Name = "BlocksCollapsible")]
+		public bool BlocksCollapsible;
+
 		[DataMember(Name = "IsAnimated")]
 		public bool IsAnimated;
 

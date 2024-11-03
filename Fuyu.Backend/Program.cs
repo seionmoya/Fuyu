@@ -3,18 +3,20 @@ using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFT;
 using Fuyu.Backend.EFT.Servers;
+using Fuyu.Backend.BSG.DTO.Services;
 
 namespace Fuyu.Backend
 {
     public class Program
     {
         static void Main()
-        {
-            CoreDatabase.Load();
-            EftDatabase.Load();
+		{
+			CoreDatabase.Load();
+			EftDatabase.Load();
             TraderDatabase.Load();
+			ItemFactoryService.Load();
 
-            var coreServer = new CoreServer();
+			var coreServer = new CoreServer();
             coreServer.RegisterServices();
             coreServer.Start();
 
@@ -22,7 +24,7 @@ namespace Fuyu.Backend
             eftMainServer.RegisterServices();
             eftMainServer.Start();
 
-            Terminal.WaitForInput();
+			Terminal.WaitForInput();
         }
-    }
+	}
 }

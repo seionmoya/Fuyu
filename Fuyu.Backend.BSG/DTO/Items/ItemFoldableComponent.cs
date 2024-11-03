@@ -1,11 +1,24 @@
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT.DTO.Items
 {
     [DataContract]
-    public class ItemFoldableComponent
-    {
-        [DataMember]
-        public bool Folded;
+    public class ItemFoldableComponent : IItemComponent
+	{
+		[DataMember]
+        public bool Folded { get; set; }
+
+		public static object CreateComponent(JObject templateProperties)
+		{
+			if (!templateProperties.ContainsKey("Foldable")
+				|| !templateProperties["Foldable"].Value<bool>())
+			{
+				return null;
+			}
+
+			return new ItemFoldableComponent();
+		}
     }
 }

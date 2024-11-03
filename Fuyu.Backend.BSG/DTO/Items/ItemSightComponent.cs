@@ -16,5 +16,5 @@ namespace Fuyu.Backend.EFT.DTO.Items
 
         [DataMember]
         public int SelectedScope;
-    }
+	}
 }

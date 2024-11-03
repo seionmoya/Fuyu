@@ -3,7 +3,6 @@ using Fuyu.Backend.BSG.ItemEvents;
 using Fuyu.Backend.BSG.ItemEvents.Controllers;
 using Fuyu.Backend.EFT.DTO.Items;
 using Fuyu.Backend.EFT.ItemEvents.Models;
-using Fuyu.Common.IO;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 {
@@ -13,28 +12,27 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 		{
 		}
 
-		// This method only finds the item, as well as the index. Actually consuming/deleting the item needs to be done.
 		public override Task RunAsync(ItemEventContext context, EatItemEvent request)
 		{
 			var profile = EftOrm.GetActiveProfile(context.SessionId);
-			var index = 0;
-			ItemInstance item = null;
-
-			foreach (var _item in profile.Pmc.Inventory.Items)
+			var itemIndex = profile.Pmc.Inventory.Items.FindIndex(i => i.Id == request.Item);
+			
+			if (itemIndex == -1)
 			{
-				if (_item.Id == request.Item)
-				{
-					item = _item;
-					break;
-				}
+				context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { Id = request.Item });
+				context.AppendInventoryError($"Failed to find item on backend: {request.Item}, removing it");
 
-				index++;
+				return Task.CompletedTask;
 			}
 
-			if (item == null)
+			var item = profile.Pmc.Inventory.Items[itemIndex];
+			var foodDrink = item.GetUpdatable<ItemFoodDrinkComponent>(true);
+
+			foodDrink.HpPercent -= request.Count;
+
+			if (foodDrink.HpPercent <= 0f)
 			{
-				Terminal.WriteLine($"Failed to find item {request.Item}");
-				return Task.CompletedTask;
+				profile.Pmc.Inventory.Items.RemoveAt(itemIndex);
 			}
 
 			return Task.CompletedTask;

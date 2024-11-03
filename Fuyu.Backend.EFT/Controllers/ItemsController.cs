@@ -16,7 +16,6 @@ namespace Fuyu.Backend.EFT.Controllers
 
         public ItemsController() : base("/client/items")
         {
-            ItemFactoryService.Load();
             _settings = new JsonSerializerSettings
             {
                 Converters =

@@ -31,8 +31,8 @@ namespace Fuyu.Backend.EFT.Services
             profile.Savage._id = savageId;
             profile.Savage.aid = accountId;
 
-            // store profile
-            EftOrm.SetOrAddProfile(profile);
+			// store profile
+			EftOrm.SetOrAddProfile(profile);
             WriteToDisk(profile);
 
             return pmcId;

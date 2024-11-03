@@ -7,6 +7,6 @@ namespace Fuyu.Backend.EFT.DTO.Items
     public class ItemFireModeComponent
     {
         [DataMember]
-        public EFireMode FireMode;
-    }
+        public EFireMode FireMode { get; set; }
+	}
 }

@@ -19,7 +19,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Controllers
 
 			if (item != null)
 			{
-				var tag = item.GetUpdatable<ItemTagComponent>();
+				var tag = item.GetUpdatable<ItemTagComponent>(true);
 				tag.Name = request.Name;
 				tag.Color = request.Color;
 			}

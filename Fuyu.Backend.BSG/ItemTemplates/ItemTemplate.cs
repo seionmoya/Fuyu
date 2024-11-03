@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using Fuyu.Common.Hashing;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.ItemTemplates
 {
@@ -19,7 +20,7 @@ namespace Fuyu.Backend.BSG.ItemTemplates
 		public string ParentId { get; set; }
 
 		[DataMember(Name = "_props")]
-		public ItemProperties Props { get; set; }
+		public JObject Props { get; set; }
 
 		[DataMember(Name = "_proto", EmitDefaultValue = false)]
 		// NOTE: Could be MongoId?

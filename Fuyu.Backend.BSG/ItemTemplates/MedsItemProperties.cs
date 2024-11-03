@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Fuyu.Common.Collections;
 
 namespace Fuyu.Backend.BSG.ItemTemplates
 {
@@ -13,10 +14,10 @@ namespace Fuyu.Backend.BSG.ItemTemplates
 		public KeyValuePair<EBodyPart, float>[] BodyPartTimeMults;
 
 		[DataMember(Name = "effects_health")]
-		public object HealthEffects;
+		public Union<Dictionary<string, HealthEffect>, object[]> HealthEffects;
 
 		[DataMember(Name = "effects_damage")]
-		public object DamageEffects;
+		public Union<Dictionary<string, DamageEffect>, object[]> DamageEffects;
 
 		[DataMember(Name = "StimulatorBuffs")]
 		public string StimulatorBuffs;
@@ -26,5 +27,13 @@ namespace Fuyu.Backend.BSG.ItemTemplates
 
 		[DataMember(Name = "hpResourceRate")]
 		public float HpResourceRate;
+	}
+
+	public class HealthEffect
+	{
+	}
+
+	public class DamageEffect
+	{
 	}
 }
