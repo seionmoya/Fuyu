@@ -80,72 +80,57 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 
         public Vector2 GetItemSize(ItemInstance root)
         {
-            var rootItemTemplate = ItemFactoryService.ItemTemplates[root.TemplateId];
-            var rootItemProperties = rootItemTemplate.Props.ToObject<ItemProperties>();
-			var rootItemWidth = rootItemProperties.Width;
-			var rootItemHeight = rootItemProperties.Height;
-            var maxHeight = 0;
-            var maxWidth = 0;
-            var items = ItemService.GetItemAndChildren(Items, root);
+            var rootTemplate = ItemFactoryService.ItemTemplates[root.TemplateId];
+            var rootProperties = rootTemplate.Props.ToObject<ItemProperties>();
+            var width = rootProperties.Width;
+            var height = rootProperties.Height;
 
-			var foldable = root.GetUpdatable<ItemFoldableComponent>(false);
-			if (foldable != null && foldable.Folded)
-			{
-                var stockItem = GetStock(root);
+            var sizeUp = 0;
+            var sizeDown = 0;
+            var sizeLeft = 0;
+            var sizeRight = 0;
+            var forcedUp = 0;
+            var forcedDown = 0;
+            var forcedLeft = 0;
+            var forcedRight = 0;
 
-                if (stockItem == null)
-                {
-                    throw new Exception($"{root.Id} is folded but couldn't find stock?");
-                }
-
-                var stockItemProperties = ItemFactoryService
-                    .ItemTemplates[stockItem.TemplateId]
-                    .Props
-                    .ToObject<StockItemProperties>();
-
-                rootItemWidth -= stockItemProperties.SizeReduceRight;
-			}
-
-			// Skip the root item because we initialized rootItemWidth and rootItemHeight with it
-			foreach (var item in items.Skip(1))
+            var children = ItemService.GetItemAndChildren(Items, root).Skip(1);
+            foreach (var child in children)
             {
-                var itemTemplate = ItemFactoryService.ItemTemplates[item.TemplateId];
+                var itemTemplate = ItemFactoryService.ItemTemplates[child.TemplateId];
                 var itemProperties = itemTemplate.Props.ToObject<ItemProperties>();
-				var itemHeight = itemProperties.ExtraSizeUp + itemProperties.ExtraSizeDown;
-				var itemWidth = itemProperties.ExtraSizeLeft + itemProperties.ExtraSizeRight;
-				
-
-				if (itemProperties.ExtraSizeForceAdd || foldable != null && !foldable.Folded)
-				{
-					rootItemWidth += itemWidth;
-					rootItemHeight += itemHeight;
-				}
+                if (itemProperties.ExtraSizeForceAdd)
+                {
+                    forcedUp += itemProperties.ExtraSizeUp;
+                    forcedDown += itemProperties.ExtraSizeDown;
+                    forcedLeft += itemProperties.ExtraSizeLeft;
+                    forcedRight += itemProperties.ExtraSizeRight;
+                }
                 else
-				{
-					// Get the highest modifiers
-					maxWidth = Math.Max(maxWidth, itemWidth);
-					maxHeight = Math.Max(maxHeight, itemHeight);
-				}
+                {
+                    sizeUp = Math.Max(sizeUp, itemProperties.ExtraSizeUp);
+                    sizeDown = Math.Max(sizeDown, itemProperties.ExtraSizeDown);
+                    sizeLeft = Math.Max(sizeLeft, itemProperties.ExtraSizeLeft);
+                    sizeRight = Math.Max(sizeRight, itemProperties.ExtraSizeRight);
+                }
             }
 
-            // Add the highest modifiers
-			rootItemWidth += maxWidth;
-			rootItemHeight += maxHeight;
+            width += sizeLeft + sizeRight + forcedLeft + forcedRight;
+            height += sizeUp + sizeDown + forcedUp + forcedDown;
 
-            // if it's rotated then width becomes height (Y) and height becomes width (X)
             if (root.Location.IsValue1 && root.Location.Value1.r == EItemRotation.Vertical)
             {
                 return new Vector2
                 {
-                    X = rootItemHeight,
-                    Y = rootItemWidth
-				};
+                    X = height,
+                    Y = width
+                };
             }
 
             return new Vector2
             {
-                X = rootItemWidth,
-                Y = rootItemHeight
+                X = width,
+                Y = height
             };
         }
 
@@ -194,6 +179,11 @@ namespace Fuyu.Backend.BSG.DTO.Profiles
 						{
 							var cellX = itemLocation.x + x;
 							var cellY = itemLocation.y + y;
+                            if (cells[cellY * gridWidth + cellX])
+                            {
+                                throw new Exception("Overlap");
+                            }
+
 							cells[cellY * gridWidth + cellX] = true;
 						}
 					}
