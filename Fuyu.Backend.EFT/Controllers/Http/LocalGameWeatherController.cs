@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Fuyu.Common.IO;
 using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class LocalGameWeatherController : HttpController
     {

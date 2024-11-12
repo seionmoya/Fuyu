@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.DTO.Requests;
 using Fuyu.Backend.EFT.Services;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     // TODO:
     // * move code into TemplateTable and ProfileService

@@ -4,7 +4,7 @@ using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.DTO.Locations;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class LocationsController : HttpController
     {

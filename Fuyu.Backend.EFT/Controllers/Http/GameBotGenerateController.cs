@@ -6,7 +6,7 @@ using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.DTO.Requests;
 using Fuyu.Backend.EFT.Services;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameBotGenerateController : HttpController<GameBotGenerateRequest>
     {

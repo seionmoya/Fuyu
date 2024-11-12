@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Websocket
 {
 	public partial class PushNotiferGetWebsocketController : WsController
 	{

@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.DTO.Trading;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class TraderSettingsController : HttpController
     {

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class HandbookTemplatesController : HttpController
     {

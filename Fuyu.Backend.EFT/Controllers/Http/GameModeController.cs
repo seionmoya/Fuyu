@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.DTO.Requests;
 using Fuyu.Backend.EFT.DTO.Accounts;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameModeController : HttpController<ClientGameModeRequest>
     {

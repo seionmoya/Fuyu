@@ -5,7 +5,7 @@ using Fuyu.Backend.EFT.Services;
 using Fuyu.Backend.Common.DTO.Requests;
 using Fuyu.Backend.Common.DTO.Responses;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class FuyuGameRegisterController : HttpController<FuyuGameRegisterRequest>
     {

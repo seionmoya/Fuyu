@@ -4,7 +4,7 @@ using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.DTO.Profiles;
 using Fuyu.Backend.BSG.DTO.Responses;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameProfileListController : HttpController
     {

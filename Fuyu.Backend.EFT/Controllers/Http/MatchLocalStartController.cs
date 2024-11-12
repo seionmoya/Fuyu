@@ -4,7 +4,7 @@ using Fuyu.Common.IO;
 using Fuyu.Common.Networking;
 using Fuyu.Backend.BSG.DTO.Requests;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class MatchLocalStartController : HttpController<MatchLocalStartRequest>
     {

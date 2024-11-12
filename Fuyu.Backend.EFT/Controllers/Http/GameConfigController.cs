@@ -4,7 +4,7 @@ using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.DTO.Servers;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameConfigController : HttpController
     {

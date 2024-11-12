@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.DTO.Requests;
 using System.Linq;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class MatchLocalEndController : HttpController<MatchLocalEndRequest>
     {

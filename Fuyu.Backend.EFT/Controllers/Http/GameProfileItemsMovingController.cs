@@ -7,7 +7,7 @@ using Fuyu.Common.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
-namespace Fuyu.Backend.EFT.Controllers
+namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameProfileItemsMovingController : HttpController<JObject>
 	{
