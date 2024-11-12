@@ -1,6 +1,6 @@
 ﻿using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.BSG.ItemEvents.Controllers
+namespace Fuyu.Backend.BSG.Networking
 {
     public interface IItemEventController : IRouterController<ItemEventContext>
     {

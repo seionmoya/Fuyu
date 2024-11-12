@@ -3,7 +3,7 @@ using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Common.Networking;
 using Newtonsoft.Json.Linq;
 
-namespace Fuyu.Backend.BSG.ItemEvents
+namespace Fuyu.Backend.BSG.Networking
 {
     public class ItemEventContext : IRouterContext
     {

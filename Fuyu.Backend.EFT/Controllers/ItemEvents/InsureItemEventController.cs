@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.DTO.Profiles;
-using Fuyu.Backend.BSG.ItemEvents;
-using Fuyu.Backend.BSG.ItemEvents.Controllers;
+using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.ItemEvents.Models;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Controllers

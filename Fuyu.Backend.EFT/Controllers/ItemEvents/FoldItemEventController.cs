@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
-using Fuyu.Backend.BSG.ItemEvents;
-using Fuyu.Backend.BSG.ItemEvents.Controllers;
+using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.DTO.Items;
 using Fuyu.Backend.BSG.ItemEvents.Models;
 
