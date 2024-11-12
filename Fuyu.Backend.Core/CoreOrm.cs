@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Fuyu.Backend.Core.DTO.Accounts;
+using Fuyu.Backend.Core.Models.Accounts;
 
 namespace Fuyu.Backend.Core
 {

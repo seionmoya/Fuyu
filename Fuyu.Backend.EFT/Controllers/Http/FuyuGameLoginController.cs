@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 using Fuyu.Backend.EFT.Services;
-using Fuyu.Backend.Common.DTO.Requests;
-using Fuyu.Backend.Common.DTO.Responses;
+using Fuyu.Backend.Common.Models.Requests;
+using Fuyu.Backend.Common.Models.Responses;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Fuyu.Backend.BSG.DTO.Customization;
-using Fuyu.Backend.BSG.DTO.Profiles;
-using Fuyu.Backend.BSG.DTO.Profiles.Info;
+using Fuyu.Backend.BSG.Models.Customization;
+using Fuyu.Backend.BSG.Models.Profiles;
+using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.EFT.DTO.Accounts;
-using Fuyu.Backend.BSG.DTO.Responses;
+using Fuyu.Backend.BSG.Models.Responses;
 
 namespace Fuyu.Backend.EFT
 {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fuyu.Backend.BSG.DTO.Responses;
-using Fuyu.Backend.BSG.DTO.Requests;
+using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;

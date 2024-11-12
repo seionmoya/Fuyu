@@ -3,8 +3,8 @@ using System.Linq;
 using Fuyu.Common.IO;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.Core.DTO.Accounts;
-using Fuyu.Backend.Core.DTO.Responses;
+using Fuyu.Backend.Core.Models.Accounts;
+using Fuyu.Backend.Core.Models.Responses;
 
 namespace Fuyu.Backend.Core.Services
 {

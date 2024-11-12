@@ -2,8 +2,8 @@ using System;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.BSG.DTO.Profiles;
-using Fuyu.Backend.BSG.DTO.Profiles.Info;
+using Fuyu.Backend.BSG.Models.Profiles;
+using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.EFT.DTO.Accounts;
 
 namespace Fuyu.Backend.EFT.Services

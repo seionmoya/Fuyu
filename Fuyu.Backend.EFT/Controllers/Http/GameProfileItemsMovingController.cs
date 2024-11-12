@@ -1,4 +1,4 @@
-﻿using Fuyu.Backend.BSG.DTO.Responses;
+﻿using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Backend.EFT.Controllers.ItemEvents;

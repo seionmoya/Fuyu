@@ -1,7 +1,7 @@
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.Core.DTO.Accounts;
+using Fuyu.Backend.Core.Models.Accounts;
 
 namespace Fuyu.Backend.Core
 {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.BSG.DTO.Responses;
+using Fuyu.Backend.BSG.Models.Responses;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {

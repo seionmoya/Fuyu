@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.BSG.DTO.Customization;
-using Fuyu.Backend.BSG.DTO.Profiles;
-using Fuyu.Backend.BSG.DTO.Profiles.Info;
-using Fuyu.Backend.BSG.DTO.Responses;
+using Fuyu.Backend.BSG.Models.Customization;
+using Fuyu.Backend.BSG.Models.Profiles;
+using Fuyu.Backend.BSG.Models.Profiles.Info;
+using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.DTO.Accounts;
 
 namespace Fuyu.Backend.EFT
