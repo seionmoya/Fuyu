@@ -3,7 +3,7 @@ using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Common.IO;
 
-namespace Fuyu.Backend.EFT.ItemEvents.Controllers
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
     public class MoveItemEventController : ItemEventController<MoveItemEvent>
     {

@@ -1,7 +1,7 @@
 ﻿using Fuyu.Backend.BSG.DTO.Responses;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.ItemEvents.Models;
-using Fuyu.Backend.EFT.ItemEvents.Controllers;
+using Fuyu.Backend.EFT.Controllers.ItemEvents;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 using Newtonsoft.Json.Linq;

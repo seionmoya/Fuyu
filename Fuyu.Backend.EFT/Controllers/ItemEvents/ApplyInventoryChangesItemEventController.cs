@@ -6,7 +6,7 @@ using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 
-namespace Fuyu.Backend.EFT.ItemEvents.Controllers
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
     public class ApplyInventoryChangesItemEventController : ItemEventController<ApplyInventoryChangesEvent>
     {

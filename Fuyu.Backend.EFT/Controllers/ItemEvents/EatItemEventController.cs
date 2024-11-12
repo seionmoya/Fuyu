@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.DTO.Items;
 using Fuyu.Backend.BSG.ItemEvents.Models;
 using Fuyu.Common.IO;
 
-namespace Fuyu.Backend.EFT.ItemEvents.Controllers
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
 	public class EatItemEventController : ItemEventController<EatItemEvent>
 	{

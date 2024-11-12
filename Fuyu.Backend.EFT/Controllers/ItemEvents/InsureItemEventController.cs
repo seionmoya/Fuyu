@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.DTO.Profiles;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.ItemEvents.Models;
 
-namespace Fuyu.Backend.EFT.ItemEvents.Controllers
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
 	public class InsureEventController : ItemEventController<InsureItemEvent>
 	{
