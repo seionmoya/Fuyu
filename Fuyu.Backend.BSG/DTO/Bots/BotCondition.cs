@@ -1,8 +1,7 @@
 using System.Runtime.Serialization;
 using Newtonsoft.Json.Converters;
-using Fuyu.Backend.BSG.DTO.Bots;
 
-namespace Fuyu.Backend.EFT.DTO.Bots
+namespace Fuyu.Backend.BSG.DTO.Bots
 {
     [DataContract]
     public class BotCondition

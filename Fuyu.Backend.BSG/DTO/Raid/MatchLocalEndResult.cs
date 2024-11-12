@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.DTO.Profiles;
 
-namespace Fuyu.Backend.EFT.DTO.Raid
+namespace Fuyu.Backend.BSG.DTO.Raid
 {
     [DataContract]
     public class MatchLocalEndResult

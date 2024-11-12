@@ -1,4 +1,4 @@
-﻿using Fuyu.Backend.EFT.DTO.Trading;
+﻿using Fuyu.Backend.BSG.DTO.Trading;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.EFT.Services

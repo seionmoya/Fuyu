@@ -2,8 +2,7 @@ using System.Threading.Tasks;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.DTO.Responses;
-using Fuyu.Backend.EFT.DTO.Locations;
-using Fuyu.Backend.EFT.DTO.Responses;
+using Fuyu.Backend.BSG.DTO.Locations;
 
 namespace Fuyu.Backend.EFT.Controllers
 {

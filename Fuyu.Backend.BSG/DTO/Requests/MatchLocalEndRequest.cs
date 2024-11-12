@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Items;
-using Fuyu.Backend.EFT.DTO.Raid;
+using Fuyu.Backend.BSG.DTO.Items;
+using Fuyu.Backend.BSG.DTO.Raid;
 
-namespace Fuyu.Backend.EFT.DTO.Requests
+namespace Fuyu.Backend.BSG.DTO.Requests
 {
     [DataContract]
     public class MatchLocalEndRequest

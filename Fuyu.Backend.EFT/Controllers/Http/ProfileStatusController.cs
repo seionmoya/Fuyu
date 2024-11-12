@@ -2,8 +2,7 @@ using System.Threading.Tasks;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.DTO.Responses;
-using Fuyu.Backend.EFT.DTO.Multiplayer;
-using Fuyu.Backend.EFT.DTO.Responses;
+using Fuyu.Backend.BSG.DTO.Multiplayer;
 
 namespace Fuyu.Backend.EFT.Controllers
 {

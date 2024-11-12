@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.EFT.DTO.Raid
+namespace Fuyu.Backend.BSG.DTO.Raid
 {
     [DataContract]
     public class SquadInfo

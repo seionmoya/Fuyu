@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Fuyu.Backend.BSG.DTO.Bots;
 using Fuyu.Backend.BSG.DTO.Profiles;
 using Fuyu.Backend.BSG.Services;
-using Fuyu.Backend.EFT.DTO.Bots;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;

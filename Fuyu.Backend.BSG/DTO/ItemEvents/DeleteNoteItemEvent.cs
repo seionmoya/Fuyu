@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.ItemEvents.Models;
 
-namespace Fuyu.Backend.EFT.ItemEvents.Models
+namespace Fuyu.Backend.BSG.ItemEvents.Models
 {
 	[DataContract]
 	public class DeleteNoteItemEvent : BaseItemEvent

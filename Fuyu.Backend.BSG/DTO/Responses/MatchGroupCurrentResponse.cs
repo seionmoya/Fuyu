@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Raid;
+using Fuyu.Backend.BSG.DTO.Raid;
 
-namespace Fuyu.Backend.EFT.DTO.Responses
+namespace Fuyu.Backend.BSG.DTO.Responses
 {
     [DataContract]
     public class MatchGroupCurrentResponse

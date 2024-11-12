@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Items;
+using Fuyu.Backend.BSG.DTO.Items;
 
 namespace Fuyu.Backend.BSG.ItemEvents.Models
 {

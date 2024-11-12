@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.EFT.DTO.Trading
+namespace Fuyu.Backend.BSG.DTO.Trading
 {
 	[DataContract]
 	public class LoyaltyInfo

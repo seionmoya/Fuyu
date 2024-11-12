@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Templates;
+using Fuyu.Backend.BSG.DTO.Templates;
 
-namespace Fuyu.Backend.EFT.DTO.Responses
+namespace Fuyu.Backend.BSG.DTO.Responses
 {
     [DataContract]
     public class BuildsListResponse

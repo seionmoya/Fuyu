@@ -1,4 +1,4 @@
-﻿namespace Fuyu.Backend.EFT.DTO.Trading
+﻿namespace Fuyu.Backend.BSG.DTO.Trading
 {
 	public enum EDogtagExchangeSide
 	{

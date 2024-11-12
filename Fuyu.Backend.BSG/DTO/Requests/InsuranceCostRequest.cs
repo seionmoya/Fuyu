@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Fuyu.Common.Hashing;
 
-namespace Fuyu.Backend.EFT.DTO.Requests
+namespace Fuyu.Backend.BSG.DTO.Requests
 {
 	[DataContract]
 	public class InsuranceCostRequest

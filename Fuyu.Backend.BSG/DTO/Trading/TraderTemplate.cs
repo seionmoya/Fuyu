@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Fuyu.Common.Hashing;
 
-namespace Fuyu.Backend.EFT.DTO.Trading
+namespace Fuyu.Backend.BSG.DTO.Trading
 {
 	[DataContract]
 	public class TraderTemplate

@@ -1,9 +1,8 @@
-﻿using Fuyu.Backend.BSG.ItemEvents.Models;
-using Fuyu.Backend.EFT.DTO.Items;
+﻿using Fuyu.Backend.BSG.DTO.Items;
 using Fuyu.Common.Hashing;
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.EFT.ItemEvents.Models
+namespace Fuyu.Backend.BSG.ItemEvents.Models
 {
     [DataContract]
     // There is more data to this I have not needed it so I have not added it yet

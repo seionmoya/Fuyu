@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.DTO.Responses;
-using Fuyu.Backend.EFT.DTO.Trading;
+using Fuyu.Backend.BSG.DTO.Trading;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Networking;

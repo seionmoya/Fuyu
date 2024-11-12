@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.DTO.Common;
 
-namespace Fuyu.Backend.EFT.DTO.Locations
+namespace Fuyu.Backend.BSG.DTO.Locations
 {
     [DataContract]
     public class ColliderProperties

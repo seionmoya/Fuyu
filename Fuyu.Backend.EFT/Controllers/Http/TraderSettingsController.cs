@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.DTO.Responses;
-using Fuyu.Backend.EFT.DTO.Trading;
+using Fuyu.Backend.BSG.DTO.Trading;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 

@@ -3,7 +3,7 @@ using Fuyu.Common.Hashing;
 using System;
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.EFT.DTO.Items
+namespace Fuyu.Backend.BSG.DTO.Items
 {
     [DataContract]
     public class ItemDogtagComponent

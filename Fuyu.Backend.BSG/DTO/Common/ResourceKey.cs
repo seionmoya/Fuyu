@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.EFT.DTO.Common
+namespace Fuyu.Backend.BSG.DTO.Common
 {
     [DataContract]
     public class ResourceKey

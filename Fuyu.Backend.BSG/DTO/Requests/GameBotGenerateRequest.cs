@@ -1,8 +1,7 @@
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.DTO.Profiles.Info;
-using Fuyu.Backend.EFT.DTO.Bots;
+using Fuyu.Backend.BSG.DTO.Bots;
 
-namespace Fuyu.Backend.EFT.DTO.Requests
+namespace Fuyu.Backend.BSG.DTO.Requests
 {
     [DataContract]
     public class GameBotGenerateRequest

@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Items;
+using Fuyu.Backend.BSG.DTO.Items;
 
-namespace Fuyu.Backend.EFT.DTO.Templates
+namespace Fuyu.Backend.BSG.DTO.Templates
 {
     [DataContract]
     public class EquipmentBuild
