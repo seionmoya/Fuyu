@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.ItemEvents.Models;
+using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Responses

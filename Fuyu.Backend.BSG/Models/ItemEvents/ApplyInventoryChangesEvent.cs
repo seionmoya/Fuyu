@@ -1,7 +1,7 @@
-﻿using Fuyu.Backend.BSG.Models.Items;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Models.Items;
 
-namespace Fuyu.Backend.BSG.ItemEvents.Models
+namespace Fuyu.Backend.BSG.Models.ItemEvents
 {
     [DataContract]
     public class ApplyInventoryChangesEvent : BaseItemEvent

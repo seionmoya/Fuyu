@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using Fuyu.Common.Networking;
-using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Servers;
+using Fuyu.Common.Networking;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {

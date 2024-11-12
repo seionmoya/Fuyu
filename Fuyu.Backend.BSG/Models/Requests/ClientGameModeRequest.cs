@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Accounts;
+using Fuyu.Backend.BSG.Models.Accounts;
 
 namespace Fuyu.Backend.BSG.Models.Requests
 {

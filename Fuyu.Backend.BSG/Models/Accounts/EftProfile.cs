@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Profiles;
 
-namespace Fuyu.Backend.EFT.DTO.Accounts
+namespace Fuyu.Backend.BSG.Models.Accounts
 {
     [DataContract]
     public class EftProfile

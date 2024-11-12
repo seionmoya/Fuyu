@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.EFT.DTO.Accounts
+namespace Fuyu.Backend.BSG.Models.Accounts
 {
     [DataContract]
     public class EftAccount

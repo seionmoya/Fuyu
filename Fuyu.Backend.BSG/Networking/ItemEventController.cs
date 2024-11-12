@@ -1,5 +1,5 @@
-﻿using Fuyu.Backend.BSG.ItemEvents.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Fuyu.Backend.BSG.Models.ItemEvents;
 
 namespace Fuyu.Backend.BSG.Networking
 {

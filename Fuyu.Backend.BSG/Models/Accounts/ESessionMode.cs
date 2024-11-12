@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Fuyu.Backend.EFT.DTO.Accounts
+namespace Fuyu.Backend.BSG.Models.Accounts
 {
 	[DataContract]
 	[JsonConverter(typeof(StringEnumConverter))]

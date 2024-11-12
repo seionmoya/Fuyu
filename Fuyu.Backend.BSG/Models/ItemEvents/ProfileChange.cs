@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Fuyu.Common.Hashing;
 
-namespace Fuyu.Backend.BSG.ItemEvents.Models
+namespace Fuyu.Backend.BSG.Models.ItemEvents
 {
 	[DataContract]
     public class ProfileChange

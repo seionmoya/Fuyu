@@ -1,9 +1,9 @@
 ﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@inject IState<SessionState> SessionState
-@inject IState<GamesState> GamesState
-@inject IState<ActiveGameState> ActiveGameState
 @inject IDialogService DialogService
+@inject IState<ActiveGameState> ActiveGameState
+@inject IState<GamesState> GamesState
+@inject IState<SessionState> SessionState
 @inject NavigationManager Navigation
 
 @page "/"

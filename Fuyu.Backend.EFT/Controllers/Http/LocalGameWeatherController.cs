@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Fuyu.Common.IO;
 using Fuyu.Common.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http

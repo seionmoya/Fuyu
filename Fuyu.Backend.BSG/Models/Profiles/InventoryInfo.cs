@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.BSG.Models.Items;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Profiles

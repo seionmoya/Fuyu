@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEngine;
 using HarmonyLib;
 
-namespace Fuyu.Plugin.Core.Reflection
+namespace Fuyu.Plugin.Common.Reflection
 {
     public abstract class APatch
     {

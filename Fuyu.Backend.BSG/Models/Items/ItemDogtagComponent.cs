@@ -1,7 +1,7 @@
-﻿using Fuyu.Backend.BSG.Models.Profiles.Info;
-using Fuyu.Common.Hashing;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Models.Profiles.Info;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Items
 {

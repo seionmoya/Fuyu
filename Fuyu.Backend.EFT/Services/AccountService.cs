@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
+using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.EFT.DTO.Accounts;
-using System.Collections.Generic;
 
 namespace Fuyu.Backend.EFT.Services
 {
