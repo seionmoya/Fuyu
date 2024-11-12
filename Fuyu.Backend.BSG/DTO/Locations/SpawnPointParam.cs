@@ -1,5 +1,5 @@
 using System.Runtime.Serialization;
-using Fuyu.Backend.EFT.DTO.Common;
+using Fuyu.Backend.BSG.DTO.Common;
 
 namespace Fuyu.Backend.EFT.DTO.Locations
 {
