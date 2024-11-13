@@ -49,10 +49,10 @@ namespace Fuyu.Backend.Core.Services
         public static int RegisterGame(string game, string username, string edition)
         {
             var request = new FuyuGameRegisterRequest()
-                {
-                    Username = username,
-                    Edition = edition
-                };
+            {
+                Username = username,
+                Edition = edition
+            };
             var response = HttpPost<FuyuGameRegisterRequest, FuyuGameRegisterResponse>(
                 game,
                 "/fuyu/game/register",

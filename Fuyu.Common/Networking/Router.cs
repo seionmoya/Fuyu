@@ -6,47 +6,47 @@ namespace Fuyu.Common.Networking
 {
     public class Router<TController, TContext> where TController : IRouterController<TContext>
         where TContext : IRouterContext
-	{
+    {
         public List<TController> Controllers { get; private set; }
 
-		public Router()
+        public Router()
         {
             Controllers = new List<TController>();
         }
 
-        public T AddController<T>() where T: TController, new()
+        public T AddController<T>() where T : TController, new()
         {
             T controller = new T();
             Controllers.Add(controller);
             return controller;
         }
 
-		public T GetController<T>() where T : TController
-		{
-			return (T)Controllers.Find(c => c is T);
-		}
+        public T GetController<T>() where T : TController
+        {
+            return (T)Controllers.Find(c => c is T);
+        }
 
-		public T RemoveController<T>() where T : TController
-		{
-			var controller = Controllers.Find(c => c is T);
-			if (controller != null)
-			{
-				Controllers.Remove(controller);
-			}
+        public T RemoveController<T>() where T : TController
+        {
+            var controller = Controllers.Find(c => c is T);
+            if (controller != null)
+            {
+                Controllers.Remove(controller);
+            }
 
-			return (T)controller;
-		}
+            return (T)controller;
+        }
 
-		public TTo ReplaceController<TFrom, TTo>(out TFrom old)
-			where TFrom : TController
-			where TTo : TController, new()
-		{
-			old = RemoveController<TFrom>();
+        public TTo ReplaceController<TFrom, TTo>(out TFrom old)
+            where TFrom : TController
+            where TTo : TController, new()
+        {
+            old = RemoveController<TFrom>();
 
-			return AddController<TTo>();
-		}
+            return AddController<TTo>();
+        }
 
-		public List<TController> GetAllMatching(TContext context)
+        public List<TController> GetAllMatching(TContext context)
         {
             var matches = new List<TController>();
 
@@ -71,15 +71,15 @@ namespace Fuyu.Common.Networking
             }
 
             return matches;
-		}
+        }
 
-		public virtual async Task RouteAsync(TContext context)
-		{
-			var matches = GetAllMatching(context);
-			foreach (var match in matches)
-			{
-				await match.RunAsync(context);
-			}
-		}
-	}
+        public virtual async Task RouteAsync(TContext context)
+        {
+            var matches = GetAllMatching(context);
+            foreach (var match in matches)
+            {
+                await match.RunAsync(context);
+            }
+        }
+    }
 }

@@ -7,7 +7,7 @@ namespace Fuyu.Backend.BSG.Models.Locations
     {
         [DataMember]
         public float AccuracySpeed;
-        
+
         [DataMember]
         public float Scattering;
 
@@ -30,7 +30,7 @@ namespace Fuyu.Backend.BSG.Models.Locations
         public float DistToActivate;
 
         [DataMember]
-        public float MagnetPower;        
+        public float MagnetPower;
 
         [DataMember]
         public float KhorovodChance;

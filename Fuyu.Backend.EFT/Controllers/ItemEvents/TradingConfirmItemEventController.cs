@@ -16,9 +16,9 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
             switch (request.Type)
             {
                 case "sell_to_trader":
-                {
-                    return SellToTrader(context, request);
-                }
+                    {
+                        return SellToTrader(context, request);
+                    }
             }
 
             throw new Exception($"Unhandled TradingConfirm.Type '{request.Type}'");
@@ -28,7 +28,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
         {
             var profile = EftOrm.GetActiveProfile(context.SessionId);
             var inventory = profile.Pmc.Inventory;
-			var roubles = inventory.GetItemsByTemplate("5449016a4bdc2d6f028b456f");
+            var roubles = inventory.GetItemsByTemplate("5449016a4bdc2d6f028b456f");
 
             if (roubles.Count == 0)
             {
@@ -37,14 +37,14 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
                 return Task.CompletedTask;
             }
 
-			foreach (var tradingItem in request.Items)
+            foreach (var tradingItem in request.Items)
             {
                 try
                 {
-				    
+
                     var removedItems = inventory.RemoveItem(tradingItem.Id);
                     context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(removedItems[0]);
-				}
+                }
                 catch (Exception ex)
                 {
                     context.AppendInventoryError(ex.Message);
@@ -54,10 +54,10 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
             }
 
             var roublesItem = roubles[0];
-			roublesItem.Updatable.StackObjectsCount += request.Price;
-			context.Response.ProfileChanges[profile.Pmc._id].Items.Change.Add(roublesItem);
+            roublesItem.Updatable.StackObjectsCount += request.Price;
+            context.Response.ProfileChanges[profile.Pmc._id].Items.Change.Add(roublesItem);
 
-			return Task.CompletedTask;
+            return Task.CompletedTask;
         }
     }
 }

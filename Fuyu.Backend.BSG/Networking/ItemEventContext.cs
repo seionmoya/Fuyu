@@ -24,7 +24,7 @@ namespace Fuyu.Backend.BSG.Networking
 
         public void AppendInventoryError(string errorMessage, int code = 0)
         {
-			Response.InventoryWarnings.Add(new InventoryWarning
+            Response.InventoryWarnings.Add(new InventoryWarning
             {
                 ErrorCode = code.ToString(),
                 ErrorMessage = errorMessage,
@@ -37,9 +37,9 @@ namespace Fuyu.Backend.BSG.Networking
             return Data.ToObject<T>();
         }
 
-		public override string ToString()
-		{
-			return $"{GetType().Name}:{Action}({Data})";
-		}
-	}
+        public override string ToString()
+        {
+            return $"{GetType().Name}:{Action}({Data})";
+        }
+    }
 }

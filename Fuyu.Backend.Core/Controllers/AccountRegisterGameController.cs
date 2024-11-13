@@ -7,7 +7,7 @@ using Fuyu.Common.Serialization;
 namespace Fuyu.Backend.Core.Controllers
 {
     public class AccountRegisterGameController : HttpController<AccountRegisterGameRequest>
-	{
+    {
         public AccountRegisterGameController() : base("/account/register/game")
         {
         }

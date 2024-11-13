@@ -245,10 +245,10 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
             // get request data
             var request = new GameProfileCreateRequest()
             {
-                side        = "Usec",
-                nickname    = "Senko-san",
-                headId      = "5cde96047d6c8b20b577f016",
-                voiceId     = "5fc614f40b735e7b024c76e9"
+                side = "Usec",
+                nickname = "Senko-san",
+                headId = "5cde96047d6c8b20b577f016",
+                voiceId = "5fc614f40b735e7b024c76e9"
             };
 
             // get request body
@@ -647,10 +647,10 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
             // get request data
             var request = new MatchLocalStartRequest()
             {
-                location    = "factory4_day",
+                location = "factory4_day",
                 timeVariant = "CURR",           // CURR: left, PAST: right
-                mode        = "PVE",
-                playerSide  = "PMC"
+                mode = "PVE",
+                playerSide = "PMC"
             };
 
             // get request body

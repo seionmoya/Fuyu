@@ -30,30 +30,30 @@ namespace Fuyu.Common.Collections
         public bool TryGet(int index, out T value)
         {
             value = default;
-			if (index < 0 || index >= _list.Count)
-			{
+            if (index < 0 || index >= _list.Count)
+            {
                 return false;
-			}
+            }
 
             value = _list[index];
             return true;
-		}
+        }
 
-		public bool TrySet(int index, T value)
-		{
-			lock (_lock)
-			{
-				if (index < 0 || index >= _list.Count)
-				{
-					return false;
-				}
+        public bool TrySet(int index, T value)
+        {
+            lock (_lock)
+            {
+                if (index < 0 || index >= _list.Count)
+                {
+                    return false;
+                }
 
-				_list[index] = value;
-				return true;
-			}
-		}
+                _list[index] = value;
+                return true;
+            }
+        }
 
-		public void Add(T value)
+        public void Add(T value)
         {
             lock (_lock)
             {
@@ -67,20 +67,20 @@ namespace Fuyu.Common.Collections
             {
                 _list.Remove(value);
             }
-		}
+        }
 
-		public bool TryRemoveAt(int index)
-		{
-			lock (_lock)
-			{
-				if (index < 0 || index >= _list.Count)
-				{
-					return false;
-				}
+        public bool TryRemoveAt(int index)
+        {
+            lock (_lock)
+            {
+                if (index < 0 || index >= _list.Count)
+                {
+                    return false;
+                }
 
-				_list.RemoveAt(index);
-				return true;
-			}
-		}
-	}
+                _list.RemoveAt(index);
+                return true;
+            }
+        }
+    }
 }

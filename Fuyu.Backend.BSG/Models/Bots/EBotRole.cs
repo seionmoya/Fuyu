@@ -1,8 +1,8 @@
 namespace Fuyu.Backend.BSG.Models.Bots
 {
     // Assembly-CSharp.dll: EFT.WildSpawnType
-	public enum EBotRole
-	{
+    public enum EBotRole
+    {
         marksman,
         assault,
         bossTest,
@@ -59,5 +59,5 @@ namespace Fuyu.Backend.BSG.Models.Bots
         sectantPredvestnik = 57,
         sectantPrizrak,
         sectantOni
-	}
+    }
 }

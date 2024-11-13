@@ -10,5 +10,5 @@ namespace Fuyu.Backend.BSG.Models.Common
 
         [DataMember(Name = "rcid")]
         public string RCID { get; set; }
-	}
+    }
 }

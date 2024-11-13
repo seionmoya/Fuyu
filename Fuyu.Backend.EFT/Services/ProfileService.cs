@@ -25,8 +25,8 @@ namespace Fuyu.Backend.EFT.Services
             var savageId = new MongoId(pmcId, 1, false).ToString();
 
             // set profile info
-            profile.Pmc._id    = pmcId;
-            profile.Pmc.aid    = accountId;
+            profile.Pmc._id = pmcId;
+            profile.Pmc.aid = accountId;
 
             profile.Savage._id = savageId;
             profile.Savage.aid = accountId;
@@ -62,7 +62,7 @@ namespace Fuyu.Backend.EFT.Services
                     profile.Pmc = edition[EPlayerSide.Usec].Profile;
                     profile.Suites = edition[EPlayerSide.Usec].Suites;
                     break;
-                
+
                 default:
                     throw new Exception("Unsupported faction");
             }
@@ -74,13 +74,13 @@ namespace Fuyu.Backend.EFT.Services
             // setup pmc
             var voiceTemplate = EftOrm.GetCustomization(voiceId);
 
-            profile.Pmc._id                 = pmcId;
-            profile.Pmc.savage              = savageId;
-            profile.Pmc.aid                 = account.Id;
-            profile.Pmc.Info.Nickname       = account.Username;
-            profile.Pmc.Info.LowerNickname  = account.Username.ToLowerInvariant();
-            profile.Pmc.Info.Voice          = voiceTemplate._name;
-            profile.Pmc.Customization.Head  = headId;
+            profile.Pmc._id = pmcId;
+            profile.Pmc.savage = savageId;
+            profile.Pmc.aid = account.Id;
+            profile.Pmc.Info.Nickname = account.Username;
+            profile.Pmc.Info.LowerNickname = account.Username.ToLowerInvariant();
+            profile.Pmc.Info.Voice = voiceTemplate._name;
+            profile.Pmc.Customization.Head = headId;
 
             // wipe done
             profile.ShouldWipe = false;

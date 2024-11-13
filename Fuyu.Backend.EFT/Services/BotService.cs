@@ -17,7 +17,7 @@ namespace Fuyu.Backend.EFT.Services
     public static class BotService
     {
         private static readonly Dictionary<EBotRole, string> _profiles;
-        
+
         static BotService()
         {
             _profiles = new Dictionary<EBotRole, string>()

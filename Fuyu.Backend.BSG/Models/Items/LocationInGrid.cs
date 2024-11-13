@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Fuyu.Backend.BSG.Models.Items
 {
-	[DataContract]
+    [DataContract]
     public class LocationInGrid : IEquatable<LocationInGrid>
     {
         [DataMember]
@@ -19,9 +19,9 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember(EmitDefaultValue = false)]
         public bool? isSearched;
 
-		public bool Equals(LocationInGrid other)
-		{
+        public bool Equals(LocationInGrid other)
+        {
             return other.x == x && other.y == y && other.r == r;
-		}
-	}
+        }
+    }
 }

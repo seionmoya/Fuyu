@@ -12,21 +12,21 @@ namespace Fuyu.Common.Networking
         {
             var matches = GetAllMatching(context);
             var tasks = new Task[matches.Count];
-			for (var i = 0; i < matches.Count; i++)
+            for (var i = 0; i < matches.Count; i++)
             {
                 tasks[i] = matches[i].RunAsync(context);
             }
 
             await Task.WhenAll(tasks);
 
-			while (context.IsOpen())
-			{
-				await context.PollAsync();
-			}
+            while (context.IsOpen())
+            {
+                await context.PollAsync();
+            }
 
-			// NOTE: No need to call context.CloseAsync here
-			// because ReceiveAsync will handle that for us
+            // NOTE: No need to call context.CloseAsync here
+            // because ReceiveAsync will handle that for us
             // -- nexus4880, 2024-10-23
-		}
-	}
+        }
+    }
 }

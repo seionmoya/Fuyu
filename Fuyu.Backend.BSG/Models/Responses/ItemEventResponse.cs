@@ -11,13 +11,13 @@ namespace Fuyu.Backend.BSG.Models.Responses
         public ItemEventResponse()
         {
             ProfileChanges = [];
-			InventoryWarnings = [];
+            InventoryWarnings = [];
         }
 
-		[DataMember(Name = "profileChanges")]
+        [DataMember(Name = "profileChanges")]
         public Dictionary<MongoId, ProfileChange> ProfileChanges { get; set; }
 
         [DataMember(Name = "warnings")]
         public List<InventoryWarning> InventoryWarnings { get; set; }
-	}
+    }
 }

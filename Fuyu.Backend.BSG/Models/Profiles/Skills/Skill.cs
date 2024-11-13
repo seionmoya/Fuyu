@@ -7,7 +7,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Skills
     public class Skill
     {
         [DataMember]
-        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))] 
+        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
         public ESkillType Id;
 
         [DataMember]

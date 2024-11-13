@@ -84,4 +84,4 @@ namespace Fuyu.Backend.Core.Services
             return ERegisterStatus.Success;
         }
     }
-} 
+}

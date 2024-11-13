@@ -27,26 +27,26 @@ namespace Fuyu.Launcher.Core.Services
         }
 
         private static void HttpPut<T1>(string id, string path, T1 request)
-		{
-			if (!_httpClients.TryGet(id, out var httpc))
-			{
-				throw new Exception($"Id '{id}' not found");
-			}
+        {
+            if (!_httpClients.TryGet(id, out var httpc))
+            {
+                throw new Exception($"Id '{id}' not found");
+            }
 
-			var requestJson = Json.Stringify(request);
+            var requestJson = Json.Stringify(request);
             var requestBytes = Encoding.UTF8.GetBytes(requestJson);
 
             httpc.Put(path, requestBytes);
         }
 
         private static T2 HttpPost<T1, T2>(string id, string path, T1 request)
-		{
-			if (!_httpClients.TryGet(id, out var httpc))
-			{
-				throw new Exception($"Id '{id}' not found");
-			}
+        {
+            if (!_httpClients.TryGet(id, out var httpc))
+            {
+                throw new Exception($"Id '{id}' not found");
+            }
 
-			var requestJson = Json.Stringify(request);
+            var requestJson = Json.Stringify(request);
             var requestBytes = Encoding.UTF8.GetBytes(requestJson);
 
             var response = httpc.Post(path, requestBytes);

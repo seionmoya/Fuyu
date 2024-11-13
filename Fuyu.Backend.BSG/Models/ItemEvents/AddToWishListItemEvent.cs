@@ -5,10 +5,10 @@ using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.ItemEvents
 {
-	[DataContract]
-	public class AddToWishListItemEvent : BaseItemEvent
-	{
-		[DataMember(Name = "items")]
-		public Dictionary<MongoId, EWishlistGroup> Items { get; set; }
-	}
+    [DataContract]
+    public class AddToWishListItemEvent : BaseItemEvent
+    {
+        [DataMember(Name = "items")]
+        public Dictionary<MongoId, EWishlistGroup> Items { get; set; }
+    }
 }

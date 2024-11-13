@@ -2,7 +2,7 @@
 
 namespace Fuyu.Backend.BSG.Models.ItemEvents
 {
-	[DataContract]
+    [DataContract]
     public class InventoryWarning
     {
         [DataMember(Name = "index")]
@@ -14,9 +14,9 @@ namespace Fuyu.Backend.BSG.Models.ItemEvents
         [DataMember(Name = "code")]
         public string ErrorCode { get; set; }
 
-		// NOTE: Used only if ErrorCode == EBackendErrorCode.InsufficientNumberInStock
+        // NOTE: Used only if ErrorCode == EBackendErrorCode.InsufficientNumberInStock
         // -- nexus4880, 2024-10-22
-		[DataMember(Name = "data", EmitDefaultValue = false)]
+        [DataMember(Name = "data", EmitDefaultValue = false)]
         public InsufficientNumberOfItemsData Data { get; set; }
-	}
+    }
 }

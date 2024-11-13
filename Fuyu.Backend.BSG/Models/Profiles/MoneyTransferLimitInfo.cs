@@ -10,13 +10,13 @@ namespace Fuyu.Backend.BSG.Models.Profiles
 
         [DataMember]
         public int nextResetTime;
-        
+
         [DataMember]
         public int remainingLimit;
-        
+
         [DataMember]
         public int totalLimit;
-        
+
         [DataMember]
         public int resetInterval;
     }

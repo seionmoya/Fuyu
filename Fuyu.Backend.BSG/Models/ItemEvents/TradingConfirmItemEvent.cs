@@ -17,7 +17,7 @@ namespace Fuyu.Backend.BSG.Models.ItemEvents
 
         [DataMember(Name = "price")]
         public int Price { get; set; }
-	}
+    }
 
     [DataContract]
     public class TradingItemScheme

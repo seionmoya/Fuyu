@@ -8,7 +8,7 @@ namespace Fuyu.Backend.BSG.Models.Items
     {
         [DataMember]
         public EMapMarkerType Type;
-        
+
         [DataMember]
         public int X;
 

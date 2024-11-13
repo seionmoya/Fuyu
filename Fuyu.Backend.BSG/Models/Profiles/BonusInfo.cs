@@ -15,7 +15,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         public string icon;
 
         [DataMember]
-        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))] 
+        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
         public EBonusType type;
 
         [DataMember]
@@ -30,8 +30,8 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         [DataMember]
         public bool visible;
 
-		[DataMember(EmitDefaultValue = false)]
-		public bool? production;
+        [DataMember(EmitDefaultValue = false)]
+        public bool? production;
 
         [DataMember(EmitDefaultValue = false)]
         public MongoId?[] filter;

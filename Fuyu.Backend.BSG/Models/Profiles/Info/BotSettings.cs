@@ -8,11 +8,11 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Info
     public class BotSettings
     {
         [DataMember]
-        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))] 
+        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
         public EBotRole Role;
 
         [DataMember]
-        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))] 
+        [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
         public EBotDifficulty BotDifficulty;
 
         [DataMember]

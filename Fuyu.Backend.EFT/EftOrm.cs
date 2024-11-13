@@ -9,7 +9,7 @@ namespace Fuyu.Backend.EFT
 {
     public static class EftOrm
     {
-#region Profile
+        #region Profile
         public static List<EftProfile> GetProfiles()
         {
             return EftDatabase.Profiles.ToList();
@@ -94,9 +94,9 @@ namespace Fuyu.Backend.EFT
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Account
+        #region Account
         public static List<EftAccount> GetAccounts()
         {
             return EftDatabase.Accounts.ToList();
@@ -152,9 +152,9 @@ namespace Fuyu.Backend.EFT
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Session
+        #region Session
         public static Dictionary<string, int> GetSessions()
         {
             return EftDatabase.Sessions.ToDictionary();
@@ -186,9 +186,9 @@ namespace Fuyu.Backend.EFT
         {
             EftDatabase.Sessions.Remove(sessionId);
         }
-#endregion
+        #endregion
 
-#region Customization
+        #region Customization
         public static Dictionary<string, CustomizationTemplate> GetCustomizations()
         {
             return EftDatabase.Customizations.ToDictionary();
@@ -220,22 +220,22 @@ namespace Fuyu.Backend.EFT
         {
             EftDatabase.Customizations.Remove(customizationId);
         }
-#endregion
+        #endregion
 
-#region Languages
+        #region Languages
         public static Dictionary<string, string> GetLanguages()
         {
             return EftDatabase.Languages.ToDictionary();
         }
 
         public static string GetLanguage(string languageId)
-		{
-			if (!EftDatabase.Languages.TryGet(languageId, out var language))
-			{
-				throw new Exception($"Failed to get language from languageId: {languageId}");
-			}
+        {
+            if (!EftDatabase.Languages.TryGet(languageId, out var language))
+            {
+                throw new Exception($"Failed to get language from languageId: {languageId}");
+            }
 
-			return language;
+            return language;
         }
 
         public static void SetOrAddLanguage(string languageId, string name)
@@ -254,9 +254,9 @@ namespace Fuyu.Backend.EFT
         {
             EftDatabase.Languages.Remove(languageId);
         }
-#endregion
+        #endregion
 
-#region GlobalLocales
+        #region GlobalLocales
         public static Dictionary<string, Dictionary<string, string>> GetGlobalLocales()
         {
             return EftDatabase.GlobalLocales.ToDictionary();
@@ -288,22 +288,22 @@ namespace Fuyu.Backend.EFT
         {
             EftDatabase.GlobalLocales.Remove(languageId);
         }
-#endregion
+        #endregion
 
-#region MenuLocales
+        #region MenuLocales
         public static Dictionary<string, MenuLocaleResponse> GetMenuLocales()
         {
             return EftDatabase.MenuLocales.ToDictionary();
         }
 
         public static MenuLocaleResponse GetMenuLocale(string languageId)
-		{
-			if (!EftDatabase.MenuLocales.TryGet(languageId, out var menuLocale))
-			{
-				throw new Exception($"Failed to get menu locale from languageId: {languageId}");
-			}
+        {
+            if (!EftDatabase.MenuLocales.TryGet(languageId, out var menuLocale))
+            {
+                throw new Exception($"Failed to get menu locale from languageId: {languageId}");
+            }
 
-			return menuLocale;
+            return menuLocale;
         }
 
         public static void SetOrAddMenuLocale(string languageId, MenuLocaleResponse menuLocale)
@@ -322,9 +322,9 @@ namespace Fuyu.Backend.EFT
         {
             EftDatabase.MenuLocales.Remove(languageId);
         }
-#endregion
+        #endregion
 
-#region Wipe profiles
+        #region Wipe profiles
         public static Dictionary<string, Dictionary<EPlayerSide, WipeProfile>> GetWipeProfiles()
         {
             return EftDatabase.WipeProfiles.ToDictionary();
@@ -356,9 +356,9 @@ namespace Fuyu.Backend.EFT
         {
             EftDatabase.WipeProfiles.Remove(edition);
         }
-#endregion
+        #endregion
 
-#region Unparsed
+        #region Unparsed
         public static string GetAccountCustomization()
         {
             return EftDatabase.AccountCustomization.Get();
@@ -438,6 +438,6 @@ namespace Fuyu.Backend.EFT
         {
             return EftDatabase.Weather.Get();
         }
-#endregion
+        #endregion
     }
 }

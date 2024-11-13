@@ -8,16 +8,16 @@ namespace Fuyu.Backend.BSG.Networking
         public string Action { get; private set; }
 
         public ItemEventController(string action)
-		{
-			Action = action;
-		}
+        {
+            Action = action;
+        }
 
-		public virtual bool IsMatch(ItemEventContext context)
-		{
+        public virtual bool IsMatch(ItemEventContext context)
+        {
             return context.Action == Action;
-		}
+        }
 
-		public Task RunAsync(ItemEventContext context)
+        public Task RunAsync(ItemEventContext context)
         {
             return RunAsync(context, context.GetData<TEvent>());
         }

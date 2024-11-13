@@ -11,5 +11,5 @@ namespace Fuyu.Backend.BSG.Models.Responses
 
         [DataMember(Name = "backendUrl")]
         public string BackendUrl { get; set; }
-	}
+    }
 }
