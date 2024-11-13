@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Fuyu.Backend.EFT.DTO.Trading;
+using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;

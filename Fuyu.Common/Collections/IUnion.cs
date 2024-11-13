@@ -1,5 +1,5 @@
-﻿using Fuyu.Common.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Common.Collections
 {

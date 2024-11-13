@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using Fuyu.Backend.Core.Models.Accounts;
+using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.IO;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.Core.DTO.Accounts;
-using Fuyu.Backend.Core.DTO.Responses;
 
 namespace Fuyu.Backend.Core.Services
 {

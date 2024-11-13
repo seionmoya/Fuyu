@@ -1,15 +1,15 @@
+using System;
 using System.Text;
 using System.Collections.Generic;
+using Fuyu.Backend.Common.Models.Requests;
+using Fuyu.Backend.Common.Models.Responses;
+using Fuyu.Backend.Core.Models.Accounts;
+using Fuyu.Backend.Core.Models.Requests;
+using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.Common.DTO.Requests;
-using Fuyu.Backend.Common.DTO.Responses;
-using Fuyu.Backend.Core.DTO.Accounts;
-using Fuyu.Backend.Core.DTO.Requests;
-using Fuyu.Backend.Core.DTO.Responses;
-using System;
 
 namespace Fuyu.Launcher.Core.Services
 {

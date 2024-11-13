@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Fuyu.Backend.BSG.DTO.Profiles;
-using Fuyu.Backend.EFT.DTO.Items;
+using Fuyu.Backend.BSG.Models.Items;
+using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Services

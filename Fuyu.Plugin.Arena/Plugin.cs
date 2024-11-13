@@ -1,7 +1,7 @@
 using BepInEx;
-using Fuyu.Plugin.Core.Reflection;
 using Fuyu.Plugin.Arena.Patches;
 using Fuyu.Plugin.Arena.Utils;
+using Fuyu.Plugin.Common.Reflection;
 
 namespace Fuyu.Plugin.Arena
 {

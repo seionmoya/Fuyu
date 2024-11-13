@@ -1,0 +1,35 @@
+using System.Threading.Tasks;
+using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.BSG.Models.Requests;
+using Fuyu.Backend.EFT.Services;
+using Fuyu.Common.Networking;
+using Fuyu.Common.Serialization;
+
+namespace Fuyu.Backend.EFT.Controllers.Http
+{
+    // TODO:
+    // * move code into TemplateTable and ProfileService
+    // -- seionmoya, 2024/09/02
+    public class GameProfileCreateController : HttpController<GameProfileCreateRequest>
+    {
+        public GameProfileCreateController() : base("/client/game/profile/create")
+        {
+        }
+
+        public override Task RunAsync(HttpContext context, GameProfileCreateRequest request)
+        {
+            var sessionId = context.GetSessionId();
+            var account = EftOrm.GetAccount(sessionId);
+            var pmcId = ProfileService.WipeProfile(account, request.side, request.headId, request.voiceId);
+            var response = new ResponseBody<GameProfileCreateResponse>()
+            {
+                data = new GameProfileCreateResponse()
+                {
+                    uid = pmcId
+                }
+            };
+
+            return context.SendJsonAsync(Json.Stringify(response));
+        }
+    }
+}

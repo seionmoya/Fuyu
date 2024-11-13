@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Fuyu.Backend.Core.Models.Responses;
+using Fuyu.Backend.Core.Services;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
-using Fuyu.Backend.Core.DTO.Responses;
-using Fuyu.Backend.Core.Services;
 
 namespace Fuyu.Backend.Core.Controllers
 {

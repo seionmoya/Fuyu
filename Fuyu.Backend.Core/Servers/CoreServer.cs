@@ -1,5 +1,5 @@
-using Fuyu.Common.Networking;
 using Fuyu.Backend.Core.Controllers;
+using Fuyu.Common.Networking;
 
 namespace Fuyu.Backend.Core.Servers
 {

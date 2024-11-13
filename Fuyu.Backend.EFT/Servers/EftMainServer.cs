@@ -1,5 +1,6 @@
 using Fuyu.Common.Networking;
-using Fuyu.Backend.EFT.Controllers;
+using Fuyu.Backend.EFT.Controllers.Http;
+using Fuyu.Backend.EFT.Controllers.Websocket;
 
 namespace Fuyu.Backend.EFT.Servers
 {

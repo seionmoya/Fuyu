@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using Dark.Net;
-using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Services;
 using Fluxor;
+using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
+using MudBlazor.Services;
 
 namespace Fuyu.Launcher
 {
