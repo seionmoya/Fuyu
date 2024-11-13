@@ -6,7 +6,7 @@ namespace Fuyu.Backend.Core
 {
     public static class CoreOrm
     {
-#region Accounts
+        #region Accounts
         public static List<Account> GetAccounts()
         {
             return CoreDatabase.Accounts.ToList();
@@ -65,9 +65,9 @@ namespace Fuyu.Backend.Core
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Sessions
+        #region Sessions
         public static Dictionary<string, int> GetSessions()
         {
             return CoreDatabase.Sessions.ToDictionary();
@@ -99,6 +99,6 @@ namespace Fuyu.Backend.Core
         {
             CoreDatabase.Sessions.Remove(sessionId);
         }
-#endregion
+        #endregion
     }
 }

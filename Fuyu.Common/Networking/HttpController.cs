@@ -4,33 +4,33 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Common.Networking
 {
-	public abstract class HttpController : WebController<HttpContext>
-	{
-		protected HttpController(Regex pattern) : base(pattern)
-		{
-  			// match dynamic paths
-		}
+    public abstract class HttpController : WebController<HttpContext>
+    {
+        protected HttpController(Regex pattern) : base(pattern)
+        {
+            // match dynamic paths
+        }
 
-		protected HttpController(string path) : base(path)
-		{
-  			// match static paths
-		}
-	}
+        protected HttpController(string path) : base(path)
+        {
+            // match static paths
+        }
+    }
 
-	public abstract class HttpController<TRequest> : HttpController where TRequest : class
-	{
-		protected HttpController(Regex pattern) : base(pattern)
-		{
-  			// match dynamic paths
-		}
+    public abstract class HttpController<TRequest> : HttpController where TRequest : class
+    {
+        protected HttpController(Regex pattern) : base(pattern)
+        {
+            // match dynamic paths
+        }
 
-		protected HttpController(string path) : base(path)
-		{
-  			// match static paths
-		}
+        protected HttpController(string path) : base(path)
+        {
+            // match static paths
+        }
 
-		public override async Task RunAsync(HttpContext context)
-		{
+        public override async Task RunAsync(HttpContext context)
+        {
             // TODO:
             // - Use better exception type
             // -- seionmoya, 2024-10-13
@@ -49,9 +49,9 @@ namespace Fuyu.Common.Networking
                 throw new Exception("Body could not be parsed as TRequest.");
             }
 
-			await RunAsync(context, body);
-		}
+            await RunAsync(context, body);
+        }
 
-		public abstract Task RunAsync(HttpContext context, TRequest body);
-	}
+        public abstract Task RunAsync(HttpContext context, TRequest body);
+    }
 }

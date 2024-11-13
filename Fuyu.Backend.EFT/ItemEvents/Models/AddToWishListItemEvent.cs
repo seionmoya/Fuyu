@@ -6,10 +6,10 @@ using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Models
 {
-	[DataContract]
-	public class AddToWishListItemEvent : BaseItemEvent
-	{
-		[DataMember(Name = "items")]
-		public Dictionary<MongoId, EWishlistGroup> Items { get; set; }
-	}
+    [DataContract]
+    public class AddToWishListItemEvent : BaseItemEvent
+    {
+        [DataMember(Name = "items")]
+        public Dictionary<MongoId, EWishlistGroup> Items { get; set; }
+    }
 }

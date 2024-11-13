@@ -22,7 +22,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles.Stats
 
         [DataMember]
         public long LastSessionDate;
-        
+
         // TODO: proper type
         [DataMember]
         public object Aggressor;

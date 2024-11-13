@@ -4,25 +4,25 @@ using System.Threading.Tasks;
 namespace Fuyu.Common.Networking
 {
     public abstract class WsController : WebController<WsContext>
-	{
-		protected WsController(Regex pattern) : base(pattern)
-		{
-  			// match dynamic paths
-		}
+    {
+        protected WsController(Regex pattern) : base(pattern)
+        {
+            // match dynamic paths
+        }
 
-		protected WsController(string path) : base(path)
-		{
-  			// match static paths
-		}
+        protected WsController(string path) : base(path)
+        {
+            // match static paths
+        }
 
-		public override Task RunAsync(WsContext context)
-		{
-			context.OnCloseEvent += OnCloseAsync;
-			context.OnTextEvent += OnTextAsync;
-			context.OnBinaryEvent += OnBinaryAsync;
+        public override Task RunAsync(WsContext context)
+        {
+            context.OnCloseEvent += OnCloseAsync;
+            context.OnTextEvent += OnTextAsync;
+            context.OnBinaryEvent += OnBinaryAsync;
 
             return Task.CompletedTask;
-		}
+        }
 
         public virtual Task OnCloseAsync(WsContext context)
         {
@@ -38,5 +38,5 @@ namespace Fuyu.Common.Networking
         {
             return Task.CompletedTask;
         }
-	}
+    }
 }

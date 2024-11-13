@@ -41,7 +41,7 @@ namespace Fuyu.Backend.BSG.DTO.Customization
 
         [DataMember]
         public string Body;
-        
+
         [DataMember]
         public string Hands;
 

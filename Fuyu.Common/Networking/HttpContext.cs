@@ -119,9 +119,9 @@ namespace Fuyu.Common.Networking
             Response.Close();
         }
 
-		public override string ToString()
-		{
-			return $"{GetType().Name}:{Path}(HasBody:{HasBody()})";
-		}
-	}
+        public override string ToString()
+        {
+            return $"{GetType().Name}:{Path}(HasBody:{HasBody()})";
+        }
+    }
 }

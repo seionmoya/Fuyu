@@ -18,7 +18,7 @@ namespace Fuyu.Backend.EFT.ItemEvents.Models
 
         [DataMember(Name = "price")]
         public int Price { get; set; }
-	}
+    }
 
     [DataContract]
     public class TradingItemScheme

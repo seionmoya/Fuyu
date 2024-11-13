@@ -8,19 +8,19 @@ namespace Fuyu.Backend.EFT.DTO.Accounts
         [DataMember]
         public int Id { get; set; }
 
-		[DataMember]
+        [DataMember]
         public string Edition { get; set; }
 
-		[DataMember]
+        [DataMember]
         public string Username { get; set; }
 
-		[DataMember]
+        [DataMember]
         public string PvpId { get; set; }
 
-		[DataMember]
+        [DataMember]
         public string PveId { get; set; }
 
-		[DataMember]
+        [DataMember]
         public ESessionMode? CurrentSession { get; set; }
     }
 }

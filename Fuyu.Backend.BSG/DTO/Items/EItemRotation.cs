@@ -1,6 +1,6 @@
 ﻿namespace Fuyu.Backend.EFT.DTO.Items
 {
-	public enum EItemRotation
+    public enum EItemRotation
     {
         Horizontal,
         Vertical

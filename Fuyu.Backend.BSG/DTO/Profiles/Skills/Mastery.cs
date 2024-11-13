@@ -5,7 +5,7 @@ namespace Fuyu.Backend.BSG.DTO.Profiles.Skills
     [DataContract]
     public class Mastery
     {
-        [DataMember] 
+        [DataMember]
         public string Id;
 
         [DataMember]

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Fuyu.Backend.BSG.ItemEvents.Models
 {
-	[DataContract]
+    [DataContract]
     public class InventoryWarning
     {
         [DataMember(Name = "index")]
@@ -15,9 +15,9 @@ namespace Fuyu.Backend.BSG.ItemEvents.Models
         [DataMember(Name = "code")]
         public string ErrorCode { get; set; }
 
-		// NOTE: Used only if ErrorCode == EBackendErrorCode.InsufficientNumberInStock
+        // NOTE: Used only if ErrorCode == EBackendErrorCode.InsufficientNumberInStock
         // -- nexus4880, 2024-10-22
-		[DataMember(Name = "data", EmitDefaultValue = false)]
+        [DataMember(Name = "data", EmitDefaultValue = false)]
         public InsufficientNumberOfItemsData Data { get; set; }
-	}
+    }
 }

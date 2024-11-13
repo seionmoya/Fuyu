@@ -20,11 +20,11 @@ namespace Fuyu.Backend.EFT.Controllers
                 {
                     backend = new Backends()
                     {
-                        Lobby       = "http://localhost:8010",
-                        Trading     = "http://localhost:8010",
-                        Messaging   = "http://localhost:8010",
-                        Main        = "http://localhost:8010",
-                        RagFair     = "http://localhost:8010"
+                        Lobby = "http://localhost:8010",
+                        Trading = "http://localhost:8010",
+                        Messaging = "http://localhost:8010",
+                        Main = "http://localhost:8010",
+                        RagFair = "http://localhost:8010"
                     },
                     utc_time = 1724450891.010541,
                     reportAvailable = true,

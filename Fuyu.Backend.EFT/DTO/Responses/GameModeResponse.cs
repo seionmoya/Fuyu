@@ -11,5 +11,5 @@ namespace Fuyu.Backend.EFT.DTO.Responses
 
         [DataMember(Name = "backendUrl")]
         public string BackendUrl { get; set; }
-	}
+    }
 }

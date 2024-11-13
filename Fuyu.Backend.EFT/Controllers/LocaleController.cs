@@ -11,7 +11,7 @@ namespace Fuyu.Backend.EFT.Controllers
     {
         [GeneratedRegex("^/client/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
         private static partial Regex PathExpression();
-    
+
         public LocaleController() : base(PathExpression())
         {
         }

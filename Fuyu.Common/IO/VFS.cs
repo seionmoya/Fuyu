@@ -51,7 +51,7 @@ namespace Fuyu.Common.IO
                 throw new FileNotFoundException($"File {filepath} doesn't exist.");
             }
 
-            using (var fs = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.None)) 
+            using (var fs = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 using (var sr = new StreamReader(fs))
                 {
@@ -92,7 +92,7 @@ namespace Fuyu.Common.IO
             // write text
             lock (_writeLock[filepath])
             {
-                using (var fs = new FileStream(filepath, mode, FileAccess.Write, FileShare.None)) 
+                using (var fs = new FileStream(filepath, mode, FileAccess.Write, FileShare.None))
                 {
                     using (var sw = new StreamWriter(fs))
                     {

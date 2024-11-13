@@ -4,13 +4,13 @@ using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Models
 {
-	[DataContract]
-	public class ToggleItemEvent : BaseItemEvent
-	{
-		[DataMember(Name = "item")]
-		public MongoId Item { get; set; }
+    [DataContract]
+    public class ToggleItemEvent : BaseItemEvent
+    {
+        [DataMember(Name = "item")]
+        public MongoId Item { get; set; }
 
-		[DataMember(Name = "value")]
-		public bool Value { get; set; }
-	}
+        [DataMember(Name = "value")]
+        public bool Value { get; set; }
+    }
 }

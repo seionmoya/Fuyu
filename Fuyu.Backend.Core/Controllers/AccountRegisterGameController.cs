@@ -7,7 +7,7 @@ using Fuyu.Backend.Core.Services;
 namespace Fuyu.Backend.Core.Controllers
 {
     public class AccountRegisterGameController : HttpController<AccountRegisterGameRequest>
-	{
+    {
         public AccountRegisterGameController() : base("/account/register/game")
         {
         }

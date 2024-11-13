@@ -4,22 +4,22 @@ using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.ItemEvents.Models
 {
-	[DataContract]
+    [DataContract]
     public class ProfileChange
     {
         public ProfileChange()
         {
             UnlockedRecipes = [];
-			Items = new ItemChanges();
-		}
+            Items = new ItemChanges();
+        }
 
-		[DataMember(Name = "experience")]
+        [DataMember(Name = "experience")]
         public int Experience { get; set; }
 
         [DataMember(Name = "recipeUnlocked")]
         public Dictionary<MongoId, bool> UnlockedRecipes { get; set; }
 
-		[DataMember(Name = "items")]
+        [DataMember(Name = "items")]
         public ItemChanges Items { get; set; }
-	}
+    }
 }

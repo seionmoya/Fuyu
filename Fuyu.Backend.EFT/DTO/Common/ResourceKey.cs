@@ -10,5 +10,5 @@ namespace Fuyu.Backend.EFT.DTO.Common
 
         [DataMember(Name = "rcid")]
         public string RCID { get; set; }
-	}
+    }
 }

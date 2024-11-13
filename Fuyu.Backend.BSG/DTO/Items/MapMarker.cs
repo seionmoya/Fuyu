@@ -8,7 +8,7 @@ namespace Fuyu.Backend.EFT.DTO.Items
     {
         [DataMember]
         public EMapMarkerType Type;
-        
+
         [DataMember]
         public int X;
 

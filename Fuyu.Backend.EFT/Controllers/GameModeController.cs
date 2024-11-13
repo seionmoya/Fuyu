@@ -14,27 +14,27 @@ namespace Fuyu.Backend.EFT.Controllers
         {
         }
 
-		public override Task RunAsync(HttpContext context, ClientGameModeRequest body)
-		{
-			var account = EftOrm.GetAccount(context.GetSessionId());
+        public override Task RunAsync(HttpContext context, ClientGameModeRequest body)
+        {
+            var account = EftOrm.GetAccount(context.GetSessionId());
 
-			if (body.SessionMode == null)
-			{
-				body.SessionMode = ESessionMode.Pve;
-			}
+            if (body.SessionMode == null)
+            {
+                body.SessionMode = ESessionMode.Pve;
+            }
 
-			account.CurrentSession = body.SessionMode;
-			
-			var response = new ResponseBody<GameModeResponse>()
-			{
-				data = new GameModeResponse()
-				{
-					GameMode = body.SessionMode,
-					BackendUrl = "http://localhost:8010"
-				}
-			};
+            account.CurrentSession = body.SessionMode;
 
-			return context.SendJsonAsync(Json.Stringify(response));
-		}
-	}
+            var response = new ResponseBody<GameModeResponse>()
+            {
+                data = new GameModeResponse()
+                {
+                    GameMode = body.SessionMode,
+                    BackendUrl = "http://localhost:8010"
+                }
+            };
+
+            return context.SendJsonAsync(Json.Stringify(response));
+        }
+    }
 }

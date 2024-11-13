@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Controllers
         public override async Task RunAsync(HttpContext context)
         {
             var sessionId = context.GetSessionId();
-            
+
             var profile = EftOrm.GetActiveProfile(sessionId);
 
             var response = new ResponseBody<ProfileStatusResponse>()

@@ -4,10 +4,10 @@ using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.EFT.ItemEvents.Models
 {
-	[DataContract]
-	public class RemoveFromWishListItemEvent : BaseItemEvent
-	{
-		[DataMember(Name = "items")]
-		public MongoId[] Items { get; set; }
-	}
+    [DataContract]
+    public class RemoveFromWishListItemEvent : BaseItemEvent
+    {
+        [DataMember(Name = "items")]
+        public MongoId[] Items { get; set; }
+    }
 }
