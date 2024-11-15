@@ -47,6 +47,11 @@ namespace Fuyu.Common.Networking
             return Json.Parse<T>(json);
         }
 
+        public string GetETag()
+        {
+            return Request.Headers["If-None-Match"];
+        }
+
         public string GetSessionId()
         {
             return Request.Cookies["PHPSESSID"].Value;

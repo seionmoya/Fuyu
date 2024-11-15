@@ -18,6 +18,6 @@ namespace Fuyu.Backend.BSG.Models.Responses
 
         // emits when '0'
         [DataMember(EmitDefaultValue = false)]
-        public int crc;
+        public uint crc;
     }
 }
