@@ -117,7 +117,7 @@ namespace Fuyu.Backend.EFT.Services
             InventoryService.RegenerateIds(profile.Inventory);
 
             // initialize missing notes
-            // NOTES: while this doesn't exist on bot dumps, the game complaints when it's not there.
+            // NOTE: while this doesn't exist on bot dumps, the game complaints when it's not there.
             // -- seionmoya, 2024-11-15
             profile.Notes = new NotesInfo
             {
