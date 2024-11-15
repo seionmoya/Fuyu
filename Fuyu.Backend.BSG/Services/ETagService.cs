@@ -54,7 +54,7 @@ namespace Fuyu.Backend.BSG.Services
             {
                 // up-to-date client cache
                 return context.SendStatus(HttpStatusCode.NotModified);
-            }   
+            }
         }
     }
 }

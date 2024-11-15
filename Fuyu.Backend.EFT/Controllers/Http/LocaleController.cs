@@ -27,7 +27,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = locale
             };
 
-            return ETagService.SendCachedAsync(context, response);           
+            return ETagService.SendCachedAsync(context, response);
         }
     }
 }
