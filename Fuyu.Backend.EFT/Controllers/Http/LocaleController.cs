@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Common.Networking;
-using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var parameters = context.GetPathParameters(this);
 
@@ -27,7 +27,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = locale
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return ETagService.SendCachedAsync(context, response);           
         }
     }
 }
