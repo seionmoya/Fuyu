@@ -16,9 +16,9 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             _response = Json.Parse<ResponseBody<BuildsListResponse>>(json);
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
-            await context.SendJsonAsync(Json.Stringify(_response));
+            return context.SendJsonAsync(Json.Stringify(_response));
         }
     }
 }

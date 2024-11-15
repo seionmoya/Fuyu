@@ -52,7 +52,6 @@ namespace Fuyu.Common.Networking
                     {
                         await OnTextEvent(this, text);
                     }
-
                     break;
 
                 case WebSocketMessageType.Binary:
@@ -60,7 +59,6 @@ namespace Fuyu.Common.Networking
                     {
                         await OnBinaryEvent(this, data);
                     }
-
                     break;
 
                 case WebSocketMessageType.Close:
@@ -69,17 +67,17 @@ namespace Fuyu.Common.Networking
             }
         }
 
-        public async Task SendTextAsync(string text)
+        public Task SendTextAsync(string text)
         {
             var encoded = Encoding.UTF8.GetBytes(text);
             var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
-            await _ws.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+            return _ws.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
-        public async Task SendBinaryAsync(byte[] data)
+        public Task SendBinaryAsync(byte[] data)
         {
             var buffer = new ArraySegment<byte>(data, 0, data.Length);
-            await _ws.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
+            return _ws.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
 
         public async Task CloseAsync()

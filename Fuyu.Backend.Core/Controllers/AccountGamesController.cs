@@ -12,7 +12,7 @@ namespace Fuyu.Backend.Core.Controllers
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var sessionId = context.GetSessionId();
             var result = AccountService.GetGames(sessionId);
@@ -21,7 +21,7 @@ namespace Fuyu.Backend.Core.Controllers
                 Games = result
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

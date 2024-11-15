@@ -29,7 +29,7 @@ namespace Fuyu.Common.Networking
             // match static paths
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             // TODO:
             // - Use better exception type
@@ -39,7 +39,7 @@ namespace Fuyu.Common.Networking
                 throw new Exception("Request does not contain body.");
             }
 
-            var body = await context.GetJsonAsync<TRequest>();
+            var body = context.GetJson<TRequest>();
 
             // TODO:
             // - Use better exception type
@@ -49,7 +49,7 @@ namespace Fuyu.Common.Networking
                 throw new Exception("Body could not be parsed as TRequest.");
             }
 
-            await RunAsync(context, body);
+            return RunAsync(context, body);
         }
 
         public abstract Task RunAsync(HttpContext context, TRequest body);

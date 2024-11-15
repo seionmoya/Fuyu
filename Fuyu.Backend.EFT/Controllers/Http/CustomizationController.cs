@@ -13,7 +13,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var customizations = EftOrm.GetCustomizations();
             var response = new ResponseBody<Dictionary<string, CustomizationTemplate>>()
@@ -21,7 +21,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = customizations
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

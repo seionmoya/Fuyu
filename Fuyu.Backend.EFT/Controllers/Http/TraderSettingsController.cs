@@ -13,14 +13,14 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var response = new ResponseBody<IEnumerable<TraderTemplate>>
             {
                 data = TraderDatabase.GetTraderTemplates().Values
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

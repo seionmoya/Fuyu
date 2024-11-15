@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var parameters = context.GetPathParameters(this);
 
@@ -26,7 +26,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = locale
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }
