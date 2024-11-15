@@ -58,6 +58,11 @@ namespace Fuyu.Backend.BSG.Models.Bots
         skier,
         sectantPredvestnik = 57,
         sectantPrizrak,
-        sectantOni
+        sectantOni,
+        infectedAssault,
+        infectedPmc,
+        infectedCivil,
+        infectedLaborant,
+        infectedTagilla
     }
 }
