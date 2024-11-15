@@ -62,11 +62,13 @@
     <EmbeddedResource Include="embedded/database/locales/client.menu.locale-tu.json" />
     <EmbeddedResource Include="embedded/database/locations/bigmap.json" />
     <EmbeddedResource Include="embedded/database/locations/factory4_day.json" />
+    <EmbeddedResource Include="embedded/database/locations/factory4_night.json" />
     <EmbeddedResource Include="embedded/database/locations/interchange.json" />
+    <EmbeddedResource Include="embedded/database/locations/laboratory.json" />
     <EmbeddedResource Include="embedded/database/locations/lighthouse.json" />
     <EmbeddedResource Include="embedded/database/locations/rezervbase.json" />
     <EmbeddedResource Include="embedded/database/locations/sandbox.json" />
-    <EmbeddedResource Include="embedded/database/locations/shorline.json" />
+    <EmbeddedResource Include="embedded/database/locations/shoreline.json" />
     <EmbeddedResource Include="embedded/database/locations/tarkovstreets.json" />
     <EmbeddedResource Include="embedded/database/locations/woods.json" />
     <EmbeddedResource Include="embedded/database/profiles/player.savage.json" />
