@@ -1,16 +1,14 @@
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Fuyu.Common.Compression;
 using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.EFT.Networking
+namespace Fuyu.Backend.Core.Networking
 {
-    public class EftHttpContext : HttpContext
+    public class CoreHttpContext : HttpContext
     {
-        public EftHttpContext(HttpListenerRequest request, HttpListenerResponse response) : base(request, response)
+        public CoreHttpContext(HttpListenerRequest request, HttpListenerResponse response) : base(request, response)
         {
         }
 
@@ -37,16 +35,11 @@ namespace Fuyu.Backend.EFT.Networking
                     }
                 }
 
-                if (MemoryZlib.IsCompressed(body))
-                {
-                    body = MemoryZlib.Decompress(body);
-                }
-
                 return body;
             }
         }
 
-        protected Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool zipped, bool encrypted)
+        protected Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool encrypted)
         {
             var hasData = !(data == null);
 
@@ -55,15 +48,9 @@ namespace Fuyu.Backend.EFT.Networking
 #if DEBUG
             if (Request.Headers["X-Require-Plaintext"] != null)
             {
-                zipped = false;
                 encrypted = false;
             }
 #endif
-
-            if (hasData && zipped)
-            {
-                data = MemoryZlib.Compress(data, CompressionLevel.SmallestSize);
-            }
 
             if (hasData && encrypted)
             {
@@ -78,19 +65,19 @@ namespace Fuyu.Backend.EFT.Networking
             return SendAsync(data, mime, status);
         }
 
-        public Task SendBinaryAsync(byte[] data, string mime, bool zipped, bool encrypted)
+        public Task SendBinaryAsync(byte[] data, string mime, bool encrypted)
         {
-            return SendAsync(data, mime, HttpStatusCode.OK, zipped, encrypted);
+            return SendAsync(data, mime, HttpStatusCode.OK, encrypted);
         }
 
-        public Task SendJsonAsync(string text, bool zipped, bool encrypted)
+        public Task SendJsonAsync(string text, bool encrypted)
         {
             var encoded = Encoding.UTF8.GetBytes(text);
-            var mime = zipped || encrypted
+            var mime = encrypted
                 ? "application/octet-stream"
                 : "application/json; charset=utf-8";
 
-            return SendAsync(encoded, mime, HttpStatusCode.OK, zipped, encrypted);
+            return SendAsync(encoded, mime, HttpStatusCode.OK, encrypted);
         }
 
         public string GetEncryption()
@@ -98,14 +85,9 @@ namespace Fuyu.Backend.EFT.Networking
             return Request.Headers["X-Encryption"];
         }
 
-        public string GetETag()
-        {
-            return Request.Headers["If-None-Match"];
-        }
-
         public string GetSessionId()
         {
-            return Request.Cookies["PHPSESSID"].Value;
+            return Request.Cookies["Session"].Value;
         }
     }
 }

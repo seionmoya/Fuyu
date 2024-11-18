@@ -19,9 +19,8 @@ namespace Fuyu.Backend.Core.Services
             // TODO:
             // * get address from config
             // -- seionmoya, 2024/09/08
-            _httpClients.Set("fuyu", new EftHttpClient("http://localhost:8000", string.Empty));
-            _httpClients.Set("eft", new EftHttpClient("http://localhost:8010", string.Empty));
-            _httpClients.Set("arena", new EftHttpClient("http://localhost:8020", string.Empty));
+            _httpClients.Set("eft", new HttpClient("http://localhost:8010"));
+            _httpClients.Set("arena", new HttpClient("http://localhost:8020"));
         }
 
         private static T2 HttpPost<T1, T2>(string id, string path, T1 request)
@@ -39,11 +38,6 @@ namespace Fuyu.Backend.Core.Services
             var responseValue = Json.Parse<T2>(responseJson);
 
             return responseValue;
-        }
-
-        public static void CreateSession(string id, string address, string sessionId)
-        {
-            _httpClients.Set(id, new EftHttpClient(address, sessionId));
         }
 
         public static int RegisterGame(string game, string username, string edition)

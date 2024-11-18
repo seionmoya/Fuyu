@@ -3,13 +3,13 @@ using System.IO.Compression;
 using System.Net.Http;
 using Fuyu.Common.Compression;
 
-namespace Fuyu.Tests.Backend.EFT.Networking
+namespace Fuyu.Launcher.Core.Networking
 {
-    public class EftHttpClient : Fuyu.Common.Networking.HttpClient
+    public class CoreHttpClient : Fuyu.Common.Networking.HttpClient
     {
         public readonly string _sessionId;
 
-        public EftHttpClient(string address, string sessionId) : base(address)
+        public CoreHttpClient(string address, string sessionId) : base(address)
         {
             _sessionId = sessionId;
         }
@@ -38,7 +38,7 @@ namespace Fuyu.Tests.Backend.EFT.Networking
             };
 
             request.Headers.Add("X-Encryption", "aes");
-            request.Headers.Add("Cookie", $"PHPSESSID={_sessionId}");
+            request.Headers.Add("Cookie", $"Session={_sessionId}");
 
             return request;
         }

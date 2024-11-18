@@ -35,7 +35,7 @@ namespace Fuyu.Common.Networking
 
         protected virtual Task SendAsync(byte[] data, string mime, HttpStatusCode status)
         {
-            bool hasData = !(data == null);
+            var hasData = !(data == null);
 
             Response.StatusCode = (int)status;
             Response.ContentType = mime;
