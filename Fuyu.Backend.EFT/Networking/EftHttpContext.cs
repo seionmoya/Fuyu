@@ -23,7 +23,7 @@ namespace Fuyu.Backend.EFT.Networking
                 var body = ms.ToArray();
                 var encryption = GetEncryption();
 
-                if (encryption != string.Empty)
+                if (!string.IsNullOrWhiteSpace(encryption))
                 {
                     switch (encryption)
                     {
