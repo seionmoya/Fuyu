@@ -11,7 +11,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var response = new ResponseBody<GetMetricsConfigResponse>()
             {
@@ -26,7 +26,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 }
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

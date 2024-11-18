@@ -12,7 +12,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var languages = EftOrm.GetLanguages();
             var response = new ResponseBody<Dictionary<string, string>>
@@ -20,7 +20,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = languages
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

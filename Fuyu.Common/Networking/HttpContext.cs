@@ -19,11 +19,12 @@ namespace Fuyu.Common.Networking
             return Request.HasEntityBody;
         }
 
-        public async Task<byte[]> GetBinaryAsync()
+        public byte[] GetBinary()
         {
             using (var ms = new MemoryStream())
             {
-                await Request.InputStream.CopyToAsync(ms);
+                Request.InputStream.CopyTo(ms);
+
                 var body = ms.ToArray();
 
                 if (MemoryZlib.IsCompressed(body))
@@ -35,15 +36,15 @@ namespace Fuyu.Common.Networking
             }
         }
 
-        public async Task<string> GetTextAsync()
+        public string GetText()
         {
-            var body = await GetBinaryAsync();
+            var body = GetBinary();
             return Encoding.UTF8.GetString(body);
         }
 
-        public async Task<T> GetJsonAsync<T>()
+        public T GetJson<T>()
         {
-            var json = await GetTextAsync();
+            var json = GetText();
             return Json.Parse<T>(json);
         }
 
@@ -57,7 +58,7 @@ namespace Fuyu.Common.Networking
             return Request.Cookies["PHPSESSID"].Value;
         }
 
-        protected async Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool zipped = true)
+        protected Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool zipped = true)
         {
             bool hasData = !(data is null);
 
@@ -90,18 +91,19 @@ namespace Fuyu.Common.Networking
             {
                 using (var payload = Response.OutputStream)
                 {
-                    await payload.WriteAsync(data, 0, data.Length);
+                    return payload.WriteAsync(data, 0, data.Length);
                 }
             }
             else
             {
                 Response.Close();
+                return Task.CompletedTask;
             }
         }
 
-        public async Task SendStatus(HttpStatusCode status)
+        public Task SendStatus(HttpStatusCode status)
         {
-            await SendAsync(null, "plain/text", status, false);
+            return SendAsync(null, "plain/text", status, false);
         }
 
         public Task SendBinaryAsync(byte[] data, string mime, bool zipped = true)
@@ -109,14 +111,14 @@ namespace Fuyu.Common.Networking
             return SendAsync(data, mime, HttpStatusCode.OK, zipped);
         }
 
-        public async Task SendJsonAsync(string text, bool zipped = true)
+        public Task SendJsonAsync(string text, bool zipped = true)
         {
             var encoded = Encoding.UTF8.GetBytes(text);
             var mime = zipped
                 ? "application/octet-stream"
                 : "application/json; charset=utf-8";
 
-            await SendAsync(encoded, mime, HttpStatusCode.OK, zipped);
+            return SendAsync(encoded, mime, HttpStatusCode.OK, zipped);
         }
 
         public void Close()

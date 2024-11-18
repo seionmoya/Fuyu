@@ -11,7 +11,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var sessionId = context.GetSessionId();
             var account = EftOrm.GetAccount(sessionId);
@@ -21,7 +21,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = account.Username
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

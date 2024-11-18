@@ -9,9 +9,9 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
-            await context.SendJsonAsync(EftOrm.GetSettings());
+            return context.SendJsonAsync(EftOrm.GetSettings());
         }
     }
 }

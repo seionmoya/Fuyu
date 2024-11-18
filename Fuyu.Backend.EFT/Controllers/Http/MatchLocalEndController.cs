@@ -13,7 +13,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context, MatchLocalEndRequest body)
+        public override Task RunAsync(HttpContext context, MatchLocalEndRequest body)
         {
             var sessionId = context.GetSessionId();
 
@@ -47,7 +47,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = null
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

@@ -12,12 +12,12 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(HttpContext context)
         {
             var json = EftOrm.GetLocations();
             var locations = Json.Parse<ResponseBody<WorldMap>>(json);
             var response = Json.Stringify(locations);
-            await context.SendJsonAsync(response);
+            return context.SendJsonAsync(response);
         }
     }
 }
