@@ -36,5 +36,20 @@ namespace Fuyu.Common.Networking
 
             return result;
         }
+
+        public bool HasBody()
+        {
+            return Request.HasEntityBody;
+        }
+
+        public void Close()
+        {
+            Response.Close();
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}:{Path}(HasBody:{HasBody()})";
+        }
     }
 }

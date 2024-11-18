@@ -3,15 +3,15 @@ using System.IO.Compression;
 using System.Net.Http;
 using Fuyu.Common.Compression;
 
-namespace Fuyu.Common.Networking
+namespace Fuyu.Tests.Backend.EFT.Networking
 {
-    public class EftHttpClient : HttpClient
+    public class EftHttpClient : Fuyu.Common.Networking.HttpClient
     {
-        public readonly string Cookie;
+        public readonly string _sessionId;
 
         public EftHttpClient(string address, string sessionId) : base(address)
         {
-            Cookie = $"PHPSESSID={sessionId}";
+            _sessionId = sessionId;
         }
 
         protected override byte[] OnSendBody(byte[] body)
@@ -19,14 +19,7 @@ namespace Fuyu.Common.Networking
             // NOTE: CompressionLevel.SmallestSize does not exist in
             //       .NET 5 and below.
             // -- seionmoya, 2024-10-07
-
-#if NET6_0_OR_GREATER
-            var level = CompressionLevel.SmallestSize;
-#else
-            var level = CompressionLevel.Optimal;
-#endif
-
-            return MemoryZlib.Compress(body, level);
+            return MemoryZlib.Compress(body, CompressionLevel.SmallestSize);
         }
 
         protected override byte[] OnReceiveBody(byte[] body)
@@ -47,10 +40,8 @@ namespace Fuyu.Common.Networking
                 RequestUri = new Uri(Address + path),
             };
 
-            if (!string.IsNullOrWhiteSpace(Cookie))
-            {
-                request.Headers.Add("Cookie", Cookie);
-            }
+            request.Headers.Add("X-Encryption", "aes");
+            request.Headers.Add("Cookie", $"PHPSESSID={_sessionId}");
 
             return request;
         }

@@ -3,15 +3,15 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.BSG.Services
+namespace Fuyu.Backend.EFT.Services
 {
     public class ETagService
     {
-        public static uint GetUIntETag(HttpContext context)
+        public static uint GetUIntETag(EftHttpContext context)
         {
             var value = context.GetETag();
 
@@ -39,7 +39,7 @@ namespace Fuyu.Backend.BSG.Services
             return cached == 0u || cached != crc;
         }
 
-        public static Task SendCachedAsync<TResponse>(HttpContext context, ResponseBody<TResponse> response)
+        public static Task SendCachedAsync<TResponse>(EftHttpContext context, ResponseBody<TResponse> response)
         {
             var cached = GetUIntETag(context);
             var crc = GetCrc(response.data);
@@ -48,7 +48,9 @@ namespace Fuyu.Backend.BSG.Services
             {
                 // outdated client cache
                 response.crc = crc;
-                return context.SendJsonAsync(Json.Stringify(response));
+
+                var text = Json.Stringify(response);
+                return context.SendJsonAsync(text, true, true);
             }
             else
             {

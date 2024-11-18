@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.IO;
-using Fuyu.Common.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class FilesController : HttpController
+    public partial class FilesController : EftHttpController
     {
         [GeneratedRegex(@"^/files/(?<path>.+)$")]
         private static partial Regex PathExpression();
@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var parameters = context.GetPathParameters(this);
             var path = parameters["path"];
@@ -28,7 +28,10 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             {
                 var buffer = Resx.GetBytes("eft", resourceLocation);
 
-                return context.SendBinaryAsync(buffer, $"image/{extension}", false);
+                // NOTE: file handling is done in UnityWebRequestTexture.GetTexture
+                //       instead of EFT's own HTTP client
+                // -- seionmoya, 2024-11-18
+                return context.SendBinaryAsync(buffer, $"image/{extension}", false, false);
             }
             catch (Exception ex)
             {

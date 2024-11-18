@@ -2,18 +2,18 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Responses;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class CustomizationController : HttpController
+    public class CustomizationController : EftHttpController
     {
         public CustomizationController() : base("/client/customization")
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var customizations = EftOrm.GetCustomizations();
             var response = new ResponseBody<Dictionary<string, CustomizationTemplate>>()
@@ -21,7 +21,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = customizations
             };
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }
