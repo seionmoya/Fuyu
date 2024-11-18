@@ -19,10 +19,7 @@ namespace Fuyu.Backend.EFT.Networking
 
         public override Task RunAsync(HttpContext context)
         {
-            // NOTE: assumes HttpController can be safely downcasted into EftHttpControler
-            // -- seionmoya, 2024-11-18
-            var downcast = (EftHttpContext)context;
-
+            var downcast = new EftHttpContext(context.Request, context.Response);
             return RunAsync(downcast);
         }
 

@@ -19,10 +19,7 @@ namespace Fuyu.Backend.Core.Networking
 
         public override Task RunAsync(HttpContext context)
         {
-            // NOTE: assumes HttpController can be safely downcasted into CoreHttpControler
-            // -- seionmoya, 2024-11-18
-            var downcast = (CoreHttpContext)context;
-
+            var downcast = new CoreHttpContext(context.Request, context.Response);
             return RunAsync(downcast);
         }
 

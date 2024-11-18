@@ -5,8 +5,8 @@ namespace Fuyu.Common.Networking
 {
     public class WebRouterContext : IRouterContext
     {
-        protected readonly HttpListenerRequest Request;
-        protected readonly HttpListenerResponse Response;
+        public readonly HttpListenerRequest Request;
+        public readonly HttpListenerResponse Response;
         public string Path { get; }
 
         public WebRouterContext(HttpListenerRequest request, HttpListenerResponse response)
