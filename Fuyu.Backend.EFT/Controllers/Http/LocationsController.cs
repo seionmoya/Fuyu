@@ -15,8 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         public override Task RunAsync(EftHttpContext context)
         {
             var json = EftOrm.GetLocations();
-            var locations = Json.Parse<ResponseBody<WorldMap>>(json);
-            var response = Json.Stringify(locations);
+            var response = Json.Parse<ResponseBody<WorldMap>>(json);
             var text = Json.Stringify(response);
             return context.SendJsonAsync(text, true, true);
         }
