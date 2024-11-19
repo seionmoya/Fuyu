@@ -1,18 +1,18 @@
 ﻿using System.Threading.Tasks;
 using Fuyu.Backend.Core.Models.Responses;
+using Fuyu.Backend.Core.Networking;
 using Fuyu.Backend.Core.Services;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.Core.Controllers
 {
-    public class AccountGamesController : HttpController
+    public class AccountGamesController : CoreHttpController
     {
         public AccountGamesController() : base("/account/games")
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(CoreHttpContext context)
         {
             var sessionId = context.GetSessionId();
             var result = AccountService.GetGames(sessionId);
@@ -21,7 +21,7 @@ namespace Fuyu.Backend.Core.Controllers
                 Games = result
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            return context.SendJsonAsync(Json.Stringify(response));
         }
     }
 }

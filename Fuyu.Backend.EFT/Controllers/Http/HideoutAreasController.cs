@@ -1,17 +1,20 @@
 using System.Threading.Tasks;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class HideoutAreasController : HttpController
+    public class HideoutAreasController : EftHttpController
     {
         public HideoutAreasController() : base("/client/hideout/areas")
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
-            await context.SendJsonAsync(EftOrm.GetHideoutAreas());
+            // TODO: generate this
+            // --seionmoya, 2024-11-18
+            var text = EftOrm.GetHideoutAreas();
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

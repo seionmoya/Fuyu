@@ -1,17 +1,20 @@
 using System.Threading.Tasks;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GlobalsController : HttpController
+    public class GlobalsController : EftHttpController
     {
         public GlobalsController() : base("/client/globals")
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
-            await context.SendJsonAsync(EftOrm.GetGlobals());
+            // TODO: generate this
+            // --seionmoya, 2024-11-18
+            var text = EftOrm.GetGlobals();
+            return context.SendJsonAsync(text);
         }
     }
 }

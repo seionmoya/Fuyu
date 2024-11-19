@@ -1,17 +1,20 @@
 using System.Threading.Tasks;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class QuestListController : HttpController
+    public class QuestListController : EftHttpController
     {
         public QuestListController() : base("/client/quest/list")
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
-            await context.SendJsonAsync(EftOrm.GetQuest());
+            // TODO: generate this
+            // --seionmoya, 2024-11-18
+            var text = EftOrm.GetQuest();
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

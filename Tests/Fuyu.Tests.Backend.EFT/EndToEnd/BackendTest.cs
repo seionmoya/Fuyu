@@ -12,8 +12,8 @@ using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFT;
 using Fuyu.Backend.EFT.Servers;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
+using Fuyu.Tests.Backend.EFT.Networking;
 using AccountService = Fuyu.Backend.Core.Services.AccountService;
 
 namespace Fuyu.Tests.Backend.EFT.EndToEnd

@@ -1,20 +1,23 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class NotifierChannelCreateController : HttpController
+    public class NotifierChannelCreateController : EftHttpController
     {
         public NotifierChannelCreateController() : base("/client/notifier/channel/create")
         {
         }
 
-        public override async Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var channelId = SimpleId.Generate(64);
+
+            // TODO: don't hardcode address
+            // --seionmoya, 2024-11-18
             var response = new ResponseBody<NotifierChannelCreateResponse>
             {
                 data = new NotifierChannelCreateResponse()
@@ -26,7 +29,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 }
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

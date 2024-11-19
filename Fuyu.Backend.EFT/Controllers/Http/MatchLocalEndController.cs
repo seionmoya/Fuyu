@@ -2,26 +2,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Requests;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class MatchLocalEndController : HttpController<MatchLocalEndRequest>
+    public class MatchLocalEndController : EftHttpController<MatchLocalEndRequest>
     {
         public MatchLocalEndController() : base("/client/match/local/end")
         {
         }
 
-        public override async Task RunAsync(HttpContext context, MatchLocalEndRequest body)
+        public override Task RunAsync(EftHttpContext context, MatchLocalEndRequest body)
         {
             var sessionId = context.GetSessionId();
 
             var profile = EftOrm.GetActiveProfile(sessionId);
 
+            // TODO: move this to a service
+            // --seionmoya, 2024-11-18
+
             // NOTE: This data is not present in what the client sends as one of BSG's anticheat measures
             // which prevents your inraid inventory info from knowing what is in someone's stash
-            // so I have to manually add the existing data that should be there which I think is ;ess effort
+            // so I have to manually add the existing data that should be there which I think is less effort
             // than manually taking the data that we want from the client's request
             // -- nexus4880, 2024-10-14
             body.results.profile.Info.LowerNickname = profile.Pmc.Info.LowerNickname;
@@ -47,7 +50,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = null
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

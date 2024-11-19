@@ -1,35 +1,44 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Fuyu.Common.Networking;
 
-namespace Fuyu.Common.Networking
+namespace Fuyu.Backend.Core.Networking
 {
-    public abstract class HttpController : WebController<HttpContext>
+    public abstract class CoreHttpController : HttpController
     {
-        protected HttpController(Regex pattern) : base(pattern)
+        protected CoreHttpController(Regex pattern) : base(pattern)
         {
             // match dynamic paths
         }
 
-        protected HttpController(string path) : base(path)
-        {
-            // match static paths
-        }
-    }
-
-    public abstract class HttpController<TRequest> : HttpController where TRequest : class
-    {
-        protected HttpController(Regex pattern) : base(pattern)
-        {
-            // match dynamic paths
-        }
-
-        protected HttpController(string path) : base(path)
+        protected CoreHttpController(string path) : base(path)
         {
             // match static paths
         }
 
         public override Task RunAsync(HttpContext context)
+        {
+            var downcast = new CoreHttpContext(context.Request, context.Response);
+            return RunAsync(downcast);
+        }
+
+        public abstract Task RunAsync(CoreHttpContext context);
+    }
+
+    public abstract class CoreHttpController<TRequest> : CoreHttpController where TRequest : class
+    {
+        protected CoreHttpController(Regex pattern) : base(pattern)
+        {
+            // match dynamic paths
+        }
+
+        protected CoreHttpController(string path) : base(path)
+        {
+            // match static paths
+        }
+
+        public override Task RunAsync(CoreHttpContext context)
         {
             // TODO:
             // - Use better exception type
@@ -52,6 +61,6 @@ namespace Fuyu.Common.Networking
             return RunAsync(context, body);
         }
 
-        public abstract Task RunAsync(HttpContext context, TRequest body);
+        public abstract Task RunAsync(CoreHttpContext context, TRequest body);
     }
 }

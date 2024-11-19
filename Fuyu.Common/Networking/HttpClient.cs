@@ -91,7 +91,7 @@ namespace Fuyu.Common.Networking
             };
         }
 
-        protected async Task<HttpResponse> SendWithRetriesAsync(HttpMethod method, string path, byte[] data)
+        protected Task<HttpResponse> SendWithRetriesAsync(HttpMethod method, string path, byte[] data)
         {
             var error = new Exception("Internal error");
 
@@ -100,7 +100,7 @@ namespace Fuyu.Common.Networking
             {
                 try
                 {
-                    return await SendAsync(method, path, data);
+                    return SendAsync(method, path, data);
                 }
                 catch (Exception ex)
                 {
@@ -111,9 +111,9 @@ namespace Fuyu.Common.Networking
             throw error;
         }
 
-        public async Task<HttpResponse> GetAsync(string path)
+        public Task<HttpResponse> GetAsync(string path)
         {
-            return await SendWithRetriesAsync(HttpMethod.Get, path, null);
+            return SendWithRetriesAsync(HttpMethod.Get, path, null);
         }
 
         public HttpResponse Get(string path)
@@ -123,9 +123,9 @@ namespace Fuyu.Common.Networking
                 .GetResult();
         }
 
-        public async Task<HttpResponse> PostAsync(string path, byte[] data)
+        public Task<HttpResponse> PostAsync(string path, byte[] data)
         {
-            return await SendWithRetriesAsync(HttpMethod.Post, path, data);
+            return SendWithRetriesAsync(HttpMethod.Post, path, data);
         }
 
         public HttpResponse Post(string path, byte[] data)
@@ -135,9 +135,9 @@ namespace Fuyu.Common.Networking
                 .GetResult();
         }
 
-        public async Task<HttpResponse> PutAsync(string path, byte[] data)
+        public Task<HttpResponse> PutAsync(string path, byte[] data)
         {
-            return await SendWithRetriesAsync(HttpMethod.Put, path, data);
+            return SendWithRetriesAsync(HttpMethod.Put, path, data);
         }
 
         public HttpResponse Put(string path, byte[] data)

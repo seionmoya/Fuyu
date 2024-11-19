@@ -5,14 +5,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Trading;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class ClientItemsPriceController : HttpController
+    public partial class ClientItemsPriceController : EftHttpController
     {
         [GeneratedRegex(@"^/client/items/prices(/(?<traderId>[A-Za-z0-9]+))?$")]
         private static partial Regex PathExpression();
@@ -21,7 +21,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var parameters = context.GetPathParameters(this);
             var profile = EftOrm.GetActiveProfile(context.GetSessionId());
@@ -55,7 +55,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 response.data = new Dictionary<MongoId, float>();
             }
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }
