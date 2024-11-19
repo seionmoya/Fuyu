@@ -23,6 +23,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
+        token: ${{ secrets.FUYU_WORKFLOWS }}
         ref: ${{ github.head_ref }}
 
     - name: Setup .NET
