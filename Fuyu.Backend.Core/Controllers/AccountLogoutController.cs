@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.Core.Networking;
 
 namespace Fuyu.Backend.Core.Controllers
 {
-    public class AccountLogoutController : HttpController
+    public class AccountLogoutController : CoreHttpController
     {
         public AccountLogoutController() : base("/account/logout")
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(CoreHttpContext context)
         {
             var sessionId = context.GetSessionId();
             CoreOrm.RemoveSession(sessionId);

@@ -1,17 +1,17 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GetMetricsConfigController : HttpController
+    public class GetMetricsConfigController : EftHttpController
     {
         public GetMetricsConfigController() : base("/client/getMetricsConfig")
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var response = new ResponseBody<GetMetricsConfigResponse>()
             {
@@ -26,7 +26,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 }
             };
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

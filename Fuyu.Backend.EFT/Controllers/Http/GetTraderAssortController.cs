@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Trading;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class GetTraderAssortController : HttpController
+    public partial class GetTraderAssortController : EftHttpController
     {
         [GeneratedRegex("/client/trading/api/getTraderAssort/(?<traderId>[A-Za-z0-9]+)")]
         private static partial Regex PathExpression();
@@ -16,10 +16,13 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var parameters = context.GetPathParameters(this);
             var traderId = parameters["traderId"];
+
+            // TODO: handle this
+            // --seionmoya, 2024-11-18
             var response = new ResponseBody<TraderAssort>
             {
                 data = new TraderAssort
@@ -32,7 +35,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 }
             };
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

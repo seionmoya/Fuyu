@@ -1,17 +1,17 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class CustomizationStorageController : HttpController
+    public class CustomizationStorageController : EftHttpController
     {
         public CustomizationStorageController() : base("/client/trading/customization/storage")
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var sessionId = context.GetSessionId();
             var profile = EftOrm.GetActiveProfile(sessionId);
@@ -25,7 +25,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 }
             };
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

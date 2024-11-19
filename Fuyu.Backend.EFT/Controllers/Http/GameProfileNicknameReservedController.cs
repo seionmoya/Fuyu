@@ -1,17 +1,17 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameProfileNicknameReservedController : HttpController
+    public class GameProfileNicknameReservedController : EftHttpController
     {
         public GameProfileNicknameReservedController() : base("/client/game/profile/nickname/reserved")
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var sessionId = context.GetSessionId();
             var account = EftOrm.GetAccount(sessionId);
@@ -21,7 +21,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = account.Username
             };
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

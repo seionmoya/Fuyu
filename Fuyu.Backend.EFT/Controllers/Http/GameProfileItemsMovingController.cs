@@ -4,12 +4,12 @@ using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.EFT.Controllers.ItemEvents;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameProfileItemsMovingController : HttpController<JObject>
+    public class GameProfileItemsMovingController : EftHttpController<JObject>
     {
         public ItemEventRouter ItemEventRouter { get; } = new ItemEventRouter();
 
@@ -41,7 +41,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             ItemEventRouter.AddController<ToggleItemEventController>();
         }
 
-        public override async Task RunAsync(HttpContext context, JObject request)
+        public override async Task RunAsync(EftHttpContext context, JObject request)
         {
             if (!request.ContainsKey("data"))
             {
@@ -82,7 +82,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = itemEventResponse
             };
 
-            await context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            await context.SendJsonAsync(text, true, true);
         }
     }
 }

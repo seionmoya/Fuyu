@@ -1,9 +1,7 @@
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Fuyu.Common.Compression;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Common.Networking
@@ -14,74 +12,30 @@ namespace Fuyu.Common.Networking
         {
         }
 
-        public bool HasBody()
-        {
-            return Request.HasEntityBody;
-        }
-
-        public byte[] GetBinary()
+        public virtual byte[] GetBinary()
         {
             using (var ms = new MemoryStream())
             {
                 Request.InputStream.CopyTo(ms);
-
-                var body = ms.ToArray();
-
-                if (MemoryZlib.IsCompressed(body))
-                {
-                    body = MemoryZlib.Decompress(body);
-                }
-
-                return body;
+                return ms.ToArray();
             }
         }
 
-        public string GetText()
+        public virtual string GetText()
         {
             var body = GetBinary();
             return Encoding.UTF8.GetString(body);
         }
 
-        public T GetJson<T>()
+        public virtual T GetJson<T>()
         {
             var json = GetText();
             return Json.Parse<T>(json);
         }
 
-        public string GetETag()
+        protected virtual Task SendAsync(byte[] data, string mime, HttpStatusCode status)
         {
-            return Request.Headers["If-None-Match"];
-        }
-
-        public string GetSessionId()
-        {
-            return Request.Cookies["PHPSESSID"].Value;
-        }
-
-        protected Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool zipped = true)
-        {
-            bool hasData = !(data is null);
-
-            // used for plaintext debugging
-            if (Request.Headers["fuyu-debug"] != null)
-            {
-                zipped = false;
-            }
-
-            if (hasData && zipped)
-            {
-                // NOTE: CompressionLevel.SmallestSize does not exist in
-                //       .NET 5 and below.
-                // -- seionmoya, 2024-10-07
-
-#if NET6_0_OR_GREATER
-                var level = CompressionLevel.SmallestSize;
-#else
-                var level = CompressionLevel.Optimal;
-#endif
-
-                data = MemoryZlib.Compress(data, level);
-            }
+            var hasData = !(data == null);
 
             Response.StatusCode = (int)status;
             Response.ContentType = mime;
@@ -101,34 +55,20 @@ namespace Fuyu.Common.Networking
             }
         }
 
-        public Task SendStatus(HttpStatusCode status)
+        public virtual Task SendStatus(HttpStatusCode status)
         {
-            return SendAsync(null, "plain/text", status, false);
+            return SendAsync(null, "plain/text", status);
         }
 
-        public Task SendBinaryAsync(byte[] data, string mime, bool zipped = true)
+        public virtual Task SendBinaryAsync(byte[] data, string mime)
         {
-            return SendAsync(data, mime, HttpStatusCode.OK, zipped);
+            return SendAsync(data, mime, HttpStatusCode.OK);
         }
 
-        public Task SendJsonAsync(string text, bool zipped = true)
+        public virtual Task SendJsonAsync(string text)
         {
             var encoded = Encoding.UTF8.GetBytes(text);
-            var mime = zipped
-                ? "application/octet-stream"
-                : "application/json; charset=utf-8";
-
-            return SendAsync(encoded, mime, HttpStatusCode.OK, zipped);
-        }
-
-        public void Close()
-        {
-            Response.Close();
-        }
-
-        public override string ToString()
-        {
-            return $"{GetType().Name}:{Path}(HasBody:{HasBody()})";
+            return SendAsync(encoded, "application/json; charset=utf-8", HttpStatusCode.OK);
         }
     }
 }

@@ -1,17 +1,20 @@
 using System.Threading.Tasks;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class ItemsController : HttpController
+    public class ItemsController : EftHttpController
     {
         public ItemsController() : base("/client/items")
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
-            return context.SendJsonAsync(EftOrm.GetItems());
+            // TODO: generate this
+            // --seionmoya, 2024-11-18
+            var text = EftOrm.GetItems();
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

@@ -13,6 +13,7 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 ## Requirements
 
 - .NET 8.0 SDK
+- WebView 2 Runtime
 
 ### Supported IDEs
 

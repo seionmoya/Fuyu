@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.IO;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class BuildsListController : HttpController
+    public class BuildsListController : EftHttpController
     {
         private readonly ResponseBody<BuildsListResponse> _response;
 
@@ -16,9 +16,12 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             _response = Json.Parse<ResponseBody<BuildsListResponse>>(json);
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
-            return context.SendJsonAsync(Json.Stringify(_response));
+            // TODO: generate this
+            // --seionmoya, 2024-11-18
+            var text = Json.Stringify(_response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

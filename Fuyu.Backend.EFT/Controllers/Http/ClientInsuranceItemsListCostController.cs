@@ -4,19 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Requests;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class ClientInsuranceItemsListCostController : HttpController<InsuranceCostRequest>
+    public class ClientInsuranceItemsListCostController : EftHttpController<InsuranceCostRequest>
     {
         public ClientInsuranceItemsListCostController() : base("/client/insurance/items/list/cost")
         {
         }
 
-        public override Task RunAsync(HttpContext context, InsuranceCostRequest body)
+        public override Task RunAsync(EftHttpContext context, InsuranceCostRequest body)
         {
             var profile = EftOrm.GetActiveProfile(context.GetSessionId());
             var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
@@ -44,7 +44,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 response.errmsg = "One or more items could not be found on the backend";
             }
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }

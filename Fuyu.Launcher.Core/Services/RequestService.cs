@@ -8,22 +8,22 @@ using Fuyu.Backend.Core.Models.Requests;
 using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
+using Fuyu.Launcher.Core.Networking;
 
 namespace Fuyu.Launcher.Core.Services
 {
     public static class RequestService
     {
-        private static ThreadDictionary<string, HttpClient> _httpClients;
+        private static ThreadDictionary<string, CoreHttpClient> _httpClients;
 
         static RequestService()
         {
-            _httpClients = new ThreadDictionary<string, HttpClient>();
+            _httpClients = new ThreadDictionary<string, CoreHttpClient>();
 
-            _httpClients.Set("fuyu", new EftHttpClient(SettingsService.FuyuAddress, string.Empty));
-            _httpClients.Set("eft", new EftHttpClient(SettingsService.EftAddress, string.Empty));
-            _httpClients.Set("arena", new EftHttpClient(SettingsService.ArenaAddress, string.Empty));
+            _httpClients.Set("fuyu", new CoreHttpClient(SettingsService.FuyuAddress, string.Empty));
+            _httpClients.Set("eft", new CoreHttpClient(SettingsService.EftAddress, string.Empty));
+            _httpClients.Set("arena", new CoreHttpClient(SettingsService.ArenaAddress, string.Empty));
         }
 
         private static void HttpPut<T1>(string id, string path, T1 request)
@@ -58,14 +58,14 @@ namespace Fuyu.Launcher.Core.Services
 
         public static void ResetSessions()
         {
-            _httpClients.Set("fuyu", new EftHttpClient(SettingsService.FuyuAddress, string.Empty));
-            _httpClients.Set("eft", new EftHttpClient(SettingsService.EftAddress, string.Empty));
-            _httpClients.Set("arena", new EftHttpClient(SettingsService.ArenaAddress, string.Empty));
+            _httpClients.Set("fuyu", new CoreHttpClient(SettingsService.FuyuAddress, string.Empty));
+            _httpClients.Set("eft", new CoreHttpClient(SettingsService.EftAddress, string.Empty));
+            _httpClients.Set("arena", new CoreHttpClient(SettingsService.ArenaAddress, string.Empty));
         }
 
         public static void CreateSession(string id, string address, string sessionId)
         {
-            _httpClients.Set(id, new EftHttpClient(address, sessionId));
+            _httpClients.Set(id, new CoreHttpClient(address, sessionId));
         }
 
         public static ERegisterStatus RegisterAccount(string username, string password)

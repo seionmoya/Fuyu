@@ -1,12 +1,12 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
-using Fuyu.Common.Networking;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class MenuLocaleController : HttpController
+    public partial class MenuLocaleController : EftHttpController
     {
         [GeneratedRegex("^/client/menu/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
         private static partial Regex PathExpression();
@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
         }
 
-        public override Task RunAsync(HttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             var parameters = context.GetPathParameters(this);
 
@@ -26,7 +26,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = locale
             };
 
-            return context.SendJsonAsync(Json.Stringify(response));
+            var text = Json.Stringify(response);
+            return context.SendJsonAsync(text, true, true);
         }
     }
 }
