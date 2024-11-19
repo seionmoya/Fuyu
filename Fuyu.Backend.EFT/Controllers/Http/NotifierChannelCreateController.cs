@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         public override Task RunAsync(EftHttpContext context)
         {
             var channelId = SimpleId.Generate(64);
-            
+
             // TODO: don't hardcode address
             // --seionmoya, 2024-11-18
             var response = new ResponseBody<NotifierChannelCreateResponse>
