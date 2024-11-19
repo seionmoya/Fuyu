@@ -38,7 +38,7 @@ Arena    | 0.2.0.32193
 
 1. Github > Generate new PAT
    1. Go [here](https://github.com/settings/tokens/new)
-      - name: `FUYU_WORKFLOWS`
+      - note: `FUYU_WORKFLOWS`
       - permissions: `repo` (all), `workflow` (all)
    2. Once PAT is generated, copy the token to clipboard
 2. Github > Repositories > Fuyu > Settings > Secrets > Actions
