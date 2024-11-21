@@ -71,8 +71,8 @@ namespace Fuyu.Backend.EFT.Services
                 { EBotRole.spiritWinter,                string.Empty                                                        },    // TODO: missing
                 { EBotRole.spiritSpring,                string.Empty                                                        },    // TODO: missing
                 { EBotRole.peacemaker,                  string.Empty                                                        },    // TODO: missing
-                { EBotRole.pmcBEAR,                     string.Empty                                                        },    // TODO: missing
-                { EBotRole.pmcUSEC,                     string.Empty                                                        },    // TODO: missing
+                { EBotRole.pmcBEAR,                     Resx.GetText("eft", "database.bots.pmcbear.json")                   },    // TODO: missing
+                { EBotRole.pmcUSEC,                     Resx.GetText("eft", "database.bots.pmcusec.json")                   },    // TODO: missing
                 { EBotRole.skier,                       string.Empty                                                        },    // TODO: missing
                 { EBotRole.sectantPredvestnik,          Resx.GetText("eft", "database.bots.sectantpredvestnik.json")        },
                 { EBotRole.sectantPrizrak,              Resx.GetText("eft", "database.bots.sectantprizrak.json")            },
@@ -94,7 +94,7 @@ namespace Fuyu.Backend.EFT.Services
                 // generate amount for profile type
                 for (var i = 0; i < condition.Limit; ++i)
                 {
-                    var profile = GenerateBot(condition.Role);
+                    var profile = GenerateBot(condition.Role, condition.Difficulty);
                     profiles.Add(profile);
                 }
             }
@@ -102,27 +102,16 @@ namespace Fuyu.Backend.EFT.Services
             return profiles.ToArray();
         }
 
-        private static Profile GenerateBot(EBotRole role)
+        private static Profile GenerateBot(EBotRole role, EBotDifficulty difficulty)
         {
-            // TODO: remove this rimuru top 1 pls fix immediately
-            if (role == EBotRole.pmcBEAR || role == EBotRole.pmcUSEC)
-            {
-                role = EBotRole.assault;
-            }
-
             var profile = Json.Parse<Profile>(_profiles[role]);
 
             // regenerate all ids
             profile._id = new MongoId(true);
             InventoryService.RegenerateIds(profile.Inventory);
 
-            // initialize missing notes
-            // NOTE: while this doesn't exist on bot dumps, the game complaints when it's not there.
-            // -- seionmoya, 2024-11-15
-            profile.Notes = new NotesInfo
-            {
-                Notes = []
-            };
+            // set difficulty
+            profile.Info.Settings.BotDifficulty = difficulty;
 
             return profile;
         }

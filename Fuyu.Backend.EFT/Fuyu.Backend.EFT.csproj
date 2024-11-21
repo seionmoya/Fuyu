@@ -18,7 +18,9 @@
     <EmbeddedResource Include="embedded/database/bots/bosskilla.json" />
     <EmbeddedResource Include="embedded/database/bots/bosskojaniy.json" />
     <EmbeddedResource Include="embedded/database/bots/followerkojaniy.json" />
+    <EmbeddedResource Include="embedded/database/bots/pmcbear.json" />
     <EmbeddedResource Include="embedded/database/bots/pmcbot.json" />
+    <EmbeddedResource Include="embedded/database/bots/pmcusec.json" />
     <EmbeddedResource Include="embedded/database/bots/bossgluhar.json" />
     <EmbeddedResource Include="embedded/database/bots/followergluharassault.json" />
     <EmbeddedResource Include="embedded/database/bots/followergluharsecurity.json" />
