@@ -23,5 +23,8 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Info
 
         [DataMember]
         public float AggressorBonus;
+
+        [DataMember(EmitDefaultValue = false)]
+        public bool? UseSimpleAnimator;
     }
 }
