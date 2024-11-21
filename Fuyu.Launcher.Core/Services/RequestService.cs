@@ -11,7 +11,7 @@ namespace Fuyu.Launcher.Core.Services
     public static class RequestService
     {
         static RequestService()
-        {}
+        { }
 
         public static HttpResponse<object> Ping()
         {

@@ -101,7 +101,7 @@ namespace Fuyu.Launcher.Core.Helpers
                     _ => throw new ArgumentOutOfRangeException(nameof(method)),
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new HttpResponse<TResponse>
                 {
