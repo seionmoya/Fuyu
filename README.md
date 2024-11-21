@@ -68,8 +68,10 @@ SPTarkov.
 
 ## Credits
 
-**Author** | **Reason**
----------- | ----------------------------------
-seionmoya  | Project creator, main author
-thesparta  | Most of the launcher code
-nexus      | Debugging issues inside EFT client
+Sorted alphabetically ascending.
+
+**Author**   | **Reason**
+------------ | ---------------------------
+nexus4880    | Maintainer
+seionmoya    | Project creator, maintainer
+thespartapt  | Maintainer
