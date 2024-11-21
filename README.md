@@ -24,8 +24,8 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 
 **Game** | **Version**
 -------- | ------------
-EFT      | 0.15.0.32197
-Arena    | 0.2.0.32193
+EFT      | 0.15.5.133420
+Arena    | none (yet)
 
 ## Setup
 
