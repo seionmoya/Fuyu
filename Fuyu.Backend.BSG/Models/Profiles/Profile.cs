@@ -68,7 +68,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         public RagfairInfo RagfairInfo;
 
         [DataMember(EmitDefaultValue = false)]
-        public Union<Dictionary<MongoId, TraderInfo>, object[]> TradersInfo;
+        public Union<Dictionary<MongoId, TraderInfo>, object[]>? TradersInfo;
 
         [DataMember(EmitDefaultValue = false)]
         public UnlockedInfo UnlockedInfo;
