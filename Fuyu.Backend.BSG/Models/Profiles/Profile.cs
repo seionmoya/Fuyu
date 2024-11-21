@@ -55,25 +55,25 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         [DataMember]
         public Union<Dictionary<MongoId, EWishlistGroup>, object[]> WishList;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public NotesInfo Notes;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public List<QuestInfo> Quests;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public Dictionary<MongoId, int> Achievements;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public RagfairInfo RagfairInfo;
 
         [DataMember(EmitDefaultValue = false)]
-        public Union<Dictionary<MongoId, TraderInfo>, object[]> TradersInfo;
+        public Union<Dictionary<MongoId, TraderInfo>, object[]>? TradersInfo;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public UnlockedInfo UnlockedInfo;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public MoneyTransferLimitInfo moneyTransferLimitData;
 
         // NOTE: Deserialization works but is deserialized as
