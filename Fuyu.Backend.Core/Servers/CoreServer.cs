@@ -11,6 +11,7 @@ namespace Fuyu.Backend.Core.Servers
 
         public void RegisterServices()
         {
+            HttpRouter.AddController<PingController>();
             HttpRouter.AddController<AccountLoginController>();
             HttpRouter.AddController<AccountLogoutController>();
             HttpRouter.AddController<AccountRegisterController>();

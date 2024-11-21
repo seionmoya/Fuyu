@@ -16,15 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Layout\AppBar.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DarkNet" Version="2.3.0" />
-    <PackageReference Include="Fluxor.Blazor.Web" Version="6.0.0" />
+    <PackageReference Include="Fluxor.Blazor.Web" Version="6.1.0" />
     <PackageReference Include="Fluxor.Persist" Version="2.5.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.82" />
-    <PackageReference Include="MudBlazor" Version="7.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.100" />
+    <PackageReference Include="MudBlazor" Version="7.15.0" />
   </ItemGroup>
 
   <ItemGroup>
