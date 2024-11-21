@@ -5,6 +5,7 @@
 @inject IState<GamesState> GamesState
 @inject IDispatcher Dispatcher
 @inject ISnackbar Snackbar
+@inject NavigationManager Navigation
 
 @if (!GamesState.Value.Games.Values.Contains(null))
 {
@@ -110,12 +111,18 @@ else
             return;
         }
 
-        var response = RequestService.RegisterGame(_game, _edition);
+        var httpResponse = RequestService.RegisterGame(_game, _edition);
 
-        switch (response.Status)
+        if (httpResponse.Error != null)
+        {
+            Navigation.NavigateTo("/unreachable");
+            return;
+        }
+
+        switch (httpResponse.Response.Status)
         {
             case ERegisterStatus.Success:
-                Dispatcher.Dispatch(new AddGameAction(_game, response.AccountId));
+                Dispatcher.Dispatch(new AddGameAction(_game, httpResponse.Response.AccountId));
                 Snackbar.Add("Successfully added game to account!", Severity.Success);
                 MudDialog.Close(DialogResult.Ok(true));
                 break;

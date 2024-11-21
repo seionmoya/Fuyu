@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Fluxor;
 using Fuyu.Launcher.Core.Services;
+using Microsoft.AspNetCore.Components;
 
 namespace Fuyu.Launcher.Store.GamesUseCase
 {
@@ -9,8 +10,9 @@ namespace Fuyu.Launcher.Store.GamesUseCase
         [EffectMethod]
         public Task HandleGetGamesAction(GetGamesAction action, IDispatcher dispatcher)
         {
-            var games = RequestService.GetGames();
-            dispatcher.Dispatch(new GetGamesResultAction(games));
+            var httpResponse = RequestService.GetGames();
+
+            dispatcher.Dispatch(new GetGamesResultAction(httpResponse.Response.Games));
             return Task.CompletedTask;
         }
     }
