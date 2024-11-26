@@ -3,29 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Backend", "Fuyu.Backend\Fuyu.Backend.csproj", "{8495DE3B-ABFF-4AF0-9B10-6DDE4A9840BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend", "Fuyu.Backend\Fuyu.Backend.csproj", "{8495DE3B-ABFF-4AF0-9B10-6DDE4A9840BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Backend.Arena", "Fuyu.Backend.Arena\Fuyu.Backend.Arena.csproj", "{53CA39B2-AD23-4543-B370-80F9268EE0AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Arena", "Fuyu.Backend.Arena\Fuyu.Backend.Arena.csproj", "{53CA39B2-AD23-4543-B370-80F9268EE0AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Backend.BSG", "Fuyu.Backend.BSG\Fuyu.Backend.BSG.csproj", "{E17DFDEA-8EF9-4859-8671-F16A0C0F9AB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.BSG", "Fuyu.Backend.BSG\Fuyu.Backend.BSG.csproj", "{E17DFDEA-8EF9-4859-8671-F16A0C0F9AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Backend.Common", "Fuyu.Backend.Common\Fuyu.Backend.Common.csproj", "{BB644821-DCB4-4BFB-B291-FDCAAEE0CD76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Common", "Fuyu.Backend.Common\Fuyu.Backend.Common.csproj", "{BB644821-DCB4-4BFB-B291-FDCAAEE0CD76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Backend.Core", "Fuyu.Backend.Core\Fuyu.Backend.Core.csproj", "{26EAF8DC-D482-409F-B2D5-FEB314413F61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Core", "Fuyu.Backend.Core\Fuyu.Backend.Core.csproj", "{26EAF8DC-D482-409F-B2D5-FEB314413F61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Backend.EFT", "Fuyu.Backend.EFT\Fuyu.Backend.EFT.csproj", "{46A6EFAA-E466-4EF7-8012-83A070A5E005}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.EFT", "Fuyu.Backend.EFT\Fuyu.Backend.EFT.csproj", "{46A6EFAA-E466-4EF7-8012-83A070A5E005}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Common", "Fuyu.Common\Fuyu.Common.csproj", "{4396E84F-DCE9-4E5D-80AC-D8EC7C9A9D53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Common", "Fuyu.Common\Fuyu.Common.csproj", "{4396E84F-DCE9-4E5D-80AC-D8EC7C9A9D53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bsg.componentace.compression.libs.zlib", "Shims\bsg.componentace.compression.libs.zlib\bsg.componentace.compression.libs.zlib.csproj", "{AFCA8CD1-4DFC-4D64-8DC7-872000BEE1EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bsg.componentace.compression.libs.zlib", "Shims\bsg.componentace.compression.libs.zlib\bsg.componentace.compression.libs.zlib.csproj", "{AFCA8CD1-4DFC-4D64-8DC7-872000BEE1EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Launcher", "Fuyu.Launcher\Fuyu.Launcher.csproj", "{7C62D77E-1C6E-4EF0-8436-49FD1603A1D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Launcher", "Fuyu.Launcher\Fuyu.Launcher.csproj", "{7C62D77E-1C6E-4EF0-8436-49FD1603A1D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Launcher.Core", "Fuyu.Launcher.Core\Fuyu.Launcher.Core.csproj", "{C06DFF4F-3F61-4178-9221-A7580ED03305}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Launcher.Core", "Fuyu.Launcher.Core\Fuyu.Launcher.Core.csproj", "{C06DFF4F-3F61-4178-9221-A7580ED03305}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Plugin.Arena", "Fuyu.Plugin.Arena\Fuyu.Plugin.Arena.csproj", "{1346446F-1914-4008-BF39-C115303A0B0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Plugin.Common", "Fuyu.Plugin.Common\Fuyu.Plugin.Common.csproj", "{C9544557-EF73-485C-9578-410F373DFCF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Plugin.Common", "Fuyu.Plugin.Common\Fuyu.Plugin.Common.csproj", "{C9544557-EF73-485C-9578-410F373DFCF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Plugin.EFT", "Fuyu.Plugin.EFT\Fuyu.Plugin.EFT.csproj", "{6C285025-50E9-4970-AFBF-4D216BCD4D7D}"
 EndProject
@@ -37,13 +37,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Tests.Backend.EFT", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Tests.Backend.Core", "Tests\Fuyu.Tests.Backend.Core\Fuyu.Tests.Backend.Core.csproj", "{C36F6974-2E1E-4327-B82C-AE8DD0954DDD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.DependencyInjection", "Fuyu.DependencyInjection\Fuyu.DependencyInjection.csproj", "{8B94FFE8-658E-4261-8B96-7FBD0C08374B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8495DE3B-ABFF-4AF0-9B10-6DDE4A9840BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -114,5 +113,12 @@ Global
 		{C36F6974-2E1E-4327-B82C-AE8DD0954DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C36F6974-2E1E-4327-B82C-AE8DD0954DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C36F6974-2E1E-4327-B82C-AE8DD0954DDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B94FFE8-658E-4261-8B96-7FBD0C08374B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B94FFE8-658E-4261-8B96-7FBD0C08374B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B94FFE8-658E-4261-8B96-7FBD0C08374B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B94FFE8-658E-4261-8B96-7FBD0C08374B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
