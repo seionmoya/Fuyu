@@ -2,8 +2,8 @@ using System.Runtime.Serialization;
 
 namespace Fuyu.Backend.BSG.ItemTemplates
 {
-	[DataContract]
-	public class MuzzleComboItemProperties : MuzzleItemProperties
-	{
-	}
+    [DataContract]
+    public class MuzzleComboItemProperties : MuzzleItemProperties
+    {
+    }
 }

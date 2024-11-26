@@ -11,19 +11,19 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember]
         public List<MapMarker> Markers;
 
-		public static object CreateComponent(JObject templateProperties)
-		{
-			if (!templateProperties.ContainsKey("MaxMarkersCount"))
-			{
-				return null;
-			}
+        public static object CreateComponent(JObject templateProperties)
+        {
+            if (!templateProperties.ContainsKey("MaxMarkersCount"))
+            {
+                return null;
+            }
 
-			var maxMarkersCount = templateProperties.Value<int>("MaxMarkersCount");
+            var maxMarkersCount = templateProperties.Value<int>("MaxMarkersCount");
 
-			return new ItemMapComponent
-			{
-				Markers = new List<MapMarker>(maxMarkersCount)
-			};
-		}
-	}
+            return new ItemMapComponent
+            {
+                Markers = new List<MapMarker>(maxMarkersCount)
+            };
+        }
+    }
 }

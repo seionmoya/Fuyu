@@ -10,15 +10,15 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember]
         public bool Locked;
 
-		public static object CreateComponent(JObject templateProperties)
-		{
-			if (!templateProperties.ContainsKey("isSecured")
-				|| !templateProperties.Value<bool>("isSecured"))
-			{
-				return null;
-			}
+        public static object CreateComponent(JObject templateProperties)
+        {
+            if (!templateProperties.ContainsKey("isSecured")
+                || !templateProperties.Value<bool>("isSecured"))
+            {
+                return null;
+            }
 
-			return new ItemLockableComponent { Locked = true };
-		}
-	}
+            return new ItemLockableComponent { Locked = true };
+        }
+    }
 }

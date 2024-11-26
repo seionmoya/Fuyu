@@ -8,5 +8,5 @@ namespace Fuyu.Backend.BSG.Models.Items
     {
         [DataMember]
         public EFireMode FireMode { get; set; }
-	}
+    }
 }

@@ -10,8 +10,8 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember(Name = "NumberOfUsages")]
         public int NumberOfUsages { get; set; }
 
-		public static object CreateComponent(JObject templateProperties)
-		{
+        public static object CreateComponent(JObject templateProperties)
+        {
             if (!templateProperties.ContainsKey("NumberOfUsages"))
             {
                 return null;
@@ -21,6 +21,6 @@ namespace Fuyu.Backend.BSG.Models.Items
             {
                 NumberOfUsages = templateProperties.Value<int>("NumberOfUsages")
             };
-		}
-	}
+        }
+    }
 }

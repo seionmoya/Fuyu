@@ -10,17 +10,17 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember]
         public bool IsEncoded;
 
-		public static object CreateComponent(JObject templateProperties)
-		{
-			if (!templateProperties.ContainsKey("IsEncoded"))
-			{
-				return null;
-			}
+        public static object CreateComponent(JObject templateProperties)
+        {
+            if (!templateProperties.ContainsKey("IsEncoded"))
+            {
+                return null;
+            }
 
-			return new ItemRecodableComponent
-			{
-				IsEncoded = templateProperties.Value<bool>("IsEncoded")
-			};
-		}
-	}
+            return new ItemRecodableComponent
+            {
+                IsEncoded = templateProperties.Value<bool>("IsEncoded")
+            };
+        }
+    }
 }

@@ -2,8 +2,8 @@
 
 namespace Fuyu.Backend.BSG
 {
-	public interface IItemComponent
-	{
-		static abstract object CreateComponent(JObject templateProperties);
-	}
+    public interface IItemComponent
+    {
+        static abstract object CreateComponent(JObject templateProperties);
+    }
 }

@@ -13,13 +13,13 @@ namespace Fuyu.Backend.BSG.Models.Templates
         [DataMember(Name = "Name")]
         public string Name { get; set; }
 
-		[DataMember(Name = "Root")]
-		public MongoId Root { get; set; }
+        [DataMember(Name = "Root")]
+        public MongoId Root { get; set; }
 
-		[DataMember(Name = "Items")]
+        [DataMember(Name = "Items")]
         public ItemInstance[] Items { get; set; }
 
-		[DataMember(Name = "BuildType")]
+        [DataMember(Name = "BuildType")]
         public EEquipmentBuildType BuildType { get; set; }
-	}
+    }
 }

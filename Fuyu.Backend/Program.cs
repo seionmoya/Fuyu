@@ -10,13 +10,13 @@ namespace Fuyu.Backend
     public class Program
     {
         static void Main()
-		{
-			CoreDatabase.Load();
-			EftDatabase.Load();
+        {
+            CoreDatabase.Load();
+            EftDatabase.Load();
             TraderDatabase.Load();
-			ItemFactoryService.Load();
+            ItemFactoryService.Load();
 
-			var coreServer = new CoreServer();
+            var coreServer = new CoreServer();
             coreServer.RegisterServices();
             coreServer.Start();
 
@@ -24,7 +24,7 @@ namespace Fuyu.Backend
             eftMainServer.RegisterServices();
             eftMainServer.Start();
 
-			Terminal.WaitForInput();
+            Terminal.WaitForInput();
         }
-	}
+    }
 }

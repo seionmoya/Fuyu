@@ -4,31 +4,31 @@ using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.Models.Items
 {
-	[DataContract]
-	public class ItemRepairableComponent : IItemComponent
-	{
-		[DataMember]
-		public float Durability;
+    [DataContract]
+    public class ItemRepairableComponent : IItemComponent
+    {
+        [DataMember]
+        public float Durability;
 
-		[DataMember]
-		public float MaxDurability;
+        [DataMember]
+        public float MaxDurability;
 
-		public static object CreateComponent(JObject templateProperties)
-		{
-			if (!templateProperties.ContainsKey("Durability")
-				|| !templateProperties.ContainsKey("MaxDurability"))
-			{
-				return null;
-			}
+        public static object CreateComponent(JObject templateProperties)
+        {
+            if (!templateProperties.ContainsKey("Durability")
+                || !templateProperties.ContainsKey("MaxDurability"))
+            {
+                return null;
+            }
 
-			var durability = templateProperties.Value<float>("Durability");
-			var maxDurability = templateProperties.Value<float>("MaxDurability");
+            var durability = templateProperties.Value<float>("Durability");
+            var maxDurability = templateProperties.Value<float>("MaxDurability");
 
-			return new ItemRepairableComponent
-			{
-				Durability = durability,
-				MaxDurability = maxDurability
-			};
-		}
-	}
+            return new ItemRepairableComponent
+            {
+                Durability = durability,
+                MaxDurability = maxDurability
+            };
+        }
+    }
 }

@@ -10,17 +10,17 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember]
         public float Value;
 
-		public static object CreateComponent(JObject templateProperties)
-		{
-			if (!templateProperties.ContainsKey("MaxResource"))
-			{
-				return null;
-			}
+        public static object CreateComponent(JObject templateProperties)
+        {
+            if (!templateProperties.ContainsKey("MaxResource"))
+            {
+                return null;
+            }
 
-			return new ItemSideEffectComponent
-			{
-				Value = templateProperties.Value<float>("MaxResource")
-			};
-		}
-	}
+            return new ItemSideEffectComponent
+            {
+                Value = templateProperties.Value<float>("MaxResource")
+            };
+        }
+    }
 }

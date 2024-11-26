@@ -2,8 +2,8 @@ using System.Runtime.Serialization;
 
 namespace Fuyu.Backend.BSG.ItemTemplates
 {
-	[DataContract]
-	public class ElectronicsItemProperties : BarterItemItemProperties
-	{
-	}
+    [DataContract]
+    public class ElectronicsItemProperties : BarterItemItemProperties
+    {
+    }
 }

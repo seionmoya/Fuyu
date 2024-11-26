@@ -65,7 +65,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         }
 
         public ItemInstance GetStock(ItemInstance root)
-		{
+        {
             var rootItemTemplate = ItemFactoryService.ItemTemplates[root.TemplateId];
             if (!rootItemTemplate.Props.ContainsKey("FoldedSlot"))
             {
@@ -73,10 +73,10 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             }
 
             var weaponItemProperties = rootItemTemplate.Props.ToObject<WeaponItemProperties>();
-			var subItems = ItemService.GetItemAndChildren(Items, root).Skip(1);
+            var subItems = ItemService.GetItemAndChildren(Items, root).Skip(1);
 
             return subItems.FirstOrDefault(i => i.SlotId == weaponItemProperties.FoldedSlot);
-		}
+        }
 
         public Vector2 GetItemSize(ItemInstance root)
         {
@@ -134,8 +134,8 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             };
         }
 
-		public LocationInGrid GetNextFreeSlot(int width, int height, out string gridName, EItemRotation desiredRotation = EItemRotation.Horizontal)
-		{
+        public LocationInGrid GetNextFreeSlot(int width, int height, out string gridName, EItemRotation desiredRotation = EItemRotation.Horizontal)
+        {
             gridName = null;
             if (Stash == null)
             {
@@ -152,11 +152,11 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             var stashItemProps = stashItemTemplate.Props.ToObject<CompoundItemItemProperties>();
 
             foreach (var grid in stashItemProps.Grids)
-			{
+            {
                 gridName = grid.Name;
-				var gridWidth = grid.Properties.CellsHorizontal;
-				var gridHeight = grid.Properties.CellsVertical;
-				var cells = new bool[gridWidth * gridHeight];
+                var gridWidth = grid.Properties.CellsHorizontal;
+                var gridHeight = grid.Properties.CellsVertical;
+                var cells = new bool[gridWidth * gridHeight];
                 var itemsInThisGrid = ItemService.GetItemAndChildren(Items, stashItem).Skip(1);
 
                 foreach (var itemInThisGrid in itemsInThisGrid)
@@ -173,37 +173,37 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                     var itemWidth = itemSize.X;
                     var itemHeight = itemSize.Y;
 
-					for (var y = 0; y < itemHeight; y++)
-					{
-						for (var x = 0; x < itemWidth; x++)
-						{
-							var cellX = itemLocation.x + x;
-							var cellY = itemLocation.y + y;
+                    for (var y = 0; y < itemHeight; y++)
+                    {
+                        for (var x = 0; x < itemWidth; x++)
+                        {
+                            var cellX = itemLocation.x + x;
+                            var cellY = itemLocation.y + y;
                             if (cells[cellY * gridWidth + cellX])
                             {
                                 throw new Exception("Overlap");
                             }
 
-							cells[cellY * gridWidth + cellX] = true;
-						}
-					}
+                            cells[cellY * gridWidth + cellX] = true;
+                        }
+                    }
                 }
 
-				var builder = new StringBuilder(cells.Length);
-				for (int i = 0; i < gridHeight; i++)
-				{
-					var line = cells.Skip(i * gridWidth).Take(gridWidth);
-					builder.Append(line.Select(b => b ? 'X' : 'O').ToArray());
-					if (i != gridHeight - 1)
-					{
-						builder.AppendLine();
-					}
-				}
+                var builder = new StringBuilder(cells.Length);
+                for (int i = 0; i < gridHeight; i++)
+                {
+                    var line = cells.Skip(i * gridWidth).Take(gridWidth);
+                    builder.Append(line.Select(b => b ? 'X' : 'O').ToArray());
+                    if (i != gridHeight - 1)
+                    {
+                        builder.AppendLine();
+                    }
+                }
 
-				Console.Clear();
-				Terminal.WriteLine(builder.ToString());
+                Console.Clear();
+                Terminal.WriteLine(builder.ToString());
 
-				for (var idx = 0; idx < cells.Length; idx++)
+                for (var idx = 0; idx < cells.Length; idx++)
                 {
                     if (cells[idx])
                     {
@@ -215,9 +215,9 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                     var found = true;
 
                     for (int dy = 0; found && dy < height; dy++)
-					{
-						for (int dx = 0; dx < width; dx++)
-						{
+                    {
+                        for (int dx = 0; dx < width; dx++)
+                        {
                             var tempX = x + dx;
                             if (tempX > gridWidth)
                             {
@@ -226,34 +226,34 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                             }
 
                             var tempY = y + dy;
-							if (tempY > gridHeight)
-							{
-								found = false;
-								break;
-							}
+                            if (tempY > gridHeight)
+                            {
+                                found = false;
+                                break;
+                            }
 
-							var tempIdx = tempY * gridWidth + tempX;
+                            var tempIdx = tempY * gridWidth + tempX;
                             if (cells[tempIdx])
                             {
                                 found = false;
                                 break;
                             }
-						}
-					}
+                        }
+                    }
 
                     if (found)
-					{
+                    {
                         return new LocationInGrid
                         {
                             x = x,
                             y = y,
                             r = desiredRotation
                         };
-					}
+                    }
                 }
             }
 
             return null;
-		}
-	}
+        }
+    }
 }

@@ -10,8 +10,8 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember]
         public float HpResource { get; set; }
 
-		public static object CreateComponent(JObject templateProperties)
-		{
+        public static object CreateComponent(JObject templateProperties)
+        {
             if (!templateProperties.ContainsKey("MaxHpResource"))
             {
                 return null;
@@ -21,6 +21,6 @@ namespace Fuyu.Backend.BSG.Models.Items
             {
                 HpResource = templateProperties.Value<float>("MaxHpResource")
             };
-		}
-	}
+        }
+    }
 }
