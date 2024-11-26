@@ -1,6 +1,7 @@
 using Fuyu.Common.Networking;
 using Fuyu.Backend.EFT.Controllers.Http;
 using Fuyu.Backend.EFT.Controllers.Websocket;
+using Fuyu.Backend.EFT.Controllers;
 
 namespace Fuyu.Backend.EFT.Servers
 {
@@ -75,6 +76,7 @@ namespace Fuyu.Backend.EFT.Servers
             HttpRouter.AddController<ClientItemsPriceController>();
             HttpRouter.AddController<GetTraderAssortController>();
             HttpRouter.AddController<ClientInsuranceItemsListCostController>();
+            HttpRouter.AddController<GetNextFreeSlotController>();
 
             // EFT-WS
             WsRouter.AddController<PushNotiferGetWebsocketController>();

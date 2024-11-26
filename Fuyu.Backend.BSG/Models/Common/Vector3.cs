@@ -3,15 +3,15 @@ using System.Runtime.Serialization;
 namespace Fuyu.Backend.BSG.Models.Common
 {
     [DataContract]
-    public class Vector3
+    public struct Vector3
     {
-        [DataMember]
-        public float x;
+        [DataMember(Name = "x")]
+        public float X { get; set; }
 
-        [DataMember]
-        public float y;
+        [DataMember(Name = "y")]
+        public float Y { get; set; }
 
-        [DataMember]
-        public float z;
+        [DataMember(Name = "z")]
+        public float Z { get; set; }
     }
 }

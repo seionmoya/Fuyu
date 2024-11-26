@@ -1,27 +1,25 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Items;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Templates
 {
     [DataContract]
     public class EquipmentBuild
     {
-        [DataMember]
-        public string Id;
+        [DataMember(Name = "Id")]
+        public MongoId Id { get; set; }
 
-        [DataMember]
-        public string Name;
+        [DataMember(Name = "Name")]
+        public string Name { get; set; }
 
-        [DataMember]
-        public ItemInstance[] Items;
+        [DataMember(Name = "Root")]
+        public MongoId Root { get; set; }
 
-        [DataMember]
-        public string Root;
+        [DataMember(Name = "Items")]
+        public ItemInstance[] Items { get; set; }
 
-        [DataMember]
-        public string BuildType;
-
-        [DataMember]
-        public EEquipmentBuildType type;
+        [DataMember(Name = "BuildType")]
+        public EEquipmentBuildType BuildType { get; set; }
     }
 }
