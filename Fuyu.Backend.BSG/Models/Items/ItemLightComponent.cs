@@ -10,5 +10,5 @@ namespace Fuyu.Backend.BSG.Models.Items
 
         [DataMember]
         public int SelectedMode;
-    }
+	}
 }

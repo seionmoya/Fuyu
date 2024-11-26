@@ -1,14 +1,29 @@
-﻿namespace Fuyu.Backend.BSG.Models.Common
+﻿using System;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Fuyu.Backend.BSG.DTO.Common
 {
-    public enum EFireMode : byte
-    {
-        fullauto = 0,
-        single = 1,
-        doublet = 2,
-        burst = 3,
-        doubleaction = 4,
-        semiauto = 5,
-        grenadeThrowing = 6,
-        greanadePlanting = 7
-    }
+	[Flags]
+	[JsonConverter(typeof(StringEnumConverter))]
+	public enum EFireMode : byte
+	{
+		[EnumMember(Value = "fullauto")]
+		FullAuto = 0,
+		[EnumMember(Value = "single")]
+		Single = 1,
+		[EnumMember(Value = "doublet")]
+		Doublet = 2,
+		[EnumMember(Value = "burst")]
+		Burst = 3,
+		[EnumMember(Value = "doubleaction")]
+		DoubleAction = 4,
+		[EnumMember(Value = "semiauto")]
+		SemiAuto = 5,
+		[EnumMember(Value = "grenadeThrowing")]
+		GrenadeThrowing = 6,
+		[EnumMember(Value = "greanadePlanting")]
+		GrenadePlanting = 7
+	}
 }

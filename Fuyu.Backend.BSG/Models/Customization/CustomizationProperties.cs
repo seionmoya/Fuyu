@@ -25,7 +25,7 @@ namespace Fuyu.Backend.BSG.Models.Customization
         public object Prefab;   // can be String or BundleAddress
 
         [DataMember]
-        public BundleAddress WatchPrefab;
+        public ResourceKey WatchPrefab;
 
         [DataMember]
         public bool IntegratedArmorVest;

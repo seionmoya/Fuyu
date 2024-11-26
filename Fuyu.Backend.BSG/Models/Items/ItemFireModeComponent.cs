@@ -1,5 +1,5 @@
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.Models.Common;
+using Fuyu.Backend.BSG.DTO.Common;
 
 namespace Fuyu.Backend.BSG.Models.Items
 {
@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class ItemFireModeComponent
     {
         [DataMember]
-        public EFireMode FireMode;
-    }
+        public EFireMode FireMode { get; set; }
+	}
 }
