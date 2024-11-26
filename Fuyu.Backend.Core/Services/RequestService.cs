@@ -1,10 +1,10 @@
+using System;
 using System.Text;
+using Fuyu.Backend.Common.Models.Requests;
+using Fuyu.Backend.Common.Models.Responses;
 using Fuyu.Common.Collections;
-using Fuyu.Backend.Common.DTO.Requests;
-using Fuyu.Backend.Common.DTO.Responses;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
-using System;
 
 namespace Fuyu.Backend.Core.Services
 {
@@ -19,9 +19,8 @@ namespace Fuyu.Backend.Core.Services
             // TODO:
             // * get address from config
             // -- seionmoya, 2024/09/08
-            _httpClients.Set("fuyu", new EftHttpClient("http://localhost:8000", string.Empty));
-            _httpClients.Set("eft", new EftHttpClient("http://localhost:8010", string.Empty));
-            _httpClients.Set("arena", new EftHttpClient("http://localhost:8020", string.Empty));
+            _httpClients.Set("eft", new HttpClient("http://localhost:8010"));
+            _httpClients.Set("arena", new HttpClient("http://localhost:8020"));
         }
 
         private static T2 HttpPost<T1, T2>(string id, string path, T1 request)
@@ -41,18 +40,13 @@ namespace Fuyu.Backend.Core.Services
             return responseValue;
         }
 
-        public static void CreateSession(string id, string address, string sessionId)
-        {
-            _httpClients.Set(id, new EftHttpClient(address, sessionId));
-        }
-
         public static int RegisterGame(string game, string username, string edition)
         {
             var request = new FuyuGameRegisterRequest()
-                {
-                    Username = username,
-                    Edition = edition
-                };
+            {
+                Username = username,
+                Edition = edition
+            };
             var response = HttpPost<FuyuGameRegisterRequest, FuyuGameRegisterResponse>(
                 game,
                 "/fuyu/game/register",

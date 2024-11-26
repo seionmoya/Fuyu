@@ -1,18 +1,18 @@
 using System.Threading.Tasks;
-using Fuyu.Common.Networking;
-using Fuyu.Common.Serialization;
-using Fuyu.Backend.Core.DTO.Requests;
+using Fuyu.Backend.Core.Models.Requests;
+using Fuyu.Backend.Core.Networking;
 using Fuyu.Backend.Core.Services;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.Core.Controllers
 {
-    public class AccountRegisterGameController : HttpController<AccountRegisterGameRequest>
-	{
+    public class AccountRegisterGameController : CoreHttpController<AccountRegisterGameRequest>
+    {
         public AccountRegisterGameController() : base("/account/register/game")
         {
         }
 
-        public override Task RunAsync(HttpContext context, AccountRegisterGameRequest request)
+        public override Task RunAsync(CoreHttpContext context, AccountRegisterGameRequest request)
         {
             var sessionId = context.GetSessionId();
             var result = AccountService.RegisterGame(sessionId, request.Game, request.Edition);

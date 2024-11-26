@@ -91,7 +91,7 @@ namespace Fuyu.Common.IO
         public static byte[] GetBytes(string id, string path)
         {
             using (var rs = GetStream(id, path))
-			{
+            {
                 var bytes = new byte[rs.Length];
                 rs.Read(bytes, 0, bytes.Length);
 

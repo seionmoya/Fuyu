@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Fuyu.Backend.EFT.DTO.Trading;
+using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
@@ -19,8 +20,9 @@ namespace Fuyu.Backend.EFT
         public static void Load()
         {
             var tradersJson = Resx.GetText("eft", "database.client.trading.api.traderSettings.json");
-            var traderTemplates = Json.Parse<TraderTemplate[]>(tradersJson);
-            foreach (var traderTemplate in traderTemplates)
+            var body = Json.Parse<ResponseBody<TraderTemplate[]>>(tradersJson);
+
+            foreach (var traderTemplate in body.data)
             {
                 _traders.Set(traderTemplate.Id, traderTemplate);
             }

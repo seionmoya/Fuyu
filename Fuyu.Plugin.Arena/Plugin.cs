@@ -1,7 +1,8 @@
 using BepInEx;
-using Fuyu.Plugin.Core.Reflection;
 using Fuyu.Plugin.Arena.Patches;
 using Fuyu.Plugin.Arena.Utils;
+using Fuyu.Plugin.Common.Reflection;
+using Fuyu.Plugin.Common.Utils;
 
 namespace Fuyu.Plugin.Arena
 {
@@ -21,9 +22,12 @@ namespace Fuyu.Plugin.Arena
 
         protected void Awake()
         {
-            Logger.LogInfo("[Fuyu.Plugin.Arena] Patching...");
+            LogWriter.Initialize(Logger, GetType().Assembly);
 
-            // NOTE: disable this for packet dumping
+            LogWriter.WriteLine("Patching...");
+
+            // TODO: disable when running on HTTPS
+            // -- seionmoya, 2024-11-19
             ProtocolUtil.RemoveTransportPrefixes();
 
             foreach (var patch in _patches)
@@ -34,7 +38,7 @@ namespace Fuyu.Plugin.Arena
 
         protected void OnApplicationQuit()
         {
-            Logger.LogInfo("[Fuyu.Plugin.Arena] Unpatching...");
+            LogWriter.WriteLine("Unpatching...");
 
             foreach (var patch in _patches)
             {

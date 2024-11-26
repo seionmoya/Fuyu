@@ -1,10 +1,10 @@
 // Disable general file validation, does NOT disable client bundles validation
 
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Fuyu.Plugin.Core.Reflection;
+using EFT;
 using Fuyu.Plugin.Arena.Reflection;
+using Fuyu.Plugin.Common.Reflection;
 
 namespace Fuyu.Plugin.Arena.Patches
 {
@@ -14,11 +14,8 @@ namespace Fuyu.Plugin.Arena.Patches
 
         static ConsistencyGeneralPatch()
         {
-            var name = "RunFilesChecking";
-            var flags = PatchHelper.AnyInstanceFlags;
-            var type = PatchHelper.Types.Single(t => t.GetMethod(name, flags) != null);
-
-            _mi = type.GetMethod(name);
+            var flags = PatchHelper.PrivateFlags;
+            _mi = typeof(TarkovApplication).BaseType.GetMethod("RunFilesChecking", flags);
         }
 
         public ConsistencyGeneralPatch() : base("com.fuyu.plugin.arena.consistencygeneral", EPatchType.Prefix)

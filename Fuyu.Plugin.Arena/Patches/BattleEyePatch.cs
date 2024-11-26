@@ -3,8 +3,8 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Fuyu.Plugin.Core.Reflection;
 using Fuyu.Plugin.Arena.Reflection;
+using Fuyu.Plugin.Common.Reflection;
 
 namespace Fuyu.Plugin.Arena.Patches
 {

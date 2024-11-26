@@ -13,6 +13,7 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 ## Requirements
 
 - .NET 8.0 SDK
+- WebView 2 Runtime
 
 ### Supported IDEs
 
@@ -23,8 +24,27 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 
 **Game** | **Version**
 -------- | ------------
-EFT      | 0.15.0.32197
-Arena    | 0.2.0.32193
+EFT      | 0.15.5.133420
+Arena    | none (yet)
+
+## Setup
+
+### Local project
+
+1. `git clone https://github.com/project-fika/fuyu`
+2. Visual Studio Code > Terminal > Run Task... > "dotnet: restore"
+
+### Repository CI/CD
+
+1. Github > Generate new PAT
+   1. Go [here](https://github.com/settings/tokens/new)
+      - note: `FUYU_WORKFLOWS`
+      - permissions: `repo` (all), `workflow` (all)
+   2. Once PAT is generated, copy the token to clipboard
+2. Github > Repositories > Fuyu > Settings > Secrets > Actions
+3. New repository secret
+   - name: `FUYU_WORKFLOWS`
+   - field: paste your token
 
 ## Build
 
@@ -48,8 +68,10 @@ SPTarkov.
 
 ## Credits
 
-**Author** | **Reason**
----------- | ----------------------------------
-seionmoya  | Project creator, main author
-thesparta  | Most of the launcher code
-nexus      | Debugging issues inside EFT client
+Sorted alphabetically ascending.
+
+**Author**   | **Reason**
+------------ | ---------------------------
+nexus4880    | Maintainer
+seionmoya    | Project creator, maintainer
+thespartapt  | Maintainer

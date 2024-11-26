@@ -6,10 +6,9 @@ namespace Fuyu.Plugin.Arena.Reflection
     public static class PatchHelper
     {
         public static readonly Type[] Types;
-        public const BindingFlags AnyInstanceFlags  = BindingFlags.Instance
-                                                    | BindingFlags.Public
-                                                    | BindingFlags.NonPublic
-                                                    | BindingFlags.DeclaredOnly;
+        public const BindingFlags PrivateFlags = BindingFlags.Instance
+                                                | BindingFlags.NonPublic
+                                                | BindingFlags.DeclaredOnly;
 
         static PatchHelper()
         {

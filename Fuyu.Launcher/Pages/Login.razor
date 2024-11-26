@@ -1,10 +1,10 @@
-﻿@using Fuyu.Backend.Core.DTO.Accounts
+﻿@using Fuyu.Backend.Core.Models.Accounts
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 @inject IDispatcher Dispatcher
-@inject ISnackbar Snackbar
 @inject NavigationManager Navigation
+@inject ISnackbar Snackbar
 
 @page "/login"
 
@@ -51,12 +51,18 @@
             return;
         }
 
-        var response = RequestService.LoginAccount(_username, _password);
+        var httpResponse = RequestService.LoginAccount(_username, _password);
 
-        switch (response.Status)
+        if (httpResponse.Error != null)
+        {
+            Navigation.NavigateTo("/unreachable");
+            return;
+        }
+
+        switch (httpResponse.Response.Status)
         {
             case ELoginStatus.Success:
-                RequestService.CreateSession("fuyu", SettingsService.FuyuAddress, response.SessionId);
+                HttpHelper.CreateSession("fuyu", SettingsService.FuyuAddress, httpResponse.Response.SessionId);
 
                 Dispatcher.Dispatch(new LoginSessionAction(_username));
                 Dispatcher.Dispatch(new GetGamesAction());

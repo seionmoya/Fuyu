@@ -3,6 +3,7 @@
 @inject IState<SessionState> SessionState
 @inject IState<GamesState> GamesState
 @inject IState<ActiveGameState> ActiveGameState
+@inject NavigationManager Navigation
 
 <Background Glass="true" BackgroundImage=@($"bg-{ActiveGameState.Value.GameId}.png") />
 
@@ -40,19 +41,25 @@
 
         var accountId = (int)GamesState.Value.Games[ActiveGameState.Value.GameId];
 
-        var gameSessionId = RequestService.LoginGame(ActiveGameState.Value.GameId, accountId);
+        var httpResponse = RequestService.LoginGame(ActiveGameState.Value.GameId, accountId);
+
+        if (httpResponse.Error != null)
+        {
+            Navigation.NavigateTo("/unreachable");
+            return;
+        }
 
         switch (ActiveGameState.Value.GameId)
         {
             case "eft":
-                using (var process = ProcessService.StartEft(SettingsService.EftDirectory, gameSessionId, SettingsService.EftAddress))
+                using (var process = ProcessService.StartEft(SettingsService.EftDirectory, httpResponse.Response.SessionId, SettingsService.EftAddress))
                 {
                     process.Start();
                 }
                 break;
 
             case "arena":
-                using (var process = ProcessService.StartArena(SettingsService.ArenaDirectory, gameSessionId, SettingsService.ArenaAddress))
+                using (var process = ProcessService.StartArena(SettingsService.ArenaDirectory, httpResponse.Response.SessionId, SettingsService.ArenaAddress))
                 {
                     process.Start();
                 }

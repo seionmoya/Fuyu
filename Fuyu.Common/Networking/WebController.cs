@@ -3,25 +3,25 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Common.Networking
 {
-	public abstract class WebController<TContext> : IRoutable, IRouterController<TContext> where TContext : WebRouterContext
+    public abstract class WebController<TContext> : IRoutable, IRouterController<TContext> where TContext : WebRouterContext
     {
-		public Regex Matcher { get; }
+        public Regex Matcher { get; }
 
-		protected WebController(Regex pattern)
+        protected WebController(Regex pattern)
         {
-			Matcher = pattern;
+            Matcher = pattern;
         }
 
-		protected WebController(string path)
+        protected WebController(string path)
         {
-			Matcher = new Regex($"^{path}$");
+            Matcher = new Regex($"^{path}$");
         }
 
-		public bool IsMatch(TContext context)
-		{
-			return Matcher.IsMatch(context.Path);
-		}
+        public bool IsMatch(TContext context)
+        {
+            return Matcher.IsMatch(context.Path);
+        }
 
-		public abstract Task RunAsync(TContext context);
-	}
+        public abstract Task RunAsync(TContext context);
+    }
 }

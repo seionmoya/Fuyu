@@ -1,9 +1,7 @@
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Fuyu.Common.Compression;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Common.Networking
@@ -14,68 +12,30 @@ namespace Fuyu.Common.Networking
         {
         }
 
-        public bool HasBody()
-        {
-            return Request.HasEntityBody;
-        }
-
-        public async Task<byte[]> GetBinaryAsync()
+        public virtual byte[] GetBinary()
         {
             using (var ms = new MemoryStream())
             {
-                await Request.InputStream.CopyToAsync(ms);
-                var body = ms.ToArray();
-
-                if (MemoryZlib.IsCompressed(body))
-                {
-                    body = MemoryZlib.Decompress(body);
-                }
-
-                return body;
+                Request.InputStream.CopyTo(ms);
+                return ms.ToArray();
             }
         }
 
-        public async Task<string> GetTextAsync()
+        public virtual string GetText()
         {
-            var body = await GetBinaryAsync();
+            var body = GetBinary();
             return Encoding.UTF8.GetString(body);
         }
 
-        public async Task<T> GetJsonAsync<T>()
+        public virtual T GetJson<T>()
         {
-            var json = await GetTextAsync();
+            var json = GetText();
             return Json.Parse<T>(json);
         }
 
-        public string GetSessionId()
+        protected virtual Task SendAsync(byte[] data, string mime, HttpStatusCode status)
         {
-            return Request.Cookies["PHPSESSID"].Value;
-        }
-
-        protected async Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool zipped = true)
-        {
-            bool hasData = !(data is null);
-
-            // used for plaintext debugging
-            if (Request.Headers["fuyu-debug"] != null)
-            {
-                zipped = false;
-            }
-
-            if (hasData && zipped)
-            {
-                // NOTE: CompressionLevel.SmallestSize does not exist in
-                //       .NET 5 and below.
-                // -- seionmoya, 2024-10-07
-
-#if NET6_0_OR_GREATER
-                var level = CompressionLevel.SmallestSize;
-#else
-                var level = CompressionLevel.Optimal;
-#endif
-
-                data = MemoryZlib.Compress(data, level);
-            }
+            var hasData = !(data == null);
 
             Response.StatusCode = (int)status;
             Response.ContentType = mime;
@@ -85,43 +45,30 @@ namespace Fuyu.Common.Networking
             {
                 using (var payload = Response.OutputStream)
                 {
-                    await payload.WriteAsync(data, 0, data.Length);
+                    return payload.WriteAsync(data, 0, data.Length);
                 }
             }
             else
             {
                 Response.Close();
+                return Task.CompletedTask;
             }
         }
 
-        public async Task SendStatus(HttpStatusCode status)
+        public virtual Task SendStatus(HttpStatusCode status)
         {
-            await SendAsync(null, "plain/text", status, false);
+            return SendAsync(null, "plain/text", status);
         }
 
-        public Task SendBinaryAsync(byte[] data, string mime, bool zipped = true)
+        public virtual Task SendBinaryAsync(byte[] data, string mime)
         {
-            return SendAsync(data, mime, HttpStatusCode.OK, zipped);
+            return SendAsync(data, mime, HttpStatusCode.OK);
         }
 
-        public async Task SendJsonAsync(string text, bool zipped = true)
+        public virtual Task SendJsonAsync(string text)
         {
             var encoded = Encoding.UTF8.GetBytes(text);
-            var mime = zipped
-                ? "application/octet-stream"
-                : "application/json; charset=utf-8";
-
-            await SendAsync(encoded, mime, HttpStatusCode.OK, zipped);
+            return SendAsync(encoded, "application/json; charset=utf-8", HttpStatusCode.OK);
         }
-
-        public void Close()
-        {
-            Response.Close();
-        }
-
-		public override string ToString()
-		{
-			return $"{GetType().Name}:{Path}(HasBody:{HasBody()})";
-		}
-	}
+    }
 }

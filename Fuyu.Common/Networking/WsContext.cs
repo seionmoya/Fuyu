@@ -30,17 +30,17 @@ namespace Fuyu.Common.Networking
             return _ws.State == WebSocketState.Open;
         }
 
-		// TODO:
-		// * use System.Buffers.ArrayPool for receiveBuffer
-		// -- seionmoya, 2024/09/09
+        // TODO:
+        // * use System.Buffers.ArrayPool for receiveBuffer
+        // -- seionmoya, 2024/09/09
 
-		// NOTE: Made this internal because consumers
-		// shouldn't be calling this on their own
+        // NOTE: Made this internal because consumers
+        // shouldn't be calling this on their own
         // -- nexus4880, 2024-10-23
-		internal async Task PollAsync()
+        internal async Task PollAsync()
         {
             var buffer = new byte[_bufferSize];
-			var received = await _ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            var received = await _ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             var data = new byte[received.Count];
             Array.Copy(buffer, 0, data, 0, data.Length);
 
@@ -49,37 +49,35 @@ namespace Fuyu.Common.Networking
                 case WebSocketMessageType.Text:
                     var text = Encoding.UTF8.GetString(data);
                     if (OnTextEvent != null)
-					{
-						await OnTextEvent(this, text);
-					}
-
+                    {
+                        await OnTextEvent(this, text);
+                    }
                     break;
 
                 case WebSocketMessageType.Binary:
                     if (OnBinaryEvent != null)
                     {
                         await OnBinaryEvent(this, data);
-					}
-
+                    }
                     break;
 
-				case WebSocketMessageType.Close:
-					await CloseAsync();
-					break;
-			}
+                case WebSocketMessageType.Close:
+                    await CloseAsync();
+                    break;
+            }
         }
 
-        public async Task SendTextAsync(string text)
+        public Task SendTextAsync(string text)
         {
             var encoded = Encoding.UTF8.GetBytes(text);
             var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
-            await _ws.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+            return _ws.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
-        public async Task SendBinaryAsync(byte[] data)
+        public Task SendBinaryAsync(byte[] data)
         {
             var buffer = new ArraySegment<byte>(data, 0, data.Length);
-            await _ws.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
+            return _ws.SendAsync(buffer, WebSocketMessageType.Binary, true, CancellationToken.None);
         }
 
         public async Task CloseAsync()
@@ -88,12 +86,12 @@ namespace Fuyu.Common.Networking
             if (OnCloseEvent != null)
             {
                 await OnCloseEvent(this);
-			}
+            }
         }
 
-		public override string ToString()
-		{
-			return $"{GetType().Name}:{Path}";
-		}
-	}
+        public override string ToString()
+        {
+            return $"{GetType().Name}:{Path}";
+        }
+    }
 }

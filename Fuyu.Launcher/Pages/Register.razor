@@ -1,4 +1,4 @@
-﻿@using Fuyu.Backend.Core.DTO.Accounts
+﻿@using Fuyu.Backend.Core.Models.Accounts
 
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
@@ -65,9 +65,15 @@
             return;
         }
 
-        var status = RequestService.RegisterAccount(_username, _password);
+        var httpResponse = RequestService.RegisterAccount(_username, _password);
 
-        switch (status)
+        if (httpResponse.Error != null)
+        {
+            Navigation.NavigateTo("/unreachable");
+            return;
+        }
+
+        switch (httpResponse.Response.Status)
         {
             case ERegisterStatus.Success:
                 Snackbar.Add("Account registered successfully. You can now login.", Severity.Success);

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Fuyu.Backend.BSG.ItemTemplates;
-using Fuyu.Backend.EFT.DTO.Items;
+using Fuyu.Backend.BSG.Models.Items;
+using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
@@ -17,7 +18,7 @@ namespace Fuyu.Backend.BSG.DTO.Services
 		public static void Load()
 		{
 			var itemsText = Resx.GetText("eft", "database.client.items.json");
-			ItemTemplates = Json.Parse<Dictionary<MongoId, ItemTemplate>>(itemsText);
+			ItemTemplates = Json.Parse<ResponseBody<Dictionary<MongoId, ItemTemplate>>>(itemsText).data;
 		}
 
 		public static ItemInstance CreateItem(MongoId tpl, MongoId? id = null)

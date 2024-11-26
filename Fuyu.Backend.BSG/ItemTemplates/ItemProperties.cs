@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Fuyu.Backend.BSG.DTO.Common;
+using Fuyu.Backend.BSG.Models.Common;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.ItemTemplates

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Fuyu.Backend.EFT.DTO.Items;
+using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Services
@@ -44,7 +44,7 @@ namespace Fuyu.Backend.BSG.Services
             return GetItemAndChildren(items, item.Id);
         }
 
-		public static bool IsChildItem(ItemInstance item, List<MongoId> ids)
+        public static bool IsChildItem(ItemInstance item, List<MongoId> ids)
         {
             if (!item.ParentId.HasValue)
             {
@@ -54,30 +54,30 @@ namespace Fuyu.Backend.BSG.Services
             return ids.FindIndex(i => i == item.ParentId.Value) != -1;
         }
 
-		// TODO: make the LINQ pattern more explicit
-		public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
-		{
-			var foundNewItem = true;
-			var idsToReturn = new List<MongoId>
+        // TODO: make the LINQ pattern more explicit
+        public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
+        {
+            var foundNewItem = true;
+            var idsToReturn = new List<MongoId>
             {
                 id
             };
 
-			while (foundNewItem)
-			{
-				foundNewItem = false;
-				var found = items.Where(
+            while (foundNewItem)
+            {
+                foundNewItem = false;
+                var found = items.Where(
                     i => !idsToReturn.Contains(i.Id)
                     && IsChildItem(i, idsToReturn));
 
-				if (found.Any())
-				{
-					foundNewItem = true;
-					idsToReturn.AddRange(found.Select(i => i.Id));
-				}
-			}
+                if (found.Any())
+                {
+                    foundNewItem = true;
+                    idsToReturn.AddRange(found.Select(i => i.Id));
+                }
+            }
 
             return items.Where(i => idsToReturn.Contains(i.Id)).ToList();
-		}
+        }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Fuyu.Backend.EFT.DTO.Items;
+using Fuyu.Backend.BSG.Models.Items;
+using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
@@ -20,13 +21,15 @@ namespace Fuyu.Backend.EFT.Controllers
         public EItemRotation Rotation { get; set; }
     }
 
-    public class GetNextFreeSlotController : HttpController<GetNextFreeSlotRequest>
+    // TODO: Delete later
+    // -- nexus4880, 2024-11-26
+    public class GetNextFreeSlotController : EftHttpController<GetNextFreeSlotRequest>
     {
         public GetNextFreeSlotController() : base("/get/next/free/slot")
         {
         }
 
-		public override Task RunAsync(HttpContext context, GetNextFreeSlotRequest body)
+		public override Task RunAsync(EftHttpContext context, GetNextFreeSlotRequest body)
 		{
             var profile = EftOrm.GetActiveProfile(context.GetSessionId());
             var freeSlot = profile.Pmc.Inventory.GetNextFreeSlot(body.Width, body.Height, out var gridName, body.Rotation);

@@ -1,89 +1,43 @@
-using System.Text;
-using System.Collections.Generic;
-using Fuyu.Common.Collections;
+using Fuyu.Backend.Common.Models.Requests;
+using Fuyu.Backend.Common.Models.Responses;
+using Fuyu.Backend.Core.Models.Requests;
+using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.Networking;
-using Fuyu.Common.Serialization;
-using Fuyu.Backend.Common.DTO.Requests;
-using Fuyu.Backend.Common.DTO.Responses;
-using Fuyu.Backend.Core.DTO.Accounts;
-using Fuyu.Backend.Core.DTO.Requests;
-using Fuyu.Backend.Core.DTO.Responses;
-using System;
+using Fuyu.Launcher.Core.Helpers;
+using Fuyu.Launcher.Core.Models;
 
 namespace Fuyu.Launcher.Core.Services
 {
     public static class RequestService
     {
-        private static ThreadDictionary<string, HttpClient> _httpClients;
-
         static RequestService()
+        { }
+
+        public static HttpResponse<object> Ping()
         {
-            _httpClients = new ThreadDictionary<string, HttpClient>();
-
-            _httpClients.Set("fuyu", new EftHttpClient(SettingsService.FuyuAddress, string.Empty));
-            _httpClients.Set("eft", new EftHttpClient(SettingsService.EftAddress, string.Empty));
-            _httpClients.Set("arena", new EftHttpClient(SettingsService.ArenaAddress, string.Empty));
+            return HttpHelper.HttpReq<object, object>(
+                EHttpMethod.GET,
+                "fuyu",
+                "/ping",
+                null);
         }
 
-        private static void HttpPut<T1>(string id, string path, T1 request)
-		{
-			if (!_httpClients.TryGet(id, out var httpc))
-			{
-				throw new Exception($"Id '{id}' not found");
-			}
-
-			var requestJson = Json.Stringify(request);
-            var requestBytes = Encoding.UTF8.GetBytes(requestJson);
-
-            httpc.Put(path, requestBytes);
-        }
-
-        private static T2 HttpPost<T1, T2>(string id, string path, T1 request)
-		{
-			if (!_httpClients.TryGet(id, out var httpc))
-			{
-				throw new Exception($"Id '{id}' not found");
-			}
-
-			var requestJson = Json.Stringify(request);
-            var requestBytes = Encoding.UTF8.GetBytes(requestJson);
-
-            var response = httpc.Post(path, requestBytes);
-            var responseJson = Encoding.UTF8.GetString(response.Body);
-            var responseValue = Json.Parse<T2>(responseJson);
-
-            return responseValue;
-        }
-
-        public static void ResetSessions()
-        {
-            _httpClients.Set("fuyu", new EftHttpClient(SettingsService.FuyuAddress, string.Empty));
-            _httpClients.Set("eft", new EftHttpClient(SettingsService.EftAddress, string.Empty));
-            _httpClients.Set("arena", new EftHttpClient(SettingsService.ArenaAddress, string.Empty));
-        }
-
-        public static void CreateSession(string id, string address, string sessionId)
-        {
-            _httpClients.Set(id, new EftHttpClient(address, sessionId));
-        }
-
-        public static ERegisterStatus RegisterAccount(string username, string password)
+        public static HttpResponse<AccountRegisterResponse> RegisterAccount(string username, string password)
         {
             var request = new AccountRegisterRequest()
             {
                 Username = username,
                 Password = password
             };
-            var response = HttpPost<AccountRegisterRequest, AccountRegisterResponse>(
+
+            return HttpHelper.HttpReq<AccountRegisterRequest, AccountRegisterResponse>(
+                EHttpMethod.POST,
                 "fuyu",
                 "/account/register",
                 request);
-
-            return response.Status;
         }
 
-        public static AccountLoginResponse LoginAccount(string username, string password)
+        public static HttpResponse<AccountLoginResponse> LoginAccount(string username, string password)
         {
             var hashedPassword = Sha256.Generate(password);
             var request = new AccountLoginRequest()
@@ -91,61 +45,61 @@ namespace Fuyu.Launcher.Core.Services
                 Username = username,
                 Password = hashedPassword
             };
-            var response = HttpPost<AccountLoginRequest, AccountLoginResponse>(
+
+            return HttpHelper.HttpReq<AccountLoginRequest, AccountLoginResponse>(
+                EHttpMethod.POST,
                 "fuyu",
                 "/account/login",
                 request);
-
-            return response;
         }
 
         public static void LogoutAccount()
         {
-            HttpPut<object>(
+            HttpHelper.HttpReq<object, object>(
+                EHttpMethod.PUT,
                 "fuyu",
                 "/account/logout",
                 null);
 
-            ResetSessions();
+            HttpHelper.ResetSessions();
         }
 
-        public static Dictionary<string, int?> GetGames()
+        public static HttpResponse<AccountGamesResponse> GetGames()
         {
-            var response = HttpPost<object, AccountGamesResponse>(
+            return HttpHelper.HttpReq<object, AccountGamesResponse>(
+                EHttpMethod.POST,
                 "fuyu",
                 "/account/games",
                 null);
-
-            return response.Games;
         }
 
-        public static AccountRegisterGameResponse RegisterGame(string game, string edition)
+        public static HttpResponse<AccountRegisterGameResponse> RegisterGame(string game, string edition)
         {
             var request = new AccountRegisterGameRequest()
             {
                 Game = game,
                 Edition = edition
             };
-            var response = HttpPost<AccountRegisterGameRequest, AccountRegisterGameResponse>(
+
+            return HttpHelper.HttpReq<AccountRegisterGameRequest, AccountRegisterGameResponse>(
+                EHttpMethod.POST,
                 "fuyu",
                 "/account/register/game",
                 request);
-
-            return response;
         }
 
-        public static string LoginGame(string game, int accountId)
+        public static HttpResponse<FuyuGameLoginResponse> LoginGame(string game, int accountId)
         {
             var request = new FuyuGameLoginRequest()
             {
                 AccountId = accountId
             };
-            var response = HttpPost<FuyuGameLoginRequest, FuyuGameLoginResponse>(
+
+            return HttpHelper.HttpReq<FuyuGameLoginRequest, FuyuGameLoginResponse>(
+                EHttpMethod.POST,
                 game,
                 "/fuyu/game/login",
                 request);
-
-            return response.SessionId;
         }
     }
 }
