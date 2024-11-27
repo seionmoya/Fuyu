@@ -29,9 +29,9 @@ namespace Fuyu.Backend
             eftMainServer.RegisterServices();
             eftMainServer.Start();
 
-			await ModManager.Instance.Load(container);
-			Terminal.WaitForInput();
-			await ModManager.Instance.UnloadAll();
-		}
+            await ModManager.Instance.Load(container);
+            Terminal.WaitForInput();
+            await ModManager.Instance.UnloadAll();
+        }
     }
 }
