@@ -4,13 +4,18 @@ using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFT;
 using Fuyu.Backend.EFT.Servers;
 using Fuyu.Backend.BSG.DTO.Services;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
+using System.Threading.Tasks;
 
 namespace Fuyu.Backend
 {
     public class Program
     {
-        static void Main()
+        static async Task Main()
         {
+            var container = new DependencyContainer();
+
             CoreDatabase.Load();
             EftDatabase.Load();
             TraderDatabase.Load();
@@ -24,7 +29,9 @@ namespace Fuyu.Backend
             eftMainServer.RegisterServices();
             eftMainServer.Start();
 
-            Terminal.WaitForInput();
-        }
+			await ModManager.Instance.Load(container);
+			Terminal.WaitForInput();
+			await ModManager.Instance.UnloadAll();
+		}
     }
 }

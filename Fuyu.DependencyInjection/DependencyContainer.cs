@@ -173,6 +173,15 @@ namespace Fuyu.DependencyInjection
 			return (T)Resolve(id, typeof(T));
 		}
 
+		/// <summary>
+		/// Used to resolve an object of the desired type and id
+		/// </summary>
+		public T Resolve<TBase, T>(string id) where T : class
+			where TBase : class
+		{
+			return (T)Resolve(id, typeof(TBase));
+		}
+
 		#endregion
 
 		#region ResolveAll
