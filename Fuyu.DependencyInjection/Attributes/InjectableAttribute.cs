@@ -2,8 +2,8 @@
 
 namespace Fuyu.DependencyInjection.Attributes
 {
-	[AttributeUsage(AttributeTargets.Constructor)]
-	public class InjectableAttribute : Attribute
-	{
-	}
+    [AttributeUsage(AttributeTargets.Constructor)]
+    public class InjectableAttribute : Attribute
+    {
+    }
 }
