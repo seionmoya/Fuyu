@@ -82,6 +82,12 @@ namespace Fuyu.Modding
 
 		public void AddMods(string directory)
         {
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+                return;
+            }
+
             var subdirectories = Directory.GetDirectories(directory);
 
             foreach (var modDirectory in subdirectories)
