@@ -32,6 +32,36 @@ namespace Fuyu.Common.IO
             return Directory.GetFiles(path);
         }
 
+        public static string[] GetFiles(string path, string pattern)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+            }
+
+            return Directory.GetFiles(path, pattern);
+        }
+
+        public static string[] GetFiles(string path, string pattern, SearchOption search)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+            }
+
+            return Directory.GetFiles(path, pattern, search);
+        }
+
+        public static string[] GetDirectories(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+            }
+
+            return Directory.GetDirectories(path);
+        }
+
         public static void CreateDirectory(string path)
         {
             Directory.CreateDirectory(path);

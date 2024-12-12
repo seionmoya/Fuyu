@@ -70,13 +70,13 @@ namespace Fuyu.Modding
 
 		public void AddMods(string directory)
         {
-            if (!Directory.Exists(directory))
+            if (!VFS.DirectoryExists(directory))
             {
-                Directory.CreateDirectory(directory);
+                VFS.CreateDirectory(directory);
                 return;
             }
 
-            var subdirectories = Directory.GetDirectories(directory);
+            var subdirectories = VFS.GetDirectories(directory);
 
             foreach (var modDirectory in subdirectories)
             {
@@ -98,14 +98,14 @@ namespace Fuyu.Modding
 
         private EModType GetModType(string directory)
         {
-            if (Directory.GetFiles(directory, "*.dll").Length > 0)
+            if (VFS.GetFiles(directory, "*.dll").Length > 0)
             {
                 return EModType.DLL;
             }
 
-            if (Directory.Exists(Path.Combine(directory, "src")))
+            if (VFS.DirectoryExists(Path.Combine(directory, "src")))
 			{
-                if (Directory.GetFiles(Path.Combine(directory, "src"), "*.cs").Length > 0)
+                if (VFS.GetFiles(Path.Combine(directory, "src"), "*.cs").Length > 0)
                 {
 				    return EModType.Source;
                 }
@@ -116,7 +116,7 @@ namespace Fuyu.Modding
 
         private void ProcessDLLMod(string directory)
         {
-            var dllPaths = Directory.GetFiles(directory, "*.dll");
+            var dllPaths = VFS.GetFiles(directory, "*.dll");
 
             foreach (var dllPath in dllPaths)
             {
@@ -127,7 +127,7 @@ namespace Fuyu.Modding
 
         private void ProcessSourceFiles(string directory)
         {
-            var sourceFiles = Directory.GetFiles(Path.Combine(directory, "src"), "*.cs", SearchOption.AllDirectories);
+            var sourceFiles = VFS.GetFiles(Path.Combine(directory, "src"), "*.cs", SearchOption.AllDirectories);
 
 			if (sourceFiles.Length == 0)
             {
@@ -153,7 +153,7 @@ namespace Fuyu.Modding
 				syntaxTrees.Add(syntaxTree);
 			}
 
-			var resourcePaths = Directory.GetFiles(Path.Combine(directory, "res"), "*.*", SearchOption.AllDirectories);
+			var resourcePaths = VFS.GetFiles(Path.Combine(directory, "res"), "*.*", SearchOption.AllDirectories);
 			var resources = resourcePaths.Select(resourcePath =>
 			{
 				var fileName = $"{assemblyName}.embedded.{Path.GetFileName(resourcePath)}";
@@ -202,7 +202,7 @@ namespace Fuyu.Modding
 
                 try
                 {
-					resourcePaths = Directory.GetFiles(Path.Combine(Path.GetDirectoryName(assembly.Location), "res"), "*.*", SearchOption.AllDirectories);
+					resourcePaths = VFS.GetFiles(Path.Combine(Path.GetDirectoryName(assembly.Location), "res"), "*.*", SearchOption.AllDirectories);
 				}
                 catch (DirectoryNotFoundException)
                 {
