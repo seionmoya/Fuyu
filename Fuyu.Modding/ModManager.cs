@@ -139,7 +139,7 @@ namespace Fuyu.Modding
 
 			foreach (var file in sourceFiles)
 			{
-				var fileContents = File.ReadAllText(file);
+				var fileContents = VFS.ReadTextFile(file);
 				var syntaxTree = CSharpSyntaxTree.ParseText(
                     fileContents,
                     new CSharpParseOptions(
@@ -160,7 +160,7 @@ namespace Fuyu.Modding
 
 				return new ResourceDescription(
 					fileName,
-					() => File.OpenRead(resourcePath),
+					() => VFS.OpenRead(resourcePath),
 					isPublic: true
 				);
 			}).ToArray();
@@ -217,7 +217,7 @@ namespace Fuyu.Modding
 
 						return new ResourceDescription(
 							fileName,
-							() => File.OpenRead(resourcePath),
+							() => VFS.OpenRead(resourcePath),
 							isPublic: true
 						);
 					}).ToArray();
