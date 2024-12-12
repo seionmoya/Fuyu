@@ -19,10 +19,6 @@ namespace Fuyu.Modding
 
         private readonly List<Mod> _mods = new List<Mod>();
 
-        private readonly List<Assembly> _moddedAssemblies = new List<Assembly>();
-
-        private readonly List<MemoryStream> _dynamicMods = new List<MemoryStream>();
-
         private static readonly object _lock = new object();
 
         public static ModManager Instance
@@ -41,38 +37,30 @@ namespace Fuyu.Modding
             }
         }
 
-        public ModManager()
-        {
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-        }
-
-        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            // Find can return null and that's a valid result and I
-            // feel like it's cleaner then explicitly returning null
-            // -- nexus4880, 2024-12-7
-            return _moddedAssemblies.Find(a => a.FullName == args.Name);
-        }
-
 		private CSharpCompilation CreateCompilation(
             string assemblyName,
             IEnumerable<SyntaxTree> syntaxTrees,
-            bool includeReferences = true)
+            bool includeReferences)
         {
             // TODO: Simplify this later
-            IEnumerable<PortableExecutableReference> references =
-                includeReferences ?
-					// Mods can reference everything we have loaded
-					AppDomain.CurrentDomain.GetAssemblies()
+            IEnumerable<PortableExecutableReference> references;
+
+			if (includeReferences)
+            {
+                references =
+                    // Mods can reference everything we have loaded
+                    AppDomain.CurrentDomain.GetAssemblies()
                     // Where it is a disk on file
                     .Where(a => !string.IsNullOrEmpty(a.Location))
                     // Create a MetadataReference from it
-                    .Select(a => MetadataReference.CreateFromFile(a.Location))
-                    // AND grab from our already loaded dynamic mods as well
-                    .Concat(_dynamicMods.Select(s => MetadataReference.CreateFromStream(s))) :
-                Array.Empty<PortableExecutableReference>();
+                    .Select(a => MetadataReference.CreateFromFile(a.Location));
+			}
+            else
+            {
+                references = Array.Empty<PortableExecutableReference>(); ;
+			}
 
-			return CSharpCompilation.Create(
+            return CSharpCompilation.Create(
 				assemblyName,
 				syntaxTrees,
 				references,
@@ -177,27 +165,30 @@ namespace Fuyu.Modding
 				);
 			}).ToArray();
 
-			var compilation = CreateCompilation(assemblyName, syntaxTrees);
+			var compilation = CreateCompilation(assemblyName, syntaxTrees, true);
 
-			// Intentionally left open so that we can use it later
-			var ms = new MemoryStream();
-			_dynamicMods.Add(ms);
+            Assembly assembly;
 
-            var emitResult = compilation.Emit(ms, manifestResources: resources);
-            if (!emitResult.Success)
+            // Intentionally left open so that we can use it later
+            using (var ms = new MemoryStream())
             {
-				var errors = emitResult.Diagnostics
-	                .Where(d => !d.IsSuppressed && d.Severity == DiagnosticSeverity.Error);
+                var emitResult = compilation.Emit(ms, manifestResources: resources);
+                if (!emitResult.Success)
+                {
+                    var errors = emitResult.Diagnostics
+                        .Where(d => !d.IsSuppressed && d.Severity == DiagnosticSeverity.Error);
 
-				// Technically no cleanup is being done here but that's because this is considered a
-				// failed state and the ModManager should no longer live (and therefore the program)
-				// -- nexus4880, 2024-12-3
+                    // Technically no cleanup is being done here but that's because this is considered a
+                    // failed state and the ModManager should no longer live (and therefore the program)
+                    // -- nexus4880, 2024-12-3
 
-				throw new Exception(string.Join(Environment.NewLine, errors));
-			}
+                    throw new Exception(string.Join(Environment.NewLine, errors));
+                }
 
-			ms.Position = 0;
-			var assembly = Assembly.Load(ms.ToArray());
+                ms.Position = 0;
+				assembly = Assembly.Load(ms.ToArray());
+            }
+
 			Resx.SetSource(assemblyName, assembly);
 			ProcessAssembly(assembly, EModType.Source);
 		}
@@ -231,7 +222,7 @@ namespace Fuyu.Modding
 						);
 					}).ToArray();
 
-					var compilation = CreateCompilation($"{assemblyName}.Resources", Array.Empty<SyntaxTree>());
+					var compilation = CreateCompilation($"{assemblyName}.Resources", Array.Empty<SyntaxTree>(), false);
 
                     using (var assemblyStream = new MemoryStream())
                     {
@@ -253,11 +244,6 @@ namespace Fuyu.Modding
 						Resx.SetSource(assembly.GetName().Name, resourceAssembly);
 					}
 				}
-			}
-
-			if (!_moddedAssemblies.Contains(assembly))
-            {
-                _moddedAssemblies.Add(assembly);
 			}
 
 			// Get types where T inherits from Mod
@@ -293,7 +279,7 @@ namespace Fuyu.Modding
             foreach (var mod in _mods)
             {
                 if (!mod.IsLoaded)
-                { 
+                {
                     await mod.OnLoad(container);
                     mod.IsLoaded = true;
 				}
@@ -302,12 +288,9 @@ namespace Fuyu.Modding
 
         private void CheckDependencies()
         {
-			var runAgain = false;
-
 			for (var i = 0; i < _mods.Count; i++)
 			{
 				var mod = _mods[i];
-				var hasAllDependencies = true;
 
 				if (mod.Dependencies != null)
 				{
@@ -315,29 +298,16 @@ namespace Fuyu.Modding
 					{
 						if (_mods.FindIndex(m => m.Id == dependency) == -1)
 						{
-							hasAllDependencies = false;
-							Terminal.WriteLine($"{mod.Id} is missing dependency {dependency} and will not be loaded");
+							throw new Exception($"{mod.Id} is missing dependency {dependency} and will not be loaded");
 						}
 					}
 				}
-
-				if (!hasAllDependencies)
-				{
-					_mods.RemoveAt(i);
-					i--;
-					runAgain = true;
-				}
-			}
-
-			if (runAgain)
-			{
-				CheckDependencies();
 			}
 		}
 
         private void SortMods()
         {
-
+            // TODO: readd later, based on dependency tree
         }
 
 		public async Task UnloadAll()
