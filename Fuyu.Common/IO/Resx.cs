@@ -41,43 +41,46 @@ namespace Fuyu.Common.IO
                 _assemblies.Add(id, assembly);
                 _fullpaths.Add(id, paths);
             }
-        }
+		}
 
-        public static Stream GetStream(string id, string path)
-        {
-            // validate assembly
-            var hasAssembly = _assemblies.TryGetValue(id, out var assembly);
+		public static Stream GetStream(string id, string path)
+		{
+			// validate assembly
+			var hasAssembly = _assemblies.TryGetValue(id, out var assembly);
 
-            if (!hasAssembly)
-            {
-                throw new ArgumentException($"Source {id} is not registered for assemblies");
-            }
+			if (!hasAssembly)
+			{
+				throw new ArgumentException($"Source {id} is not registered for assemblies");
+			}
 
-            // validate fullpaths
-            var hasFullpath = _fullpaths.TryGetValue(id, out var fullpaths);
+			// validate fullpaths
+			var hasFullpath = _fullpaths.TryGetValue(id, out var fullpaths);
 
-            if (!hasFullpath)
-            {
-                throw new ArgumentException($"Source {id} is not registered for paths");
-            }
+			if (!hasFullpath)
+			{
+				throw new ArgumentException($"Source {id} is not registered for paths");
+			}
 
-            // find target
-            var target = $"{assembly.GetName().Name}.embedded.{path}";
+			// find target
+            
+            // NOTE: replacing ".Resources" is, ideally, a temporary solution
+            // -- nexus4880, 2024-12-11
+			var target = $"{assembly.GetName().Name.Replace(".Resources", string.Empty)}.embedded.{path}";
 
-            foreach (var fullpath in fullpaths)
-            {
-                if (fullpath == target)
-                {
-                    // target found
-                    return assembly.GetManifestResourceStream(target);
-                }
-            }
+			foreach (var fullpath in fullpaths)
+			{
+				if (fullpath == target)
+				{
+					// target found
+					return assembly.GetManifestResourceStream(target);
+				}
+			}
 
-            // target not found
-            throw new FileNotFoundException($"Cannot find resource {path}");
-        }
+			// target not found
+			throw new FileNotFoundException($"Cannot find resource {path}");
+		}
 
-        public static string GetText(string id, string path)
+		public static string GetText(string id, string path)
         {
             using (var rs = GetStream(id, path))
             {

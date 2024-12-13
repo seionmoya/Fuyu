@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 
@@ -32,6 +33,36 @@ namespace Fuyu.Common.IO
             return Directory.GetFiles(path);
         }
 
+        public static string[] GetFiles(string path, string pattern)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+            }
+
+            return Directory.GetFiles(path, pattern);
+        }
+
+        public static string[] GetFiles(string path, string pattern, SearchOption search)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+            }
+
+            return Directory.GetFiles(path, pattern, search);
+        }
+
+        public static string[] GetDirectories(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+            }
+
+            return Directory.GetDirectories(path);
+        }
+
         public static void CreateDirectory(string path)
         {
             Directory.CreateDirectory(path);
@@ -39,27 +70,15 @@ namespace Fuyu.Common.IO
 
         public static string ReadTextFile(string filepath)
         {
-            var path = Path.GetDirectoryName(filepath);
-
-            if (!DirectoryExists(path))
-            {
-                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
-            }
-
-            if (!File.Exists(filepath))
-            {
-                throw new FileNotFoundException($"File {filepath} doesn't exist.");
-            }
-
-            using (var fs = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.None))
-            {
-                using (var sr = new StreamReader(fs))
-                {
-                    var text = sr.ReadToEnd();
-                    return text;
-                }
-            }
-        }
+            using (var fs = OpenRead(filepath))
+			{
+				using (var sr = new StreamReader(fs))
+				{
+					var text = sr.ReadToEnd();
+					return text;
+				}
+			}
+		}
 
         // NOTE: we must prevent threads from accessing the same file at the
         //       same time. This way we can prevent data corruption when
@@ -104,5 +123,22 @@ namespace Fuyu.Common.IO
             // release thread lock
             _writeLock.TryRemove(filepath, out _);
         }
-    }
+
+		public static Stream OpenRead(string filepath)
+		{
+			var path = Path.GetDirectoryName(filepath);
+
+			if (!DirectoryExists(path))
+			{
+				throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+			}
+
+			if (!File.Exists(filepath))
+			{
+				throw new FileNotFoundException($"File {filepath} doesn't exist.");
+			}
+
+			return new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
+		}
+	}
 }

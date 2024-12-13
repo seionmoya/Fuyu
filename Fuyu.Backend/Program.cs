@@ -7,6 +7,7 @@ using Fuyu.Backend.BSG.DTO.Services;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 using System.Threading.Tasks;
+using Fuyu.Common.Networking;
 
 namespace Fuyu.Backend
 {
@@ -22,15 +23,23 @@ namespace Fuyu.Backend
             ItemFactoryService.Load();
 
             var coreServer = new CoreServer();
-            coreServer.RegisterServices();
+			container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
+
+			coreServer.RegisterServices();
             coreServer.Start();
 
             var eftMainServer = new EftMainServer();
-            eftMainServer.RegisterServices();
+			container.RegisterSingleton<HttpServer, EftMainServer>(eftMainServer);
+
+			eftMainServer.RegisterServices();
             eftMainServer.Start();
 
-            await ModManager.Instance.Load(container);
-            Terminal.WaitForInput();
+            Terminal.WriteLine("Loading mods...");
+			ModManager.Instance.AddMods("./Fuyu/Mods");
+			await ModManager.Instance.Load(container);
+            Terminal.WriteLine("Finished loading mods");
+
+			Terminal.WaitForInput();
             await ModManager.Instance.UnloadAll();
         }
     }

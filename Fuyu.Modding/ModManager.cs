@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Fuyu.Modding
 {
@@ -14,7 +17,7 @@ namespace Fuyu.Modding
     {
         private static ModManager _instance;
 
-        private readonly List<Mod> _sortedMods = new List<Mod>();
+        private readonly List<Mod> _mods = new List<Mod>();
 
         private static readonly object _lock = new object();
 
@@ -34,174 +37,308 @@ namespace Fuyu.Modding
             }
         }
 
-        public ModManager()
+        private CSharpCompilation CreateCompilation(
+            string assemblyName,
+            IEnumerable<SyntaxTree> syntaxTrees,
+            bool includeReferences)
         {
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            // TODO: Simplify this later
+            IEnumerable<PortableExecutableReference> references;
+
+            if (includeReferences)
+            {
+                references =
+                    // Mods can reference everything we have loaded
+                    AppDomain.CurrentDomain.GetAssemblies()
+                    // Where it is a disk on file
+                    .Where(a => !string.IsNullOrEmpty(a.Location))
+                    // Create a MetadataReference from it
+                    .Select(a => MetadataReference.CreateFromFile(a.Location));
+            }
+            else
+            {
+                references = Array.Empty<PortableExecutableReference>();
+            }
+
+            return CSharpCompilation.Create(
+                assemblyName,
+                syntaxTrees,
+                references,
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+            );
         }
 
-        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        public void AddMods(string directory)
         {
-            foreach (var mod in _sortedMods)
+            if (!VFS.DirectoryExists(directory))
             {
-                var modAssembly = mod.GetType().Assembly;
-                if (modAssembly.FullName == args.Name)
-                {
-                    return modAssembly;
-                }
-            }
-
-            return null;
-        }
-
-        public Task Load(DependencyContainer container)
-        {
-            var modsDirectory = Path.Combine(Environment.CurrentDirectory, "Fuyu", "Mods");
-            if (!Directory.Exists(modsDirectory))
-            {
-                Directory.CreateDirectory(modsDirectory);
-                return Task.CompletedTask;
-            }
-
-            var dllFiles = Directory.GetFiles(modsDirectory, "*.dll");
-            if (dllFiles.Length == 0)
-            {
-                return Task.CompletedTask;
-            }
-
-            return Load_Internal(dllFiles, container);
-        }
-
-        private async Task Load_Internal(string[] filePaths, DependencyContainer container)
-        {
-            List<Mod> mods = new List<Mod>();
-            foreach (var filePath in filePaths)
-            {
-                // Load the dll
-                var bytes = File.ReadAllBytes(filePath);
-                var assembly = AppDomain.CurrentDomain.Load(bytes);
-
-                // Get types where T implements IMod
-                var modTypes = assembly.GetExportedTypes()
-                    .Where(t => typeof(Mod).IsAssignableFrom(t));
-
-                // Technically you could export multiple mods per file
-                foreach (var modType in modTypes)
-                {
-                    var mod = (Mod)Activator.CreateInstance(modType);
-
-                    Terminal.WriteLine($"Adding mod {mod.Name}");
-
-                    mods.Add(mod);
-                }
-            }
-
-            if (mods.Count == 0)
-            {
+                VFS.CreateDirectory(directory);
                 return;
             }
 
-            CheckDependencies(mods);
-            SortMods(mods);
+            var subdirectories = VFS.GetDirectories(directory);
 
-            Terminal.WriteLine($"Current order: {string.Join(", ", _sortedMods.Select(p => p.Name))}");
-
-            foreach (var mod in _sortedMods)
+            foreach (var modDirectory in subdirectories)
             {
-                // All mods will be registered to the container
+                var modType = GetModType(modDirectory);
+
+                switch (modType)
+                {
+                    case EModType.DLL:
+                        ProcessDLLMod(modDirectory);
+                        break;
+                    case EModType.Source:
+                        ProcessSourceFiles(modDirectory);
+                        break;
+                    case EModType.Invalid:
+                        throw new Exception($"{modDirectory} does not contain a valid mod setup");
+                }
+            }
+        }
+
+        private EModType GetModType(string directory)
+        {
+            if (VFS.GetFiles(directory, "*.dll").Length > 0)
+            {
+                return EModType.DLL;
+            }
+
+            if (VFS.DirectoryExists(Path.Combine(directory, "src")))
+            {
+                if (VFS.GetFiles(Path.Combine(directory, "src"), "*.cs").Length > 0)
+                {
+                    return EModType.Source;
+                }
+            }
+
+            return EModType.Invalid;
+        }
+
+        private void ProcessDLLMod(string directory)
+        {
+            var dllPaths = VFS.GetFiles(directory, "*.dll");
+
+            foreach (var dllPath in dllPaths)
+            {
+                var assembly = Assembly.LoadFrom(dllPath);
+                ProcessAssembly(assembly, EModType.DLL);
+            }
+        }
+
+        private void ProcessSourceFiles(string directory)
+        {
+            var sourceFiles = VFS.GetFiles(Path.Combine(directory, "src"), "*.cs", SearchOption.AllDirectories);
+
+            if (sourceFiles.Length == 0)
+            {
+                throw new Exception($"{directory} was marked as a source mod yet no source files were found");
+            }
+
+            var assemblyName = Path.GetFileName(directory);
+            var syntaxTrees = new List<SyntaxTree>(sourceFiles.Length);
+
+            foreach (var file in sourceFiles)
+            {
+                var fileContents = VFS.ReadTextFile(file);
+                var syntaxTree = CSharpSyntaxTree.ParseText(
+                    fileContents,
+                    new CSharpParseOptions(
+                        LanguageVersion.Latest,
+                        DocumentationMode.None,
+                        SourceCodeKind.Regular
+                    ),
+                    file
+                );
+
+                syntaxTrees.Add(syntaxTree);
+            }
+
+            var resourcePaths = VFS.GetFiles(Path.Combine(directory, "res"), "*.*", SearchOption.AllDirectories);
+            var resources = resourcePaths.Select(resourcePath =>
+            {
+                var fileName = $"{assemblyName}.embedded.{Path.GetFileName(resourcePath)}";
+
+                return new ResourceDescription(
+                    fileName,
+                    () => VFS.OpenRead(resourcePath),
+                    isPublic: true
+                );
+            }).ToArray();
+
+            var compilation = CreateCompilation(assemblyName, syntaxTrees, true);
+
+            Assembly assembly;
+
+            // Intentionally left open so that we can use it later
+            using (var ms = new MemoryStream())
+            {
+                var emitResult = compilation.Emit(ms, manifestResources: resources);
+                if (!emitResult.Success)
+                {
+                    var errors = emitResult.Diagnostics
+                        .Where(d => !d.IsSuppressed && d.Severity == DiagnosticSeverity.Error);
+
+                    // Technically no cleanup is being done here but that's because this is considered a
+                    // failed state and the ModManager should no longer live (and therefore the program)
+                    // -- nexus4880, 2024-12-3
+
+                    throw new Exception(string.Join(Environment.NewLine, errors));
+                }
+
+                ms.Position = 0;
+                assembly = Assembly.Load(ms.ToArray());
+            }
+
+            Resx.SetSource(assemblyName, assembly);
+            ProcessAssembly(assembly, EModType.Source);
+        }
+
+        private void ProcessAssembly(Assembly assembly, EModType assemblyModType)
+        {
+            if (assemblyModType == EModType.DLL)
+            {
+                var resourceAssembly = GenerateResourceAssembly(assembly);
+                if (resourceAssembly != null)
+                {
+				    Resx.SetSource(assembly.GetName().Name, resourceAssembly);
+                }
+			}
+
+            // Get types where T inherits from Mod
+            var modTypes = assembly.GetExportedTypes()
+                .Where(t => typeof(Mod).IsAssignableFrom(t));
+
+            // Technically you could export multiple mods per assembly
+            foreach (var modType in modTypes)
+            {
+                var mod = (Mod)Activator.CreateInstance(modType);
+
+                if (_mods.FindIndex(m => m.Id == mod.Id) != -1)
+                {
+                    throw new Exception($"A mod with the id {mod.Id} has already been added");
+                }
+
+                Terminal.WriteLine($"Adding mod {mod.Name} ({mod.Id})");
+                _mods.Add(mod);
+            }
+        }
+
+        public async Task Load(DependencyContainer container)
+        {
+            CheckDependencies();
+            SortMods();
+
+            foreach (var mod in _mods)
+            {
+                // All mods WILL be registered in the DependencyContainer
                 container.RegisterSingleton(mod.Id, mod);
             }
 
-            foreach (var mod in _sortedMods)
+            foreach (var mod in _mods)
             {
-                Terminal.WriteLine($"Loading mod {mod.Name}");
-                await mod.OnLoad(container);
-                mod.IsLoaded = true;
-            }
-        }
-
-        private void SortMods(List<Mod> mods)
-        {
-            foreach (var mod in mods)
-            {
-                AddModToSorted(mods, mod, null);
-            }
-        }
-
-        private void AddModToSorted(List<Mod> mods, Mod mod, Mod dependent)
-        {
-            if (_sortedMods.Contains(mod))
-            {
-                return;
-            }
-
-            if (mod.Dependencies != null)
-            {
-                foreach (var dependency in mod.Dependencies)
+                if (!mod.IsLoaded)
                 {
-                    if (dependent != null && dependent.Id == dependency)
-                    {
-                        throw new Exception($"Cyclic dependency {mod.Id} <-> {dependency}");
-                    }
-
-                    AddModToSorted(mods, mods.Find(m => m.Id == dependency), mod);
+                    await mod.OnLoad(container);
+                    mod.IsLoaded = true;
                 }
             }
-
-            _sortedMods.Add(mod);
         }
 
-        private void CheckDependencies(List<Mod> mods)
+        private void CheckDependencies()
         {
-            var runAgain = false;
-
-            for (var i = 0; i < mods.Count; i++)
+            for (var i = 0; i < _mods.Count; i++)
             {
-                var mod = mods[i];
-                var hasAllDependencies = true;
+                var mod = _mods[i];
 
                 if (mod.Dependencies != null)
                 {
                     foreach (var dependency in mod.Dependencies)
                     {
-                        if (mods.FindIndex(m => m.Id == dependency) == -1)
+                        if (_mods.FindIndex(m => m.Id == dependency) == -1)
                         {
-                            hasAllDependencies = false;
-                            Terminal.WriteLine($"{mod.Id} is missing dependency {dependency} and will not be loaded");
+                            throw new Exception($"{mod.Id} is missing dependency {dependency} and will not be loaded");
                         }
                     }
                 }
-
-                if (!hasAllDependencies)
-                {
-                    mods.RemoveAt(i);
-                    i--;
-                    runAgain = true;
-                }
-            }
-
-            if (runAgain)
-            {
-                CheckDependencies(mods);
             }
         }
 
-        private async Task Unload(Mod mod)
+        private void SortMods()
         {
-            if (mod.IsLoaded)
-            {
-                Terminal.WriteLine($"Unloading mod {mod.Name}");
-                await mod.OnShutdown();
-                mod.IsLoaded = false;
-            }
-
-            _sortedMods.Remove(mod);
+            // TODO: readd later, based on dependency tree
         }
 
         public async Task UnloadAll()
         {
-            while (_sortedMods.Count > 0)
+            while (_mods.Count > 0)
             {
-                await Unload(_sortedMods[_sortedMods.Count - 1]);
+                await UnloadMod(_mods[_mods.Count - 1]);
+            }
+        }
+
+        private async Task UnloadMod(Mod mod)
+        {
+            if (mod.IsLoaded)
+            {
+                Terminal.WriteLine($"[{mod.Name} - ({mod.Id})] Unloading");
+                await mod.OnShutdown();
+                mod.IsLoaded = false;
+            }
+
+            _mods.Remove(mod);
+        }
+
+        private Assembly GenerateResourceAssembly(Assembly sourceAssembly)
+        {
+            var assemblyName = sourceAssembly.GetName().Name;
+            string[] resourcePaths;
+
+            try
+            {
+                resourcePaths = VFS.GetFiles(Path.Combine(Path.GetDirectoryName(sourceAssembly.Location), "res"), "*.*", SearchOption.AllDirectories);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return null;
+            }
+
+            if (resourcePaths.Length == 0)
+            {
+                return null;
+            }
+
+            var resources = resourcePaths.Select(resourcePath =>
+            {
+                var fileName = $"{assemblyName}.embedded.{Path.GetFileName(resourcePath)}";
+
+                return new ResourceDescription(
+                    fileName,
+                    () => VFS.OpenRead(resourcePath),
+                    isPublic: true
+                );
+            }).ToArray();
+
+            var compilation = CreateCompilation($"{assemblyName}.Resources", Array.Empty<SyntaxTree>(), false);
+
+            using (var assemblyStream = new MemoryStream())
+            {
+                var emitResult = compilation.Emit(assemblyStream, manifestResources: resources);
+
+                if (!emitResult.Success)
+                {
+                    var errors = emitResult.Diagnostics
+                        .Where(d => !d.IsSuppressed && d.Severity == DiagnosticSeverity.Error);
+
+                    // Technically no cleanup is being done here but that's because this is considered a
+                    // failed state and the ModManager should no longer live (and therefore the program)
+                    // -- nexus4880, 2024-12-3
+
+                    throw new Exception(string.Join(Environment.NewLine, errors));
+                }
+
+                var resourceAssembly = Assembly.Load(assemblyStream.ToArray());
+
+                return resourceAssembly;
             }
         }
     }
