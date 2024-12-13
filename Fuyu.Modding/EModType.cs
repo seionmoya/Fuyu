@@ -1,9 +1,9 @@
 namespace Fuyu.Modding
 {
-	public enum EModType
-	{
-		Invalid,
-		DLL,
-		Source
-	}
+    public enum EModType
+    {
+        Invalid,
+        DLL,
+        Source
+    }
 }

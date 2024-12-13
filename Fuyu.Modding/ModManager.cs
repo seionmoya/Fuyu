@@ -200,9 +200,9 @@ namespace Fuyu.Modding
                 var resourceAssembly = GenerateResourceAssembly(assembly);
                 if (resourceAssembly != null)
                 {
-				    Resx.SetSource(assembly.GetName().Name, resourceAssembly);
+                    Resx.SetSource(assembly.GetName().Name, resourceAssembly);
                 }
-			}
+            }
 
             // Get types where T inherits from Mod
             var modTypes = assembly.GetExportedTypes()

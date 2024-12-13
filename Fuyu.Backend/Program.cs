@@ -23,23 +23,23 @@ namespace Fuyu.Backend
             ItemFactoryService.Load();
 
             var coreServer = new CoreServer();
-			container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
+            container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
 
-			coreServer.RegisterServices();
+            coreServer.RegisterServices();
             coreServer.Start();
 
             var eftMainServer = new EftMainServer();
-			container.RegisterSingleton<HttpServer, EftMainServer>(eftMainServer);
+            container.RegisterSingleton<HttpServer, EftMainServer>(eftMainServer);
 
-			eftMainServer.RegisterServices();
+            eftMainServer.RegisterServices();
             eftMainServer.Start();
 
             Terminal.WriteLine("Loading mods...");
-			ModManager.Instance.AddMods("./Fuyu/Mods");
-			await ModManager.Instance.Load(container);
+            ModManager.Instance.AddMods("./Fuyu/Mods");
+            await ModManager.Instance.Load(container);
             Terminal.WriteLine("Finished loading mods");
 
-			Terminal.WaitForInput();
+            Terminal.WaitForInput();
             await ModManager.Instance.UnloadAll();
         }
     }

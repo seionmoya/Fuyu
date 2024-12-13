@@ -71,14 +71,14 @@ namespace Fuyu.Common.IO
         public static string ReadTextFile(string filepath)
         {
             using (var fs = OpenRead(filepath))
-			{
-				using (var sr = new StreamReader(fs))
-				{
-					var text = sr.ReadToEnd();
-					return text;
-				}
-			}
-		}
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    var text = sr.ReadToEnd();
+                    return text;
+                }
+            }
+        }
 
         // NOTE: we must prevent threads from accessing the same file at the
         //       same time. This way we can prevent data corruption when
@@ -124,21 +124,21 @@ namespace Fuyu.Common.IO
             _writeLock.TryRemove(filepath, out _);
         }
 
-		public static Stream OpenRead(string filepath)
-		{
-			var path = Path.GetDirectoryName(filepath);
+        public static Stream OpenRead(string filepath)
+        {
+            var path = Path.GetDirectoryName(filepath);
 
-			if (!DirectoryExists(path))
-			{
-				throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
-			}
+            if (!DirectoryExists(path))
+            {
+                throw new DirectoryNotFoundException($"Directory {path} doesn't exist.");
+            }
 
-			if (!File.Exists(filepath))
-			{
-				throw new FileNotFoundException($"File {filepath} doesn't exist.");
-			}
+            if (!File.Exists(filepath))
+            {
+                throw new FileNotFoundException($"File {filepath} doesn't exist.");
+            }
 
-			return new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
-		}
-	}
+            return new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.None);
+        }
+    }
 }
