@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Profiles;
 
 namespace Fuyu.Backend.BSG.Models.Accounts
@@ -13,7 +14,7 @@ namespace Fuyu.Backend.BSG.Models.Accounts
         public Profile Savage;
 
         [DataMember]
-        public string[] Suites;
+        public CustomizationStorageEntry[] Customization;
 
         [DataMember]
         public bool ShouldWipe;

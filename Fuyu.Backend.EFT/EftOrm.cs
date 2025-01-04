@@ -359,11 +359,6 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region Unparsed
-        public static string GetAccountCustomization()
-        {
-            return EftDatabase.AccountCustomization.Get();
-        }
-
         public static string GetAchievementList()
         {
             return EftDatabase.AchievementList.Get();
@@ -387,6 +382,11 @@ namespace Fuyu.Backend.EFT
         public static string GetHideoutAreas()
         {
             return EftDatabase.HideoutAreas.Get();
+        }
+
+        public static string GetHideoutCustomizationOfferList()
+        {
+            return EftDatabase.HideoutCustomizationOfferList.Get();
         }
 
         public static string GetHideoutProductionRecipes()
@@ -419,7 +419,12 @@ namespace Fuyu.Backend.EFT
             return EftDatabase.Locations.Get();
         }
 
-        public static string GetQuest()
+        public static string GetPrestige()
+        {
+            return EftDatabase.Quests.Get();
+        }
+
+        public static string GetQuests()
         {
             return EftDatabase.Quests.Get();
         }

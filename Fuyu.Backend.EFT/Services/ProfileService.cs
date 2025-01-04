@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Services
             {
                 Pmc = new Profile(),
                 Savage = new Profile(),
-                Suites = [],
+                Customization = [],
                 ShouldWipe = true
             };
 
@@ -55,12 +55,12 @@ namespace Fuyu.Backend.EFT.Services
             {
                 case "Bear":
                     profile.Pmc = edition[EPlayerSide.Bear].Profile;
-                    profile.Suites = edition[EPlayerSide.Bear].Suites;
+                    profile.Customization = edition[EPlayerSide.Bear].Customization;
                     break;
 
                 case "Usec":
                     profile.Pmc = edition[EPlayerSide.Usec].Profile;
-                    profile.Suites = edition[EPlayerSide.Usec].Suites;
+                    profile.Customization = edition[EPlayerSide.Usec].Customization;
                     break;
 
                 default:

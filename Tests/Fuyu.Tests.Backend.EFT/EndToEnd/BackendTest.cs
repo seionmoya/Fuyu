@@ -84,15 +84,6 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         }
 
         [TestMethod]
-        public async Task TestClientAccountCustomization()
-        {
-            var response = await _eftMainClient.GetAsync("/client/account/customization");
-            var result = Encoding.UTF8.GetString(response.Body);
-
-            Assert.IsFalse(string.IsNullOrEmpty(result));
-        }
-
-        [TestMethod]
         public async Task TestClientAchievementList()
         {
             var response = await _eftMainClient.GetAsync("/client/achievement/list");
@@ -138,9 +129,9 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         }
 
         [TestMethod]
-        public async Task TestClientTradingCustomizationStorage()
+        public async Task TestClientCustomizationStorage()
         {
-            var response = await _eftMainClient.GetAsync("/client/trading/customization/storage");
+            var response = await _eftMainClient.GetAsync("/client/customization/storage");
             var result = Encoding.UTF8.GetString(response.Body);
 
             Assert.IsFalse(string.IsNullOrEmpty(result));
@@ -358,6 +349,15 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         public async Task TestClientHideoutAreas()
         {
             var response = await _eftMainClient.GetAsync("/client/hideout/areas");
+            var result = Encoding.UTF8.GetString(response.Body);
+
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+        }
+
+        [TestMethod]
+        public async Task TestClientHideoutCustomizationOfferList()
+        {
+            var response = await _eftMainClient.GetAsync("/client/hideout/customization/offer/list");
             var result = Encoding.UTF8.GetString(response.Body);
 
             Assert.IsFalse(string.IsNullOrEmpty(result));
@@ -839,6 +839,15 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         public async Task TestPutMetrics()
         {
             var response = await _eftMainClient.GetAsync("/client/putMetrics");
+            var result = Encoding.UTF8.GetString(response.Body);
+
+            Assert.IsFalse(string.IsNullOrEmpty(result));
+        }
+
+        [TestMethod]
+        public async Task TestClientPrestigeList()
+        {
+            var response = await _eftMainClient.GetAsync("/client/prestige/list");
             var result = Encoding.UTF8.GetString(response.Body);
 
             Assert.IsFalse(string.IsNullOrEmpty(result));

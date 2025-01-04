@@ -98,10 +98,10 @@
     <EmbeddedResource Include="embedded/database/locations/shoreline.json" />
     <EmbeddedResource Include="embedded/database/locations/tarkovstreets.json" />
     <EmbeddedResource Include="embedded/database/locations/woods.json" />
+    <EmbeddedResource Include="embedded/database/profiles/client.customization.storage.json" />
     <EmbeddedResource Include="embedded/database/profiles/player.savage.json" />
     <EmbeddedResource Include="embedded/database/profiles/player.unheard-bear.json" />
     <EmbeddedResource Include="embedded/database/profiles/player.unheard-usec.json" />
-    <EmbeddedResource Include="embedded/database/client.account.customization.json" />
     <EmbeddedResource Include="embedded/database/client.achievement.list.json" />
     <EmbeddedResource Include="embedded/database/client.achievement.statistic.json" />
     <EmbeddedResource Include="embedded/database/client.builds.list.json" />
@@ -109,12 +109,14 @@
     <EmbeddedResource Include="embedded/database/client.globals.json" />
     <EmbeddedResource Include="embedded/database/client.handbook.templates.json" />
     <EmbeddedResource Include="embedded/database/client.hideout.areas.json" />
+    <EmbeddedResource Include="embedded/database/client.hideout.customization.offer.list.json" />
     <EmbeddedResource Include="embedded/database/client.hideout.production.recipes.json" />
     <EmbeddedResource Include="embedded/database/client.hideout.qte.list.json" />
     <EmbeddedResource Include="embedded/database/client.hideout.settings.json" />
     <EmbeddedResource Include="embedded/database/client.items.json" />
     <EmbeddedResource Include="embedded/database/client.locations.json" />
     <EmbeddedResource Include="embedded/database/client.localGame.weather.json" />
+    <EmbeddedResource Include="embedded/database/client.prestige.list.json" />
     <EmbeddedResource Include="embedded/database/client.quest.list.json" />
     <EmbeddedResource Include="embedded/database/client.settings.json" />
     <EmbeddedResource Include="embedded/database/client.trading.api.traderSettings.json" />
