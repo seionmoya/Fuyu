@@ -8,8 +8,8 @@ namespace Fuyu.Launcher.Core.Services
         private static string GetLaunchArguments(string sessionId, string address)
         {
             var token = $"-token={sessionId}";
-            var config = "-force-gfx-jobs native -config={\"BackendUrl\":\"" + address + "\",\"Version\":\"live\",\"MatchingVersion\":\"live\"}";
-            var arguments = $"{token} {config}";
+            var config = "-config={\"BackendUrl\":\"" + address + "\",\"Version\":\"live\",\"MatchingVersion\":\"live\"}";
+            var arguments = $"-force-gfx-jobs native {token} {config}";
             return arguments;
         }
 
