@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Concurrent;
 using System.IO;
 
@@ -21,6 +20,11 @@ namespace Fuyu.Common.IO
         public static bool FileExists(string filepath)
         {
             return File.Exists(filepath);
+        }
+
+        public static bool Exists(string filepath)
+        {
+            return DirectoryExists(filepath) || FileExists(filepath);
         }
 
         public static string[] GetFiles(string path)

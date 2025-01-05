@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="NLog" HintPath="References/NLog.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fuyu.Common\Fuyu.Common.csproj" />
+    <ProjectReference Include="..\Fuyu.DependencyInjection\Fuyu.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Fuyu.Modding\Fuyu.Modding.csproj" />
+  </ItemGroup>
+
+</Project>
