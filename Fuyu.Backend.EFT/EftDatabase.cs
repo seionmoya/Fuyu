@@ -26,6 +26,8 @@ namespace Fuyu.Backend.EFT
         //                                        custid  template 
         internal static readonly ThreadDictionary<string, CustomizationTemplate> Customizations;
 
+        internal static readonly ThreadList<CustomizationStorageEntry> CustomizationStorage;
+
         //                                        langid             key     value
         internal static readonly ThreadDictionary<string, Dictionary<string, string>> GlobalLocales;
 
@@ -36,7 +38,7 @@ namespace Fuyu.Backend.EFT
         internal static readonly ThreadDictionary<string, MenuLocaleResponse> MenuLocales;
 
         //                                        edition            side         profile
-        internal static readonly ThreadDictionary<string, Dictionary<EPlayerSide, WipeProfile>> WipeProfiles;
+        internal static readonly ThreadDictionary<string, Dictionary<EPlayerSide, Profile>> WipeProfiles;
 
         // TODO
         internal static readonly ThreadObject<string> AchievementList;
@@ -64,16 +66,16 @@ namespace Fuyu.Backend.EFT
             Sessions = new ThreadDictionary<string, int>();
 
             Customizations = new ThreadDictionary<string, CustomizationTemplate>();
+            CustomizationStorage = new ThreadList<CustomizationStorageEntry>();
             GlobalLocales = new ThreadDictionary<string, Dictionary<string, string>>();
             Languages = new ThreadDictionary<string, string>();
             MenuLocales = new ThreadDictionary<string, MenuLocaleResponse>();
-            WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, WipeProfile>>();
+            WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, Profile>>();
 
             // TODO
             AchievementList = new ThreadObject<string>(string.Empty);
             AchievementStatistic = new ThreadObject<string>(string.Empty);
             Globals = new ThreadObject<string>(string.Empty);
-
             Handbook = new ThreadObject<string>(string.Empty);
             HideoutAreas = new ThreadObject<string>(string.Empty);
             HideoutCustomizationOfferList = new ThreadObject<string>(string.Empty);
@@ -109,6 +111,7 @@ namespace Fuyu.Backend.EFT
 
             // load templates
             LoadCustomizations();
+            LoadCustomizationStorage();
             LoadWipeProfiles();
 
             // TODO
@@ -175,6 +178,17 @@ namespace Fuyu.Backend.EFT
             }
         }
 
+        private static void LoadCustomizationStorage()
+        {
+            var json = Resx.GetText("eft", "database.client.customization.storage.json");
+            var response = Json.Parse<ResponseBody<CustomizationStorageEntry[]>>(json);
+
+            foreach (var entry in response.data)
+            {
+                EftOrm.SetOrAddCustomizationStorage(entry);
+            }
+        }
+
         private static void LoadLanguages()
         {
             var json = Resx.GetText("eft", $"database.locales.client.languages.json");
@@ -219,35 +233,11 @@ namespace Fuyu.Backend.EFT
             var usecJson = Resx.GetText("eft", "database.profiles.player.unheard-usec.json");
             var savageJson = Resx.GetText("eft", "database.profiles.player.savage.json");
 
-            // customization
-            var customizationStorageJson = Resx.GetText("eft", "database.profiles.client.customization.storage.json");
-
-            EftOrm.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, WipeProfile>()
+            EftOrm.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, Profile>()
             {
-                {
-                    EPlayerSide.Bear,
-                    new WipeProfile()
-                    {
-                        Profile = Json.Parse<Profile>(bearJson),
-                        Customization = Json.Parse<ResponseBody<CustomizationStorageEntry[]>>(customizationStorageJson).data
-                    }
-                },
-                {
-                    EPlayerSide.Usec,
-                    new WipeProfile()
-                    {
-                        Profile = Json.Parse<Profile>(usecJson),
-                        Customization = Json.Parse<ResponseBody<CustomizationStorageEntry[]>>(customizationStorageJson).data
-                    }
-                },
-                {
-                    EPlayerSide.Savage,
-                    new WipeProfile()
-                    {
-                        Profile = Json.Parse<Profile>(savageJson),
-                        Customization = []
-                    }
-                }
+                { EPlayerSide.Bear, Json.Parse<Profile>(bearJson) },
+                { EPlayerSide.Usec, Json.Parse<Profile>(usecJson) },
+                { EPlayerSide.Savage, Json.Parse<Profile>(savageJson) }
             });
         }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
+using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
 
@@ -222,6 +223,58 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
+                #region Customization storage
+        public static List<CustomizationStorageEntry> GetCustomizationStorage()
+        {
+            return EftDatabase.CustomizationStorage.ToList();
+        }
+
+        public static CustomizationStorageEntry GetCustomizationStorage(string customizationId)
+        {
+            var customization = GetCustomizationStorage();
+
+            for (var i = 0; i < customization.Count; ++i)
+            {
+                if (customization[i].id == customizationId)
+                {
+                    return customization[i];
+                }
+            }
+
+            return null;
+        }
+
+        public static void SetOrAddCustomizationStorage(CustomizationStorageEntry entry)
+        {
+            var customization = GetCustomizationStorage();
+
+            for (var i = 0; i < customization.Count; ++i)
+            {
+                if (customization[i].id == entry.id)
+                {
+                    EftDatabase.CustomizationStorage.TrySet(i, entry);
+                    return;
+                }
+            }
+
+            EftDatabase.CustomizationStorage.Add(entry);
+        }
+
+        public static void RemoveCustomizationStorage(CustomizationStorageEntry entry)
+        {
+            var customization = GetCustomizationStorage();
+
+            for (var i = 0; i < customization.Count; ++i)
+            {
+                if (customization[i].id == entry.id)
+                {
+                    EftDatabase.CustomizationStorage.TryRemoveAt(i);
+                    return;
+                }
+            }
+        }
+        #endregion
+
         #region Languages
         public static Dictionary<string, string> GetLanguages()
         {
@@ -325,12 +378,12 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region Wipe profiles
-        public static Dictionary<string, Dictionary<EPlayerSide, WipeProfile>> GetWipeProfiles()
+        public static Dictionary<string, Dictionary<EPlayerSide, Profile>> GetWipeProfiles()
         {
             return EftDatabase.WipeProfiles.ToDictionary();
         }
 
-        public static Dictionary<EPlayerSide, WipeProfile> GetWipeProfile(string edition)
+        public static Dictionary<EPlayerSide, Profile> GetWipeProfile(string edition)
         {
             if (!EftDatabase.WipeProfiles.TryGet(edition, out var profiles))
             {
@@ -340,7 +393,7 @@ namespace Fuyu.Backend.EFT
             return profiles;
         }
 
-        public static void SetOrAddWipeProfile(string edition, Dictionary<EPlayerSide, WipeProfile> profiles)
+        public static void SetOrAddWipeProfile(string edition, Dictionary<EPlayerSide, Profile> profiles)
         {
             if (EftDatabase.WipeProfiles.ContainsKey(edition))
             {

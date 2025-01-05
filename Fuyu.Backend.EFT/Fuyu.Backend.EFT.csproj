@@ -98,7 +98,6 @@
     <EmbeddedResource Include="embedded/database/locations/shoreline.json" />
     <EmbeddedResource Include="embedded/database/locations/tarkovstreets.json" />
     <EmbeddedResource Include="embedded/database/locations/woods.json" />
-    <EmbeddedResource Include="embedded/database/profiles/client.customization.storage.json" />
     <EmbeddedResource Include="embedded/database/profiles/player.savage.json" />
     <EmbeddedResource Include="embedded/database/profiles/player.unheard-bear.json" />
     <EmbeddedResource Include="embedded/database/profiles/player.unheard-usec.json" />
@@ -106,6 +105,7 @@
     <EmbeddedResource Include="embedded/database/client.achievement.statistic.json" />
     <EmbeddedResource Include="embedded/database/client.builds.list.json" />
     <EmbeddedResource Include="embedded/database/client.customization.json" />
+    <EmbeddedResource Include="embedded/database/client.customization.storage.json" />
     <EmbeddedResource Include="embedded/database/client.globals.json" />
     <EmbeddedResource Include="embedded/database/client.handbook.templates.json" />
     <EmbeddedResource Include="embedded/database/client.hideout.areas.json" />
