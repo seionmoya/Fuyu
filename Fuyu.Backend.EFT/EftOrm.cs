@@ -421,7 +421,7 @@ namespace Fuyu.Backend.EFT
 
         public static string GetPrestige()
         {
-            return EftDatabase.Quests.Get();
+            return EftDatabase.Prestige.Get();
         }
 
         public static string GetQuests()
