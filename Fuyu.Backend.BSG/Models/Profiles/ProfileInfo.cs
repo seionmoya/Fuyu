@@ -101,6 +101,9 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         [DataMember]
         public bool HasPveGame;
 
+        [DataMember]
+        public int PrestigeLevel;
+
         [DataMember(EmitDefaultValue = false)]
         public Ban[] Bans;
     }

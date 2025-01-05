@@ -64,6 +64,11 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         [DataMember(EmitDefaultValue = false)]
         public Dictionary<MongoId, int> Achievements;
 
+        // TODO: proper type
+        // seionmoya, 2025-01-04
+        [DataMember(EmitDefaultValue = false)]
+        public object Prestige;
+
         [DataMember(EmitDefaultValue = false)]
         public RagfairInfo RagfairInfo;
 
