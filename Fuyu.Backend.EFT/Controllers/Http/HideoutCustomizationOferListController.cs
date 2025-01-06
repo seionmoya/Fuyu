@@ -12,7 +12,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         public override Task RunAsync(EftHttpContext context)
         {
             // TODO: generate this
-            // --seionmoya, 2024-01-04
+            // --seionmoya, 2025-01-04
             var text = EftOrm.GetHideoutCustomizationOfferList();
             return context.SendJsonAsync(text, true, true);
         }
