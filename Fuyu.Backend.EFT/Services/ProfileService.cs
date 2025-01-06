@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Services
             {
                 Pmc = new Profile(),
                 Savage = new Profile(),
-                Suites = [],
+                Customization = [],
                 ShouldWipe = true
             };
 
@@ -47,20 +47,18 @@ namespace Fuyu.Backend.EFT.Services
             // create profiles
             var edition = EftOrm.GetWipeProfile(account.Edition);
 
-            profile.Savage = edition[EPlayerSide.Savage].Profile.Clone();
+            profile.Savage = edition[EPlayerSide.Savage].Clone();
 
             // NOTE: Case-sensitive
             // -- seionmoya, 2024-10-13
             switch (side)
             {
                 case "Bear":
-                    profile.Pmc = edition[EPlayerSide.Bear].Profile;
-                    profile.Suites = edition[EPlayerSide.Bear].Suites;
+                    profile.Pmc = edition[EPlayerSide.Bear];
                     break;
 
                 case "Usec":
-                    profile.Pmc = edition[EPlayerSide.Usec].Profile;
-                    profile.Suites = edition[EPlayerSide.Usec].Suites;
+                    profile.Pmc = edition[EPlayerSide.Usec];
                     break;
 
                 default:

@@ -46,7 +46,7 @@ namespace Fuyu.Backend.EFT.Services
                 { EBotRole.bossTagilla,                 Resx.GetText("eft", "database.bots.bosstagilla.json")               },
                 { EBotRole.followerTagilla,             string.Empty                                                        },    // TODO: missing?
                 { EBotRole.exUsec,                      Resx.GetText("eft", "database.bots.exusec.json")                    },
-                { EBotRole.gifter,                      string.Empty                                                        },    // TODO: missing
+                { EBotRole.gifter,                      Resx.GetText("eft", "database.bots.gifter.json")                    },
                 { EBotRole.bossKnight,                  Resx.GetText("eft", "database.bots.bossknight.json")                },
                 { EBotRole.followerBigPipe,             Resx.GetText("eft", "database.bots.followerbigpipe.json")           },
                 { EBotRole.followerBirdEye,             Resx.GetText("eft", "database.bots.followerbirdeye.json")           },
@@ -104,6 +104,8 @@ namespace Fuyu.Backend.EFT.Services
 
         private static Profile GenerateBot(EBotRole role, EBotDifficulty difficulty)
         {
+            Terminal.WriteLine(role.ToString());
+
             var profile = Json.Parse<Profile>(_profiles[role]);
 
             // regenerate all ids

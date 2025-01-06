@@ -1,11 +1,11 @@
-# EFT: Packet dumper
+# BSG: Obtain web payloads
 
 This guide is useful for you if you need to inspect the client's comminucation
 with the server over HTTP and WS.
 
 ## Requirements
 
-- dnspy ([link](https://github.com/spt-haru/dnspy))
+- dnspy ([link](https://github.com/dnSpyEx/dnSpy/releases))
 - `Assembly-CSharp-cleaned.dll` (produced by deobfuscation)
 
 ## Patches
@@ -85,3 +85,14 @@ This enables us to load the custom assembly with an invalid hash.
 2. Copy-paste `Assembly-CSharp.dll` into `EscapeFromTarkov_Data`, do not interact with the prompt yet
 3. Start the game from Battlestate Games Launcher
 4. As soon as the launcher closes, click "replace" in the prompt
+
+## Getting specific payloads
+
+- To get performance counters and session status, you must start a PvP match
+- To get all startup locales, you must restart the client with the locale active
+- To get all game locales, you must select each locale at least once in the game settings
+- To get location loot, you must play a match in that location
+  - EFT: PvE or pratice
+  - Arena: PvP match, visit shooting range
+- To get trader assortiments, you must visit each trader separately
+- To get trader suits, you must visit ragman's service tab

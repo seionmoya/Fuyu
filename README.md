@@ -24,7 +24,7 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 
 **Game** | **Version**
 -------- | ------------
-EFT      | 0.15.5.133420
+EFT      | 0.16.0.34510
 Arena    | none (yet)
 
 ## Setup

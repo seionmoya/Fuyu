@@ -1,11 +1,6 @@
-using System;
-using System.IO.Compression;
-
 #if NET6_0_OR_GREATER
 using System.IO;
-#else
-using ComponentAce.Compression.Libs.zlib;
-#endif
+using System.IO.Compression;
 
 namespace Fuyu.Common.Compression
 {
@@ -38,7 +33,6 @@ namespace Fuyu.Common.Compression
             }
         }
 
-#if NET6_0_OR_GREATER
         // NOTE: assumes this is running inside the backend or launcher
         // -- seionmoya, 2024-10-07
         public static byte[] Compress(byte[] data, CompressionLevel level)
@@ -56,36 +50,7 @@ namespace Fuyu.Common.Compression
                 }
             }
         }
-#else
-        // NOTE: assumes this is running inside the client
-        // -- seionmoya, 2024-10-07
-        public static byte[] Compress(byte[] data, CompressionLevel level)
-        {
-            var compressLevel = 0;
 
-            switch (level)
-            {
-                case CompressionLevel.NoCompression:
-                    throw new Exception("CompressToBytes does not support 'no compression'");
-
-                case CompressionLevel.Fastest:
-                    compressLevel = 1;
-                    break;
-
-                case CompressionLevel.Optimal:
-                    compressLevel = 6;
-                    break;
-
-                // NOTE: CompressionLevel.SmallestSize does not exist in
-                //       .NET 5 and below.
-                // -- seionmoya, 2024-10-07
-            }
-
-            return SimpleZlib.CompressToBytes(data, data.Length, compressLevel);
-        }
-#endif
-
-#if NET6_0_OR_GREATER
         // NOTE: assumes this is running inside the backend or launcher
         // -- seionmoya, 2024-10-07
         public static byte[] Decompress(byte[] data)
@@ -103,13 +68,6 @@ namespace Fuyu.Common.Compression
                 }
             }
         }
-#else
-        // NOTE: assumes this is running inside the client
-        // -- seionmoya, 2024-10-07
-        public static byte[] Decompress(byte[] data)
-        {
-            return SimpleZlib.DecompressToBytes(data);
-        }
-#endif
     }
 }
+#endif

@@ -43,6 +43,9 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         [DataMember(Name = "favoriteItems")]
         public MongoId[] FavoriteItems { get; set; }
 
+        [DataMember(Name = "hideoutCustomizationStashId")]
+        public MongoId? HideoutCustomizationStashId { get; set; }
+
         public List<ItemInstance> RemoveItem(ItemInstance item)
         {
             return InventoryService.RemoveItem(this, item);

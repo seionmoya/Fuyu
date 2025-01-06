@@ -18,7 +18,6 @@ namespace Fuyu.Backend.EFT.Servers
             HttpRouter.AddController<FuyuGameRegisterController>();
 
             // EFT
-            HttpRouter.AddController<AccountCustomizationController>();
             HttpRouter.AddController<AchievementListController>();
             HttpRouter.AddController<AchievementStatisticController>();
             HttpRouter.AddController<BuildsListController>();
@@ -45,6 +44,7 @@ namespace Fuyu.Backend.EFT.Servers
             HttpRouter.AddController<GlobalsController>();
             HttpRouter.AddController<HandbookTemplatesController>();
             HttpRouter.AddController<HideoutAreasController>();
+            HttpRouter.AddController<HideoutCustomizationOfferListController>();
             HttpRouter.AddController<HideoutProductionRecipesController>();
             HttpRouter.AddController<HideoutQteListController>();
             HttpRouter.AddController<HideoutSettingsController>();
@@ -64,6 +64,7 @@ namespace Fuyu.Backend.EFT.Servers
             HttpRouter.AddController<ProfileSettingsController>();
             HttpRouter.AddController<ProfileStatusController>();
             HttpRouter.AddController<PutMetricsController>();
+            HttpRouter.AddController<PrestigeListController>();
             HttpRouter.AddController<QuestListController>();
             HttpRouter.AddController<RaidConfigurationController>();
             HttpRouter.AddController<RepeatableQuestActivityPeriodsController>();

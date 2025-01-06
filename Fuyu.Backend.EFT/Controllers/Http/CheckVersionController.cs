@@ -20,7 +20,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = new CheckVersionResponse()
                 {
                     isvalid = true,
-                    latestVersion = "0.15.0.2.32197"
+                    latestVersion = "0.16.0.2.34510"
                 }
             };
 

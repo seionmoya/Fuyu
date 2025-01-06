@@ -26,6 +26,8 @@ namespace Fuyu.Backend.EFT
         //                                        custid  template 
         internal static readonly ThreadDictionary<string, CustomizationTemplate> Customizations;
 
+        internal static readonly ThreadList<CustomizationStorageEntry> CustomizationStorage;
+
         //                                        langid             key     value
         internal static readonly ThreadDictionary<string, Dictionary<string, string>> GlobalLocales;
 
@@ -36,21 +38,22 @@ namespace Fuyu.Backend.EFT
         internal static readonly ThreadDictionary<string, MenuLocaleResponse> MenuLocales;
 
         //                                        edition            side         profile
-        internal static readonly ThreadDictionary<string, Dictionary<EPlayerSide, WipeProfile>> WipeProfiles;
+        internal static readonly ThreadDictionary<string, Dictionary<EPlayerSide, Profile>> WipeProfiles;
 
         // TODO
-        internal static readonly ThreadObject<string> AccountCustomization;
         internal static readonly ThreadObject<string> AchievementList;
         internal static readonly ThreadObject<string> AchievementStatistic;
         internal static readonly ThreadObject<string> Globals;
         internal static readonly ThreadObject<string> Handbook;
         internal static readonly ThreadObject<string> HideoutAreas;
+        internal static readonly ThreadObject<string> HideoutCustomizationOfferList;
         internal static readonly ThreadObject<string> HideoutProductionRecipes;
         internal static readonly ThreadObject<string> HideoutQteList;
         internal static readonly ThreadObject<string> HideoutSettings;
         internal static readonly ThreadObject<string> Items;
         internal static readonly ThreadObject<string> LocalWeather;
         internal static readonly ThreadObject<string> Locations;
+        internal static readonly ThreadObject<string> Prestige;
         internal static readonly ThreadObject<string> Quests;
         internal static readonly ThreadObject<string> Settings;
         internal static readonly ThreadObject<string> Traders;
@@ -63,25 +66,26 @@ namespace Fuyu.Backend.EFT
             Sessions = new ThreadDictionary<string, int>();
 
             Customizations = new ThreadDictionary<string, CustomizationTemplate>();
+            CustomizationStorage = new ThreadList<CustomizationStorageEntry>();
             GlobalLocales = new ThreadDictionary<string, Dictionary<string, string>>();
             Languages = new ThreadDictionary<string, string>();
             MenuLocales = new ThreadDictionary<string, MenuLocaleResponse>();
-            WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, WipeProfile>>();
+            WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, Profile>>();
 
             // TODO
-            AccountCustomization = new ThreadObject<string>(string.Empty);
             AchievementList = new ThreadObject<string>(string.Empty);
             AchievementStatistic = new ThreadObject<string>(string.Empty);
             Globals = new ThreadObject<string>(string.Empty);
-
             Handbook = new ThreadObject<string>(string.Empty);
             HideoutAreas = new ThreadObject<string>(string.Empty);
+            HideoutCustomizationOfferList = new ThreadObject<string>(string.Empty);
             HideoutProductionRecipes = new ThreadObject<string>(string.Empty);
             HideoutQteList = new ThreadObject<string>(string.Empty);
             HideoutSettings = new ThreadObject<string>(string.Empty);
             Items = new ThreadObject<string>(string.Empty);
             LocalWeather = new ThreadObject<string>(string.Empty);
             Locations = new ThreadObject<string>(string.Empty);
+            Prestige = new ThreadObject<string>(string.Empty);
             Quests = new ThreadObject<string>(string.Empty);
             Settings = new ThreadObject<string>(string.Empty);
             Traders = new ThreadObject<string>(string.Empty);
@@ -107,6 +111,7 @@ namespace Fuyu.Backend.EFT
 
             // load templates
             LoadCustomizations();
+            LoadCustomizationStorage();
             LoadWipeProfiles();
 
             // TODO
@@ -173,6 +178,17 @@ namespace Fuyu.Backend.EFT
             }
         }
 
+        private static void LoadCustomizationStorage()
+        {
+            var json = Resx.GetText("eft", "database.client.customization.storage.json");
+            var response = Json.Parse<ResponseBody<CustomizationStorageEntry[]>>(json);
+
+            foreach (var entry in response.data)
+            {
+                EftOrm.SetOrAddCustomizationStorage(entry);
+            }
+        }
+
         private static void LoadLanguages()
         {
             var json = Resx.GetText("eft", $"database.locales.client.languages.json");
@@ -212,60 +228,35 @@ namespace Fuyu.Backend.EFT
 
         private static void LoadWipeProfiles()
         {
+            // profile
             var bearJson = Resx.GetText("eft", "database.profiles.player.unheard-bear.json");
             var usecJson = Resx.GetText("eft", "database.profiles.player.unheard-usec.json");
             var savageJson = Resx.GetText("eft", "database.profiles.player.savage.json");
 
-            EftOrm.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, WipeProfile>()
+            EftOrm.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, Profile>()
             {
-                {
-                    EPlayerSide.Bear,
-                    new WipeProfile()
-                    {
-                        Profile = Json.Parse<Profile>(bearJson),
-                        Suites = [
-                            "5cd946231388ce000d572fe3",
-                            "5cd945d71388ce000a659dfb"
-                        ]
-                    }
-                },
-                {
-                    EPlayerSide.Usec,
-                    new WipeProfile()
-                    {
-                        Profile = Json.Parse<Profile>(usecJson),
-                        Suites = [
-                            "5cde9ec17d6c8b04723cf479",
-                            "5cde9e957d6c8b0474535da7"
-                        ]
-                    }
-                },
-                {
-                    EPlayerSide.Savage,
-                    new WipeProfile()
-                    {
-                        Profile = Json.Parse<Profile>(savageJson),
-                        Suites = []
-                    }
-                }
+                { EPlayerSide.Bear, Json.Parse<Profile>(bearJson) },
+                { EPlayerSide.Usec, Json.Parse<Profile>(usecJson) },
+                { EPlayerSide.Savage, Json.Parse<Profile>(savageJson) }
             });
         }
 
         // TODO
         private static void LoadUnparsed()
         {
-            AccountCustomization.Set(Resx.GetText("eft", "database.client.account.customization.json"));
             AchievementList.Set(Resx.GetText("eft", "database.client.achievement.list.json"));
             AchievementStatistic.Set(Resx.GetText("eft", "database.client.achievement.statistic.json"));
             Globals.Set(Resx.GetText("eft", "database.client.globals.json"));
             Handbook.Set(Resx.GetText("eft", "database.client.handbook.templates.json"));
             HideoutAreas.Set(Resx.GetText("eft", "database.client.hideout.areas.json"));
+            HideoutCustomizationOfferList.Set(Resx.GetText("eft", "database.client.hideout.customization.offer.list.json"));
             HideoutProductionRecipes.Set(Resx.GetText("eft", "database.client.hideout.production.recipes.json"));
             HideoutQteList.Set(Resx.GetText("eft", "database.client.hideout.qte.list.json"));
             HideoutSettings.Set(Resx.GetText("eft", "database.client.hideout.settings.json"));
             Items.Set(Resx.GetText("eft", "database.client.items.json"));
             LocalWeather.Set(Resx.GetText("eft", "database.client.localGame.weather.json"));
             Locations.Set(Resx.GetText("eft", "database.client.locations.json"));
+            Prestige.Set(Resx.GetText("eft", "database.client.prestige.list.json"));
             Quests.Set(Resx.GetText("eft", "database.client.quest.list.json"));
             Settings.Set(Resx.GetText("eft", "database.client.settings.json"));
             Traders.Set(Resx.GetText("eft", "database.client.trading.api.traderSettings.json"));
