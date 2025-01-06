@@ -22,6 +22,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             // TODO: move this to a service
             // --seionmoya, 2024-11-18
 
+/*
             // NOTE: This data is not present in what the client sends as one of BSG's anticheat measures
             // which prevents your inraid inventory info from knowing what is in someone's stash
             // so I have to manually add the existing data that should be there which I think is less effort
@@ -43,6 +44,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             // -- seionmoya, 2024-08-28
             profile.Pmc = body.results.profile;
             EftOrm.SetOrAddProfile(profile);
+*/
 
             // send response
             var response = new ResponseBody<object>()
