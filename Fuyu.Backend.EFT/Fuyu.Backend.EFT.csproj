@@ -48,6 +48,7 @@
     <EmbeddedResource Include="embedded/database/bots/sectantpredvestnik.json" />
     <EmbeddedResource Include="embedded/database/bots/sectantprizrak.json" />
     <EmbeddedResource Include="embedded/database/bots/sectantoni.json" />
+    <EmbeddedResource Include="embedded/database/bots/gifter.json" />
     <EmbeddedResource Include="embedded/database/bots/infectedassault.json" />
     <EmbeddedResource Include="embedded/database/bots/infectedpmc.json" />
     <EmbeddedResource Include="embedded/database/bots/infectedcivil.json" />
