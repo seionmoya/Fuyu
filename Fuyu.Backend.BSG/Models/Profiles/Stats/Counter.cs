@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Stats
     {
         // TODO: proper type
         [DataMember]
-        public object[] Items;
-    }
+        public object[] Items { get; set; }
+	}
 }

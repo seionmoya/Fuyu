@@ -8,9 +8,9 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class ItemSideEffectComponent : IItemComponent
     {
         [DataMember]
-        public float Value;
+        public float Value { get; set; }
 
-        public static object CreateComponent(JObject templateProperties)
+		public static object CreateComponent(JObject templateProperties)
         {
             if (!templateProperties.ContainsKey("MaxResource"))
             {

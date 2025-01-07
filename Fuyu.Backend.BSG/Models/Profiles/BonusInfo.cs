@@ -9,31 +9,31 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class BonusInfo
     {
         [DataMember]
-        public MongoId id;
+        public MongoId id { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public string icon;
+        public string icon { get; set; }
 
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-        public EBonusType type;
+        public EBonusType type { get; set; }
 
         [DataMember]
-        public float value;
+        public float value { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public MongoId? templateId;
+        public MongoId? templateId { get; set; }
 
         [DataMember]
-        public bool passive;
+        public bool passive { get; set; }
 
         [DataMember]
-        public bool visible;
+        public bool visible { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public bool? production;
+        public bool? production { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public MongoId?[] filter;
+        public MongoId?[] filter { get; set; }
     }
 }

@@ -6,15 +6,15 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class ConditionCounter
     {
         [DataMember]
-        public string id;
+        public string id { get; set; }
 
         [DataMember]
-        public string sourceId;
+        public string sourceId { get; set; }
 
         [DataMember]
-        public string type;
+        public string type { get; set; }
 
         [DataMember]
-        public int value;
+        public int value { get; set; }
     }
 }

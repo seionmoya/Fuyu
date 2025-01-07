@@ -8,15 +8,15 @@ namespace Fuyu.Backend.BSG.Models.Accounts
     public class EftProfile
     {
         [DataMember]
-        public Profile Pmc;
+        public Profile Pmc { get; set; }
 
-        [DataMember]
-        public Profile Savage;
+		[DataMember]
+        public Profile Savage { get; set; }
 
-        [DataMember]
-        public CustomizationStorageEntry[] Customization;
+		[DataMember]
+        public CustomizationStorageEntry[] Customization { get; set; }
 
-        [DataMember]
-        public bool ShouldWipe;
-    }
+		[DataMember]
+        public bool ShouldWipe { get; set; }
+	}
 }

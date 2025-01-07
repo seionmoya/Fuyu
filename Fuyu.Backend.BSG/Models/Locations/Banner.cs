@@ -7,9 +7,9 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class Banner
     {
         [DataMember]
-        public string id;
+        public string id { get; set; }
 
         [DataMember]
-        public ResourceKey pic;
+        public ResourceKey pic { get; set; }
     }
 }

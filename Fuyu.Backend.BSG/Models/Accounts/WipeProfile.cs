@@ -8,9 +8,9 @@ namespace Fuyu.Backend.BSG.Models.Accounts
     public class WipeProfile
     {
         [DataMember]
-        public Profile Profile;
+        public Profile Profile { get; set; }
 
-        [DataMember]
-        public CustomizationStorageEntry[] Customization;
-    }
+		[DataMember]
+        public CustomizationStorageEntry[] Customization { get; set; }
+	}
 }

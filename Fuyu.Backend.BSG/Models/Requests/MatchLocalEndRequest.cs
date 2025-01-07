@@ -9,19 +9,19 @@ namespace Fuyu.Backend.BSG.Models.Requests
     public class MatchLocalEndRequest
     {
         [DataMember]
-        public string serverId;
+        public string serverId { get; set; }
 
         [DataMember]
-        public MatchLocalEndResult results;
+        public MatchLocalEndResult results { get; set; }
 
         [DataMember]
-        public ItemInstance[] lostInsuredItems;
+        public ItemInstance[] lostInsuredItems { get; set; }
 
         [DataMember]
-        public Dictionary<string, ItemInstance[]> transferItems;
+        public Dictionary<string, ItemInstance[]> transferItems { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object locationTransit;
+        public object locationTransit { get; set; }
     }
 }

@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class CheckVersionResponse
     {
         [DataMember]
-        public bool isvalid;
+        public bool isvalid { get; set; }
 
         [DataMember]
-        public string latestVersion;
+        public string latestVersion { get; set; }
     }
 }

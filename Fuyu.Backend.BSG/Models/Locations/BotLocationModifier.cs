@@ -6,33 +6,33 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class BotLocationModifier
     {
         [DataMember]
-        public float AccuracySpeed;
+        public float AccuracySpeed { get; set; }
 
         [DataMember]
-        public float Scattering;
+        public float Scattering { get; set; }
 
         [DataMember]
-        public float GainSight;
+        public float GainSight { get; set; }
 
         [DataMember]
-        public float MarksmanAccuratyCoef;
+        public float MarksmanAccuratyCoef { get; set; }
 
         [DataMember]
-        public float VisibleDistance;
+        public float VisibleDistance { get; set; }
 
         [DataMember]
-        public float DistToPersueAxemanCoef;
+        public float DistToPersueAxemanCoef { get; set; }
 
         [DataMember]
-        public float DistToSleep;
+        public float DistToSleep { get; set; }
 
         [DataMember]
-        public float DistToActivate;
+        public float DistToActivate { get; set; }
 
         [DataMember]
-        public float MagnetPower;
+        public float MagnetPower { get; set; }
 
         [DataMember]
-        public float KhorovodChance;
+        public float KhorovodChance { get; set; }
     }
 }

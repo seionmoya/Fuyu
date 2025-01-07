@@ -6,63 +6,63 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class Exit
     {
         [DataMember]
-        public string Name;
+        public string Name { get; set; }
 
         [DataMember]
-        public string EntryPoints;
+        public string EntryPoints { get; set; }
 
         [DataMember]
-        public int Chance;
+        public int Chance { get; set; }
 
         [DataMember]
-        public int MinTime;
+        public int MinTime { get; set; }
 
         [DataMember]
-        public int MaxTime;
+        public int MaxTime { get; set; }
 
         [DataMember]
-        public int PlayersCount;
+        public int PlayersCount { get; set; }
 
         [DataMember]
-        public int ExfiltrationTime;
+        public int ExfiltrationTime { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public string PassageRequirement;
+        public string PassageRequirement { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public string ExfiltrationType;
+        public string ExfiltrationType { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public string RequiredSlot;
+        public string RequiredSlot { get; set; }
 
         [DataMember]
-        public string Id;
+        public string Id { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public string RequirementTip;
+        public string RequirementTip { get; set; }
 
         [DataMember]
-        public int Count;
+        public int Count { get; set; }
 
         [DataMember]
-        public bool EventAvailable;
+        public bool EventAvailable { get; set; }
 
         [DataMember]
-        public int MinTimePVE;
+        public int MinTimePVE { get; set; }
 
         [DataMember]
-        public int MaxTimePVE;
+        public int MaxTimePVE { get; set; }
 
         [DataMember]
-        public int ChancePVE;
+        public int ChancePVE { get; set; }
 
         [DataMember]
-        public int CountPVE;
+        public int CountPVE { get; set; }
 
         [DataMember]
-        public int ExfiltrationTimePVE;
+        public int ExfiltrationTimePVE { get; set; }
 
         [DataMember]
-        public int PlayersCountPVE;
+        public int PlayersCountPVE { get; set; }
     }
 }

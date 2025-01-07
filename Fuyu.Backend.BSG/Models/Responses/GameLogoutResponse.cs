@@ -6,6 +6,6 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class GameLogoutResponse
     {
         [DataMember]
-        public string status;
-    }
+        public string status { get; set; }
+	}
 }

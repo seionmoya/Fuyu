@@ -7,27 +7,27 @@ namespace Fuyu.Backend.BSG.Models.Raid
     public class MatchLocalEndResult
     {
         [DataMember]
-        public Profile profile;
+        public Profile profile { get; set; }
 
         [DataMember]
-        public string result;
+        public string result { get; set; }
 
         [DataMember]
-        public string killerId;
+        public string killerId { get; set; }
 
         [DataMember]
-        public int? killerAid;
+        public int? killerAid { get; set; }
 
         [DataMember]
-        public string exitName;
+        public string exitName { get; set; }
 
         [DataMember]
-        public bool inSession;
+        public bool inSession { get; set; }
 
         [DataMember]
-        public bool favorite;
+        public bool favorite { get; set; }
 
         [DataMember]
-        public int playTime;
+        public int playTime { get; set; }
     }
 }

@@ -8,19 +8,19 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class HealthInfo
     {
         [DataMember]
-        public CurrentMaximum<float> Hydration;
+        public CurrentMaximum<float> Hydration { get; set; }
 
         [DataMember]
-        public CurrentMaximum<float> Energy;
+        public CurrentMaximum<float> Energy { get; set; }
 
         [DataMember]
-        public CurrentMaximum<float> Temperature;
+        public CurrentMaximum<float> Temperature { get; set; }
 
         [DataMember]
-        public BodyPartInfo BodyParts;
+        public BodyPartInfo BodyParts { get; set; }
 
         [DataMember]
-        public int? UpdateTime;
+        public int? UpdateTime { get; set; }
 
         // SKIPPED: Immortal
         // Reason: only used on BSG's internal server

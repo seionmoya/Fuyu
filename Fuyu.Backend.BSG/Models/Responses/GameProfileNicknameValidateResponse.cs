@@ -6,6 +6,6 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class GameProfileNicknameValidateResponse
     {
         [DataMember]
-        public string status;
-    }
+        public string status { get; set; }
+	}
 }

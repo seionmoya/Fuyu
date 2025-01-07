@@ -11,75 +11,75 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class Profile
     {
         [DataMember]
-        public MongoId _id;
+        public MongoId _id { get; set; }
 
         [DataMember]
-        public int aid;
+        public int aid { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public MongoId? savage;
+        public MongoId? savage { get; set; }
 
         [DataMember]
-        public ProfileInfo Info;
+        public ProfileInfo Info { get; set; }
 
         [DataMember]
-        public CustomizationInfo Customization;
+        public CustomizationInfo Customization { get; set; }
 
         [DataMember]
-        public HealthInfo Health;
+        public HealthInfo Health { get; set; }
 
         [DataMember]
-        public InventoryInfo Inventory;
+        public InventoryInfo Inventory { get; set; }
 
         [DataMember]
-        public SkillInfo Skills;
+        public SkillInfo Skills { get; set; }
 
         [DataMember]
-        public StatsInfo Stats;
+        public StatsInfo Stats { get; set; }
 
         [DataMember]
-        public Dictionary<MongoId, bool> Encyclopedia;
+        public Dictionary<MongoId, bool> Encyclopedia { get; set; }
 
         [DataMember]
-        public Dictionary<string, ConditionCounter> TaskConditionCounters;
+        public Dictionary<string, ConditionCounter> TaskConditionCounters { get; set; }
 
         [DataMember]
-        public List<InsuredItem> InsuredItems;
+        public List<InsuredItem> InsuredItems { get; set; }
 
         [DataMember]
-        public HideoutInfo Hideout;
+        public HideoutInfo Hideout { get; set; }
 
         [DataMember]
-        public List<BonusInfo> Bonuses;
+        public List<BonusInfo> Bonuses { get; set; }
 
         [DataMember]
-        public Union<Dictionary<MongoId, EWishlistGroup>, object[]> WishList;
+        public Union<Dictionary<MongoId, EWishlistGroup>, object[]> WishList { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public NotesInfo Notes;
+        public NotesInfo Notes { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public List<QuestInfo> Quests;
+        public List<QuestInfo> Quests { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public Dictionary<MongoId, int> Achievements;
+        public Dictionary<MongoId, int> Achievements { get; set; }
 
         // TODO: proper type
         // seionmoya, 2025-01-04
         [DataMember(EmitDefaultValue = false)]
-        public object Prestige;
+        public object Prestige { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public RagfairInfo RagfairInfo;
+        public RagfairInfo RagfairInfo { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public Union<Dictionary<MongoId, TraderInfo>, object[]>? TradersInfo;
+        public Union<Dictionary<MongoId, TraderInfo>, object[]>? TradersInfo { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public UnlockedInfo UnlockedInfo;
+        public UnlockedInfo UnlockedInfo { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public MoneyTransferLimitInfo moneyTransferLimitData;
+        public MoneyTransferLimitInfo moneyTransferLimitData { get; set; }
 
         // NOTE: Deserialization works but is deserialized as
         // an array because the profile has "WishList": [] by default

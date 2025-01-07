@@ -8,10 +8,10 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class ItemRepairableComponent : IItemComponent
     {
         [DataMember]
-        public float Durability;
+        public float Durability { get; set; }
 
         [DataMember]
-        public float MaxDurability;
+        public float MaxDurability { get; set; }
 
         public static object CreateComponent(JObject templateProperties)
         {

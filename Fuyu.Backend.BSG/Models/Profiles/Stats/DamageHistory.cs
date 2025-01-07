@@ -6,14 +6,14 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Stats
     public class DamageHistory
     {
         [DataMember]
-        public string LethalDamagePart;
+        public string LethalDamagePart { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object LethalDamage;
+        public object LethalDamage { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] BodyParts;
+        public object[] BodyParts { get; set; }
     }
 }

@@ -7,45 +7,45 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class Event
     {
         [DataMember]
-        public int InfectionPercentage;
+        public int InfectionPercentage { get; set; }
 
         [DataMember]
-        public int MinInfectionPercentage;
+        public int MinInfectionPercentage { get; set; }
 
         [DataMember]
-        public List<CrowdAttackSpawnParameters> CrowdAttackSpawnParams;
+        public List<CrowdAttackSpawnParameters> CrowdAttackSpawnParams { get; set; }
 
         [DataMember]
-        public float ZombieMultiplier;
+        public float ZombieMultiplier { get; set; }
 
         [DataMember]
-        public int MaxCrowdAttackSpawnLimit;
+        public int MaxCrowdAttackSpawnLimit { get; set; }
 
         [DataMember]
-        public int CrowdsLimit;
+        public int CrowdsLimit { get; set; }
 
         [DataMember]
-        public float InfectedLookCoeff;
+        public float InfectedLookCoeff { get; set; }
 
         [DataMember]
-        public float CrowdCooldownPerPlayerSec;
+        public float CrowdCooldownPerPlayerSec { get; set; }
 
         [DataMember]
-        public float ZombieCallPeriodSec;
+        public float ZombieCallPeriodSec { get; set; }
 
         [DataMember]
-        public float ZombieCallDeltaRadius;
+        public float ZombieCallDeltaRadius { get; set; }
 
         [DataMember]
-        public float ZombieCallRadiusLimit;
+        public float ZombieCallRadiusLimit { get; set; }
 
         [DataMember]
-        public float CrowdAttackBlockRadius;
+        public float CrowdAttackBlockRadius { get; set; }
 
         [DataMember]
-        public float MinSpawnDistToPlayer;
+        public float MinSpawnDistToPlayer { get; set; }
 
         [DataMember]
-        public float TargetPointSearchRadiusLimit;
+        public float TargetPointSearchRadiusLimit { get; set; }
     }
 }

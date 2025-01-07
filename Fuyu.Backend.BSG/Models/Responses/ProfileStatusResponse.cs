@@ -7,9 +7,9 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class ProfileStatusResponse
     {
         [DataMember]
-        public bool maxPveCountExceeded;
+        public bool maxPveCountExceeded { get; set; }
 
         [DataMember]
-        public ProfileStatusInfo[] profiles;
+        public ProfileStatusInfo[] profiles { get; set; }
     }
 }

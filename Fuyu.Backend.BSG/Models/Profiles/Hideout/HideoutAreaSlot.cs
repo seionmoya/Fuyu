@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Hideout
     {
         // TODO: proper type
         [DataMember]
-        public object item;
-    }
+        public object item { get; set; }
+	}
 }

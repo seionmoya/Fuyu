@@ -7,33 +7,33 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class SpawnPointParam
     {
         [DataMember]
-        public string Id;
+        public string Id { get; set; }
 
         [DataMember]
-        public Vector3 Position;
+        public Vector3 Position { get; set; }
 
         [DataMember]
-        public float Rotation;
+        public float Rotation { get; set; }
 
         [DataMember]
-        public string[] Sides;
+        public string[] Sides { get; set; }
 
         [DataMember]
-        public string[] Categories;
+        public string[] Categories { get; set; }
 
         [DataMember]
-        public string Infiltration;
+        public string Infiltration { get; set; }
 
         [DataMember]
-        public float DelayToCanSpawnSec;
+        public float DelayToCanSpawnSec { get; set; }
 
         [DataMember]
-        public ColliderParam ColliderParams;
+        public ColliderParam ColliderParams { get; set; }
 
         [DataMember]
-        public string BotZoneName;
+        public string BotZoneName { get; set; }
 
         [DataMember]
-        public int CorePointId;
+        public int CorePointId { get; set; }
     }
 }

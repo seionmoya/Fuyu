@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class MaxItemCount
     {
         [DataMember]
-        public string TemplateId;
+        public string TemplateId { get; set; }
 
         [DataMember]
-        public int Value;
+        public int Value { get; set; }
     }
 }

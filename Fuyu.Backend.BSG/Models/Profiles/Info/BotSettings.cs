@@ -9,22 +9,22 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Info
     {
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-        public EBotRole Role;
+        public EBotRole Role { get; set; }
 
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-        public EBotDifficulty BotDifficulty;
+        public EBotDifficulty BotDifficulty { get; set; }
 
         [DataMember]
-        public int Experience;
+        public int Experience { get; set; }
 
         [DataMember]
-        public float StandingForKill;
+        public float StandingForKill { get; set; }
 
         [DataMember]
-        public float AggressorBonus;
+        public float AggressorBonus { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public bool? UseSimpleAnimator;
+        public bool? UseSimpleAnimator { get; set; }
     }
 }

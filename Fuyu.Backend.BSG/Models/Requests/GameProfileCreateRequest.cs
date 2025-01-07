@@ -6,15 +6,15 @@ namespace Fuyu.Backend.BSG.Models.Requests
     public class GameProfileCreateRequest
     {
         [DataMember]
-        public string side;
+        public string side { get; set; }
 
         [DataMember]
-        public string nickname;
+        public string nickname { get; set; }
 
         [DataMember]
-        public string headId;
+        public string headId { get; set; }
 
         [DataMember]
-        public string voiceId;
+        public string voiceId { get; set; }
     }
 }

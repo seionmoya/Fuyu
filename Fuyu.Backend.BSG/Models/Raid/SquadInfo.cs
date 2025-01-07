@@ -6,30 +6,30 @@ namespace Fuyu.Backend.BSG.Models.Raid
     public class SquadInfo
     {
         [DataMember]
-        public string Nickname;
+        public string Nickname { get; set; }
 
         [DataMember]
-        public string Side;
+        public string Side { get; set; }
 
         [DataMember]
-        public int Level;
+        public int Level { get; set; }
 
         [DataMember]
-        public int MemberCategory;
+        public int MemberCategory { get; set; }
 
         [DataMember]
-        public int SelectedCategory;
+        public int SelectedCategory { get; set; }
 
         [DataMember]
-        public string GameVersion;
+        public string GameVersion { get; set; }
 
         [DataMember]
-        public int SavageLockTime;
+        public int SavageLockTime { get; set; }
 
         [DataMember]
-        public string SavageNickname;
+        public string SavageNickname { get; set; }
 
         [DataMember]
-        public bool hasCoopExtension;
+        public bool hasCoopExtension { get; set; }
     }
 }

@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class ItemLightComponent
     {
         [DataMember]
-        public bool IsActive;
+        public bool IsActive { get; set; }
 
         [DataMember]
-        public int SelectedMode;
+        public int SelectedMode { get; set; }
     }
 }

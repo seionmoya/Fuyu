@@ -13,63 +13,63 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         // NOTE: only available when player is scav
         // -- seionmoya, 2024-10-07
         [DataMember(EmitDefaultValue = false)]
-        public string MainProfileNickname;
+        public string MainProfileNickname { get; set; }
 
         [DataMember]
-        public string LowerNickname;
+        public string LowerNickname { get; set; }
 
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-        public EPlayerSide Side;
+        public EPlayerSide Side { get; set; }
 
         [DataMember]
-        public string Voice;
+        public string Voice { get; set; }
 
         [DataMember]
-        public int Level;
+        public int Level { get; set; }
 
         [DataMember]
-        public long Experience;
+        public long Experience { get; set; }
 
         [DataMember]
-        public long RegistrationDate;
+        public long RegistrationDate { get; set; }
 
         [DataMember]
-        public string GameVersion;
+        public string GameVersion { get; set; }
 
         // SKIPPED: AccountType
         // Reason: only used on BSG's internal server
 
         [DataMember]
-        public EMemberCategory MemberCategory;
+        public EMemberCategory MemberCategory { get; set; }
 
         [DataMember]
-        public EMemberCategory SelectedMemberCategory;
+        public EMemberCategory SelectedMemberCategory { get; set; }
 
         // SKIPPED: LockedMoveCommands
         // Reason: only used on BSG's internal server
 
         [DataMember]
-        public long SavageLockTime;
+        public long SavageLockTime { get; set; }
 
         // NOTE: used in /client/match/local/end, not sure when emitted
         // -- seionmoya, 2024-10-07
         [DataMember(EmitDefaultValue = false)]
-        public string GroupId;
+        public string GroupId { get; set; }
 
         // NOTE: used in /client/match/local/end, not sure when emitted
         // -- seionmoya, 2024-10-07
         [DataMember(EmitDefaultValue = false)]
-        public string TeamId;
+        public string TeamId { get; set; }
 
         [DataMember]
-        public long LastTimePlayedAsSavage;
+        public long LastTimePlayedAsSavage { get; set; }
 
         [DataMember]
-        public BotSettings Settings;
+        public BotSettings Settings { get; set; }
 
         [DataMember]
-        public long NicknameChangeDate;
+        public long NicknameChangeDate { get; set; }
 
         // SKIPPED: NeedWipeOptions
         // Reason: only used on BSG's internal server
@@ -81,30 +81,30 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         // Reason: only used on BSG's internal server
 
         [DataMember]
-        public bool BannedState;
+        public bool BannedState { get; set; }
 
         [DataMember]
-        public long BannedUntil;
+        public long BannedUntil { get; set; }
 
         [DataMember]
-        public bool IsStreamerModeAvailable;
+        public bool IsStreamerModeAvailable { get; set; }
 
         [DataMember]
-        public bool SquadInviteRestriction;
+        public bool SquadInviteRestriction { get; set; }
 
         [DataMember]
-        public bool HasCoopExtension;
+        public bool HasCoopExtension { get; set; }
 
         [DataMember]
-        public bool isMigratedSkills;
+        public bool isMigratedSkills { get; set; }
 
         [DataMember]
-        public bool HasPveGame;
+        public bool HasPveGame { get; set; }
 
         [DataMember]
-        public int PrestigeLevel;
+        public int PrestigeLevel { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public Ban[] Bans;
+        public Ban[] Bans { get; set; }
     }
 }

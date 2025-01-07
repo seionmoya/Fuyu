@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Requests
     public class GameBotGenerateRequest
     {
         [DataMember]
-        public BotCondition[] conditions;
-    }
+        public BotCondition[] conditions { get; set; }
+	}
 }

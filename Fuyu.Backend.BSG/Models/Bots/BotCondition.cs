@@ -8,13 +8,13 @@ namespace Fuyu.Backend.BSG.Models.Bots
     {
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-        public EBotRole Role;
+        public EBotRole Role { get; set; }
 
-        [DataMember]
-        public int Limit;
+		[DataMember]
+        public int Limit { get; set; }
 
-        [DataMember]
+		[DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-        public EBotDifficulty Difficulty;
-    }
+        public EBotDifficulty Difficulty { get; set; }
+	}
 }

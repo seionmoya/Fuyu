@@ -6,13 +6,13 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class RagfairInfo
     {
         [DataMember]
-        public float rating;
+        public float rating { get; set; }
 
         [DataMember]
-        public bool isRatingGrowing;
+        public bool isRatingGrowing { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] offers;
+        public object[] offers { get; set; }
     }
 }

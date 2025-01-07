@@ -8,221 +8,221 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class Location
     {
         [DataMember]
-        public bool Enabled;
+        public bool Enabled { get; set; }
 
         [DataMember]
-        public bool EnableCoop;
+        public bool EnableCoop { get; set; }
 
         [DataMember]
-        public bool ForceOnlineRaidInPVE;
+        public bool ForceOnlineRaidInPVE { get; set; }
 
         [DataMember]
-        public bool Locked;
+        public bool Locked { get; set; }
 
         [DataMember]
-        public string Name;
+        public string Name { get; set; }
 
         [DataMember]
-        public ResourceKey Scene;
+        public ResourceKey Scene { get; set; }
 
         [DataMember]
-        public float Area;
+        public float Area { get; set; }
 
         [DataMember]
-        public int RequiredPlayerLevelMin;
+        public int RequiredPlayerLevelMin { get; set; }
 
         [DataMember]
-        public int RequiredPlayerLevelMax;
+        public int RequiredPlayerLevelMax { get; set; }
 
         [DataMember]
-        public int PmcMaxPlayersInGroup;
+        public int PmcMaxPlayersInGroup { get; set; }
 
         [DataMember]
-        public int ScavMaxPlayersInGroup;
+        public int ScavMaxPlayersInGroup { get; set; }
 
         [DataMember]
-        public int MinPlayers;
+        public int MinPlayers { get; set; }
 
         [DataMember]
-        public int MaxPlayers;
+        public int MaxPlayers { get; set; }
 
         [DataMember]
-        public int MaxCoopGroup;
+        public int MaxCoopGroup { get; set; }
 
         [DataMember]
-        public int IconX;
+        public int IconX { get; set; }
 
         [DataMember]
-        public int IconY;
+        public int IconY { get; set; }
 
         [DataMember]
-        public Wave[] waves;
+        public Wave[] waves { get; set; }
 
         [DataMember]
-        public ItemLimit[] limits;
+        public ItemLimit[] limits { get; set; }
 
         [DataMember]
-        public int AveragePlayTime;
+        public int AveragePlayTime { get; set; }
 
         [DataMember]
-        public int AveragePlayerLevel;
+        public int AveragePlayerLevel { get; set; }
 
         [DataMember]
-        public int EscapeTimeLimit;
+        public int EscapeTimeLimit { get; set; }
 
         [DataMember]
-        public int EscapeTimeLimitPVE;
+        public int EscapeTimeLimitPVE { get; set; }
 
         [DataMember]
-        public int EscapeTimeLimitCoop;
+        public int EscapeTimeLimitCoop { get; set; }
 
         [DataMember]
-        public string Rules;
+        public string Rules { get; set; }
 
         [DataMember]
-        public bool IsSecret;
+        public bool IsSecret { get; set; }
 
         [DataMember]
-        public int MaxDistToFreePoint;
+        public int MaxDistToFreePoint { get; set; }
 
         [DataMember]
-        public int MinDistToFreePoint;
+        public int MinDistToFreePoint { get; set; }
 
         [DataMember]
-        public int MaxBotPerZone;
+        public int MaxBotPerZone { get; set; }
 
         [DataMember]
-        public string OpenZones;
+        public string OpenZones { get; set; }
 
         [DataMember]
-        public bool OcculsionCullingEnabled;
+        public bool OcculsionCullingEnabled { get; set; }
 
         [DataMember]
-        public bool OldSpawn;
+        public bool OldSpawn { get; set; }
 
         [DataMember]
-        public bool OfflineOldSpawn;
+        public bool OfflineOldSpawn { get; set; }
 
         [DataMember]
-        public bool NewSpawn;
+        public bool NewSpawn { get; set; }
 
         [DataMember]
-        public bool OfflineNewSpawn;
+        public bool OfflineNewSpawn { get; set; }
 
         [DataMember]
-        public int BotMax;
+        public int BotMax { get; set; }
 
         [DataMember]
-        public int BotMaxPvE;
+        public int BotMaxPvE { get; set; }
 
         [DataMember]
-        public int BotStart;
+        public int BotStart { get; set; }
 
         [DataMember]
-        public int BotStartPlayer;
+        public int BotStartPlayer { get; set; }
 
         [DataMember]
-        public int BotStop;
+        public int BotStop { get; set; }
 
         [DataMember]
-        public int BotSpawnTimeOnMin;
+        public int BotSpawnTimeOnMin { get; set; }
 
         [DataMember]
-        public int BotSpawnTimeOnMax;
+        public int BotSpawnTimeOnMax { get; set; }
 
         [DataMember]
-        public int BotSpawnTimeOffMin;
+        public int BotSpawnTimeOffMin { get; set; }
 
         [DataMember]
-        public int BotSpawnTimeOffMax;
+        public int BotSpawnTimeOffMax { get; set; }
 
         [DataMember]
-        public int BotEasy;
+        public int BotEasy { get; set; }
 
         [DataMember]
-        public int BotNormal;
+        public int BotNormal { get; set; }
 
         [DataMember]
-        public int BotHard;
+        public int BotHard { get; set; }
 
         [DataMember]
-        public int BotImpossible;
+        public int BotImpossible { get; set; }
 
         [DataMember]
-        public int BotAssault;
+        public int BotAssault { get; set; }
 
         [DataMember]
-        public int BotMarksman;
+        public int BotMarksman { get; set; }
 
         [DataMember]
-        public string DisabledScavExits;
+        public string DisabledScavExits { get; set; }
 
         [DataMember]
-        public int MinPlayerLvlAccessKeys;
+        public int MinPlayerLvlAccessKeys { get; set; }
 
         [DataMember]
-        public string[] AccessKeys;
+        public string[] AccessKeys { get; set; }
 
         [DataMember]
-        public long UnixDateTime;
+        public long UnixDateTime { get; set; }
 
         [DataMember]
-        public GroupScenario NonWaveGroupScenario;
+        public GroupScenario NonWaveGroupScenario { get; set; }
 
         [DataMember]
-        public int BotSpawnCountStep;
+        public int BotSpawnCountStep { get; set; }
 
         [DataMember]
-        public int BotSpawnPeriodCheck;
+        public int BotSpawnPeriodCheck { get; set; }
 
         [DataMember]
-        public int GlobalContainerChanceModifier;
+        public int GlobalContainerChanceModifier { get; set; }
 
         [DataMember]
-        public MinMaxBot[] MinMaxBots;
+        public MinMaxBot[] MinMaxBots { get; set; }
 
         // TODO: update BotLocationModifier type
         [DataMember]
-        public object BotLocationModifier;
+        public object BotLocationModifier { get; set; }
 
         [DataMember]
-        public Exit[] exits;
+        public Exit[] exits { get; set; }
 
         [DataMember]
-        public bool DisabledForScav;
+        public bool DisabledForScav { get; set; }
 
         [DataMember]
-        public MaxItemCount[] maxItemCountInLocation;
+        public MaxItemCount[] maxItemCountInLocation { get; set; }
 
         [DataMember]
-        public BossSpawn[] BossLocationSpawn;
+        public BossSpawn[] BossLocationSpawn { get; set; }
 
         [DataMember]
-        public SpawnPointParam[] spawnPointParams;
+        public SpawnPointParam[] spawnPointParams { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public AirdropParameters[] AirdropParameters;
+        public AirdropParameters[] AirdropParameters { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public MatchMakerWaitTime[] MatchMakerMinPlayersByWaitTime;
+        public MatchMakerWaitTime[] MatchMakerMinPlayersByWaitTime { get; set; }
 
         [DataMember]
-        public Transit[] transits;
+        public Transit[] transits { get; set; }
 
         [DataMember]
-        public string Id;
+        public string Id { get; set; }
 
         [DataMember]
-        public string _Id;
+        public string _Id { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] Loot;
+        public object[] Loot { get; set; }
 
         [DataMember]
-        public Banner[] Banners;
+        public Banner[] Banners { get; set; }
 
         [DataMember]
-        public Dictionary<string, Event> Events;
+        public Dictionary<string, Event> Events { get; set; }
     }
 }

@@ -6,6 +6,6 @@ namespace Fuyu.Backend.BSG.Models.Requests
     public class GameProfileNicknameValidateRequest
     {
         [DataMember]
-        public string nickname;
-    }
+        public string nickname { get; set; }
+	}
 }

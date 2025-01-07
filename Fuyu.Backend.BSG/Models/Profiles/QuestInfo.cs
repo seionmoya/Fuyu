@@ -9,15 +9,15 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class QuestInfo
     {
         [DataMember]
-        public MongoId qid;
+        public MongoId qid { get; set; }
 
         [DataMember]
-        public long startTime;
+        public long startTime { get; set; }
 
         [DataMember]
-        public EQuestStatus status;
+        public EQuestStatus status { get; set; }
 
         [DataMember]
-        public Dictionary<string, long> statusTimers;
+        public Dictionary<string, long> statusTimers { get; set; }
     }
 }

@@ -8,15 +8,15 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Skills
     {
         [DataMember]
         [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-        public ESkillType Id;
+        public ESkillType Id { get; set; }
 
         [DataMember]
-        public int Progress;
+        public int Progress { get; set; }
 
         [DataMember]
-        public int PointsEarnedDuringSession;
+        public int PointsEarnedDuringSession { get; set; }
 
         [DataMember]
-        public long LastAccess;
+        public long LastAccess { get; set; }
     }
 }

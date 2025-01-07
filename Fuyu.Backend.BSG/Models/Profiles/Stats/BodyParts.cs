@@ -7,30 +7,30 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Stats
     {
         // TODO: proper type
         [DataMember]
-        public object[] Head;
+        public object[] Head { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] Chest;
+        public object[] Chest { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] Stomach;
+        public object[] Stomach { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] LeftArm;
+        public object[] LeftArm { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] RightArm;
+        public object[] RightArm { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] LeftLeg;
+        public object[] LeftLeg { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] RightLeg;
+        public object[] RightLeg { get; set; }
     }
 }

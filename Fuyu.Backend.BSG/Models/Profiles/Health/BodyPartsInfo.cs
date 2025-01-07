@@ -6,24 +6,24 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Health
     public class BodyPartInfo
     {
         [DataMember]
-        public BodyPart Head;
+        public BodyPart Head { get; set; }
 
         [DataMember]
-        public BodyPart Chest;
+        public BodyPart Chest { get; set; }
 
         [DataMember]
-        public BodyPart Stomach;
+        public BodyPart Stomach { get; set; }
 
         [DataMember]
-        public BodyPart LeftArm;
+        public BodyPart LeftArm { get; set; }
 
         [DataMember]
-        public BodyPart RightArm;
+        public BodyPart RightArm { get; set; }
 
         [DataMember]
-        public BodyPart LeftLeg;
+        public BodyPart LeftLeg { get; set; }
 
         [DataMember]
-        public BodyPart RightLeg;
+        public BodyPart RightLeg { get; set; }
     }
 }

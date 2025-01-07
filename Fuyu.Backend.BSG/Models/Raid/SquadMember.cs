@@ -6,22 +6,22 @@ namespace Fuyu.Backend.BSG.Models.Raid
     public class SquadMember
     {
         [DataMember]
-        public string _id;
+        public string _id { get; set; }
 
         [DataMember]
-        public int aid;
+        public int aid { get; set; }
 
         [DataMember]
-        public SquadInfo Info;
+        public SquadInfo Info { get; set; }
 
         [DataMember]
-        public bool isLeader;
+        public bool isLeader { get; set; }
 
         [DataMember]
-        public bool isReady;
+        public bool isReady { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object PlayerVisualRepresentation;
+        public object PlayerVisualRepresentation { get; set; }
     }
 }

@@ -6,21 +6,21 @@ namespace Fuyu.Backend.BSG.Models.Multiplayer
     public class ProfileStatusInfo
     {
         [DataMember]
-        public string profileid;
+        public string profileid { get; set; }
 
         [DataMember]
-        public string profileToken;
+        public string profileToken { get; set; }
 
         [DataMember]
-        public string status;
+        public string status { get; set; }
 
         [DataMember]
-        public string sid;
+        public string sid { get; set; }
 
         [DataMember]
-        public string ip;
+        public string ip { get; set; }
 
         [DataMember]
-        public int port;
+        public int port { get; set; }
     }
 }
