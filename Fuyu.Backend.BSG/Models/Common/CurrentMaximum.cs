@@ -8,7 +8,7 @@ namespace Fuyu.Backend.BSG.Models.Common
         [DataMember]
         public T Current { get; set; }
 
-		[DataMember]
+        [DataMember]
         public T Maximum { get; set; }
-	}
+    }
 }

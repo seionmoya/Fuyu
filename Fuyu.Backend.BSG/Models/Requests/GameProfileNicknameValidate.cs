@@ -7,5 +7,5 @@ namespace Fuyu.Backend.BSG.Models.Requests
     {
         [DataMember]
         public string nickname { get; set; }
-	}
+    }
 }

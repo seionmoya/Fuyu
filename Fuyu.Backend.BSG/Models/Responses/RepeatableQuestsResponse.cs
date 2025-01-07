@@ -8,5 +8,5 @@ namespace Fuyu.Backend.BSG.Models.Responses
         // TODO: proper type
         [DataMember]
         public object[] squad { get; set; }
-	}
+    }
 }

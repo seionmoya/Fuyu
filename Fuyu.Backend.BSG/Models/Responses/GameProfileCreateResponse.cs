@@ -7,5 +7,5 @@ namespace Fuyu.Backend.BSG.Models.Responses
     {
         [DataMember]
         public string uid { get; set; }
-	}
+    }
 }

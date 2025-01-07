@@ -8,5 +8,5 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Health
     {
         [DataMember]
         public CurrentMaximum<float> Health { get; set; }
-	}
+    }
 }

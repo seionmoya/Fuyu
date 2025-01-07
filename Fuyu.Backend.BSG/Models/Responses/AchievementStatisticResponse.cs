@@ -8,5 +8,5 @@ namespace Fuyu.Backend.BSG.Models.Responses
     {
         [DataMember]
         public Dictionary<string, float> elements { get; set; }
-	}
+    }
 }

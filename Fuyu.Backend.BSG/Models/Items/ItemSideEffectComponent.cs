@@ -10,7 +10,7 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember]
         public float Value { get; set; }
 
-		public static object CreateComponent(JObject templateProperties)
+        public static object CreateComponent(JObject templateProperties)
         {
             if (!templateProperties.ContainsKey("MaxResource"))
             {

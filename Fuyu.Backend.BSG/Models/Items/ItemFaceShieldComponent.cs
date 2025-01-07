@@ -8,7 +8,7 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember]
         public byte Hits { get; set; }
 
-		[DataMember]
+        [DataMember]
         public byte HitSeed { get; set; }
-	}
+    }
 }

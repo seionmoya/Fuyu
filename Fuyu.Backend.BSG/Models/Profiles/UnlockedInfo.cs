@@ -8,5 +8,5 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         // TODO: proper type
         [DataMember]
         public object[] unlockedProductionRecipe { get; set; }
-	}
+    }
 }

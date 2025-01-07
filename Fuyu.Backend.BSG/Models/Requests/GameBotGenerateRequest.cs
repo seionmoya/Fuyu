@@ -8,5 +8,5 @@ namespace Fuyu.Backend.BSG.Models.Requests
     {
         [DataMember]
         public BotCondition[] conditions { get; set; }
-	}
+    }
 }

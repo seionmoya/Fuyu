@@ -8,5 +8,5 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     {
         [DataMember]
         public EftStats Eft { get; set; }
-	}
+    }
 }

@@ -10,7 +10,7 @@ namespace Fuyu.Backend.BSG.Models.Accounts
         [DataMember]
         public Profile Profile { get; set; }
 
-		[DataMember]
+        [DataMember]
         public CustomizationStorageEntry[] Customization { get; set; }
-	}
+    }
 }

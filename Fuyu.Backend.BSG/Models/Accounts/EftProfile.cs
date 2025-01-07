@@ -10,13 +10,13 @@ namespace Fuyu.Backend.BSG.Models.Accounts
         [DataMember]
         public Profile Pmc { get; set; }
 
-		[DataMember]
+        [DataMember]
         public Profile Savage { get; set; }
 
-		[DataMember]
+        [DataMember]
         public CustomizationStorageEntry[] Customization { get; set; }
 
-		[DataMember]
+        [DataMember]
         public bool ShouldWipe { get; set; }
-	}
+    }
 }
