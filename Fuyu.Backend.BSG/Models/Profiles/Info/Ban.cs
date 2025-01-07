@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Info
     public class Ban
     {
         [DataMember]
-        public EBanType banType;
+        public EBanType banType { get; set; }
 
         [DataMember]
-        public long dateTime;
+        public long dateTime { get; set; }
     }
 }

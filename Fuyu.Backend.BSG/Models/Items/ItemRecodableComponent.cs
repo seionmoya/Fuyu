@@ -8,9 +8,9 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class ItemRecodableComponent : IItemComponent
     {
         [DataMember]
-        public bool IsEncoded;
+        public bool IsEncoded { get; set; }
 
-        public static object CreateComponent(JObject templateProperties)
+		public static object CreateComponent(JObject templateProperties)
         {
             if (!templateProperties.ContainsKey("IsEncoded"))
             {

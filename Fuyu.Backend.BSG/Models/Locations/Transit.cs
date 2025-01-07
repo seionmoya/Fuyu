@@ -6,30 +6,30 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class Transit
     {
         [DataMember]
-        public int id;
+        public int id { get; set; }
 
         [DataMember]
-        public bool active;
+        public bool active { get; set; }
 
         [DataMember]
-        public string name;
+        public string name { get; set; }
 
         [DataMember]
-        public string location;
+        public string location { get; set; }
 
         [DataMember]
-        public string description;
+        public string description { get; set; }
 
         [DataMember]
-        public int activateAfterSec;
+        public int activateAfterSec { get; set; }
 
         [DataMember]
-        public string target;
+        public string target { get; set; }
 
         [DataMember]
-        public int time;
+        public int time { get; set; }
 
         [DataMember]
-        public string conditions;
+        public string conditions { get; set; }
     }
 }

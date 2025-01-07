@@ -6,15 +6,15 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class HideoutSettingsResponse
     {
         [DataMember]
-        public double generatorSpeedWithoutFuel;
+        public double generatorSpeedWithoutFuel { get; set; }
 
         [DataMember]
-        public double generatorFuelFlowRate;
+        public double generatorFuelFlowRate { get; set; }
 
         [DataMember]
-        public double airFilterUnitFlowRate;
+        public double airFilterUnitFlowRate { get; set; }
 
         [DataMember]
-        public double gpuBoostRate;
+        public double gpuBoostRate { get; set; }
     }
 }

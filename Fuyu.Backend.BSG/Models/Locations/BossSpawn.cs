@@ -6,55 +6,55 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class BossSpawn
     {
         [DataMember]
-        public string BossName;
+        public string BossName { get; set; }
 
         [DataMember]
-        public int BossChance;
+        public int BossChance { get; set; }
 
         [DataMember]
-        public string BossZone;
+        public string BossZone { get; set; }
 
         [DataMember]
-        public bool BossPlayer;
+        public bool BossPlayer { get; set; }
 
         [DataMember]
-        public string BossDifficult;
+        public string BossDifficult { get; set; }
 
         [DataMember]
-        public string BossEscortType;
+        public string BossEscortType { get; set; }
 
         [DataMember]
-        public string BossEscortDifficult;
+        public string BossEscortDifficult { get; set; }
 
         [DataMember]
-        public string BossEscortAmount;
+        public string BossEscortAmount { get; set; }
 
         [DataMember]
-        public int Time;
+        public int Time { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public BossSupport[] Supports;
+        public BossSupport[] Supports { get; set; }
 
         [DataMember]
-        public bool RandomTimeSpawn;
+        public bool RandomTimeSpawn { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public bool? ForceSpawn;
+        public bool? ForceSpawn { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public bool? IgnoreMaxBots;
+        public bool? IgnoreMaxBots { get; set; }
 
         [DataMember]
-        public string TriggerName;
+        public string TriggerName { get; set; }
 
         [DataMember]
-        public string TriggerId;
+        public string TriggerId { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public int? Delay;
+        public int? Delay { get; set; }
 
         // NOTE: server-side only
         [DataMember]
-        public string[] SpawnMode;
+        public string[] SpawnMode { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class MenuLocaleResponse
     {
         [DataMember]
-        public Dictionary<string, string> menu;
-    }
+        public Dictionary<string, string> menu { get; set; }
+	}
 }

@@ -7,9 +7,9 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class ColliderProperties
     {
         [DataMember]
-        public Vector3 Center;
+        public Vector3 Center { get; set; }
 
         [DataMember]
-        public float Radius;
+        public float Radius { get; set; }
     }
 }

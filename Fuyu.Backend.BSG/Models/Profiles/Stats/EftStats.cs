@@ -6,54 +6,54 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Stats
     public class EftStats
     {
         [DataMember]
-        public Counter SessionCounters;
+        public Counter SessionCounters { get; set; }
 
         [DataMember]
-        public Counter OverallCounters;
+        public Counter OverallCounters { get; set; }
 
         [DataMember]
-        public int SessionExperienceMult;
+        public int SessionExperienceMult { get; set; }
 
         [DataMember]
-        public int ExperienceBonusMult;
+        public int ExperienceBonusMult { get; set; }
 
         [DataMember]
-        public int TotalSessionExperience;
+        public int TotalSessionExperience { get; set; }
 
         [DataMember]
-        public long LastSessionDate;
-
-        // TODO: proper type
-        [DataMember]
-        public object Aggressor;
+        public long LastSessionDate { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] DroppedItems;
+        public object Aggressor { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] FoundInRaidItems;
+        public object[] DroppedItems { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] Victims;
+        public object[] FoundInRaidItems { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] CarriedQuestItems;
-
-        [DataMember]
-        public DamageHistory DamageHistory;
+        public object[] Victims { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object LastPlayerState;
+        public object[] CarriedQuestItems { get; set; }
 
         [DataMember]
-        public int TotalInGameTime;
+        public DamageHistory DamageHistory { get; set; }
+
+        // TODO: proper type
+        [DataMember]
+        public object LastPlayerState { get; set; }
 
         [DataMember]
-        public string SurvivorClass;
+        public int TotalInGameTime { get; set; }
+
+        [DataMember]
+        public string SurvivorClass { get; set; }
     }
 }

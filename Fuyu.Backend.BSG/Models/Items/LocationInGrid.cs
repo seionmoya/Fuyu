@@ -7,17 +7,17 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class LocationInGrid : IEquatable<LocationInGrid>
     {
         [DataMember]
-        public int x;
+        public int x { get; set; }
 
         [DataMember]
-        public int y;
+        public int y { get; set; }
 
         [DataMember]
-        public EItemRotation r;
+        public EItemRotation r { get; set; }
 
         // emits when 'false'
         [DataMember(EmitDefaultValue = false)]
-        public bool? isSearched;
+        public bool? isSearched { get; set; }
 
         public bool Equals(LocationInGrid other)
         {

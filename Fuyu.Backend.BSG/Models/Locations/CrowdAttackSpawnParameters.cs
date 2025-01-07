@@ -7,12 +7,12 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class CrowdAttackSpawnParameters
     {
         [DataMember]
-        public EBotDifficulty Difficulty;
+        public EBotDifficulty Difficulty { get; set; }
 
         [DataMember]
-        public EBotRole Role;
+        public EBotRole Role { get; set; }
 
         [DataMember]
-        public int Weight;
+        public int Weight { get; set; }
     }
 }

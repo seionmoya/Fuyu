@@ -6,18 +6,18 @@ namespace Fuyu.Backend.BSG.Models.Servers
     public class Backends
     {
         [DataMember]
-        public string Lobby;
+        public string Lobby { get; set; }
 
         [DataMember]
-        public string Trading;
+        public string Trading { get; set; }
 
         [DataMember]
-        public string Messaging;
+        public string Messaging { get; set; }
 
         [DataMember]
-        public string Main;
+        public string Main { get; set; }
 
         [DataMember]
-        public string RagFair;
+        public string RagFair { get; set; }
     }
 }

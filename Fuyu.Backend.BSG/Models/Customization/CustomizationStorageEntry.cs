@@ -7,14 +7,14 @@ namespace Fuyu.Backend.BSG.Models.Customization
     public class CustomizationStorageEntry
     {
         [DataMember]
-        public MongoId id;
+        public MongoId id { get; set; }
 
         [DataMember]
-        public string source;
+        public string source { get; set; }
 
         // TODO: enum
         // seionmoya, 2025-01-04
         [DataMember]
-        public string type;
+        public string type { get; set; }
     }
 }

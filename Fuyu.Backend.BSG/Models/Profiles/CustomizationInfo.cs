@@ -7,15 +7,15 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class CustomizationInfo
     {
         [DataMember]
-        public MongoId Head;
+        public MongoId Head { get; set; }
 
         [DataMember]
-        public MongoId Body;
+        public MongoId Body { get; set; }
 
         [DataMember]
-        public MongoId Feet;
+        public MongoId Feet { get; set; }
 
         [DataMember]
-        public MongoId Hands;
+        public MongoId Hands { get; set; }
     }
 }

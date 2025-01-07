@@ -7,9 +7,9 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class WorldMap
     {
         [DataMember]
-        public Dictionary<string, Location> locations;
+        public Dictionary<string, Location> locations { get; set; }
 
         [DataMember]
-        public Path[] paths;
+        public Path[] paths { get; set; }
     }
 }

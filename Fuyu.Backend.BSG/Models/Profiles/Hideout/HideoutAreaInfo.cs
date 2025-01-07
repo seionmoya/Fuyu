@@ -7,29 +7,29 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Hideout
     public class HideoutAreaInfo
     {
         [DataMember]
-        public EAreaType type;
+        public EAreaType type { get; set; }
 
         [DataMember]
-        public int level;
+        public int level { get; set; }
 
         [DataMember]
-        public bool active;
-
-        // TODO: proper type
-        [DataMember]
-        public bool passiveBonusesEnabled;
-
-        [DataMember]
-        public long completeTime;
-
-        [DataMember]
-        public bool conclassing;
+        public bool active { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object[] slots;
+        public bool passiveBonusesEnabled { get; set; }
 
         [DataMember]
-        public string lastRecipe;
+        public long completeTime { get; set; }
+
+        [DataMember]
+        public bool conclassing { get; set; }
+
+        // TODO: proper type
+        [DataMember]
+        public object[] slots { get; set; }
+
+        [DataMember]
+        public string lastRecipe { get; set; }
     }
 }

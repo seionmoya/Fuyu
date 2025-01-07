@@ -7,15 +7,15 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class MapMarker
     {
         [DataMember]
-        public EMapMarkerType Type;
+        public EMapMarkerType Type { get; set; }
 
         [DataMember]
-        public int X;
+        public int X { get; set; }
 
         [DataMember]
-        public int Y;
+        public int Y { get; set; }
 
         [DataMember]
-        public string Note;
+        public string Note { get; set; }
     }
 }

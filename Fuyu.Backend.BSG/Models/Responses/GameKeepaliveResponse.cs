@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class GameKeepaliveResponse
     {
         [DataMember]
-        public string msg;
+        public string msg { get; set; }
 
         [DataMember]
-        public double utc_time;
+        public double utc_time { get; set; }
     }
 }

@@ -6,36 +6,36 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class AirdropParameters
     {
         [DataMember]
-        public string id;
+        public string id { get; set; }
 
         [DataMember]
-        public int PlaneAirdropStartMin;
+        public int PlaneAirdropStartMin { get; set; }
 
         [DataMember]
-        public int PlaneAirdropStartMax;
+        public int PlaneAirdropStartMax { get; set; }
 
         [DataMember]
-        public int PlaneAirdropEnd;
+        public int PlaneAirdropEnd { get; set; }
 
         [DataMember]
-        public float PlaneAirdropChance;
+        public float PlaneAirdropChance { get; set; }
 
         [DataMember]
-        public int PlaneAirdropMax;
+        public int PlaneAirdropMax { get; set; }
 
         [DataMember]
-        public int PlaneAirdropCooldownMin;
+        public int PlaneAirdropCooldownMin { get; set; }
 
         [DataMember]
-        public int PlaneAirdropCooldownMax;
+        public int PlaneAirdropCooldownMax { get; set; }
 
         [DataMember]
-        public int AirdropPointDeactivateDistance;
+        public int AirdropPointDeactivateDistance { get; set; }
 
         [DataMember]
-        public int MinPlayersCountToSpawnAirdrop;
+        public int MinPlayersCountToSpawnAirdrop { get; set; }
 
         [DataMember]
-        public int UnsuccessfulTryPenalty;
+        public int UnsuccessfulTryPenalty { get; set; }
     }
 }

@@ -6,15 +6,15 @@ namespace Fuyu.Backend.BSG.Models.Requests
     public class MatchLocalStartRequest
     {
         [DataMember]
-        public string location;
+        public string location { get; set; }
 
         [DataMember]
-        public string timeVariant;
+        public string timeVariant { get; set; }
 
         [DataMember]
-        public string mode;
+        public string mode { get; set; }
 
         [DataMember]
-        public string playerSide;
+        public string playerSide { get; set; }
     }
 }

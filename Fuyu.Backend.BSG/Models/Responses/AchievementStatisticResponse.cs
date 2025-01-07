@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class AchievementStatisticResponse
     {
         [DataMember]
-        public Dictionary<string, float> elements;
-    }
+        public Dictionary<string, float> elements { get; set; }
+	}
 }

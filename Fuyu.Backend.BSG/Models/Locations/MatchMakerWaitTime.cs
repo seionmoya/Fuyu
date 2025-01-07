@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class MatchMakerWaitTime
     {
         [DataMember]
-        public int time;
+        public int time { get; set; }
 
         [DataMember]
-        public int minPlayers;
+        public int minPlayers { get; set; }
     }
 }

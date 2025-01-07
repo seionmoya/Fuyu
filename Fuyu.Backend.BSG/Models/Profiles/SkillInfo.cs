@@ -7,12 +7,12 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class SkillInfo
     {
         [DataMember]
-        public Skill[] Common;
+        public Skill[] Common { get; set; }
 
         [DataMember]
-        public Mastery[] Mastering;
+        public Mastery[] Mastering { get; set; }
 
         [DataMember]
-        public int Points;
+        public int Points { get; set; }
     }
 }

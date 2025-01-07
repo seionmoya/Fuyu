@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Common
     public class CurrentMaximum<T>
     {
         [DataMember]
-        public T Current;
+        public T Current { get; set; }
 
-        [DataMember]
-        public T Maximum;
-    }
+		[DataMember]
+        public T Maximum { get; set; }
+	}
 }

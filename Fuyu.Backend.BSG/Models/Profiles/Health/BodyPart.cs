@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Health
     public class BodyPart
     {
         [DataMember]
-        public CurrentMaximum<float> Health;
-    }
+        public CurrentMaximum<float> Health { get; set; }
+	}
 }

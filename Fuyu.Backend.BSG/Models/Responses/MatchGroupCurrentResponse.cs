@@ -7,10 +7,10 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class MatchGroupCurrentResponse
     {
         [DataMember]
-        public SquadMember[] squad;
+        public SquadMember[] squad { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object raidSettings;
+        public object raidSettings { get; set; }
     }
 }

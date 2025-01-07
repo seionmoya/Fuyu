@@ -6,6 +6,6 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class GameProfileCreateResponse
     {
         [DataMember]
-        public string uid;
-    }
+        public string uid { get; set; }
+	}
 }

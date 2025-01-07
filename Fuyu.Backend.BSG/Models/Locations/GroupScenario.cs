@@ -6,15 +6,15 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class GroupScenario
     {
         [DataMember]
-        public int MinToBeGroup;
+        public int MinToBeGroup { get; set; }
 
         [DataMember]
-        public int MaxToBeGroup;
+        public int MaxToBeGroup { get; set; }
 
         [DataMember]
-        public int Chance;
+        public int Chance { get; set; }
 
         [DataMember]
-        public bool Enabled;
+        public bool Enabled { get; set; }
     }
 }

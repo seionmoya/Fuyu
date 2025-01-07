@@ -6,21 +6,21 @@ namespace Fuyu.Backend.BSG.Models.Responses
     public class GetMetricsConfigResponse
     {
         [DataMember]
-        public int[] Keys;
+        public int[] Keys { get; set; }
 
         [DataMember]
-        public int[] NetProcessingBins;
+        public int[] NetProcessingBins { get; set; }
 
         [DataMember]
-        public int[] RenderBins;
+        public int[] RenderBins { get; set; }
 
         [DataMember]
-        public int[] GameUpdateBins;
+        public int[] GameUpdateBins { get; set; }
 
         [DataMember]
-        public int MemoryMeasureInterval;
+        public int MemoryMeasureInterval { get; set; }
 
         [DataMember]
-        public int[] PauseReasons;
+        public int[] PauseReasons { get; set; }
     }
 }

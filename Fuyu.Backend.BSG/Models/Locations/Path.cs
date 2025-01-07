@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class Path
     {
         [DataMember]
-        public string Source;
+        public string Source { get; set; }
 
         [DataMember]
-        public string Destination;
+        public string Destination { get; set; }
     }
 }

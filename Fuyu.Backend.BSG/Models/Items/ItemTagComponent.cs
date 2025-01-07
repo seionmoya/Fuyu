@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class ItemTagComponent
     {
         [DataMember]
-        public int Color;
+        public int Color { get; set; }
 
         [DataMember]
-        public string Name;
+        public string Name { get; set; }
     }
 }

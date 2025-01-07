@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Items
     public class ItemFaceShieldComponent
     {
         [DataMember]
-        public byte Hits;
+        public byte Hits { get; set; }
 
-        [DataMember]
-        public byte HitSeed;
-    }
+		[DataMember]
+        public byte HitSeed { get; set; }
+	}
 }

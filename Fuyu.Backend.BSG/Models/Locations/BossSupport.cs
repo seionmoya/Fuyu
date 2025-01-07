@@ -6,12 +6,12 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class BossSupport
     {
         [DataMember]
-        public string BossEscortType;
+        public string BossEscortType { get; set; }
 
         [DataMember]
-        public string[] BossEscortDifficult;
+        public string[] BossEscortDifficult { get; set; }
 
         [DataMember]
-        public string BossEscortAmount;
+        public string BossEscortAmount { get; set; }
     }
 }

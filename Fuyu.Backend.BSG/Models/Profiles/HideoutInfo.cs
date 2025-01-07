@@ -8,16 +8,16 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     {
         // TODO: proper type
         [DataMember]
-        public object Production;
+        public object Production { get; set; }
 
         [DataMember]
-        public HideoutAreaInfo[] Areas;
+        public HideoutAreaInfo[] Areas { get; set; }
 
         // TODO: proper type
         [DataMember]
-        public object Improvements;
+        public object Improvements { get; set; }
 
         [DataMember]
-        public long Seed;
+        public long Seed { get; set; }
     }
 }

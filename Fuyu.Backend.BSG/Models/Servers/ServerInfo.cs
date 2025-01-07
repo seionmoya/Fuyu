@@ -6,9 +6,9 @@ namespace Fuyu.Backend.BSG.Models.Servers
     public class ServerInfo
     {
         [DataMember]
-        public string ip;
+        public string ip { get; set; }
 
         [DataMember]
-        public int port;
+        public int port { get; set; }
     }
 }

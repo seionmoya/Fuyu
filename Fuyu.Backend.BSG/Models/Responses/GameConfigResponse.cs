@@ -25,41 +25,41 @@ namespace Fuyu.Backend.BSG.Models.Responses
         // Reason: only used on BSG's internal server
 
         [DataMember]
-        public Backends backend;
+        public Backends backend { get; set; }
 
         // SKIPPED: useProtobuf
         // Reason: only used on BSG's internal server
 
         [DataMember]
-        public double utc_time;
+        public double utc_time { get; set; }
 
         // SKIPPED: totalInGame
         // Reason: only used on BSG's internal server
 
         [DataMember]
-        public bool reportAvailable;
+        public bool reportAvailable { get; set; }
 
         [DataMember]
-        public bool twitchEventMember;
+        public bool twitchEventMember { get; set; }
 
         // SKIPPED: sessionMode
         // Reason: only used on BSG's internal server
 
         [DataMember]
-        public PurchasedGames purchasedGames;
+        public PurchasedGames purchasedGames { get; set; }
 
         // NOTE: in relation to trader "Ref" (is game synced with Arena)
         [DataMember]
-        public bool isGameSynced;
+        public bool isGameSynced { get; set; }
     }
 
     [DataContract]
     public class PurchasedGames
     {
         [DataMember]
-        public bool eft;
+        public bool eft { get; set; }
 
         [DataMember]
-        public bool arena;
+        public bool arena { get; set; }
     }
 }

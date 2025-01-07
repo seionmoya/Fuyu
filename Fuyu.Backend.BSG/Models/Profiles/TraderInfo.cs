@@ -6,15 +6,15 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class TraderInfo
     {
         [DataMember]
-        public bool unlocked;
+        public bool unlocked { get; set; }
 
         [DataMember]
-        public bool disabled;
+        public bool disabled { get; set; }
 
         [DataMember]
-        public int salesSum;
+        public int salesSum { get; set; }
 
         [DataMember]
-        public float standing;
+        public float standing { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class StatsInfo
     {
         [DataMember]
-        public EftStats Eft;
-    }
+        public EftStats Eft { get; set; }
+	}
 }

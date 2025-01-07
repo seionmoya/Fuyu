@@ -7,9 +7,9 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class InsuredItem
     {
         [DataMember]
-        public MongoId tid;
+        public MongoId tid { get; set; }
 
         [DataMember]
-        public MongoId itemId;
+        public MongoId itemId { get; set; }
     }
 }

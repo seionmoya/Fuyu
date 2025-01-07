@@ -6,12 +6,12 @@ namespace Fuyu.Backend.BSG.Models.Locations
     public class MinMaxBot
     {
         [DataMember]
-        public int min;
+        public int min { get; set; }
 
         [DataMember]
-        public int max;
+        public int max { get; set; }
 
         [DataMember]
-        public string WildSpawnType;
+        public string WildSpawnType { get; set; }
     }
 }
