@@ -20,7 +20,10 @@ namespace Fuyu.Backend.Core
         //                                sessid  aid
         internal readonly ThreadDictionary<string, int> Sessions;
 
-        private CoreDatabase()
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private CoreDatabase()
         {
             Accounts = new ThreadList<Account>();
             Sessions = new ThreadDictionary<string, int>();

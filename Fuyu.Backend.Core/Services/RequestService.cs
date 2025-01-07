@@ -15,7 +15,10 @@ namespace Fuyu.Backend.Core.Services
 
 		private ThreadDictionary<string, HttpClient> _httpClients;
 
-        private RequestService()
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private RequestService()
         {
             _httpClients = new ThreadDictionary<string, HttpClient>();
 

@@ -16,6 +16,9 @@ namespace Fuyu.Backend.BSG.DTO.Services
 		public static ItemFactoryService Instance => instance.Value;
 		private static readonly Lazy<ItemFactoryService> instance = new(() => new ItemFactoryService());
 
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
 		private ItemFactoryService()
 		{
 			

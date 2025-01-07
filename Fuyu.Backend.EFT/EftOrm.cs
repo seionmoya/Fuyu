@@ -13,6 +13,9 @@ namespace Fuyu.Backend.EFT
 		public static EftOrm Instance => instance.Value;
 		private static readonly Lazy<EftOrm> instance = new(() => new EftOrm());
 
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
 		private EftOrm()
 		{
 

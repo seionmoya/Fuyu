@@ -17,7 +17,10 @@ namespace Fuyu.Backend.EFT
 
 		private readonly ThreadDictionary<MongoId, TraderTemplate> _traders;
 
-        private TraderDatabase()
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private TraderDatabase()
         {
             _traders = new ThreadDictionary<MongoId, TraderTemplate>();
         }

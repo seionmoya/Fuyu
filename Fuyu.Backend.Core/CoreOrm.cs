@@ -9,6 +9,9 @@ namespace Fuyu.Backend.Core
 		public static CoreOrm Instance => instance.Value;
 		private static readonly Lazy<CoreOrm> instance = new(() => new CoreOrm());
 
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
 		private CoreOrm()
 		{
 

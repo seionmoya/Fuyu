@@ -64,7 +64,10 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<string> Traders;
         internal readonly ThreadObject<string> Weather;
 
-        private EftDatabase()
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private EftDatabase()
         {
             Accounts = new ThreadList<EftAccount>();
             Profiles = new ThreadList<EftProfile>();

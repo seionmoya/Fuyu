@@ -17,6 +17,9 @@ namespace Fuyu.Backend.EFT.Services
 		public static AccountService Instance => instance.Value;
 		private static readonly Lazy<AccountService> instance = new(() => new AccountService());
 
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
 		private AccountService()
 		{
 

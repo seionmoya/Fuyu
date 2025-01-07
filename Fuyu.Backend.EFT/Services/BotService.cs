@@ -22,7 +22,10 @@ namespace Fuyu.Backend.EFT.Services
 
 		private readonly Dictionary<EBotRole, string> _profiles;
 
-        private BotService()
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private BotService()
         {
             _profiles = new Dictionary<EBotRole, string>()
             {

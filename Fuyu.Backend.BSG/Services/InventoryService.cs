@@ -11,6 +11,9 @@ namespace Fuyu.Backend.BSG.Services
 		public static InventoryService Instance => instance.Value;
 		private static readonly Lazy<InventoryService> instance = new(() => new InventoryService());
 
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
 		private InventoryService()
 		{
 

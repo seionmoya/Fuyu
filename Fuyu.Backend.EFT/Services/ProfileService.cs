@@ -13,6 +13,9 @@ namespace Fuyu.Backend.EFT.Services
 		public static ProfileService Instance => instance.Value;
 		private static readonly Lazy<ProfileService> instance = new(() => new ProfileService());
 
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
 		private ProfileService()
 		{
 
