@@ -16,7 +16,7 @@ public sealed class FuyuClient : TargetWithLayout
         CheckIncompatibleSoftware();
 
         Terminal.WriteLine("Loading mods...");
-        ModManager.Instance.AddMods("./Fuyu/Mods");
+        ModManager.Instance.AddMods("./Fuyu/Mods/Client");
         ModManager.Instance.Load(container).GetAwaiter().GetResult();
         Terminal.WriteLine("Finished loading mods");
 
