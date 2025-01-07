@@ -86,11 +86,11 @@ public class Program
 
 A simple wrapper around loading embedded files from assemblies.
 
-It assumes the file is located in the `embedded/` folder of your csproj.
+It assumes the file is located in the `Resources/` folder of your csproj.
 
 ```xml
   <ItemGroup>
-    <EmbeddedResource Include="embedded/path/to/file.txt" />
+    <EmbeddedResource Include="Resources/path/to/file.txt" />
   </ItemGroup>
 ```
 
