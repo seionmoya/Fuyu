@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
             // TODO: generate this
             // --seionmoya, 2024-11-18
-            var json = EftOrm.GetAchievementStatistic();
+            var json = EftOrm.Instance.GetAchievementStatistic();
             var response = Json.Parse<ResponseBody<AchievementStatisticResponse>>(json);
 
             var text = Json.Stringify(response);

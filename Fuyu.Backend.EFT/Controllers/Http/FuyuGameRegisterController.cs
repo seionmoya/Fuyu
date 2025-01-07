@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context, FuyuGameRegisterRequest request)
         {
-            var accountId = AccountService.RegisterAccount(request.Username, request.Edition);
+            var accountId = AccountService.Instance.RegisterAccount(request.Username, request.Edition);
             var response = new FuyuGameRegisterResponse()
             {
                 AccountId = accountId

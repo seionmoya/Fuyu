@@ -8,11 +8,17 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.Core.Services
 {
-    public static class RequestService
+    public class RequestService
     {
-        private static ThreadDictionary<string, HttpClient> _httpClients;
+		public static RequestService Instance => instance.Value;
+		private static readonly Lazy<RequestService> instance = new(() => new RequestService());
 
-        static RequestService()
+		private ThreadDictionary<string, HttpClient> _httpClients;
+
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private RequestService()
         {
             _httpClients = new ThreadDictionary<string, HttpClient>();
 
@@ -23,7 +29,7 @@ namespace Fuyu.Backend.Core.Services
             _httpClients.Set("arena", new HttpClient("http://localhost:8020"));
         }
 
-        private static T2 HttpPost<T1, T2>(string id, string path, T1 request)
+        private T2 HttpPost<T1, T2>(string id, string path, T1 request)
         {
             if (!_httpClients.TryGet(id, out var httpc))
             {
@@ -40,7 +46,7 @@ namespace Fuyu.Backend.Core.Services
             return responseValue;
         }
 
-        public static int RegisterGame(string game, string username, string edition)
+        public int RegisterGame(string game, string username, string edition)
         {
             var request = new FuyuGameRegisterRequest()
             {

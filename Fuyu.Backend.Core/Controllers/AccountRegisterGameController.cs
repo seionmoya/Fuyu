@@ -15,7 +15,7 @@ namespace Fuyu.Backend.Core.Controllers
         public override Task RunAsync(CoreHttpContext context, AccountRegisterGameRequest request)
         {
             var sessionId = context.GetSessionId();
-            var result = AccountService.RegisterGame(sessionId, request.Game, request.Edition);
+            var result = AccountService.Instance.RegisterGame(sessionId, request.Game, request.Edition);
 
             return context.SendJsonAsync(Json.Stringify(result));
         }

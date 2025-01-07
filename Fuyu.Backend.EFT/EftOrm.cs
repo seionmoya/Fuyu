@@ -8,15 +8,26 @@ using Fuyu.Backend.BSG.Models.Responses;
 
 namespace Fuyu.Backend.EFT
 {
-    public static class EftOrm
+    public class EftOrm
     {
-        #region Profile
-        public static List<EftProfile> GetProfiles()
+		public static EftOrm Instance => instance.Value;
+		private static readonly Lazy<EftOrm> instance = new(() => new EftOrm());
+
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private EftOrm()
+		{
+
+		}
+
+		#region Profile
+		public List<EftProfile> GetProfiles()
         {
-            return EftDatabase.Profiles.ToList();
+            return EftDatabase.Instance.Profiles.ToList();
         }
 
-        public static EftProfile GetProfile(string profileId)
+        public EftProfile GetProfile(string profileId)
         {
             var profiles = GetProfiles();
 
@@ -31,12 +42,12 @@ namespace Fuyu.Backend.EFT
             return null;
         }
 
-        public static EftProfile GetActiveProfile(string sessionId)
+        public EftProfile GetActiveProfile(string sessionId)
         {
             return GetActiveProfile(GetAccount(sessionId));
         }
 
-        public static EftProfile GetActiveProfile(EftAccount account)
+        public EftProfile GetActiveProfile(EftAccount account)
         {
             var profiles = GetProfiles();
             string profileId = null;
@@ -66,7 +77,7 @@ namespace Fuyu.Backend.EFT
             return null;
         }
 
-        public static void SetOrAddProfile(EftProfile profile)
+        public void SetOrAddProfile(EftProfile profile)
         {
             var profiles = GetProfiles();
 
@@ -74,15 +85,15 @@ namespace Fuyu.Backend.EFT
             {
                 if (profiles[i].Pmc._id == profile.Pmc._id)
                 {
-                    EftDatabase.Profiles.TrySet(i, profile);
+                    EftDatabase.Instance.Profiles.TrySet(i, profile);
                     return;
                 }
             }
 
-            EftDatabase.Profiles.Add(profile);
+            EftDatabase.Instance.Profiles.Add(profile);
         }
 
-        public static void RemoveProfile(EftProfile profile)
+        public void RemoveProfile(EftProfile profile)
         {
             var profiles = GetProfiles();
 
@@ -90,7 +101,7 @@ namespace Fuyu.Backend.EFT
             {
                 if (profiles[i].Pmc._id == profile.Pmc._id)
                 {
-                    EftDatabase.Profiles.TryRemoveAt(i);
+                    EftDatabase.Instance.Profiles.TryRemoveAt(i);
                     return;
                 }
             }
@@ -98,12 +109,12 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region Account
-        public static List<EftAccount> GetAccounts()
+        public List<EftAccount> GetAccounts()
         {
-            return EftDatabase.Accounts.ToList();
+            return EftDatabase.Instance.Accounts.ToList();
         }
 
-        public static EftAccount GetAccount(int accountId)
+        public EftAccount GetAccount(int accountId)
         {
             var accounts = GetAccounts();
 
@@ -118,13 +129,13 @@ namespace Fuyu.Backend.EFT
             return null;
         }
 
-        public static EftAccount GetAccount(string sessionId)
+        public EftAccount GetAccount(string sessionId)
         {
             var accountId = GetSession(sessionId);
             return GetAccount(accountId);
         }
 
-        public static void SetOrAddAccount(EftAccount account)
+        public void SetOrAddAccount(EftAccount account)
         {
             var accounts = GetAccounts();
 
@@ -132,15 +143,15 @@ namespace Fuyu.Backend.EFT
             {
                 if (accounts[i].Id == account.Id)
                 {
-                    EftDatabase.Accounts.TrySet(i, account);
+                    EftDatabase.Instance.Accounts.TrySet(i, account);
                     return;
                 }
             }
 
-            EftDatabase.Accounts.Add(account);
+            EftDatabase.Instance.Accounts.Add(account);
         }
 
-        public static void RemoveAccount(EftAccount account)
+        public void RemoveAccount(EftAccount account)
         {
             var accounts = GetAccounts();
 
@@ -148,7 +159,7 @@ namespace Fuyu.Backend.EFT
             {
                 if (accounts[i].Id == account.Id)
                 {
-                    EftDatabase.Accounts.TryRemoveAt(i);
+                    EftDatabase.Instance.Accounts.TryRemoveAt(i);
                     return;
                 }
             }
@@ -156,14 +167,14 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region Session
-        public static Dictionary<string, int> GetSessions()
+        public Dictionary<string, int> GetSessions()
         {
-            return EftDatabase.Sessions.ToDictionary();
+            return EftDatabase.Instance.Sessions.ToDictionary();
         }
 
-        public static int GetSession(string sessionId)
+        public int GetSession(string sessionId)
         {
-            if (!EftDatabase.Sessions.TryGet(sessionId, out var session))
+            if (!EftDatabase.Instance.Sessions.TryGet(sessionId, out var session))
             {
                 throw new Exception($"Failed to get session from sessionId: {sessionId}");
             }
@@ -171,33 +182,33 @@ namespace Fuyu.Backend.EFT
             return session;
         }
 
-        public static void SetOrAddSession(string sessionId, int accountId)
+        public void SetOrAddSession(string sessionId, int accountId)
         {
-            if (EftDatabase.Sessions.ContainsKey(sessionId))
+            if (EftDatabase.Instance.Sessions.ContainsKey(sessionId))
             {
-                EftDatabase.Sessions.Set(sessionId, accountId);
+                EftDatabase.Instance.Sessions.Set(sessionId, accountId);
             }
             else
             {
-                EftDatabase.Sessions.Set(sessionId, accountId);
+                EftDatabase.Instance.Sessions.Set(sessionId, accountId);
             }
         }
 
-        public static void RemoveSession(string sessionId)
+        public void RemoveSession(string sessionId)
         {
-            EftDatabase.Sessions.Remove(sessionId);
+            EftDatabase.Instance.Sessions.Remove(sessionId);
         }
         #endregion
 
         #region Customization
-        public static Dictionary<string, CustomizationTemplate> GetCustomizations()
+        public Dictionary<string, CustomizationTemplate> GetCustomizations()
         {
-            return EftDatabase.Customizations.ToDictionary();
+            return EftDatabase.Instance.Customizations.ToDictionary();
         }
 
-        public static CustomizationTemplate GetCustomization(string customizationId)
+        public CustomizationTemplate GetCustomization(string customizationId)
         {
-            if (!EftDatabase.Customizations.TryGet(customizationId, out var customizationTemplate))
+            if (!EftDatabase.Instance.Customizations.TryGet(customizationId, out var customizationTemplate))
             {
                 throw new Exception($"Failed to get customization with ID '{customizationId}'");
             }
@@ -205,31 +216,31 @@ namespace Fuyu.Backend.EFT
             return customizationTemplate;
         }
 
-        public static void SetOrAddCustomization(string customizationId, CustomizationTemplate template)
+        public void SetOrAddCustomization(string customizationId, CustomizationTemplate template)
         {
-            if (EftDatabase.Customizations.ContainsKey(customizationId))
+            if (EftDatabase.Instance.Customizations.ContainsKey(customizationId))
             {
-                EftDatabase.Customizations.Set(customizationId, template);
+                EftDatabase.Instance.Customizations.Set(customizationId, template);
             }
             else
             {
-                EftDatabase.Customizations.Set(customizationId, template);
+                EftDatabase.Instance.Customizations.Set(customizationId, template);
             }
         }
 
-        public static void RemoveCustomization(string customizationId)
+        public void RemoveCustomization(string customizationId)
         {
-            EftDatabase.Customizations.Remove(customizationId);
+            EftDatabase.Instance.Customizations.Remove(customizationId);
         }
         #endregion
 
-        #region Customization storage
-        public static List<CustomizationStorageEntry> GetCustomizationStorage()
+                #region Customization storage
+        public List<CustomizationStorageEntry> GetCustomizationStorage()
         {
-            return EftDatabase.CustomizationStorage.ToList();
+            return EftDatabase.Instance.CustomizationStorage.ToList();
         }
 
-        public static CustomizationStorageEntry GetCustomizationStorage(string customizationId)
+        public CustomizationStorageEntry GetCustomizationStorage(string customizationId)
         {
             var customization = GetCustomizationStorage();
 
@@ -244,7 +255,7 @@ namespace Fuyu.Backend.EFT
             return null;
         }
 
-        public static void SetOrAddCustomizationStorage(CustomizationStorageEntry entry)
+        public void SetOrAddCustomizationStorage(CustomizationStorageEntry entry)
         {
             var customization = GetCustomizationStorage();
 
@@ -252,15 +263,15 @@ namespace Fuyu.Backend.EFT
             {
                 if (customization[i].id == entry.id)
                 {
-                    EftDatabase.CustomizationStorage.TrySet(i, entry);
+                    EftDatabase.Instance.CustomizationStorage.TrySet(i, entry);
                     return;
                 }
             }
 
-            EftDatabase.CustomizationStorage.Add(entry);
+            EftDatabase.Instance.CustomizationStorage.Add(entry);
         }
 
-        public static void RemoveCustomizationStorage(CustomizationStorageEntry entry)
+        public void RemoveCustomizationStorage(CustomizationStorageEntry entry)
         {
             var customization = GetCustomizationStorage();
 
@@ -268,7 +279,7 @@ namespace Fuyu.Backend.EFT
             {
                 if (customization[i].id == entry.id)
                 {
-                    EftDatabase.CustomizationStorage.TryRemoveAt(i);
+                    EftDatabase.Instance.CustomizationStorage.TryRemoveAt(i);
                     return;
                 }
             }
@@ -276,14 +287,14 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region Languages
-        public static Dictionary<string, string> GetLanguages()
+        public Dictionary<string, string> GetLanguages()
         {
-            return EftDatabase.Languages.ToDictionary();
+            return EftDatabase.Instance.Languages.ToDictionary();
         }
 
-        public static string GetLanguage(string languageId)
+        public string GetLanguage(string languageId)
         {
-            if (!EftDatabase.Languages.TryGet(languageId, out var language))
+            if (!EftDatabase.Instance.Languages.TryGet(languageId, out var language))
             {
                 throw new Exception($"Failed to get language from languageId: {languageId}");
             }
@@ -291,33 +302,33 @@ namespace Fuyu.Backend.EFT
             return language;
         }
 
-        public static void SetOrAddLanguage(string languageId, string name)
+        public void SetOrAddLanguage(string languageId, string name)
         {
-            if (EftDatabase.Languages.ContainsKey(languageId))
+            if (EftDatabase.Instance.Languages.ContainsKey(languageId))
             {
-                EftDatabase.Languages.Set(languageId, name);
+                EftDatabase.Instance.Languages.Set(languageId, name);
             }
             else
             {
-                EftDatabase.Languages.Set(languageId, name);
+                EftDatabase.Instance.Languages.Set(languageId, name);
             }
         }
 
-        public static void RemoveLanguage(string languageId)
+        public void RemoveLanguage(string languageId)
         {
-            EftDatabase.Languages.Remove(languageId);
+            EftDatabase.Instance.Languages.Remove(languageId);
         }
         #endregion
 
         #region GlobalLocales
-        public static Dictionary<string, Dictionary<string, string>> GetGlobalLocales()
+        public Dictionary<string, Dictionary<string, string>> GetGlobalLocales()
         {
-            return EftDatabase.GlobalLocales.ToDictionary();
+            return EftDatabase.Instance.GlobalLocales.ToDictionary();
         }
 
-        public static Dictionary<string, string> GetGlobalLocale(string languageId)
+        public Dictionary<string, string> GetGlobalLocale(string languageId)
         {
-            if (!EftDatabase.GlobalLocales.TryGet(languageId, out var locale))
+            if (!EftDatabase.Instance.GlobalLocales.TryGet(languageId, out var locale))
             {
                 throw new Exception($"Failed to get locale '{languageId}'");
             }
@@ -325,33 +336,33 @@ namespace Fuyu.Backend.EFT
             return locale;
         }
 
-        public static void SetOrAddGlobalLocale(string languageId, Dictionary<string, string> globalLocale)
+        public void SetOrAddGlobalLocale(string languageId, Dictionary<string, string> globalLocale)
         {
-            if (EftDatabase.GlobalLocales.ContainsKey(languageId))
+            if (EftDatabase.Instance.GlobalLocales.ContainsKey(languageId))
             {
-                EftDatabase.GlobalLocales.Set(languageId, globalLocale);
+                EftDatabase.Instance.GlobalLocales.Set(languageId, globalLocale);
             }
             else
             {
-                EftDatabase.GlobalLocales.Set(languageId, globalLocale);
+                EftDatabase.Instance.GlobalLocales.Set(languageId, globalLocale);
             }
         }
 
-        public static void RemoveGlobalLocale(string languageId)
+        public void RemoveGlobalLocale(string languageId)
         {
-            EftDatabase.GlobalLocales.Remove(languageId);
+            EftDatabase.Instance.GlobalLocales.Remove(languageId);
         }
         #endregion
 
         #region MenuLocales
-        public static Dictionary<string, MenuLocaleResponse> GetMenuLocales()
+        public Dictionary<string, MenuLocaleResponse> GetMenuLocales()
         {
-            return EftDatabase.MenuLocales.ToDictionary();
+            return EftDatabase.Instance.MenuLocales.ToDictionary();
         }
 
-        public static MenuLocaleResponse GetMenuLocale(string languageId)
+        public MenuLocaleResponse GetMenuLocale(string languageId)
         {
-            if (!EftDatabase.MenuLocales.TryGet(languageId, out var menuLocale))
+            if (!EftDatabase.Instance.MenuLocales.TryGet(languageId, out var menuLocale))
             {
                 throw new Exception($"Failed to get menu locale from languageId: {languageId}");
             }
@@ -359,33 +370,33 @@ namespace Fuyu.Backend.EFT
             return menuLocale;
         }
 
-        public static void SetOrAddMenuLocale(string languageId, MenuLocaleResponse menuLocale)
+        public void SetOrAddMenuLocale(string languageId, MenuLocaleResponse menuLocale)
         {
-            if (EftDatabase.MenuLocales.ContainsKey(languageId))
+            if (EftDatabase.Instance.MenuLocales.ContainsKey(languageId))
             {
-                EftDatabase.MenuLocales.Set(languageId, menuLocale);
+                EftDatabase.Instance.MenuLocales.Set(languageId, menuLocale);
             }
             else
             {
-                EftDatabase.MenuLocales.Set(languageId, menuLocale);
+                EftDatabase.Instance.MenuLocales.Set(languageId, menuLocale);
             }
         }
 
-        public static void RemoveMenuLocale(string languageId)
+        public void RemoveMenuLocale(string languageId)
         {
-            EftDatabase.MenuLocales.Remove(languageId);
+            EftDatabase.Instance.MenuLocales.Remove(languageId);
         }
         #endregion
 
         #region Wipe profiles
-        public static Dictionary<string, Dictionary<EPlayerSide, Profile>> GetWipeProfiles()
+        public Dictionary<string, Dictionary<EPlayerSide, Profile>> GetWipeProfiles()
         {
-            return EftDatabase.WipeProfiles.ToDictionary();
+            return EftDatabase.Instance.WipeProfiles.ToDictionary();
         }
 
-        public static Dictionary<EPlayerSide, Profile> GetWipeProfile(string edition)
+        public Dictionary<EPlayerSide, Profile> GetWipeProfile(string edition)
         {
-            if (!EftDatabase.WipeProfiles.TryGet(edition, out var profiles))
+            if (!EftDatabase.Instance.WipeProfiles.TryGet(edition, out var profiles))
             {
                 throw new Exception($"Failed to get profile(s) for edition '{edition}'");
             }
@@ -393,108 +404,108 @@ namespace Fuyu.Backend.EFT
             return profiles;
         }
 
-        public static void SetOrAddWipeProfile(string edition, Dictionary<EPlayerSide, Profile> profiles)
+        public void SetOrAddWipeProfile(string edition, Dictionary<EPlayerSide, Profile> profiles)
         {
-            if (EftDatabase.WipeProfiles.ContainsKey(edition))
+            if (EftDatabase.Instance.WipeProfiles.ContainsKey(edition))
             {
-                EftDatabase.WipeProfiles.Set(edition, profiles);
+                EftDatabase.Instance.WipeProfiles.Set(edition, profiles);
             }
             else
             {
-                EftDatabase.WipeProfiles.Set(edition, profiles);
+                EftDatabase.Instance.WipeProfiles.Set(edition, profiles);
             }
         }
 
-        public static void RemoveWipeProfile(string edition)
+        public void RemoveWipeProfile(string edition)
         {
-            EftDatabase.WipeProfiles.Remove(edition);
+            EftDatabase.Instance.WipeProfiles.Remove(edition);
         }
         #endregion
 
         #region Unparsed
-        public static string GetAchievementList()
+        public string GetAchievementList()
         {
-            return EftDatabase.AchievementList.Get();
+            return EftDatabase.Instance.AchievementList.Get();
         }
 
-        public static string GetAchievementStatistic()
+        public string GetAchievementStatistic()
         {
-            return EftDatabase.AchievementStatistic.Get();
+            return EftDatabase.Instance.AchievementStatistic.Get();
         }
 
-        public static string GetGlobals()
+        public string GetGlobals()
         {
-            return EftDatabase.Globals.Get();
+            return EftDatabase.Instance.Globals.Get();
         }
 
-        public static string GetHandbook()
+        public string GetHandbook()
         {
-            return EftDatabase.Handbook.Get();
+            return EftDatabase.Instance.Handbook.Get();
         }
 
-        public static string GetHideoutAreas()
+        public string GetHideoutAreas()
         {
-            return EftDatabase.HideoutAreas.Get();
+            return EftDatabase.Instance.HideoutAreas.Get();
         }
 
-        public static string GetHideoutCustomizationOfferList()
+        public string GetHideoutCustomizationOfferList()
         {
-            return EftDatabase.HideoutCustomizationOfferList.Get();
+            return EftDatabase.Instance.HideoutCustomizationOfferList.Get();
         }
 
-        public static string GetHideoutProductionRecipes()
+        public string GetHideoutProductionRecipes()
         {
-            return EftDatabase.HideoutProductionRecipes.Get();
+            return EftDatabase.Instance.HideoutProductionRecipes.Get();
         }
 
-        public static string GetHideoutQteList()
+        public string GetHideoutQteList()
         {
-            return EftDatabase.HideoutQteList.Get();
+            return EftDatabase.Instance.HideoutQteList.Get();
         }
 
-        public static string GetHideoutSettings()
+        public string GetHideoutSettings()
         {
-            return EftDatabase.HideoutSettings.Get();
+            return EftDatabase.Instance.HideoutSettings.Get();
         }
 
-        public static string GetItems()
+        public string GetItems()
         {
-            return EftDatabase.Items.Get();
+            return EftDatabase.Instance.Items.Get();
         }
 
-        public static string GetLocalWeather()
+        public string GetLocalWeather()
         {
-            return EftDatabase.LocalWeather.Get();
+            return EftDatabase.Instance.LocalWeather.Get();
         }
 
-        public static string GetLocations()
+        public string GetLocations()
         {
-            return EftDatabase.Locations.Get();
+            return EftDatabase.Instance.Locations.Get();
         }
 
-        public static string GetPrestige()
+        public string GetPrestige()
         {
-            return EftDatabase.Prestige.Get();
+            return EftDatabase.Instance.Prestige.Get();
         }
 
-        public static string GetQuests()
+        public string GetQuests()
         {
-            return EftDatabase.Quests.Get();
+            return EftDatabase.Instance.Quests.Get();
         }
 
-        public static string GetSettings()
+        public string GetSettings()
         {
-            return EftDatabase.Settings.Get();
+            return EftDatabase.Instance.Settings.Get();
         }
 
-        public static string GetTraders()
+        public string GetTraders()
         {
-            return EftDatabase.Traders.Get();
+            return EftDatabase.Instance.Traders.Get();
         }
 
-        public static string GetWeather()
+        public string GetWeather()
         {
-            return EftDatabase.Weather.Get();
+            return EftDatabase.Instance.Weather.Get();
         }
         #endregion
     }

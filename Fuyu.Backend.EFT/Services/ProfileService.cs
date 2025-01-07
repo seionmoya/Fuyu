@@ -8,9 +8,20 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Services
 {
-    public static class ProfileService
+    public class ProfileService
     {
-        public static string CreateProfile(int accountId)
+		public static ProfileService Instance => instance.Value;
+		private static readonly Lazy<ProfileService> instance = new(() => new ProfileService());
+
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private ProfileService()
+		{
+
+		}
+
+		public string CreateProfile(int accountId)
         {
             var profile = new EftProfile()
             {
@@ -32,20 +43,20 @@ namespace Fuyu.Backend.EFT.Services
             profile.Savage.aid = accountId;
 
             // store profile
-            EftOrm.SetOrAddProfile(profile);
+            EftOrm.Instance.SetOrAddProfile(profile);
             WriteToDisk(profile);
 
             return pmcId;
         }
 
-        public static string WipeProfile(EftAccount account, string side, string headId, string voiceId)
+        public string WipeProfile(EftAccount account, string side, string headId, string voiceId)
         {
-            var profile = EftOrm.GetActiveProfile(account);
+            var profile = EftOrm.Instance.GetActiveProfile(account);
             var pmcId = profile.Pmc._id;
             var savageId = profile.Savage._id;
 
             // create profiles
-            var edition = EftOrm.GetWipeProfile(account.Edition);
+            var edition = EftOrm.Instance.GetWipeProfile(account.Edition);
 
             profile.Savage = edition[EPlayerSide.Savage].Clone();
 
@@ -70,7 +81,7 @@ namespace Fuyu.Backend.EFT.Services
             profile.Savage.aid = account.Id;
 
             // setup pmc
-            var voiceTemplate = EftOrm.GetCustomization(voiceId);
+            var voiceTemplate = EftOrm.Instance.GetCustomization(voiceId);
 
             profile.Pmc._id = pmcId;
             profile.Pmc.savage = savageId;
@@ -84,13 +95,13 @@ namespace Fuyu.Backend.EFT.Services
             profile.ShouldWipe = false;
 
             // store profile
-            EftOrm.SetOrAddProfile(profile);
+            EftOrm.Instance.SetOrAddProfile(profile);
             WriteToDisk(profile);
 
             return profile.Pmc._id;
         }
 
-        public static void WriteToDisk(EftProfile profile)
+        public void WriteToDisk(EftProfile profile)
         {
             VFS.WriteTextFile(
                 $"./Fuyu/Profiles/EFT/{profile.Pmc._id}.json",

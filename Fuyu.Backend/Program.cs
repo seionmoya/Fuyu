@@ -17,10 +17,10 @@ namespace Fuyu.Backend
         {
             var container = new DependencyContainer();
 
-            CoreDatabase.Load();
-            EftDatabase.Load();
-            TraderDatabase.Load();
-            ItemFactoryService.Load();
+            CoreDatabase.Instance.Load();
+            EftDatabase.Instance.Load();
+            TraderDatabase.Instance.Load();
+			ItemFactoryService.Instance.Load();
 
             var coreServer = new CoreServer();
             container.RegisterSingleton<HttpServer, CoreServer>(coreServer);

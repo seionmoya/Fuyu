@@ -14,7 +14,7 @@ namespace Fuyu.Tests.Backend.Core.EndToEnd
         public static void AssemblyInitialize(TestContext testContext)
         {
             // setup databases
-            CoreDatabase.Load();
+            CoreDatabase.Instance.Load();
 
             // setup server
             _ = new CoreServer();

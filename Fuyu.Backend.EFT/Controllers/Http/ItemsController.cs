@@ -13,7 +13,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
             // TODO: generate this
             // --seionmoya, 2024-11-18
-            var text = EftOrm.GetItems();
+            var text = EftOrm.Instance.GetItems();
             return context.SendJsonAsync(text, true, true);
         }
     }

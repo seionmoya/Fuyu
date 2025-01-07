@@ -1,13 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Services
 {
-    public static class InventoryService
+    public class InventoryService
     {
-        public static List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
+		public static InventoryService Instance => instance.Value;
+		private static readonly Lazy<InventoryService> instance = new(() => new InventoryService());
+
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private InventoryService()
+		{
+
+		}
+
+		public List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
         {
             var itemsToRemove = ItemService.GetItemAndChildren(inventory.Items, item);
 
@@ -19,7 +31,7 @@ namespace Fuyu.Backend.BSG.Services
         // NOTE:
         // * order is really important here!
         // -- seionmoya, 2024-10-24
-        public static void RegenerateIds(InventoryInfo inventory)
+        public void RegenerateIds(InventoryInfo inventory)
         {
             var mapping = new Dictionary<MongoId, MongoId>();
 

@@ -12,7 +12,7 @@ namespace Fuyu.Backend.Core.Controllers
         public override Task RunAsync(CoreHttpContext context)
         {
             var sessionId = context.GetSessionId();
-            CoreOrm.RemoveSession(sessionId);
+            CoreOrm.Instance.RemoveSession(sessionId);
 
             return context.SendJsonAsync("{}");
         }

@@ -14,7 +14,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context)
         {
-            var languages = EftOrm.GetLanguages();
+            var languages = EftOrm.Instance.GetLanguages();
             var response = new ResponseBody<Dictionary<string, string>>
             {
                 data = languages

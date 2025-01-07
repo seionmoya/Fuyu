@@ -17,7 +17,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
             var response = new ResponseBody<IEnumerable<TraderTemplate>>
             {
-                data = TraderDatabase.GetTraderTemplates().Values
+                data = TraderDatabase.Instance.GetTraderTemplates().Values
             };
 
             var text = Json.Stringify(response);

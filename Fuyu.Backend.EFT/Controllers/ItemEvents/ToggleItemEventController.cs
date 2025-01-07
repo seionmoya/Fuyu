@@ -13,7 +13,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
         public override Task RunAsync(ItemEventContext context, ToggleItemEvent request)
         {
-            var profile = EftOrm.GetActiveProfile(context.SessionId);
+            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
             var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
 
             if (item == null)

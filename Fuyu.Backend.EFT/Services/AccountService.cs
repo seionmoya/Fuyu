@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fuyu.Backend.BSG.Models.Accounts;
@@ -7,13 +8,24 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Services
 {
-    public static class AccountService
+    public class AccountService
     {
-        // TODO:
-        // * account login state tracking
-        // -- seionmoya, 2024/09/06
+		// TODO:
+		// * account login state tracking
+		// -- seionmoya, 2024/09/06
 
-        public static string LoginAccount(int accountId)
+		public static AccountService Instance => instance.Value;
+		private static readonly Lazy<AccountService> instance = new(() => new AccountService());
+
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private AccountService()
+		{
+
+		}
+
+		public string LoginAccount(int accountId)
         {
             if (accountId == -1)
             {
@@ -22,7 +34,7 @@ namespace Fuyu.Backend.EFT.Services
             }
 
             // find active account session
-            var sessions = EftOrm.GetSessions();
+            var sessions = EftOrm.Instance.GetSessions();
 
             foreach (var kvp in sessions)
             {
@@ -40,13 +52,13 @@ namespace Fuyu.Backend.EFT.Services
             //       for each login.
             // -- seionmoya, 2024/09/02
             var sessionId = new MongoId(accountId).ToString();
-            EftOrm.SetOrAddSession(sessionId, accountId);
+            EftOrm.Instance.SetOrAddSession(sessionId, accountId);
             return sessionId.ToString();
         }
 
-        private static int GetNewAccountId()
+        private int GetNewAccountId()
         {
-            var accounts = EftOrm.GetAccounts();
+            var accounts = EftOrm.Instance.GetAccounts();
 
             // using linq because sorting otherwise takes up too much code
             var sorted = accounts.OrderBy(account => account.Id).ToArray();
@@ -74,13 +86,13 @@ namespace Fuyu.Backend.EFT.Services
             }
         }
 
-        public static int RegisterAccount(string username, string edition)
+        public int RegisterAccount(string username, string edition)
         {
             var accountId = GetNewAccountId();
 
             // create profiles
-            var pvpId = ProfileService.CreateProfile(accountId);
-            var pveId = ProfileService.CreateProfile(accountId);
+            var pvpId = ProfileService.Instance.CreateProfile(accountId);
+            var pveId = ProfileService.Instance.CreateProfile(accountId);
 
             // create account   
             var account = new EftAccount()
@@ -93,13 +105,13 @@ namespace Fuyu.Backend.EFT.Services
                 CurrentSession = ESessionMode.Pve
             };
 
-            EftOrm.SetOrAddAccount(account);
+            EftOrm.Instance.SetOrAddAccount(account);
             WriteToDisk(account);
 
             return accountId;
         }
 
-        public static void WriteToDisk(EftAccount account)
+        public void WriteToDisk(EftAccount account)
         {
             VFS.WriteTextFile(
                 $"./Fuyu/Accounts/EFT/{account.Id}.json",

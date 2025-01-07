@@ -2,6 +2,7 @@ using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
+using System;
 
 namespace Fuyu.Backend.Core
 {
@@ -9,26 +10,32 @@ namespace Fuyu.Backend.Core
     //       outside. Use CoreOrm instead.
     // -- seionmoya, 2024/09/06
 
-    public static class CoreDatabase
+    public class CoreDatabase
     {
-        internal static readonly ThreadList<Account> Accounts;
+		public static CoreDatabase Instance => instance.Value;
+		private static readonly Lazy<CoreDatabase> instance = new(() => new CoreDatabase());
+
+		internal readonly ThreadList<Account> Accounts;
 
         //                                sessid  aid
-        internal static readonly ThreadDictionary<string, int> Sessions;
+        internal readonly ThreadDictionary<string, int> Sessions;
 
-        static CoreDatabase()
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private CoreDatabase()
         {
             Accounts = new ThreadList<Account>();
             Sessions = new ThreadDictionary<string, int>();
         }
 
-        public static void Load()
+        public void Load()
         {
             LoadAccounts();
             LoadSessions();
         }
 
-        private static void LoadAccounts()
+        private void LoadAccounts()
         {
             var path = "./Fuyu/Accounts/Core/";
 
@@ -43,13 +50,13 @@ namespace Fuyu.Backend.Core
             {
                 var json = VFS.ReadTextFile(filepath);
                 var account = Json.Parse<Account>(json);
-                CoreOrm.SetOrAddAccount(account);
+                CoreOrm.Instance.SetOrAddAccount(account);
 
                 Terminal.WriteLine($"Loaded fuyu account {account.Id}");
             }
         }
 
-        private static void LoadSessions()
+        private void LoadSessions()
         {
             // intentionally empty
             // sessions are created when users are logged in successfully

@@ -14,7 +14,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
         public override Task RunAsync(ItemEventContext context, InsureItemEvent request)
         {
-            var profile = EftOrm.GetActiveProfile(context.SessionId);
+            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
             var pmc = profile.Pmc;
             var inventoryItems = pmc.Inventory.Items;
             var insuredItems = new List<InsuredItem>(request.Items.Length);

@@ -26,7 +26,7 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
 
         private static string CreateFuyuAccount(string username, string password)
         {
-            var registerStatus = AccountService.RegisterAccount(username, password);
+            var registerStatus = AccountService.Instance.RegisterAccount(username, password);
 
             if (registerStatus != ERegisterStatus.Success)
             {
@@ -34,7 +34,7 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
             }
 
             var hashedPassword = Sha256.Generate(password);
-            var response = AccountService.LoginAccount(username, hashedPassword);
+            var response = AccountService.Instance.LoginAccount(username, hashedPassword);
 
             if (response.Status != ELoginStatus.Success)
             {
@@ -46,14 +46,14 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
 
         private static int CreateGameAccount(string sessionId, string game, string edition)
         {
-            var response = AccountService.RegisterGame(sessionId, game, edition);
+            var response = AccountService.Instance.RegisterGame(sessionId, game, edition);
 
             if (response.Status != ERegisterStatus.Success)
             {
                 throw new Exception(response.Status.ToString());
             }
 
-            var gameAccountId = CoreOrm.GetAccount(sessionId).Games[game].Value;
+            var gameAccountId = CoreOrm.Instance.GetAccount(sessionId).Games[game].Value;
 
             return gameAccountId;
         }
@@ -62,8 +62,8 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         public static void AssemblyInitialize(TestContext testContext)
         {
             // setup databases
-            CoreDatabase.Load();
-            EftDatabase.Load();
+            CoreDatabase.Instance.Load();
+            EftDatabase.Instance.Load();
 
             // setup servers
             var coreServer = new CoreServer();
@@ -77,7 +77,7 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
             // register test account
             var coreSessionId = CreateFuyuAccount("TestUser1", "TestPass1!");
             var eftAccountId = CreateGameAccount(coreSessionId, "eft", "unheard");
-            _eftSessionId = Fuyu.Backend.EFT.Services.AccountService.LoginAccount(eftAccountId);
+            _eftSessionId = Fuyu.Backend.EFT.Services.AccountService.Instance.LoginAccount(eftAccountId);
 
             // create request clients
             _eftMainClient = new EftHttpClient("http://localhost:8010", _eftSessionId);
@@ -618,8 +618,8 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         [TestMethod]
         public async Task TestClientMatchLocalEnd()
         {
-            var account = EftOrm.GetAccount(_eftSessionId);
-            var profile = EftOrm.GetProfile(account.PveId);
+            var account = EftOrm.Instance.GetAccount(_eftSessionId);
+            var profile = EftOrm.Instance.GetProfile(account.PveId);
 
             // get request data
             var request = new MatchLocalEndRequest()

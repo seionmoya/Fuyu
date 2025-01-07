@@ -18,7 +18,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context, InsuranceCostRequest body)
         {
-            var profile = EftOrm.GetActiveProfile(context.GetSessionId());
+            var profile = EftOrm.Instance.GetActiveProfile(context.GetSessionId());
             var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
             var response = new ResponseBody<InsuranceCostResponse>();
 

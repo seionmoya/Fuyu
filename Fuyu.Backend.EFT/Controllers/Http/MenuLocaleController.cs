@@ -20,7 +20,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             var parameters = context.GetPathParameters(this);
 
             var languageId = parameters["languageId"];
-            var locale = EftOrm.GetMenuLocale(languageId);
+            var locale = EftOrm.Instance.GetMenuLocale(languageId);
             var response = new ResponseBody<MenuLocaleResponse>
             {
                 data = locale

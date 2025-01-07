@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context)
         {
-            var customizations = EftOrm.GetCustomizations();
+            var customizations = EftOrm.Instance.GetCustomizations();
             var response = new ResponseBody<Dictionary<string, CustomizationTemplate>>()
             {
                 data = customizations
