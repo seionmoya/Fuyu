@@ -108,7 +108,7 @@ namespace Fuyu.Backend.BSG.ItemTemplates
         GlassVisor,
         HelmetRicochet,
         MetalNoDecal,
-		Snow,
+        Snow,
         None = 0
     }
 

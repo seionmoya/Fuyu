@@ -2,7 +2,7 @@ namespace Fuyu.Backend.BSG.Models.Hideout
 {
     public enum EAreaType
     {
-		NotSet = -1,
+        NotSet = -1,
         Vents,
         Security,
         WaterCloset,
@@ -29,7 +29,7 @@ namespace Fuyu.Backend.BSG.Models.Hideout
         Gym,
         WeaponStand,
         WeaponStandSecondary,
-		EquipmentPresetsStand,
-		CircleOfCultists
-	}
+        EquipmentPresetsStand,
+        CircleOfCultists
+    }
 }

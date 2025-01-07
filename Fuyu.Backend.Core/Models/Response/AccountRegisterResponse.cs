@@ -8,5 +8,5 @@ namespace Fuyu.Backend.Core.Models.Responses
     {
         [DataMember]
         public ERegisterStatus Status { get; set; }
-	}
+    }
 }

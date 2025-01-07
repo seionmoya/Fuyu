@@ -5,6 +5,6 @@ namespace Fuyu.Backend.BSG.Models.Templates
     {
         Custom,
         Standard,
-		Storage
+        Storage
     }
 }
