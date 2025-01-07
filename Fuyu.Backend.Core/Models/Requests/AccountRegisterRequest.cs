@@ -6,9 +6,9 @@ namespace Fuyu.Backend.Core.Models.Requests
     public class AccountRegisterRequest
     {
         [DataMember]
-        public string Username;
+        public string Username { get; set; }
 
         [DataMember]
-        public string Password;
+        public string Password { get; set; }
     }
 }

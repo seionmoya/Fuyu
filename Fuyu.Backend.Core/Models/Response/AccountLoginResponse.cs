@@ -7,9 +7,9 @@ namespace Fuyu.Backend.Core.Models.Responses
     public class AccountLoginResponse
     {
         [DataMember]
-        public ELoginStatus Status;
+        public ELoginStatus Status { get; set; }
 
         [DataMember]
-        public string SessionId;
+        public string SessionId { get; set; }
     }
 }

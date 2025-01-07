@@ -7,18 +7,18 @@ namespace Fuyu.Backend.Core.Models.Accounts
     public class Account
     {
         [DataMember]
-        public int Id;
+        public int Id { get; set; }
 
         [DataMember]
-        public string Username;
+        public string Username { get; set; }
 
         [DataMember]
-        public string Password;
+        public string Password { get; set; }
 
         [DataMember]
-        public Dictionary<string, int?> Games;
+        public Dictionary<string, int?> Games { get; set; }
 
         [DataMember]
-        public bool IsBanned;
+        public bool IsBanned { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace Fuyu.Backend.Core.Models.Responses
     public class AccountGamesResponse
     {
         [DataMember]
-        public Dictionary<string, int?> Games;
+        public Dictionary<string, int?> Games { get; set; }
     }
 }
