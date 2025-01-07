@@ -190,9 +190,11 @@ namespace Fuyu.Backend.BSG.ItemTemplates
 
     public enum EFlareEventType
     {
-        Airdrop,
+		Light,
+		Airdrop,
         ExitActivate,
-        AIFollowEvent,
+		Quest,
+		AIFollowEvent,
         CallArtilleryOnMyself
     }
 }
