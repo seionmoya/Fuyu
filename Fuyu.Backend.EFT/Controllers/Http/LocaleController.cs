@@ -21,7 +21,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             var parameters = context.GetPathParameters(this);
 
             var languageId = parameters["languageId"];
-            var locale = EftOrm.GetGlobalLocale(languageId);
+            var locale = EftOrm.Instance.GetGlobalLocale(languageId);
             var response = new ResponseBody<Dictionary<string, string>>
             {
                 data = locale

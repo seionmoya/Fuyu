@@ -14,7 +14,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         public override Task RunAsync(EftHttpContext context)
         {
             var sessionId = context.GetSessionId();
-            var account = EftOrm.GetAccount(sessionId);
+            var account = EftOrm.Instance.GetAccount(sessionId);
 
             var response = new ResponseBody<string>()
             {

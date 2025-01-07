@@ -14,7 +14,7 @@ namespace Fuyu.Backend.Core.Controllers
 
         public override Task RunAsync(CoreHttpContext context, AccountLoginRequest body)
         {
-            var response = AccountService.LoginAccount(body.Username, body.Password);
+            var response = AccountService.Instance.LoginAccount(body.Username, body.Password);
 
             return context.SendJsonAsync(Json.Stringify(response));
         }

@@ -31,7 +31,7 @@ namespace Fuyu.Backend.EFT.Controllers
 
         public override Task RunAsync(EftHttpContext context, GetNextFreeSlotRequest body)
         {
-            var profile = EftOrm.GetActiveProfile(context.GetSessionId());
+            var profile = EftOrm.Instance.GetActiveProfile(context.GetSessionId());
             var freeSlot = profile.Pmc.Inventory.GetNextFreeSlot(body.Width, body.Height, out var gridName, body.Rotation);
             if (freeSlot == null)
             {

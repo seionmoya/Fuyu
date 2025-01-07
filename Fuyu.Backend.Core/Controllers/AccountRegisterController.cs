@@ -15,7 +15,7 @@ namespace Fuyu.Backend.Core.Controllers
 
         public override Task RunAsync(CoreHttpContext context, AccountRegisterRequest request)
         {
-            var result = AccountService.RegisterAccount(request.Username, request.Password);
+            var result = AccountService.Instance.RegisterAccount(request.Username, request.Password);
             var response = new AccountRegisterResponse()
             {
                 Status = result

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Fuyu.Backend.BSG.DTO.Services;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Profiles;
@@ -14,52 +16,55 @@ namespace Fuyu.Backend.EFT
     //       outside. Use EftOrm instead.
     // -- seionmoya, 2024/09/04
 
-    public static class EftDatabase
+    public class EftDatabase
     {
-        internal static readonly ThreadList<EftAccount> Accounts;
+		public static EftDatabase Instance => instance.Value;
+		private static readonly Lazy<EftDatabase> instance = new(() => new EftDatabase());
 
-        internal static readonly ThreadList<EftProfile> Profiles;
+		internal readonly ThreadList<EftAccount> Accounts;
+
+        internal readonly ThreadList<EftProfile> Profiles;
 
         //                                        sessid  aid
-        internal static readonly ThreadDictionary<string, int> Sessions;
+        internal readonly ThreadDictionary<string, int> Sessions;
 
         //                                        custid  template 
-        internal static readonly ThreadDictionary<string, CustomizationTemplate> Customizations;
+        internal readonly ThreadDictionary<string, CustomizationTemplate> Customizations;
 
-        internal static readonly ThreadList<CustomizationStorageEntry> CustomizationStorage;
+        internal readonly ThreadList<CustomizationStorageEntry> CustomizationStorage;
 
         //                                        langid             key     value
-        internal static readonly ThreadDictionary<string, Dictionary<string, string>> GlobalLocales;
+        internal readonly ThreadDictionary<string, Dictionary<string, string>> GlobalLocales;
 
         //                                        langid  name
-        internal static readonly ThreadDictionary<string, string> Languages;
+        internal readonly ThreadDictionary<string, string> Languages;
 
         //                                        langid  locale
-        internal static readonly ThreadDictionary<string, MenuLocaleResponse> MenuLocales;
+        internal readonly ThreadDictionary<string, MenuLocaleResponse> MenuLocales;
 
         //                                        edition            side         profile
-        internal static readonly ThreadDictionary<string, Dictionary<EPlayerSide, Profile>> WipeProfiles;
+        internal readonly ThreadDictionary<string, Dictionary<EPlayerSide, Profile>> WipeProfiles;
 
         // TODO
-        internal static readonly ThreadObject<string> AchievementList;
-        internal static readonly ThreadObject<string> AchievementStatistic;
-        internal static readonly ThreadObject<string> Globals;
-        internal static readonly ThreadObject<string> Handbook;
-        internal static readonly ThreadObject<string> HideoutAreas;
-        internal static readonly ThreadObject<string> HideoutCustomizationOfferList;
-        internal static readonly ThreadObject<string> HideoutProductionRecipes;
-        internal static readonly ThreadObject<string> HideoutQteList;
-        internal static readonly ThreadObject<string> HideoutSettings;
-        internal static readonly ThreadObject<string> Items;
-        internal static readonly ThreadObject<string> LocalWeather;
-        internal static readonly ThreadObject<string> Locations;
-        internal static readonly ThreadObject<string> Prestige;
-        internal static readonly ThreadObject<string> Quests;
-        internal static readonly ThreadObject<string> Settings;
-        internal static readonly ThreadObject<string> Traders;
-        internal static readonly ThreadObject<string> Weather;
+        internal readonly ThreadObject<string> AchievementList;
+        internal readonly ThreadObject<string> AchievementStatistic;
+        internal readonly ThreadObject<string> Globals;
+        internal readonly ThreadObject<string> Handbook;
+        internal readonly ThreadObject<string> HideoutAreas;
+        internal readonly ThreadObject<string> HideoutCustomizationOfferList;
+        internal readonly ThreadObject<string> HideoutProductionRecipes;
+        internal readonly ThreadObject<string> HideoutQteList;
+        internal readonly ThreadObject<string> HideoutSettings;
+        internal readonly ThreadObject<string> Items;
+        internal readonly ThreadObject<string> LocalWeather;
+        internal readonly ThreadObject<string> Locations;
+        internal readonly ThreadObject<string> Prestige;
+        internal readonly ThreadObject<string> Quests;
+        internal readonly ThreadObject<string> Settings;
+        internal readonly ThreadObject<string> Traders;
+        internal readonly ThreadObject<string> Weather;
 
-        static EftDatabase()
+        private EftDatabase()
         {
             Accounts = new ThreadList<EftAccount>();
             Profiles = new ThreadList<EftProfile>();
@@ -94,7 +99,7 @@ namespace Fuyu.Backend.EFT
 
         // NOTE: load order is VERY important!
         // -- seionmoya, 2024/09/04
-        public static void Load()
+        public void Load()
         {
             // set data source
             Resx.SetSource("eft", typeof(EftDatabase).Assembly);
@@ -118,7 +123,7 @@ namespace Fuyu.Backend.EFT
             LoadUnparsed();
         }
 
-        private static void LoadAccounts()
+        private void LoadAccounts()
         {
             var path = "./Fuyu/Accounts/EFT/";
 
@@ -133,13 +138,13 @@ namespace Fuyu.Backend.EFT
             {
                 var json = VFS.ReadTextFile(filepath);
                 var account = Json.Parse<EftAccount>(json);
-                EftOrm.SetOrAddAccount(account);
+                EftOrm.Instance.SetOrAddAccount(account);
 
                 Terminal.WriteLine($"Loaded EFT account {account.Id}");
             }
         }
 
-        private static void LoadProfiles()
+        private void LoadProfiles()
         {
             var path = "./Fuyu/Profiles/EFT/";
 
@@ -154,86 +159,86 @@ namespace Fuyu.Backend.EFT
             {
                 var json = VFS.ReadTextFile(filepath);
                 var profile = Json.Parse<EftProfile>(json);
-                EftOrm.SetOrAddProfile(profile);
+                EftOrm.Instance.SetOrAddProfile(profile);
 
                 Terminal.WriteLine($"Loaded EFT profile {profile.Pmc._id}");
             }
         }
 
-        private static void LoadSessions()
+        private void LoadSessions()
         {
             // intentionally empty
             // sessions are created when users are logged in successfully
             // -- seionmoya, 2024/09/06
         }
 
-        private static void LoadCustomizations()
+        private void LoadCustomizations()
         {
             var json = Resx.GetText("eft", "database.client.customization.json");
             var response = Json.Parse<ResponseBody<Dictionary<string, CustomizationTemplate>>>(json);
 
             foreach (var kvp in response.data)
             {
-                EftOrm.SetOrAddCustomization(kvp.Key, kvp.Value);
+                EftOrm.Instance.SetOrAddCustomization(kvp.Key, kvp.Value);
             }
         }
 
-        private static void LoadCustomizationStorage()
+        private void LoadCustomizationStorage()
         {
             var json = Resx.GetText("eft", "database.client.customization.storage.json");
             var response = Json.Parse<ResponseBody<CustomizationStorageEntry[]>>(json);
 
             foreach (var entry in response.data)
             {
-                EftOrm.SetOrAddCustomizationStorage(entry);
+                EftOrm.Instance.SetOrAddCustomizationStorage(entry);
             }
         }
 
-        private static void LoadLanguages()
+        private void LoadLanguages()
         {
             var json = Resx.GetText("eft", $"database.locales.client.languages.json");
             var response = Json.Parse<ResponseBody<Dictionary<string, string>>>(json);
 
             foreach (var kvp in response.data)
             {
-                EftOrm.SetOrAddLanguage(kvp.Key, kvp.Value);
+                EftOrm.Instance.SetOrAddLanguage(kvp.Key, kvp.Value);
             }
         }
 
-        private static void LoadGlobalLocales()
+        private void LoadGlobalLocales()
         {
-            var languages = EftOrm.GetLanguages();
+            var languages = EftOrm.Instance.GetLanguages();
 
             foreach (var languageId in languages.Keys)
             {
                 var json = Resx.GetText("eft", $"database.locales.client.locale-{languageId}.json");
                 var response = Json.Parse<ResponseBody<Dictionary<string, string>>>(json);
 
-                EftOrm.SetOrAddGlobalLocale(languageId, response.data);
+                EftOrm.Instance.SetOrAddGlobalLocale(languageId, response.data);
             }
         }
 
-        private static void LoadMenuLocales()
+        private void LoadMenuLocales()
         {
-            var languages = EftOrm.GetLanguages();
+            var languages = EftOrm.Instance.GetLanguages();
 
             foreach (var languageId in languages.Keys)
             {
                 var json = Resx.GetText("eft", $"database.locales.client.menu.locale-{languageId}.json");
                 var response = Json.Parse<ResponseBody<MenuLocaleResponse>>(json);
 
-                EftOrm.SetOrAddMenuLocale(languageId, response.data);
+                EftOrm.Instance.SetOrAddMenuLocale(languageId, response.data);
             }
         }
 
-        private static void LoadWipeProfiles()
+        private void LoadWipeProfiles()
         {
             // profile
             var bearJson = Resx.GetText("eft", "database.profiles.player.unheard-bear.json");
             var usecJson = Resx.GetText("eft", "database.profiles.player.unheard-usec.json");
             var savageJson = Resx.GetText("eft", "database.profiles.player.savage.json");
 
-            EftOrm.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, Profile>()
+            EftOrm.Instance.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, Profile>()
             {
                 { EPlayerSide.Bear, Json.Parse<Profile>(bearJson) },
                 { EPlayerSide.Usec, Json.Parse<Profile>(usecJson) },
@@ -242,7 +247,7 @@ namespace Fuyu.Backend.EFT
         }
 
         // TODO
-        private static void LoadUnparsed()
+        private void LoadUnparsed()
         {
             AchievementList.Set(Resx.GetText("eft", "database.client.achievement.list.json"));
             AchievementStatistic.Set(Resx.GetText("eft", "database.client.achievement.statistic.json"));

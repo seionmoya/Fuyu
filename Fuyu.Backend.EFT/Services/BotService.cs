@@ -5,6 +5,7 @@ using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.Models.Bots;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Services;
+using System;
 
 namespace Fuyu.Backend.EFT.Services
 {
@@ -14,11 +15,14 @@ namespace Fuyu.Backend.EFT.Services
     // * Profiles are not stored in EftDatabase because ideally a completely
     //   different generation system not depending on this data
     // -- seionmoya, 2024-10-21
-    public static class BotService
+    public class BotService
     {
-        private static readonly Dictionary<EBotRole, string> _profiles;
+		public static BotService Instance => instance.Value;
+		private static readonly Lazy<BotService> instance = new(() => new BotService());
 
-        static BotService()
+		private readonly Dictionary<EBotRole, string> _profiles;
+
+        private BotService()
         {
             _profiles = new Dictionary<EBotRole, string>()
             {
@@ -85,7 +89,7 @@ namespace Fuyu.Backend.EFT.Services
             };
         }
 
-        public static Profile[] GetBots(BotCondition[] conditions)
+        public Profile[] GetBots(BotCondition[] conditions)
         {
             var profiles = new List<Profile>();
 
@@ -102,7 +106,7 @@ namespace Fuyu.Backend.EFT.Services
             return profiles.ToArray();
         }
 
-        private static Profile GenerateBot(EBotRole role, EBotDifficulty difficulty)
+        private Profile GenerateBot(EBotRole role, EBotDifficulty difficulty)
         {
             Terminal.WriteLine(role.ToString());
 
@@ -110,7 +114,7 @@ namespace Fuyu.Backend.EFT.Services
 
             // regenerate all ids
             profile._id = new MongoId(true);
-            InventoryService.RegenerateIds(profile.Inventory);
+            InventoryService.Instance.RegenerateIds(profile.Inventory);
 
             // set difficulty
             profile.Info.Settings.BotDifficulty = difficulty;

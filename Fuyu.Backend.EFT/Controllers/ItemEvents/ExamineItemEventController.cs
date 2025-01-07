@@ -12,7 +12,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
         public override Task RunAsync(ItemEventContext context, ExamineItemEvent request)
         {
-            var profile = EftOrm.GetActiveProfile(context.SessionId);
+            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
 
             profile.Pmc.Encyclopedia[request.TemplateId] = true;
 

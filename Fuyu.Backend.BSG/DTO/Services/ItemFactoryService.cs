@@ -11,17 +11,25 @@ using Fuyu.Common.Serialization;
 namespace Fuyu.Backend.BSG.DTO.Services
 {
     // TODO: split UPD factory and Item Factory
-    public static class ItemFactoryService
+    public class ItemFactoryService
     {
-        public static Dictionary<MongoId, ItemTemplate> ItemTemplates { get; private set; }
+		public static ItemFactoryService Instance => instance.Value;
+		private static readonly Lazy<ItemFactoryService> instance = new(() => new ItemFactoryService());
 
-        public static void Load()
+		private ItemFactoryService()
+		{
+			
+		}
+
+		public Dictionary<MongoId, ItemTemplate> ItemTemplates { get; private set; }
+
+        public void Load()
         {
             var itemsText = Resx.GetText("eft", "database.client.items.json");
             ItemTemplates = Json.Parse<ResponseBody<Dictionary<MongoId, ItemTemplate>>>(itemsText).data;
         }
 
-        public static ItemInstance CreateItem(MongoId tpl, MongoId? id = null)
+        public ItemInstance CreateItem(MongoId tpl, MongoId? id = null)
         {
             var template = ItemTemplates[tpl];
             var itemId = id.GetValueOrDefault(new MongoId(true));
@@ -37,7 +45,7 @@ namespace Fuyu.Backend.BSG.DTO.Services
             return item;
         }
 
-        public static ItemUpdatable CreateItemUpdatable(ItemTemplate template)
+        public ItemUpdatable CreateItemUpdatable(ItemTemplate template)
         {
             ItemUpdatable upd = null;
             var updProperties = typeof(ItemUpdatable).GetProperties();
@@ -59,7 +67,7 @@ namespace Fuyu.Backend.BSG.DTO.Services
             return upd;
         }
 
-        public static object CreateItemComponent(ItemTemplate template, Type componentType, bool createDefault)
+        public object CreateItemComponent(ItemTemplate template, Type componentType, bool createDefault)
         {
             var isItemComponentInterface = typeof(IItemComponent).IsAssignableFrom(componentType);
             if (!isItemComponentInterface)
@@ -84,12 +92,12 @@ namespace Fuyu.Backend.BSG.DTO.Services
             return result;
         }
 
-        public static ItemUpdatable CreateItemUpdatable(MongoId tpl)
+        public ItemUpdatable CreateItemUpdatable(MongoId tpl)
         {
             return CreateItemUpdatable(ItemTemplates[tpl]);
         }
 
-        public static object CreateItemComponent(MongoId tpl, Type componentType, bool createDefault)
+        public object CreateItemComponent(MongoId tpl, Type componentType, bool createDefault)
         {
             return CreateItemComponent(ItemTemplates[tpl], componentType, createDefault);
         }

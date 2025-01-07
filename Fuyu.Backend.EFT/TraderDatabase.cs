@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Fuyu.Backend.BSG.DTO.Services;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Common.Collections;
@@ -8,16 +10,19 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT
 {
-    public static class TraderDatabase
+    public class TraderDatabase
     {
-        private static readonly ThreadDictionary<MongoId, TraderTemplate> _traders;
+		public static TraderDatabase Instance => instance.Value;
+		private static readonly Lazy<TraderDatabase> instance = new(() => new TraderDatabase());
 
-        static TraderDatabase()
+		private readonly ThreadDictionary<MongoId, TraderTemplate> _traders;
+
+        private TraderDatabase()
         {
             _traders = new ThreadDictionary<MongoId, TraderTemplate>();
         }
 
-        public static void Load()
+        public void Load()
         {
             var tradersJson = Resx.GetText("eft", "database.client.trading.api.traderSettings.json");
             var body = Json.Parse<ResponseBody<TraderTemplate[]>>(tradersJson);
@@ -28,7 +33,7 @@ namespace Fuyu.Backend.EFT
             }
         }
 
-        public static Dictionary<MongoId, TraderTemplate> GetTraderTemplates()
+        public Dictionary<MongoId, TraderTemplate> GetTraderTemplates()
         {
             return _traders.ToDictionary();
         }

@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context, ClientGameModeRequest body)
         {
-            var account = EftOrm.GetAccount(context.GetSessionId());
+            var account = EftOrm.Instance.GetAccount(context.GetSessionId());
 
             if (body.SessionMode == null)
             {

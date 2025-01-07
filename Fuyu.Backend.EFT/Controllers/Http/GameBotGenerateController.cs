@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context, GameBotGenerateRequest request)
         {
-            var profiles = BotService.GetBots(request.conditions);
+            var profiles = BotService.Instance.GetBots(request.conditions);
             var response = new ResponseBody<Profile[]>()
             {
                 data = profiles

@@ -5,19 +5,28 @@ using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.IO;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
+using System;
 
 namespace Fuyu.Backend.Core.Services
 {
-    public static class AccountService
+    public class AccountService
     {
-        // TODO:
-        // * account login state tracking
-        // -- seionmoya, 2024/09/02
+		// TODO:
+		// * account login state tracking
+		// -- seionmoya, 2024/09/02
 
-        public static int AccountExists(string username)
+		public static AccountService Instance => instance.Value;
+		private static readonly Lazy<AccountService> instance = new(() => new AccountService());
+
+		private AccountService()
+		{
+
+		}
+
+		public int AccountExists(string username)
         {
             var lowerUsername = username.ToLowerInvariant();
-            var accounts = CoreOrm.GetAccounts();
+            var accounts = CoreOrm.Instance.GetAccounts();
 
             // find account
             var found = new List<Account>();
@@ -42,7 +51,7 @@ namespace Fuyu.Backend.Core.Services
             }
         }
 
-        public static AccountLoginResponse LoginAccount(string username, string password)
+        public AccountLoginResponse LoginAccount(string username, string password)
         {
             // find account
             var accountId = AccountExists(username);
@@ -58,7 +67,7 @@ namespace Fuyu.Backend.Core.Services
             }
 
             // validate password
-            var account = CoreOrm.GetAccount(accountId);
+            var account = CoreOrm.Instance.GetAccount(accountId);
 
             if (account.Password != password)
             {
@@ -82,7 +91,7 @@ namespace Fuyu.Backend.Core.Services
             }
 
             // find active account session
-            var sessions = CoreOrm.GetSessions();
+            var sessions = CoreOrm.Instance.GetSessions();
 
             foreach (var kvp in sessions)
             {
@@ -102,7 +111,7 @@ namespace Fuyu.Backend.Core.Services
             // -- seionmoya, 2024/09/02
             var sessionId = new MongoId(accountId).ToString();
 
-            CoreOrm.SetOrAddSession(sessionId, accountId);
+            CoreOrm.Instance.SetOrAddSession(sessionId, accountId);
 
             return new AccountLoginResponse()
             {
@@ -111,9 +120,9 @@ namespace Fuyu.Backend.Core.Services
             };
         }
 
-        private static int GetNewAccountId()
+        private int GetNewAccountId()
         {
-            var accounts = CoreOrm.GetAccounts();
+            var accounts = CoreOrm.Instance.GetAccounts();
 
             // using linq because sorting otherwise takes up too much code
             var sorted = accounts.OrderBy(account => account.Id).ToArray();
@@ -146,7 +155,7 @@ namespace Fuyu.Backend.Core.Services
         // * validate username characters (only alphabetical, numbers)
         // * validate password characters (only alphabetical, numbers, some special characters)
         // -- seionmoya, 2024/09/08
-        public static ERegisterStatus RegisterAccount(string username, string password)
+        public ERegisterStatus RegisterAccount(string username, string password)
         {
             // validate username
             if (AccountExists(username) != -1)
@@ -183,15 +192,15 @@ namespace Fuyu.Backend.Core.Services
                 IsBanned = false
             };
 
-            CoreOrm.SetOrAddAccount(account);
+            CoreOrm.Instance.SetOrAddAccount(account);
             WriteToDisk(account);
 
             return ERegisterStatus.Success;
         }
 
-        public static AccountRegisterGameResponse RegisterGame(string sessionId, string game, string edition)
+        public AccountRegisterGameResponse RegisterGame(string sessionId, string game, string edition)
         {
-            var account = CoreOrm.GetAccount(sessionId);
+            var account = CoreOrm.Instance.GetAccount(sessionId);
 
             // find existing game
             if (account.Games.ContainsKey(game) && account.Games[game].HasValue)
@@ -204,11 +213,11 @@ namespace Fuyu.Backend.Core.Services
             }
 
             // register game
-            var accountId = RequestService.RegisterGame(game, account.Username, edition);
+            var accountId = RequestService.Instance.RegisterGame(game, account.Username, edition);
             account.Games[game] = accountId;
 
             // store result
-            CoreOrm.SetOrAddAccount(account);
+            CoreOrm.Instance.SetOrAddAccount(account);
             WriteToDisk(account);
 
             return new AccountRegisterGameResponse()
@@ -218,13 +227,13 @@ namespace Fuyu.Backend.Core.Services
             };
         }
 
-        public static Dictionary<string, int?> GetGames(string sessionId)
+        public Dictionary<string, int?> GetGames(string sessionId)
         {
-            var account = CoreOrm.GetAccount(sessionId);
+            var account = CoreOrm.Instance.GetAccount(sessionId);
             return account.Games;
         }
 
-        public static void WriteToDisk(Account account)
+        public void WriteToDisk(Account account)
         {
             VFS.WriteTextFile(
                 $"./Fuyu/Accounts/Core/{account.Id}.json",

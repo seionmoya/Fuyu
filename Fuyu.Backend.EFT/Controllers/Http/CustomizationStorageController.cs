@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
             var response = new ResponseBody<CustomizationStorageEntry[]>()
             {
-                data = EftOrm.GetCustomizationStorage().ToArray()
+                data = EftOrm.Instance.GetCustomizationStorage().ToArray()
             };
 
             var text = Json.Stringify(response);

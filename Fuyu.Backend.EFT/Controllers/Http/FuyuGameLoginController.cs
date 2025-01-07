@@ -15,7 +15,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context, FuyuGameLoginRequest request)
         {
-            var sessionId = AccountService.LoginAccount(request.AccountId);
+            var sessionId = AccountService.Instance.LoginAccount(request.AccountId);
             var response = new FuyuGameLoginResponse()
             {
                 SessionId = sessionId

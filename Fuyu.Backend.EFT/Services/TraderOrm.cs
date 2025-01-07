@@ -1,13 +1,17 @@
 ﻿using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Common.Hashing;
+using System;
 
 namespace Fuyu.Backend.EFT.Services
 {
-    public static class TraderOrm
+    public class TraderOrm
     {
-        public static TraderTemplate GetTraderTemplate(MongoId traderId)
+		public static TraderOrm Instance => instance.Value;
+		private static readonly Lazy<TraderOrm> instance = new(() => new TraderOrm());
+
+		public static TraderTemplate GetTraderTemplate(MongoId traderId)
         {
-            return TraderDatabase.GetTraderTemplates()[traderId];
+            return TraderDatabase.Instance.GetTraderTemplates()[traderId];
         }
     }
 }
