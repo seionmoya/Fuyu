@@ -7,6 +7,6 @@ namespace Fuyu.Backend.Core.Models.Responses
     public class AccountRegisterResponse
     {
         [DataMember]
-        public ERegisterStatus Status;
-    }
+        public ERegisterStatus Status { get; set; }
+	}
 }

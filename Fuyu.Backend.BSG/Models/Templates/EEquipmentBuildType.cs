@@ -4,6 +4,7 @@ namespace Fuyu.Backend.BSG.Models.Templates
     public enum EEquipmentBuildType
     {
         Custom,
-        Standard
+        Standard,
+		Storage
     }
 }

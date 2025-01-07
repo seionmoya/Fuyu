@@ -7,9 +7,9 @@ namespace Fuyu.Backend.Core.Models.Responses
     public class AccountRegisterGameResponse
     {
         [DataMember]
-        public ERegisterStatus Status;
+        public ERegisterStatus Status { get; set; }
 
         [DataMember]
-        public int AccountId;
+        public int AccountId { get; set; }
     }
 }

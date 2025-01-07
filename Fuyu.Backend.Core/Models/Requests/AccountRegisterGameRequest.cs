@@ -6,9 +6,9 @@ namespace Fuyu.Backend.Core.Models.Requests
     public class AccountRegisterGameRequest
     {
         [DataMember]
-        public string Game;
+        public string Game { get; set; }
 
         [DataMember]
-        public string Edition;
+        public string Edition { get; set; }
     }
 }
