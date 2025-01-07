@@ -37,6 +37,16 @@ namespace Fuyu.Modding
             }
         }
 
+        private string GetResourcePath(string resourceRootPath, string resourcePath)
+        {
+            return resourcePath
+                .Replace(resourceRootPath + "\\", string.Empty) // exp. Fuyu/Mods/Launcher
+                .Replace("../", string.Empty)                   // relative path ./
+                .Replace("./", string.Empty)                    // relative path ./
+                .Replace("\\", ".")                             // windows \
+                .Replace("/", ".");                             // unix /
+        }
+
         private CSharpCompilation CreateCompilation(
             string assemblyName,
             IEnumerable<SyntaxTree> syntaxTrees,
@@ -153,10 +163,11 @@ namespace Fuyu.Modding
                 syntaxTrees.Add(syntaxTree);
             }
 
-            var resourcePaths = VFS.GetFiles(Path.Combine(directory, "res"), "*.*", SearchOption.AllDirectories);
+            var resourceRootPath = Path.Combine(directory, "res");
+            var resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
             var resources = resourcePaths.Select(resourcePath =>
             {
-                var fileName = $"{assemblyName}.embedded.{Path.GetFileName(resourcePath)}";
+                var fileName= $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
 
                 return new ResourceDescription(
                     fileName,
@@ -291,11 +302,12 @@ namespace Fuyu.Modding
         private Assembly GenerateResourceAssembly(Assembly sourceAssembly)
         {
             var assemblyName = sourceAssembly.GetName().Name;
+            var resourceRootPath = Path.Combine(Path.GetDirectoryName(sourceAssembly.Location), "res");
             string[] resourcePaths;
 
             try
             {
-                resourcePaths = VFS.GetFiles(Path.Combine(Path.GetDirectoryName(sourceAssembly.Location), "res"), "*.*", SearchOption.AllDirectories);
+                resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
             }
             catch (DirectoryNotFoundException)
             {
@@ -309,7 +321,7 @@ namespace Fuyu.Modding
 
             var resources = resourcePaths.Select(resourcePath =>
             {
-                var fileName = $"{assemblyName}.embedded.{Path.GetFileName(resourcePath)}";
+                var fileName = $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
 
                 return new ResourceDescription(
                     fileName,
