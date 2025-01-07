@@ -28,10 +28,10 @@ The process is roughtly:
 #### 2. Updating existing database
 
 1. In `HTTP_DATA/Responses/`, copy-paste from each response that also exists in
-   `Fuyu.Backend.EFT/embedded/database/` into that folder. In case you got
+   `Fuyu.Backend.EFT/Resources/database/` into that folder. In case you got
    multiple dumps for the same file (exp. `client.items.json`), copy a single
    file.
-2. Delete the original files from `Fuyu.Backend.EFT/embedded/database/`
+2. Delete the original files from `Fuyu.Backend.EFT/Resources/database/`
    (the ones without a timestamp at the end of the file).
 3. Remove the timestamp from the filenames
 4. For locale files, change the last `.` to a `-`

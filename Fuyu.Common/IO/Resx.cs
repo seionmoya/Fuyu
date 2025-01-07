@@ -62,10 +62,7 @@ namespace Fuyu.Common.IO
             }
 
             // find target
-
-            // NOTE: replacing ".Resources" is, ideally, a temporary solution
-            // -- nexus4880, 2024-12-11
-            var target = $"{assembly.GetName().Name.Replace(".Resources", string.Empty)}.embedded.{path}";
+            var target = $"{assembly.GetName().Name}.Resources.{path}";
 
             foreach (var fullpath in fullpaths)
             {

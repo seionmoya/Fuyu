@@ -11,25 +11,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="embedded/database/locales/client.languages.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-ch.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-cz.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-en.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-es.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-es-mx.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-fr.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-ge.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-hu.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-it.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-jp.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-kr.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-pl.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-po.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-ro.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-ru.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-sk.json" />
-    <EmbeddedResource Include="embedded/database/locales/client.locale-tu.json" />
-    <EmbeddedResource Include="embedded/database/client.game.token.issue.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.languages.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-ch.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-cz.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-en.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-es.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-es-mx.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-fr.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-ge.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-hu.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-it.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-jp.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-kr.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-pl.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-po.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-ro.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-ru.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-sk.json" />
+    <EmbeddedResource Include="Resources/database/locales/client.locale-tu.json" />
+    <EmbeddedResource Include="Resources/database/client.game.token.issue.json" />
   </ItemGroup>
 
 </Project>
