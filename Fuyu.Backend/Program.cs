@@ -35,7 +35,7 @@ namespace Fuyu.Backend
             eftMainServer.Start();
 
             Terminal.WriteLine("Loading mods...");
-            ModManager.Instance.AddMods("./Fuyu/Mods");
+            ModManager.Instance.AddMods("./Fuyu/Mods/Backend");
             await ModManager.Instance.Load(container);
             Terminal.WriteLine("Finished loading mods");
 
