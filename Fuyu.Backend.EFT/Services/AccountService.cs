@@ -10,22 +10,22 @@ namespace Fuyu.Backend.EFT.Services
 {
     public class AccountService
     {
-		// TODO:
-		// * account login state tracking
-		// -- seionmoya, 2024/09/06
+        // TODO:
+        // * account login state tracking
+        // -- seionmoya, 2024/09/06
 
-		public static AccountService Instance => instance.Value;
-		private static readonly Lazy<AccountService> instance = new(() => new AccountService());
+        public static AccountService Instance => instance.Value;
+        private static readonly Lazy<AccountService> instance = new(() => new AccountService());
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private AccountService()
-		{
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private AccountService()
+        {
 
-		}
+        }
 
-		public string LoginAccount(int accountId)
+        public string LoginAccount(int accountId)
         {
             if (accountId == -1)
             {

@@ -12,18 +12,18 @@ namespace Fuyu.Backend.Core
 
     public class CoreDatabase
     {
-		public static CoreDatabase Instance => instance.Value;
-		private static readonly Lazy<CoreDatabase> instance = new(() => new CoreDatabase());
+        public static CoreDatabase Instance => instance.Value;
+        private static readonly Lazy<CoreDatabase> instance = new(() => new CoreDatabase());
 
-		internal readonly ThreadList<Account> Accounts;
+        internal readonly ThreadList<Account> Accounts;
 
         //                                sessid  aid
         internal readonly ThreadDictionary<string, int> Sessions;
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private CoreDatabase()
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private CoreDatabase()
         {
             Accounts = new ThreadList<Account>();
             Sessions = new ThreadDictionary<string, int>();

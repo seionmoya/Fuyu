@@ -20,7 +20,7 @@ namespace Fuyu.Backend
             CoreDatabase.Instance.Load();
             EftDatabase.Instance.Load();
             TraderDatabase.Instance.Load();
-			ItemFactoryService.Instance.Load();
+            ItemFactoryService.Instance.Load();
 
             var coreServer = new CoreServer();
             container.RegisterSingleton<HttpServer, CoreServer>(coreServer);

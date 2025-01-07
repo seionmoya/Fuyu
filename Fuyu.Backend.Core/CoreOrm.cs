@@ -6,19 +6,19 @@ namespace Fuyu.Backend.Core
 {
     public class CoreOrm
     {
-		public static CoreOrm Instance => instance.Value;
-		private static readonly Lazy<CoreOrm> instance = new(() => new CoreOrm());
+        public static CoreOrm Instance => instance.Value;
+        private static readonly Lazy<CoreOrm> instance = new(() => new CoreOrm());
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private CoreOrm()
-		{
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private CoreOrm()
+        {
 
-		}
+        }
 
-		#region Accounts
-		public List<Account> GetAccounts()
+        #region Accounts
+        public List<Account> GetAccounts()
         {
             return CoreDatabase.Instance.Accounts.ToList();
         }

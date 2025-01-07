@@ -11,22 +11,22 @@ namespace Fuyu.Backend.Core.Services
 {
     public class AccountService
     {
-		// TODO:
-		// * account login state tracking
-		// -- seionmoya, 2024/09/02
+        // TODO:
+        // * account login state tracking
+        // -- seionmoya, 2024/09/02
 
-		public static AccountService Instance => instance.Value;
-		private static readonly Lazy<AccountService> instance = new(() => new AccountService());
+        public static AccountService Instance => instance.Value;
+        private static readonly Lazy<AccountService> instance = new(() => new AccountService());
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private AccountService()
-		{
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private AccountService()
+        {
 
-		}
+        }
 
-		public int AccountExists(string username)
+        public int AccountExists(string username)
         {
             var lowerUsername = username.ToLowerInvariant();
             var accounts = CoreOrm.Instance.GetAccounts();

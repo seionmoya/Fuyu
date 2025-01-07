@@ -8,18 +8,18 @@ namespace Fuyu.Backend.BSG.Services
 {
     public class InventoryService
     {
-		public static InventoryService Instance => instance.Value;
-		private static readonly Lazy<InventoryService> instance = new(() => new InventoryService());
+        public static InventoryService Instance => instance.Value;
+        private static readonly Lazy<InventoryService> instance = new(() => new InventoryService());
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private InventoryService()
-		{
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private InventoryService()
+        {
 
-		}
+        }
 
-		public List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
+        public List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
         {
             var itemsToRemove = ItemService.GetItemAndChildren(inventory.Items, item);
 

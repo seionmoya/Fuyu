@@ -10,18 +10,18 @@ namespace Fuyu.Backend.EFT.Services
 {
     public class ProfileService
     {
-		public static ProfileService Instance => instance.Value;
-		private static readonly Lazy<ProfileService> instance = new(() => new ProfileService());
+        public static ProfileService Instance => instance.Value;
+        private static readonly Lazy<ProfileService> instance = new(() => new ProfileService());
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private ProfileService()
-		{
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private ProfileService()
+        {
 
-		}
+        }
 
-		public string CreateProfile(int accountId)
+        public string CreateProfile(int accountId)
         {
             var profile = new EftProfile()
             {

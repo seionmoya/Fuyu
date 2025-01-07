@@ -18,10 +18,10 @@ namespace Fuyu.Backend.EFT
 
     public class EftDatabase
     {
-		public static EftDatabase Instance => instance.Value;
-		private static readonly Lazy<EftDatabase> instance = new(() => new EftDatabase());
+        public static EftDatabase Instance => instance.Value;
+        private static readonly Lazy<EftDatabase> instance = new(() => new EftDatabase());
 
-		internal readonly ThreadList<EftAccount> Accounts;
+        internal readonly ThreadList<EftAccount> Accounts;
 
         internal readonly ThreadList<EftProfile> Profiles;
 
@@ -64,10 +64,10 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<string> Traders;
         internal readonly ThreadObject<string> Weather;
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private EftDatabase()
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private EftDatabase()
         {
             Accounts = new ThreadList<EftAccount>();
             Profiles = new ThreadList<EftProfile>();

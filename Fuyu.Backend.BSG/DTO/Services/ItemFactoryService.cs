@@ -13,18 +13,18 @@ namespace Fuyu.Backend.BSG.DTO.Services
     // TODO: split UPD factory and Item Factory
     public class ItemFactoryService
     {
-		public static ItemFactoryService Instance => instance.Value;
-		private static readonly Lazy<ItemFactoryService> instance = new(() => new ItemFactoryService());
+        public static ItemFactoryService Instance => instance.Value;
+        private static readonly Lazy<ItemFactoryService> instance = new(() => new ItemFactoryService());
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private ItemFactoryService()
-		{
-			
-		}
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private ItemFactoryService()
+        {
 
-		public Dictionary<MongoId, ItemTemplate> ItemTemplates { get; private set; }
+        }
+
+        public Dictionary<MongoId, ItemTemplate> ItemTemplates { get; private set; }
 
         public void Load()
         {

@@ -12,15 +12,15 @@ namespace Fuyu.Backend.EFT
 {
     public class TraderDatabase
     {
-		public static TraderDatabase Instance => instance.Value;
-		private static readonly Lazy<TraderDatabase> instance = new(() => new TraderDatabase());
+        public static TraderDatabase Instance => instance.Value;
+        private static readonly Lazy<TraderDatabase> instance = new(() => new TraderDatabase());
 
-		private readonly ThreadDictionary<MongoId, TraderTemplate> _traders;
+        private readonly ThreadDictionary<MongoId, TraderTemplate> _traders;
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private TraderDatabase()
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private TraderDatabase()
         {
             _traders = new ThreadDictionary<MongoId, TraderTemplate>();
         }

@@ -10,19 +10,19 @@ namespace Fuyu.Backend.EFT
 {
     public class EftOrm
     {
-		public static EftOrm Instance => instance.Value;
-		private static readonly Lazy<EftOrm> instance = new(() => new EftOrm());
+        public static EftOrm Instance => instance.Value;
+        private static readonly Lazy<EftOrm> instance = new(() => new EftOrm());
 
-		/// <summary>
-		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-		/// </summary>
-		private EftOrm()
-		{
+        /// <summary>
+        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+        /// </summary>
+        private EftOrm()
+        {
 
-		}
+        }
 
-		#region Profile
-		public List<EftProfile> GetProfiles()
+        #region Profile
+        public List<EftProfile> GetProfiles()
         {
             return EftDatabase.Instance.Profiles.ToList();
         }
@@ -234,7 +234,7 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
-                #region Customization storage
+        #region Customization storage
         public List<CustomizationStorageEntry> GetCustomizationStorage()
         {
             return EftDatabase.Instance.CustomizationStorage.ToList();
