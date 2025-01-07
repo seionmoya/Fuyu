@@ -15,27 +15,18 @@ namespace Fuyu.Modding
     // This should live during the entire lifetime of the application
     public class ModManager
     {
-        private static ModManager _instance;
+		public static ModManager Instance => instance.Value;
+		private static readonly Lazy<ModManager> instance = new Lazy<ModManager>(() => new ModManager());
+
+		/// <summary>
+		/// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+		/// </summary>
+		private ModManager()
+		{
+
+		}
 
         private readonly List<Mod> _mods = new List<Mod>();
-
-        private static readonly object _lock = new object();
-
-        public static ModManager Instance
-        {
-            get
-            {
-                lock (_lock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new ModManager();
-                    }
-
-                    return _instance;
-                }
-            }
-        }
 
         private string GetResourcePath(string resourceRootPath, string resourcePath)
         {
