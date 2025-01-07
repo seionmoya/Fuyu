@@ -7,7 +7,7 @@ using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 
 [Target(nameof(FuyuClient))]
-public sealed class FuyuClient : TargetWithLayout 
+public sealed class FuyuClient : TargetWithLayout
 {
     protected override void InitializeTarget()
     {

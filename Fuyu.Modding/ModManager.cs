@@ -167,7 +167,7 @@ namespace Fuyu.Modding
             var resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
             var resources = resourcePaths.Select(resourcePath =>
             {
-                var fileName= $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
+                var fileName = $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
 
                 return new ResourceDescription(
                     fileName,

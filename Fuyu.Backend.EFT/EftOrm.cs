@@ -223,7 +223,7 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
-                #region Customization storage
+        #region Customization storage
         public static List<CustomizationStorageEntry> GetCustomizationStorage()
         {
             return EftDatabase.CustomizationStorage.ToList();
