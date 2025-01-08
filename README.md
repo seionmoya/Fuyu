@@ -27,33 +27,6 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 EFT      | 0.16.0.34510
 Arena    | none (yet)
 
-## Setup
-
-### Local project
-
-1. `git clone https://github.com/project-fika/fuyu`
-2. Visual Studio Code > Terminal > Run Task... > "dotnet: restore"
-
-### Repository CI/CD
-
-1. Github > Generate new PAT
-   1. Go [here](https://github.com/settings/tokens/new)
-      - note: `FUYU_WORKFLOWS`
-      - permissions: `repo` (all), `workflow` (all)
-   2. Once PAT is generated, copy the token to clipboard
-2. Github > Repositories > Fuyu > Settings > Secrets > Actions
-3. New repository secret
-   - name: `FUYU_WORKFLOWS`
-   - field: paste your token
-
-## Build
-
-Visual Studio Code > Terminal > Run Build Task...
-
-## Test
-
-Visual Studio Code > Terminal > Run Task... > Fuyu: Test
-
 ## License
 
 (C) seionmoya, all rights reserved.
@@ -72,6 +45,7 @@ Sorted alphabetically ascending.
 
 **Author**   | **Reason**
 ------------ | ---------------------------
+lacyway      | Maintainer
 nexus4880    | Maintainer
 seionmoya    | Project creator, maintainer
 thespartapt  | Maintainer
