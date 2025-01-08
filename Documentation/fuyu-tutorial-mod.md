@@ -2,7 +2,7 @@
 
 ## Background info
 
-### Mod targets:
+### Mod targets
 
 The following things can be modded:
 
@@ -16,12 +16,19 @@ Depending on target, you install your mod in a different place:
 - Launcher: `./Fuyu/Mods/Launcher/`
 - Client: `./Fuyu/Mods/Client`
 
-### Mod loaders
+### Mod types
 
 There are two type of mods you can write:
 
 - Script: for write mods without compilation
 - DLL: for writing complex mods
+
+### Mod loaders
+
+The following mod loaders are available:
+
+- Escape From Tarkov: `Fuyu.Client.NLog`
+- Escape From Tarkov Arena: `Fuyu.Client.NLog`
 
 ### Complex?
 
@@ -114,8 +121,6 @@ namespace Senko.HelloWorld
 
         public override Task OnLoad(DependencyContainer container)
         {
-            // do something here
-
             // done loading the mod!
             return Task.CompletedTask;
         }
@@ -177,4 +182,279 @@ sticking with `Senko.HelloWorld` however.
 
 ```cs
 public override string[] Dependencies { get; } = [];
+```
+
+When you depend on other mods, you list the dependencies here, like so:
+
+```cs
+public override string[] Dependencies { get; } = [
+    "JoshStrifeHayes.Replays",
+    "Nexus.Deez"
+];
+```
+
+Since our dependency list is empty, we do not depend on other mods.
+
+```cs
+public override Task OnLoad(DependencyContainer container)
+{
+    // do something here
+
+    // done loading the mod!
+    return Task.CompletedTask;
+}
+```
+
+This is where we actually run our mod code.
+
+```cs
+public override Task OnLoad(DependencyContainer container)
+```
+
+This is a "method signature". The `container` parameter will allow us to grab
+tools and helpers from `Fuyu` and other mods when we need to.
+
+```cs
+{
+    // done loading the mod!
+    return Task.CompletedTask;
+}
+```
+
+This is a "method body". It contains the instructions for what the mod should
+do. Currently all our mod does is complete loading and nothing else.
+
+It's time to make the mod do something! At the beginning of `OnLoad()`'s method
+body add:
+
+```cs
+Terminal.WriteLine("Hello, mod!");
+```
+
+What this code does is show a bit of text in `Fuyu.Backend`'s window and in
+`./Fuyu/Logs/Fuyu.Log`.
+
+```cs
+// -- required
+using System.Threading.Tasks;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
+// -- others
+using Fuyu.Common.IO;
+
+namespace Senko.HelloWorld
+{
+    public class HelloWorldMod : Mod
+    {
+        public override string Id { get; } = "Senko.HelloWorld";
+        public override string Name { get; } = "Senko - HelloWorld";
+        public override string[] Dependencies { get; } = [];
+
+        public override Task OnLoad(DependencyContainer container)
+        {
+            Terminal.WriteLine("Hello, mod!");
+
+            // done loading the mod!
+            return Task.CompletedTask;
+        }
+    }
+}
+```
+
+The final result looks like this.
+
+### Test the mod
+
+Now that you're done, simply start `Fuyu.Backend.exe` and see the window
+show our text!
+
+```
+Hello, mod!
+```
+
+### Adding resources
+
+Sometimes you want to read from external files to do specific things in your
+mod, like a custom `ItemTemplate` for Escape From Tarkov. Fuyu includes a
+system for this; Read-only resource loading (RESX).
+
+In `Senko.HelloWorld`, create the `res` folder:
+
+```
+Fuyu.Backend.exe
+Fuyu/
+    Mods/
+        Backend/
+            Senko.HelloWorld/
+                res/
+                src/
+                    HelloWorldMod.cs
+```
+
+In `res`, create the `messages` folder:
+
+```
+Fuyu.Backend.exe
+Fuyu/
+    Mods/
+        Backend/
+            Senko.HelloWorld/
+                res/
+                    messages/
+                src/
+                    HelloWorldMod.cs
+```
+
+In `messages`, create the file `message.txt`:
+
+```
+Fuyu.Backend.exe
+Fuyu/
+    Mods/
+        Backend/
+            Senko.HelloWorld/
+                res/
+                    messages/
+                        hello.txt
+                src/
+                    HelloWorldMod.cs
+```
+
+In notepad, open `res/messages/message.txt` and write the following:
+
+```
+Hello world!
+```
+
+In Visual Studio Code open `src/HellowOrldMod.cs`
+
+```cs
+// -- required
+using System.Threading.Tasks;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
+// -- others
+using Fuyu.Common.IO;
+
+namespace Senko.HelloWorld
+{
+    public class HelloWorldMod : Mod
+    {
+        public override string Id { get; } = "Senko.HelloWorld";
+        public override string Name { get; } = "Senko - HelloWorld";
+        public override string[] Dependencies { get; } = [];
+
+        public override Task OnLoad(DependencyContainer container)
+        {
+            Terminal.WriteLine("Hello, mod!");
+
+            // done loading the mod!
+            return Task.CompletedTask;
+        }
+    }
+}
+```
+
+We're going to add the following before `Terminal.WriteLine("Hello, mod!")`:
+
+```cs
+var message = Resx.GetText(Id, "messages.hello.txt");
+```
+
+Like so:
+
+```cs
+// -- required
+using System.Threading.Tasks;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
+// -- others
+using Fuyu.Common.IO;
+
+namespace Senko.HelloWorld
+{
+    public class HelloWorldMod : Mod
+    {
+        public override string Id { get; } = "Senko.HelloWorld";
+        public override string Name { get; } = "Senko - HelloWorld";
+        public override string[] Dependencies { get; } = [];
+
+        public override Task OnLoad(DependencyContainer container)
+        {
+            var message = Resx.GetText(Id, "messages.hello.txt");
+            Terminal.WriteLine("Hello, mod!");
+
+            // done loading the mod!
+            return Task.CompletedTask;
+        }
+    }
+}
+```
+
+To break it down:
+
+```cs
+var message
+```
+
+This is a variable. We can store some information in here and use it in other
+places.
+
+```cs
+Resx.GetText(id, filepath)
+```
+
+This allows us to read files from the `res` folder.
+
+`filepath` is where the file is located, with `.` as separators instead of `/`.
+That means that `path/to/file.ext` becomes `path.to.file.ext`.
+
+`id` is the mod's `Id`. Yes, you can also use the id of another mod if you want
+to read from their `res` folder!
+
+Now, replace `Terminal.WriteLine("Hello, mod!")` with this:
+
+```cs
+Terminal.WriteLine(message);
+```
+
+It will now show the text from `message` instead of what we had before.
+
+The final result will be:
+
+```cs
+// -- required
+using System.Threading.Tasks;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
+// -- others
+using Fuyu.Common.IO;
+
+namespace Senko.HelloWorld
+{
+    public class HelloWorldMod : Mod
+    {
+        public override string Id { get; } = "Senko.HelloWorld";
+        public override string Name { get; } = "Senko - HelloWorld";
+        public override string[] Dependencies { get; } = [];
+
+        public override Task OnLoad(DependencyContainer container)
+        {
+            var message = Resx.GetText(Id, "messages.hello.txt");
+            Terminal.WriteLine(message);
+
+            // done loading the mod!
+            return Task.CompletedTask;
+        }
+    }
+}
+```
+
+### Test the mod
+
+Now that you're done, simply start `Fuyu.Backend.exe` and see the window
+show our text!
+
+```
+Hello world!
 ```
