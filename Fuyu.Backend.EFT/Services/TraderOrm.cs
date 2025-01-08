@@ -19,7 +19,7 @@ namespace Fuyu.Backend.EFT.Services
             _traderDatabase = TraderDatabase.Instance;
         }
 
-        public static TraderTemplate GetTraderTemplate(MongoId traderId)
+        public TraderTemplate GetTraderTemplate(MongoId traderId)
         {
             return _traderDatabase.GetTraderTemplates()[traderId];
         }
