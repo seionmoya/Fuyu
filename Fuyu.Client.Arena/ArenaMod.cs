@@ -2,19 +2,19 @@ using System.Threading.Tasks;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
-using Fuyu.Plugin.Arena.Patches;
-using Fuyu.Plugin.Arena.Utils;
-using Fuyu.Plugin.Common.Reflection;
+using Fuyu.Client.Arena.Patches;
+using Fuyu.Client.Arena.Utils;
+using Fuyu.Client.Common.Reflection;
 
-namespace Fuyu.Plugin.Arena
+namespace Fuyu.Client.Arena
 {
     public class ArenaMod : Mod
     {
         private readonly APatch[] _patches;
 
-        public override string Id { get; } = "com.fuyu.plugin.arena";
+        public override string Id { get; } = "com.Fuyu.Client.arena";
 
-        public override string Name { get; } = "Fuyu.Plugin.Arena";
+        public override string Name { get; } = "Fuyu.Client.Arena";
 
         public ArenaMod()
         {

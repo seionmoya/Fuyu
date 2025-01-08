@@ -1,4 +1,4 @@
-# Fuyu.Plugin.EFT
+# Fuyu.Client.EFT
 
 A simple bepinex plugin that only disables and modifies EFT code preventing
 Fuyu.Backend from functioning. Can run on obfuscated `Assembly-CSharp.dll`.
@@ -6,7 +6,7 @@ Fuyu.Backend from functioning. Can run on obfuscated `Assembly-CSharp.dll`.
 ## Usage
 
 1. Install BepInEx installed in EFT's folder
-2. Put `Fuyu.Plugin.EFT.dll` and ``Fuyu.Plugin.Core.dll` into `BepInEx/plugins`
+2. Put `Fuyu.Client.EFT.dll` and ``Fuyu.Client.Core.dll` into `BepInEx/plugins`
 3. Start the game through `Fuyu.Launcher.exe`
 
 ## Modifications

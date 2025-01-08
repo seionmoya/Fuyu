@@ -3,10 +3,10 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using EFT;
-using Fuyu.Plugin.Arena.Reflection;
-using Fuyu.Plugin.Common.Reflection;
+using Fuyu.Client.Arena.Reflection;
+using Fuyu.Client.Common.Reflection;
 
-namespace Fuyu.Plugin.Arena.Patches
+namespace Fuyu.Client.Arena.Patches
 {
     public class ConsistencyGeneralPatch : APatch
     {
@@ -18,7 +18,7 @@ namespace Fuyu.Plugin.Arena.Patches
             _mi = typeof(TarkovApplication).BaseType.GetMethod("RunFilesChecking", flags);
         }
 
-        public ConsistencyGeneralPatch() : base("com.fuyu.plugin.arena.consistencygeneral", EPatchType.Prefix)
+        public ConsistencyGeneralPatch() : base("com.Fuyu.Client.arena.consistencygeneral", EPatchType.Prefix)
         {
         }
 

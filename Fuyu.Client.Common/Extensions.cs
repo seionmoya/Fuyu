@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace Fuyu.Plugin.Common
+namespace Fuyu.Client.Common
 {
     public static class Extensions
     {

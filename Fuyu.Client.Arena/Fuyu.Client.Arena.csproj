@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Fuyu.Plugin.Common/Fuyu.Plugin.Common.csproj" />
+    <ProjectReference Include="../Fuyu.Client.Common/Fuyu.Client.Common.csproj" />
   </ItemGroup>
 
 </Project>

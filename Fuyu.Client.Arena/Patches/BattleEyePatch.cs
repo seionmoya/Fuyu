@@ -3,10 +3,10 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Fuyu.Plugin.Common.Reflection;
-using Fuyu.Plugin.EFT.Reflection;
+using Fuyu.Client.Arena.Reflection;
+using Fuyu.Client.Common.Reflection;
 
-namespace Fuyu.Plugin.EFT.Patches
+namespace Fuyu.Client.Arena.Patches
 {
     public class BattlEyePatch : APatch
     {
@@ -22,7 +22,7 @@ namespace Fuyu.Plugin.EFT.Patches
             _mi = type.GetMethod(name);
         }
 
-        public BattlEyePatch() : base("com.fuyu.plugin.eft.battleye", EPatchType.Prefix)
+        public BattlEyePatch() : base("com.Fuyu.Client.arena.battleye", EPatchType.Prefix)
         {
         }
 

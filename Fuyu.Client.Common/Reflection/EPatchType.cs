@@ -1,4 +1,4 @@
-namespace Fuyu.Plugin.Common.Reflection
+namespace Fuyu.Client.Common.Reflection
 {
     public enum EPatchType
     {

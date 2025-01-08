@@ -23,7 +23,7 @@ The process is roughtly:
 #### 1. Hollowing
 
 1. Hollow `<client>/EscapeFromTarkov_Data/Managed/` using BatchHollower
-2. Place `Assembly-CSharp.dll` into `Fuyu.Plugin.EFT/References/`
+2. Place `Assembly-CSharp.dll` into `Fuyu.Client.EFT/References/`
 
 #### 2. Updating existing database
 
@@ -54,7 +54,7 @@ TODO
 #### 1. Hollowing
 
 1. Hollow `<client>/EscapeFromTarkov_Data/Managed/` using BatchHollower
-2. Place `Assembly-CSharp.dll` into `Fuyu.Plugin.Arena/References/`
+2. Place `Assembly-CSharp.dll` into `Fuyu.Client.Arena/References/`
 
 #### 2. Updating existing database
 

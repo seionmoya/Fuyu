@@ -3,13 +3,13 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using EFT;
-using Fuyu.Plugin.Common.Reflection;
+using Fuyu.Client.Common.Reflection;
 
-namespace Fuyu.Plugin.EFT.Patches
+namespace Fuyu.Client.EFT.Patches
 {
     public class ConsistencyGeneralPatch : APatch
     {
-        public ConsistencyGeneralPatch() : base("com.fuyu.plugin.eft.consistencygeneral", EPatchType.Prefix)
+        public ConsistencyGeneralPatch() : base("com.Fuyu.Client.eft.consistencygeneral", EPatchType.Prefix)
         {
         }
 

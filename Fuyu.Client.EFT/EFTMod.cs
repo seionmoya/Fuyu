@@ -2,19 +2,19 @@ using System.Threading.Tasks;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
-using Fuyu.Plugin.Common.Reflection;
-using Fuyu.Plugin.EFT.Patches;
-using Fuyu.Plugin.EFT.Utils;
+using Fuyu.Client.Common.Reflection;
+using Fuyu.Client.EFT.Patches;
+using Fuyu.Client.EFT.Utils;
 
-namespace Fuyu.Plugin.EFT
+namespace Fuyu.Client.EFT
 {
     public class EFTMod : Mod
     {
         private readonly APatch[] _patches;
 
-        public override string Id { get; } = "com.fuyu.plugin.eft";
+        public override string Id { get; } = "com.Fuyu.Client.eft";
 
-        public override string Name { get; } = "Fuyu.Plugin.EFT";
+        public override string Name { get; } = "Fuyu.Client.EFT";
 
         public EFTMod()
         {

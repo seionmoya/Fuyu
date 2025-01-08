@@ -27,8 +27,8 @@ There are two type of mods you can write:
 
 The following mod loaders are available:
 
-- Escape From Tarkov: `Fuyu.Client.NLog`
-- Escape From Tarkov Arena: `Fuyu.Client.NLog`
+- Escape From Tarkov: `Fuyu.Modding.NLog`
+- Escape From Tarkov Arena: `Fuyu.Modding.NLog`
 
 ### Complex?
 

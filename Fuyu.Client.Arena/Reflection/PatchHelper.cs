@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Fuyu.Plugin.Arena.Reflection
+namespace Fuyu.Client.Arena.Reflection
 {
     public static class PatchHelper
     {
