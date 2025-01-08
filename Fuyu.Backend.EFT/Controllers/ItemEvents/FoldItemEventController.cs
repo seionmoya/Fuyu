@@ -24,7 +24,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
                 return Task.CompletedTask;
             }
 
-            item.GetUpdatable<ItemFoldableComponent>().Folded = request.Value;
+            item.GetOrCreateUpdatable<ItemFoldableComponent>().Folded = request.Value;
 
             return Task.CompletedTask;
         }

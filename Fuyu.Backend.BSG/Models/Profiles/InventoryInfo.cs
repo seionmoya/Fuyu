@@ -51,6 +51,11 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             return InventoryService.Instance.RemoveItem(this, item);
         }
 
+		public ItemInstance FindItem(MongoId id)
+		{
+            return Items.Find(x => x.Id == id);            
+		}
+
         public List<ItemInstance> RemoveItem(MongoId id)
         {
             var item = Items.Find(i => i.Id == id);

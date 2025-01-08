@@ -24,7 +24,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
                 return Task.CompletedTask;
             }
 
-            item.GetUpdatable<ItemRecodableComponent>().IsEncoded = request.Encoded;
+            item.GetOrCreateUpdatable<ItemRecodableComponent>().IsEncoded = request.Encoded;
 
             return Task.CompletedTask;
         }

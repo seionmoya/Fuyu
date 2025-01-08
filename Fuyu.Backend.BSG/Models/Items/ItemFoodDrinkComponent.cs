@@ -1,6 +1,5 @@
-﻿using System.Runtime.Serialization;
-using Fuyu.Backend.BSG;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System.Runtime.Serialization;
 
 namespace Fuyu.Backend.BSG.Models.Items
 {

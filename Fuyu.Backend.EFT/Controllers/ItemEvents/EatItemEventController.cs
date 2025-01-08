@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Models.Items;
-using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Common.IO;
+using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
@@ -16,24 +16,25 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
         public override Task RunAsync(ItemEventContext context, EatItemEvent request)
         {
             var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
-            var index = 0;
-            ItemInstance item = null;
-
-            foreach (var _item in profile.Pmc.Inventory.Items)
-            {
-                if (_item.Id == request.Item)
-                {
-                    item = _item;
-                    break;
-                }
-
-                index++;
-            }
+            var item = profile.Pmc.Inventory.FindItem(request.Item);
 
             if (item == null)
             {
                 Terminal.WriteLine($"Failed to find item {request.Item}");
                 return Task.CompletedTask;
+            }
+
+            var foodDrink = item.GetOrCreateUpdatable<ItemFoodDrinkComponent>();
+            if (foodDrink == null)
+            {
+                Terminal.WriteLine("Could not find ItemFoodDrinkComponent on item: " + request.Item);
+                return Task.CompletedTask;
+            }
+
+            foodDrink.HpPercent -= request.Count;
+            if (foodDrink.HpPercent <= 0)
+            {
+                profile.Pmc.Inventory.RemoveItem(item);
             }
 
             return Task.CompletedTask;
