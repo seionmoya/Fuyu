@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class MatchGroupExitFromMenuController : EftHttpController
+    public class MatchGroupExitFromMenuController : AbstractEftHttpController
     {
         public MatchGroupExitFromMenuController() : base("/client/match/group/exit_from_menu")
         {

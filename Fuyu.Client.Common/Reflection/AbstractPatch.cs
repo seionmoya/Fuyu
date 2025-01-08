@@ -5,13 +5,13 @@ using HarmonyLib;
 
 namespace Fuyu.Client.Common.Reflection
 {
-    public abstract class APatch
+    public abstract class AbstractPatch
     {
         public readonly string Id;
         public readonly EPatchType Type;
         public readonly Harmony Harmony;
 
-        public APatch(string id, EPatchType type)
+        public AbstractPatch(string id, EPatchType type)
         {
             Id = id;
             Type = type;

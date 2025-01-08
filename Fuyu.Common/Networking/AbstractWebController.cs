@@ -3,16 +3,16 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Common.Networking
 {
-    public abstract class WebController<TContext> : IRoutable, IRouterController<TContext> where TContext : WebRouterContext
+    public abstract class AbstractWebController<TContext> : IRoutable, IRouterController<TContext> where TContext : WebRouterContext
     {
         public Regex Matcher { get; }
 
-        protected WebController(Regex pattern)
+        protected AbstractWebController(Regex pattern)
         {
             Matcher = pattern;
         }
 
-        protected WebController(string path)
+        protected AbstractWebController(string path)
         {
             Matcher = new Regex($"^{path}$");
         }

@@ -9,17 +9,19 @@ namespace Fuyu.Backend.EFT.Services
         public static TraderOrm Instance => instance.Value;
         private static readonly Lazy<TraderOrm> instance = new(() => new TraderOrm());
 
+        private readonly TraderDatabase _traderDatabase;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private TraderOrm()
         {
-
+            _traderDatabase = TraderDatabase.Instance;
         }
 
-        public static TraderTemplate GetTraderTemplate(MongoId traderId)
+        public TraderTemplate GetTraderTemplate(MongoId traderId)
         {
-            return TraderDatabase.Instance.GetTraderTemplates()[traderId];
+            return _traderDatabase.GetTraderTemplates()[traderId];
         }
     }
 }

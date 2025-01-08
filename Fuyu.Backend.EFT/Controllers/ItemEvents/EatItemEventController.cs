@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class EatItemEventController : ItemEventController<EatItemEvent>
+    public class EatItemEventController : AbstractItemEventController<EatItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public EatItemEventController() : base("Eat")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         // This method only finds the item, as well as the index. Actually consuming/deleting the item needs to be done.
         public override Task RunAsync(ItemEventContext context, EatItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var item = profile.Pmc.Inventory.FindItem(request.Item);
 
             if (item == null)

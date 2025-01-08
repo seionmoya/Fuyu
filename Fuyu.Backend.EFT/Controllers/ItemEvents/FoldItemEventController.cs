@@ -5,15 +5,18 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class FoldItemEventController : ItemEventController<FoldItemEvent>
+    public class FoldItemEventController : AbstractItemEventController<FoldItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public FoldItemEventController() : base("Fold")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, FoldItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.ItemId);
 
             if (item == null)

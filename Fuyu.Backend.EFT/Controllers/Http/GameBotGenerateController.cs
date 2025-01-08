@@ -10,13 +10,16 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameBotGenerateController : EftHttpController<GameBotGenerateRequest>
     {
+        private readonly BotService _botService;
+
         public GameBotGenerateController() : base("/client/game/bot/generate")
         {
+            _botService = BotService.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, GameBotGenerateRequest request)
         {
-            var profiles = BotService.Instance.GetBots(request.conditions);
+            var profiles = _botService.GetBots(request.conditions);
             var response = new ResponseBody<Profile[]>()
             {
                 data = profiles

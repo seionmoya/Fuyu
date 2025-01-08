@@ -2,7 +2,7 @@
 
 namespace Fuyu.DependencyInjection.Registrations
 {
-    internal class TransientRegistration<T> : DependencyRegistration
+    internal class TransientRegistration<T> : AbstractDependencyRegistration
     {
         public Func<T> Factory { get; }
 

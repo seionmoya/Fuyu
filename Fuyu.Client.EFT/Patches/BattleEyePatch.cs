@@ -8,7 +8,7 @@ using Fuyu.Client.EFT.Reflection;
 
 namespace Fuyu.Client.EFT.Patches
 {
-    public class BattlEyePatch : APatch
+    public class BattlEyePatch : AbstractPatch
     {
         private static readonly PropertyInfo _succeed;
         private static readonly MethodInfo _mi;

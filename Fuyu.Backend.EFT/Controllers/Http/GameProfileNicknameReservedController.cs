@@ -5,16 +5,19 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameProfileNicknameReservedController : EftHttpController
+    public class GameProfileNicknameReservedController : AbstractEftHttpController
     {
+        private readonly EftOrm _eftOrm;
+
         public GameProfileNicknameReservedController() : base("/client/game/profile/nickname/reserved")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
             var sessionId = context.GetSessionId();
-            var account = EftOrm.Instance.GetAccount(sessionId);
+            var account = _eftOrm.GetAccount(sessionId);
 
             var response = new ResponseBody<string>()
             {

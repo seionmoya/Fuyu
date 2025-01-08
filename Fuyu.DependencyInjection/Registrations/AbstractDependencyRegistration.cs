@@ -1,6 +1,6 @@
 ﻿namespace Fuyu.DependencyInjection.Registrations
 {
-    internal abstract class DependencyRegistration
+    internal abstract class AbstractDependencyRegistration
     {
         public string Id { get; set; }
 

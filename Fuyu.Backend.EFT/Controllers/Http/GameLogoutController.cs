@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameLogoutController : EftHttpController
+    public class GameLogoutController : AbstractEftHttpController
     {
         public GameLogoutController() : base("/client/game/logout")
         {

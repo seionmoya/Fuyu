@@ -5,15 +5,18 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class TagItemEventController : ItemEventController<TagItemEvent>
+    public class TagItemEventController : AbstractItemEventController<TagItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public TagItemEventController() : base("Tag")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, TagItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
 
             if (item != null)

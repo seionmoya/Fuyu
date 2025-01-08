@@ -7,7 +7,7 @@ using Fuyu.Common.IO;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class FilesController : EftHttpController
+    public partial class FilesController : AbstractEftHttpController
     {
         [GeneratedRegex(@"^/files/(?<path>.+)$")]
         private static partial Regex PathExpression();

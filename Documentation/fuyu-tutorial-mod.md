@@ -46,7 +46,7 @@ However, it is a **MUST** that you use either `Visual Studio Code` or
 `Visual Studio 2022` (or newer). For writing script mods, I recommend using
 `Visual Studio Code`. For advanced mods, use `Visual Studio 2022` (or newer).
 
-Having prior experience with C# will definetly help, but is not required.
+Having prior experience with C# will definitely help, but is not required.
 
 ### Setting up folder structure
 
@@ -113,7 +113,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
 {
-    public class HelloWorldMod : Mod
+    public class HelloWorldMod : AbstractMod
     {
         public override string Id { get; } = "Senko.HelloWorld";
         public override string Name { get; } = "Senko - HelloWorld";
@@ -146,11 +146,11 @@ using Fuyu.Modding;
 using Fuyu.Common.IO;
 ```
 
-This imports things we can use in our mod. Some of them are required by `Mod`
+This imports things we can use in our mod. Some of them are required by `AbstractMod`
 to function.
 
 ```cs
-public class HelloWorldMod : Mod
+public class HelloWorldMod : AbstractMod
 ```
 
 This is a `class` and also the heart of our mod. Here we can include
@@ -158,10 +158,10 @@ functionality to the mod. Think of `class` as a tiny program. It can depend on
 other programs (inheritance).
 
 ```cs
-: Mod
+: AbstractMod
 ```
 
-This means we inherit from `Mod`, telling the mod loader that this is the place
+This means we inherit from `AbstractMod`, telling the mod loader that this is the place
 to start looking for information of our mod.
 
 ```cs
@@ -216,7 +216,7 @@ tools and helpers from `Fuyu` and other mods when we need to.
 
 ```cs
 {
-    // done loading the mod!
+    // done loading the !
     return Task.CompletedTask;
 }
 ```
@@ -244,7 +244,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
 {
-    public class HelloWorldMod : Mod
+    public class HelloWorldMod : AbstractMod
     {
         public override string Id { get; } = "Senko.HelloWorld";
         public override string Name { get; } = "Senko - HelloWorld";
@@ -338,7 +338,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
 {
-    public class HelloWorldMod : Mod
+    public class HelloWorldMod : AbstractMod
     {
         public override string Id { get; } = "Senko.HelloWorld";
         public override string Name { get; } = "Senko - HelloWorld";
@@ -373,7 +373,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
 {
-    public class HelloWorldMod : Mod
+    public class HelloWorldMod : AbstractMod
     {
         public override string Id { get; } = "Senko.HelloWorld";
         public override string Name { get; } = "Senko - HelloWorld";
@@ -432,7 +432,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
 {
-    public class HelloWorldMod : Mod
+    public class HelloWorldMod : AbstractMod
     {
         public override string Id { get; } = "Senko.HelloWorld";
         public override string Name { get; } = "Senko - HelloWorld";

@@ -6,15 +6,18 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class InsureEventController : ItemEventController<InsureItemEvent>
+    public class InsureEventController : AbstractItemEventController<InsureItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public InsureEventController() : base("Insure")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, InsureItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var pmc = profile.Pmc;
             var inventoryItems = pmc.Inventory.Items;
             var insuredItems = new List<InsuredItem>(request.Items.Length);

@@ -1,30 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Fuyu.Backend.BSG.Models.Responses;
+﻿using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class ClientItemsPriceController : EftHttpController
+    public partial class ClientItemsPriceController : AbstractEftHttpController
     {
         [GeneratedRegex(@"^/client/items/prices(/(?<traderId>[A-Za-z0-9]+))?$")]
         private static partial Regex PathExpression();
 
+        private readonly EftOrm _eftOrm;
+
         public ClientItemsPriceController() : base(PathExpression())
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
             var parameters = context.GetPathParameters(this);
-            var profile = EftOrm.Instance.GetActiveProfile(context.GetSessionId());
+            var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
             var response = new ResponseBody<Union<SupplyData, Dictionary<MongoId, float>>>();
 
             if (parameters.TryGetValue("traderId", out var traderId))

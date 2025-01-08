@@ -5,15 +5,18 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class RecodeItemEventController : ItemEventController<RecodeItemEvent>
+    public class RecodeItemEventController : AbstractItemEventController<RecodeItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public RecodeItemEventController() : base("Recode")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, RecodeItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
 
             if (item == null)

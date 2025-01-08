@@ -3,7 +3,7 @@ using Fuyu.Backend.Core.Networking;
 
 namespace Fuyu.Backend.Core.Controllers
 {
-    public class AccountLogoutController : CoreHttpController
+    public class AccountLogoutController : AbstractCoreHttpController
     {
         public AccountLogoutController() : base("/account/logout")
         {

@@ -8,13 +8,15 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class LocaleController : EftHttpController
+    public partial class LocaleController : AbstractEftHttpController
     {
         [GeneratedRegex("^/client/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
         private static partial Regex PathExpression();
+        private readonly EftOrm _eftOrm;
 
         public LocaleController() : base(PathExpression())
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
@@ -22,7 +24,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             var parameters = context.GetPathParameters(this);
 
             var languageId = parameters["languageId"];
-            var locale = EftOrm.Instance.GetGlobalLocale(languageId);
+            var locale = _eftOrm.GetGlobalLocale(languageId);
             var response = new ResponseBody<Dictionary<string, string>>
             {
                 data = locale

@@ -6,15 +6,18 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class LanguagesController : EftHttpController
+    public class LanguagesController : AbstractEftHttpController
     {
+        private readonly EftOrm _eftOrm;
+
         public LanguagesController() : base("/client/languages")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
-            var languages = EftOrm.Instance.GetLanguages();
+            var languages = _eftOrm.GetLanguages();
             var response = new ResponseBody<Dictionary<string, string>>
             {
                 data = languages

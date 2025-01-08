@@ -17,12 +17,16 @@ namespace Fuyu.Backend.EFT.Services
         public static AccountService Instance => instance.Value;
         private static readonly Lazy<AccountService> instance = new(() => new AccountService());
 
+        private readonly EftOrm _eftOrm;
+        private readonly ProfileService _profileService;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private AccountService()
         {
-
+            _eftOrm = EftOrm.Instance;
+            _profileService = ProfileService.Instance;
         }
 
         public string LoginAccount(int accountId)
@@ -34,7 +38,7 @@ namespace Fuyu.Backend.EFT.Services
             }
 
             // find active account session
-            var sessions = EftOrm.Instance.GetSessions();
+            var sessions = _eftOrm.GetSessions();
 
             foreach (var kvp in sessions)
             {
@@ -52,13 +56,13 @@ namespace Fuyu.Backend.EFT.Services
             //       for each login.
             // -- seionmoya, 2024/09/02
             var sessionId = new MongoId(accountId).ToString();
-            EftOrm.Instance.SetOrAddSession(sessionId, accountId);
+            _eftOrm.SetOrAddSession(sessionId, accountId);
             return sessionId.ToString();
         }
 
         private int GetNewAccountId()
         {
-            var accounts = EftOrm.Instance.GetAccounts();
+            var accounts = _eftOrm.GetAccounts();
 
             // using linq because sorting otherwise takes up too much code
             var sorted = accounts.OrderBy(account => account.Id).ToArray();
@@ -91,8 +95,8 @@ namespace Fuyu.Backend.EFT.Services
             var accountId = GetNewAccountId();
 
             // create profiles
-            var pvpId = ProfileService.Instance.CreateProfile(accountId);
-            var pveId = ProfileService.Instance.CreateProfile(accountId);
+            var pvpId = _profileService.CreateProfile(accountId);
+            var pveId = _profileService.CreateProfile(accountId);
 
             // create account   
             var account = new EftAccount()
@@ -105,7 +109,7 @@ namespace Fuyu.Backend.EFT.Services
                 CurrentSession = ESessionMode.Pve
             };
 
-            EftOrm.Instance.SetOrAddAccount(account);
+            _eftOrm.SetOrAddAccount(account);
             WriteToDisk(account);
 
             return accountId;

@@ -11,17 +11,19 @@ namespace Fuyu.Backend.BSG.Services
         public static InventoryService Instance => instance.Value;
         private static readonly Lazy<InventoryService> instance = new(() => new InventoryService());
 
+        private readonly ItemService _itemService;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private InventoryService()
         {
-
+            _itemService = ItemService.Instance;
         }
 
         public List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
         {
-            var itemsToRemove = ItemService.GetItemAndChildren(inventory.Items, item);
+            var itemsToRemove = _itemService.GetItemAndChildren(inventory.Items, item);
 
             inventory.Items.RemoveAll(i => itemsToRemove.Contains(i));
 
@@ -78,7 +80,7 @@ namespace Fuyu.Backend.BSG.Services
                     }
                 }
 
-                ItemService.RegenerateItemIds(inventory.Items, mapping);
+                _itemService.RegenerateItemIds(inventory.Items, mapping);
             }
 
             // regenerate inventory fastpanel

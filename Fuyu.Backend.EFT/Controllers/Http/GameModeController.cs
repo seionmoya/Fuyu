@@ -9,13 +9,16 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameModeController : EftHttpController<ClientGameModeRequest>
     {
+        private readonly EftOrm _eftOrm;
+
         public GameModeController() : base("/client/game/mode")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, ClientGameModeRequest body)
         {
-            var account = EftOrm.Instance.GetAccount(context.GetSessionId());
+            var account = _eftOrm.GetAccount(context.GetSessionId());
 
             if (body.SessionMode == null)
             {

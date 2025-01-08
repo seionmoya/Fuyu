@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class RepeatableQuestActivityPeriodsController : EftHttpController
+    public class RepeatableQuestActivityPeriodsController : AbstractEftHttpController
     {
         public RepeatableQuestActivityPeriodsController() : base("/client/repeatalbeQuests/activityPeriods")
         {

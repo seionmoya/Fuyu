@@ -8,7 +8,7 @@ using Fuyu.Client.Common.Reflection;
 
 namespace Fuyu.Client.Arena.Patches
 {
-    public class ConsistencyGeneralPatch : APatch
+    public class ConsistencyGeneralPatch : AbstractPatch
     {
         private static readonly MethodInfo _mi;
 

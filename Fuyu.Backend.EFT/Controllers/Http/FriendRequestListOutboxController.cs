@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class FriendRequestListOutboxController : EftHttpController
+    public class FriendRequestListOutboxController : AbstractEftHttpController
     {
         public FriendRequestListOutboxController() : base("/client/friend/request/list/outbox")
         {

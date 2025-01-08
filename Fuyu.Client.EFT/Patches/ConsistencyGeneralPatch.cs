@@ -7,7 +7,7 @@ using Fuyu.Client.Common.Reflection;
 
 namespace Fuyu.Client.EFT.Patches
 {
-    public class ConsistencyGeneralPatch : APatch
+    public class ConsistencyGeneralPatch : AbstractPatch
     {
         public ConsistencyGeneralPatch() : base("com.Fuyu.Client.eft.consistencygeneral", EPatchType.Prefix)
         {

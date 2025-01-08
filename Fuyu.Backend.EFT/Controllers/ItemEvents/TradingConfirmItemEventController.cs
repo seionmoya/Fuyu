@@ -5,10 +5,13 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class TradingConfirmEventController : ItemEventController<TradingConfirmItemEvent>
+    public class TradingConfirmEventController : AbstractItemEventController<TradingConfirmItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public TradingConfirmEventController() : base("TradingConfirm")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, TradingConfirmItemEvent request)
@@ -26,7 +29,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
         public Task SellToTrader(ItemEventContext context, TradingConfirmItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var inventory = profile.Pmc.Inventory;
             var roubles = inventory.GetItemsByTemplate("5449016a4bdc2d6f028b456f");
 
