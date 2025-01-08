@@ -58,6 +58,18 @@
 
 - [ ] ETag support (TODO: broke in 0.16.0!)
 
+### Assembly tooling
+
+- [x] DLL hollower
+- [ ] Deobfuscate DLL (needed for FIKA support)
+- [ ] Assembly remapping (needed for FIKA support)
+
+### Client
+
+- [X] Disable BattlEye patch
+- [x] Disable Consistency on Assembly-CSharp.dll patch
+- [x] Comminucate over http patch
+
 ### Item Events
 
 - [x] Add note
