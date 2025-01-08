@@ -195,7 +195,7 @@ namespace Fuyu.Modding
 
             _mods.Remove(mod);
         }
-        
+
 #if NET
         private CSharpCompilation CreateCompilation(
             string assemblyName,
