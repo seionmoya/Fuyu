@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Profiles;
@@ -45,6 +44,8 @@ namespace Fuyu.Backend.EFT
         //                                        edition            side         profile
         internal readonly ThreadDictionary<string, Dictionary<EPlayerSide, Profile>> WipeProfiles;
 
+        internal readonly ThreadObject<BuildsListResponse> DefaultBuilds;
+
         // TODO
         internal readonly ThreadObject<string> AchievementList;
         internal readonly ThreadObject<string> AchievementStatistic;
@@ -79,6 +80,7 @@ namespace Fuyu.Backend.EFT
             Languages = new ThreadDictionary<string, string>();
             MenuLocales = new ThreadDictionary<string, MenuLocaleResponse>();
             WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, Profile>>();
+            DefaultBuilds = new ThreadObject<BuildsListResponse>(null);
 
             // TODO
             AchievementList = new ThreadObject<string>(string.Empty);
@@ -120,6 +122,7 @@ namespace Fuyu.Backend.EFT
             // load templates
             LoadCustomizations();
             LoadCustomizationStorage();
+            LoadDefaultBuilds();
             LoadWipeProfiles();
 
             // TODO
@@ -232,6 +235,13 @@ namespace Fuyu.Backend.EFT
 
                 MenuLocales.Add(languageId, response.data);
             }
+        }
+
+        private void LoadDefaultBuilds()
+        {
+            var json = Resx.GetText("eft", "database.client.builds.list.json");
+            var response = Json.Parse<ResponseBody<BuildsListResponse>>(json);
+            DefaultBuilds.Set(response.data);
         }
 
         private void LoadWipeProfiles()

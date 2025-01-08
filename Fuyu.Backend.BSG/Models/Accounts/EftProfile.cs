@@ -1,6 +1,7 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Profiles;
+using Fuyu.Backend.BSG.Models.Responses;
 
 namespace Fuyu.Backend.BSG.Models.Accounts
 {
@@ -15,6 +16,9 @@ namespace Fuyu.Backend.BSG.Models.Accounts
 
         [DataMember]
         public CustomizationStorageEntry[] Customization { get; set; }
+
+        [DataMember]
+        public BuildsListResponse Builds { get; set; }
 
         [DataMember]
         public bool ShouldWipe { get; set; }
