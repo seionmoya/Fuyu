@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.Serialization;
 using System.Text;
-using Fuyu.Backend.BSG.DTO.Services;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Services;
