@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,8 +6,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
+#if NET
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+#endif
 
 namespace Fuyu.Modding
 {
@@ -38,37 +39,6 @@ namespace Fuyu.Modding
                 .Replace("/", ".");                             // unix /
         }
 
-        private CSharpCompilation CreateCompilation(
-            string assemblyName,
-            IEnumerable<SyntaxTree> syntaxTrees,
-            bool includeReferences)
-        {
-            // TODO: Simplify this later
-            IEnumerable<PortableExecutableReference> references;
-
-            if (includeReferences)
-            {
-                references =
-                    // Mods can reference everything we have loaded
-                    AppDomain.CurrentDomain.GetAssemblies()
-                    // Where it is a disk on file
-                    .Where(a => !string.IsNullOrEmpty(a.Location))
-                    // Create a MetadataReference from it
-                    .Select(a => MetadataReference.CreateFromFile(a.Location));
-            }
-            else
-            {
-                references = Array.Empty<PortableExecutableReference>();
-            }
-
-            return CSharpCompilation.Create(
-                assemblyName,
-                syntaxTrees,
-                references,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
-            );
-        }
-
         public void AddMods(string directory)
         {
             if (!VFS.DirectoryExists(directory))
@@ -79,8 +49,9 @@ namespace Fuyu.Modding
 
             var subdirectories = VFS.GetDirectories(directory);
 
-            foreach (var modDirectory in subdirectories)
+            foreach (var subdirectory in subdirectories)
             {
+                var modDirectory = Path.GetFullPath(subdirectory);
                 var modType = GetModType(modDirectory);
 
                 switch (modType)
@@ -88,10 +59,12 @@ namespace Fuyu.Modding
                     case EModType.DLL:
                         ProcessDLLMod(modDirectory);
                         break;
+#if NET
                     case EModType.Source:
                         ProcessSourceFiles(modDirectory);
                         break;
-                    case EModType.Invalid:
+#endif
+                    default:
                         throw new Exception($"{modDirectory} does not contain a valid mod setup");
                 }
             }
@@ -126,77 +99,9 @@ namespace Fuyu.Modding
             }
         }
 
-        private void ProcessSourceFiles(string directory)
-        {
-            var sourceFiles = VFS.GetFiles(Path.Combine(directory, "src"), "*.cs", SearchOption.AllDirectories);
-
-            if (sourceFiles.Length == 0)
-            {
-                throw new Exception($"{directory} was marked as a source mod yet no source files were found");
-            }
-
-            var assemblyName = Path.GetFileName(directory);
-            var syntaxTrees = new List<SyntaxTree>(sourceFiles.Length);
-
-            foreach (var file in sourceFiles)
-            {
-                var fileContents = VFS.ReadTextFile(file);
-                var syntaxTree = CSharpSyntaxTree.ParseText(
-                    fileContents,
-                    new CSharpParseOptions(
-                        LanguageVersion.Latest,
-                        DocumentationMode.None,
-                        SourceCodeKind.Regular
-                    ),
-                    file
-                );
-
-                syntaxTrees.Add(syntaxTree);
-            }
-
-            var resourceRootPath = Path.Combine(directory, "res");
-            var resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
-            var resources = resourcePaths.Select(resourcePath =>
-            {
-                var fileName = $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
-
-                return new ResourceDescription(
-                    fileName,
-                    () => VFS.OpenRead(resourcePath),
-                    isPublic: true
-                );
-            }).ToArray();
-
-            var compilation = CreateCompilation(assemblyName, syntaxTrees, true);
-
-            Assembly assembly;
-
-            // Intentionally left open so that we can use it later
-            using (var ms = new MemoryStream())
-            {
-                var emitResult = compilation.Emit(ms, manifestResources: resources);
-                if (!emitResult.Success)
-                {
-                    var errors = emitResult.Diagnostics
-                        .Where(d => !d.IsSuppressed && d.Severity == DiagnosticSeverity.Error);
-
-                    // Technically no cleanup is being done here but that's because this is considered a
-                    // failed state and the ModManager should no longer live (and therefore the program)
-                    // -- nexus4880, 2024-12-3
-
-                    throw new Exception(string.Join(Environment.NewLine, errors));
-                }
-
-                ms.Position = 0;
-                assembly = Assembly.Load(ms.ToArray());
-            }
-
-            Resx.SetSource(assemblyName, assembly);
-            ProcessAssembly(assembly, EModType.Source);
-        }
-
         private void ProcessAssembly(Assembly assembly, EModType assemblyModType)
         {
+#if NET
             if (assemblyModType == EModType.DLL)
             {
                 var resourceAssembly = GenerateResourceAssembly(assembly);
@@ -205,6 +110,7 @@ namespace Fuyu.Modding
                     Resx.SetSource(assembly.GetName().Name, resourceAssembly);
                 }
             }
+#endif
 
             // Get types where T inherits from Mod
             var modTypes = assembly.GetExportedTypes()
@@ -289,6 +195,107 @@ namespace Fuyu.Modding
 
             _mods.Remove(mod);
         }
+        
+#if NET
+        private CSharpCompilation CreateCompilation(
+            string assemblyName,
+            IEnumerable<SyntaxTree> syntaxTrees,
+            bool includeReferences)
+        {
+            // TODO: Simplify this later
+            IEnumerable<PortableExecutableReference> references;
+
+            if (includeReferences)
+            {
+                references =
+                    // Mods can reference everything we have loaded
+                    AppDomain.CurrentDomain.GetAssemblies()
+                        // Where it is a disk on file
+                        .Where(a => !string.IsNullOrEmpty(a.Location))
+                        // Create a MetadataReference from it
+                        .Select(a => MetadataReference.CreateFromFile(a.Location));
+            }
+            else
+            {
+                references = Array.Empty<PortableExecutableReference>();
+            }
+
+            return CSharpCompilation.Create(
+                assemblyName,
+                syntaxTrees,
+                references,
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+            );
+        }
+
+        private void ProcessSourceFiles(string directory)
+        {
+            var sourceFiles = VFS.GetFiles(Path.Combine(directory, "src"), "*.cs", SearchOption.AllDirectories);
+
+            if (sourceFiles.Length == 0)
+            {
+                throw new Exception($"{directory} was marked as a source mod yet no source files were found");
+            }
+
+            var assemblyName = Path.GetFileName(directory);
+            var syntaxTrees = new List<SyntaxTree>(sourceFiles.Length);
+
+            foreach (var file in sourceFiles)
+            {
+                var fileContents = VFS.ReadTextFile(file);
+                var syntaxTree = CSharpSyntaxTree.ParseText(
+                    fileContents,
+                    new CSharpParseOptions(
+                        LanguageVersion.Latest,
+                        DocumentationMode.None,
+                        SourceCodeKind.Regular
+                    ),
+                    file
+                );
+
+                syntaxTrees.Add(syntaxTree);
+            }
+
+            var resourceRootPath = Path.Combine(directory, "res");
+            var resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
+            var resources = resourcePaths.Select(resourcePath =>
+            {
+                var fileName = $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
+
+                return new ResourceDescription(
+                    fileName,
+                    () => VFS.OpenRead(resourcePath),
+                    isPublic: true
+                );
+            }).ToArray();
+
+            var compilation = CreateCompilation(assemblyName, syntaxTrees, true);
+
+            Assembly assembly;
+
+            // Intentionally left open so that we can use it later
+            using (var ms = new MemoryStream())
+            {
+                var emitResult = compilation.Emit(ms, manifestResources: resources);
+                if (!emitResult.Success)
+                {
+                    var errors = emitResult.Diagnostics
+                        .Where(d => !d.IsSuppressed && d.Severity == DiagnosticSeverity.Error);
+
+                    // Technically no cleanup is being done here but that's because this is considered a
+                    // failed state and the ModManager should no longer live (and therefore the program)
+                    // -- nexus4880, 2024-12-3
+
+                    throw new Exception(string.Join(Environment.NewLine, errors));
+                }
+
+                ms.Position = 0;
+                assembly = Assembly.Load(ms.ToArray());
+            }
+
+            Resx.SetSource(assemblyName, assembly);
+            ProcessAssembly(assembly, EModType.Source);
+        }
 
         private Assembly GenerateResourceAssembly(Assembly sourceAssembly)
         {
@@ -344,5 +351,6 @@ namespace Fuyu.Modding
                 return resourceAssembly;
             }
         }
+#endif
     }
 }
