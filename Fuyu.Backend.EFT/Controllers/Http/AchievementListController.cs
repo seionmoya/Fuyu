@@ -3,7 +3,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class AchievementListController : EftHttpController
+    public class AchievementListController : AbstractEftHttpController
     {
         public AchievementListController() : base("/client/achievement/list")
         {

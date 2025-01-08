@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class InterGameTransferEventController : ItemEventController<InterGameTransferItemEvent>
+    public class InterGameTransferEventController : AbstractItemEventController<InterGameTransferItemEvent>
     {
         public InterGameTransferEventController() : base("InterGameTransfer")
         {

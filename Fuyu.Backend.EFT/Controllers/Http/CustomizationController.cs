@@ -7,7 +7,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class CustomizationController : EftHttpController
+    public class CustomizationController : AbstractEftHttpController
     {
         public CustomizationController() : base("/client/customization")
         {

@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class MailDialogListController : EftHttpController
+    public class MailDialogListController : AbstractEftHttpController
     {
         public MailDialogListController() : base("/client/mail/dialog/list")
         {

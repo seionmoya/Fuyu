@@ -8,9 +8,9 @@ using Fuyu.Plugin.EFT.Utils;
 
 namespace Fuyu.Plugin.EFT
 {
-    public class EFTMod : Mod
+    public class EFTMod : AbstractMod
     {
-        private readonly APatch[] _patches;
+        private readonly AbstractPatch[] _patches;
 
         public override string Id { get; } = "com.fuyu.plugin.eft";
 
@@ -18,7 +18,7 @@ namespace Fuyu.Plugin.EFT
 
         public EFTMod()
         {
-            _patches = new APatch[]
+            _patches = new AbstractPatch[]
             {
                 new BattlEyePatch(),
                 new ConsistencyGeneralPatch()

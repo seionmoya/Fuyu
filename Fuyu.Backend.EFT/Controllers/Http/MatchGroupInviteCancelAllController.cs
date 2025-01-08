@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class MatchGroupInviteCancelAllController : EftHttpController
+    public class MatchGroupInviteCancelAllController : AbstractEftHttpController
     {
         public MatchGroupInviteCancelAllController() : base("/client/match/group/invite/cancel-all")
         {

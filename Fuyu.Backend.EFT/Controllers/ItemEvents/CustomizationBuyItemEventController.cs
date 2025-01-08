@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class CustomizationBuyEventController : ItemEventController<CustomizationBuyItemEvent>
+    public class CustomizationBuyEventController : AbstractItemEventController<CustomizationBuyItemEvent>
     {
         public CustomizationBuyEventController() : base("CustomizationBuy")
         {

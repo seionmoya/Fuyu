@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class LocationsController : EftHttpController
+    public class LocationsController : AbstractEftHttpController
     {
         public LocationsController() : base("/client/locations")
         {

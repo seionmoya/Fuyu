@@ -1,6 +1,6 @@
 namespace Fuyu.Common.Networking
 {
-    public class HttpRouter : Router<HttpController, HttpContext>
+    public class HttpRouter : Router<AbstractHttpController, HttpContext>
     {
         public HttpRouter() : base()
         {

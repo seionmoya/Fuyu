@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class UnbindItemEventController : ItemEventController<UnbindItemEvent>
+    public class UnbindItemEventController : AbstractItemEventController<UnbindItemEvent>
     {
         public UnbindItemEventController() : base("Unbind")
         {

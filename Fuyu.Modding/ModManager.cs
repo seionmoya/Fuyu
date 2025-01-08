@@ -27,7 +27,7 @@ namespace Fuyu.Modding
 
         }
 
-        private readonly List<Mod> _mods = new List<Mod>();
+        private readonly List<AbstractMod> _mods = new List<AbstractMod>();
 
         private string GetResourcePath(string resourceRootPath, string resourcePath)
         {
@@ -114,12 +114,12 @@ namespace Fuyu.Modding
 
             // Get types where T inherits from Mod
             var modTypes = assembly.GetExportedTypes()
-                .Where(t => typeof(Mod).IsAssignableFrom(t));
+                .Where(t => typeof(AbstractMod).IsAssignableFrom(t));
 
             // Technically you could export multiple mods per assembly
             foreach (var modType in modTypes)
             {
-                var mod = (Mod)Activator.CreateInstance(modType);
+                var mod = (AbstractMod)Activator.CreateInstance(modType);
 
                 if (_mods.FindIndex(m => m.Id == mod.Id) != -1)
                 {
@@ -184,7 +184,7 @@ namespace Fuyu.Modding
             }
         }
 
-        private async Task UnloadMod(Mod mod)
+        private async Task UnloadMod(AbstractMod mod)
         {
             if (mod.IsLoaded)
             {

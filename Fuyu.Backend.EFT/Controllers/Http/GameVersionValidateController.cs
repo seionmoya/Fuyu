@@ -18,7 +18,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameVersionValidateController : EftHttpController
+    public class GameVersionValidateController : AbstractEftHttpController
     {
         public GameVersionValidateController() : base("/client/game/version/validate")
         {

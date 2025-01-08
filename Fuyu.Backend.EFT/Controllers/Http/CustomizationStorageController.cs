@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class CustomizationStorageController : EftHttpController
+    public class CustomizationStorageController : AbstractEftHttpController
     {
         public CustomizationStorageController() : base("/client/customization/storage")
         {

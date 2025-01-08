@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class NotifierChannelCreateController : EftHttpController
+    public class NotifierChannelCreateController : AbstractEftHttpController
     {
         public NotifierChannelCreateController() : base("/client/notifier/channel/create")
         {

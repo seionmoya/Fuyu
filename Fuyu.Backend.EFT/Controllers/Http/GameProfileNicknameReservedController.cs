@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameProfileNicknameReservedController : EftHttpController
+    public class GameProfileNicknameReservedController : AbstractEftHttpController
     {
         public GameProfileNicknameReservedController() : base("/client/game/profile/nickname/reserved")
         {

@@ -5,7 +5,7 @@ using Fuyu.Common.IO;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class MoveItemEventController : ItemEventController<MoveItemEvent>
+    public class MoveItemEventController : AbstractItemEventController<MoveItemEvent>
     {
         public MoveItemEventController() : base("Move")
         {

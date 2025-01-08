@@ -4,7 +4,7 @@ using Fuyu.Backend.Core.Networking;
 
 namespace Fuyu.Backend.Core.Controllers
 {
-    public class PingController : CoreHttpController
+    public class PingController : AbstractCoreHttpController
     {
         public PingController() : base("/ping")
         {

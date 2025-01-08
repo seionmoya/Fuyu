@@ -3,7 +3,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class HideoutQteListController : EftHttpController
+    public class HideoutQteListController : AbstractEftHttpController
     {
         public HideoutQteListController() : base("/client/hideout/qte/list")
         {

@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class RecodeItemEventController : ItemEventController<RecodeItemEvent>
+    public class RecodeItemEventController : AbstractItemEventController<RecodeItemEvent>
     {
         public RecodeItemEventController() : base("Recode")
         {

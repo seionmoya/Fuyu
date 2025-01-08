@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class LanguagesController : EftHttpController
+    public class LanguagesController : AbstractEftHttpController
     {
         public LanguagesController() : base("/client/languages")
         {

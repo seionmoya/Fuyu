@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GetMetricsConfigController : EftHttpController
+    public class GetMetricsConfigController : AbstractEftHttpController
     {
         public GetMetricsConfigController() : base("/client/getMetricsConfig")
         {

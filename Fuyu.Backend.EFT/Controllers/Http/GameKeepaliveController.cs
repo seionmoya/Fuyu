@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameKeepaliveController : EftHttpController
+    public class GameKeepaliveController : AbstractEftHttpController
     {
         public GameKeepaliveController() : base("/client/game/keepalive")
         {

@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class EditNoteItemEventController : ItemEventController<EditNoteItemEvent>
+    public class EditNoteItemEventController : AbstractItemEventController<EditNoteItemEvent>
     {
         public EditNoteItemEventController() : base("EditNote")
         {

@@ -1,6 +1,6 @@
 ﻿namespace Fuyu.DependencyInjection.Registrations
 {
-    internal class SingletonRegistration<T> : DependencyRegistration
+    internal class SingletonRegistration<T> : AbstractDependencyRegistration
     {
         public T Instance { get; }
 

@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class CheckVersionController : EftHttpController
+    public class CheckVersionController : AbstractEftHttpController
     {
         public CheckVersionController() : base("/client/checkVersion")
         {
