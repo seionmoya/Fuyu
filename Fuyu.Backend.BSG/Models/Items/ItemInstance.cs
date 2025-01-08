@@ -1,5 +1,7 @@
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.DTO.Services;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 
@@ -30,15 +32,15 @@ namespace Fuyu.Backend.BSG.Models.Items
         [DataMember(Name = "upd", EmitDefaultValue = false)]
         public ItemUpdatable Updatable { get; set; }
 
-        public T GetUpdatable<T>() where T : class, new()
+        public T GetOrCreateUpdatable<T>() where T : class
         {
             if (Updatable == null)
             {
-                Updatable = new ItemUpdatable();
+                Updatable = ItemFactoryService.Instance.CreateItemUpdatable(TemplateId);
             }
 
-            // NOTE: Intentionally letting this throw here. The idea is that GetUpdatable should
-            // create T if it doesn't exist meaning most usage would be GetUpdatable<Upd>().Value
+            // NOTE: Intentionally letting this throw here. The idea is that GetOrCreateUpdatable should
+            // create T if it doesn't exist meaning most usage would be GetOrCreateUpdatable<Upd>().Value
             // which means a null check after calling this would be undesirable
             // -- nexus4880, 2024-10-27
             var field = Updatable.GetType()
@@ -46,12 +48,6 @@ namespace Fuyu.Backend.BSG.Models.Items
                 .First(f => f.PropertyType == typeof(T));
 
             var value = field.GetValue(Updatable) as T;
-
-            if (value == null)
-            {
-                value = new T();
-                field.SetValue(Updatable, value);
-            }
 
             return value;
         }
