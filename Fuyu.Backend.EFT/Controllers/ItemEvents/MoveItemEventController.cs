@@ -14,8 +14,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
         public override Task RunAsync(ItemEventContext context, MoveItemEvent request)
         {
             var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
-            var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
-
+            var item = profile.Pmc.Inventory.FindItem(request.Item);
             if (item != null)
             {
                 item.Location = request.To.Location;
