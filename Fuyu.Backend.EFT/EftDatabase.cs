@@ -21,8 +21,6 @@ namespace Fuyu.Backend.EFT
         public static EftDatabase Instance => instance.Value;
         private static readonly Lazy<EftDatabase> instance = new(() => new EftDatabase());
 
-        private readonly EftOrm _eftOrm;
-
         internal readonly ThreadList<EftAccount> Accounts;
 
         internal readonly ThreadList<EftProfile> Profiles;
@@ -100,8 +98,6 @@ namespace Fuyu.Backend.EFT
             Settings = new ThreadObject<string>(string.Empty);
             Traders = new ThreadObject<string>(string.Empty);
             Weather = new ThreadObject<string>(string.Empty);
-
-            _eftOrm = EftOrm.Instance;
         }
 
         // NOTE: load order is VERY important!
@@ -145,7 +141,7 @@ namespace Fuyu.Backend.EFT
             {
                 var json = VFS.ReadTextFile(filepath);
                 var account = Json.Parse<EftAccount>(json);
-                _eftOrm.SetOrAddAccount(account);
+                Accounts.Add(account);
 
                 Terminal.WriteLine($"Loaded EFT account {account.Id}");
             }
@@ -166,7 +162,7 @@ namespace Fuyu.Backend.EFT
             {
                 var json = VFS.ReadTextFile(filepath);
                 var profile = Json.Parse<EftProfile>(json);
-                _eftOrm.SetOrAddProfile(profile);
+                Profiles.Add(profile);
 
                 Terminal.WriteLine($"Loaded EFT profile {profile.Pmc._id}");
             }
@@ -186,7 +182,7 @@ namespace Fuyu.Backend.EFT
 
             foreach (var kvp in response.data)
             {
-                _eftOrm.SetOrAddCustomization(kvp.Key, kvp.Value);
+                Customizations.Add(kvp.Key, kvp.Value);
             }
         }
 
@@ -197,7 +193,7 @@ namespace Fuyu.Backend.EFT
 
             foreach (var entry in response.data)
             {
-                _eftOrm.SetOrAddCustomizationStorage(entry);
+                CustomizationStorage.Add(entry);
             }
         }
 
@@ -208,33 +204,33 @@ namespace Fuyu.Backend.EFT
 
             foreach (var kvp in response.data)
             {
-                _eftOrm.SetOrAddLanguage(kvp.Key, kvp.Value);
+                Languages.Add(kvp.Key, kvp.Value);
             }
         }
 
         private void LoadGlobalLocales()
         {
-            var languages = _eftOrm.GetLanguages();
+            var languages = Languages.ToDictionary();
 
             foreach (var languageId in languages.Keys)
             {
                 var json = Resx.GetText("eft", $"database.locales.client.locale-{languageId}.json");
                 var response = Json.Parse<ResponseBody<Dictionary<string, string>>>(json);
 
-                _eftOrm.SetOrAddGlobalLocale(languageId, response.data);
+                GlobalLocales.Add(languageId, response.data);
             }
         }
 
         private void LoadMenuLocales()
         {
-            var languages = _eftOrm.GetLanguages();
+            var languages = Languages.ToDictionary();
 
             foreach (var languageId in languages.Keys)
             {
                 var json = Resx.GetText("eft", $"database.locales.client.menu.locale-{languageId}.json");
                 var response = Json.Parse<ResponseBody<MenuLocaleResponse>>(json);
 
-                _eftOrm.SetOrAddMenuLocale(languageId, response.data);
+                MenuLocales.Add(languageId, response.data);
             }
         }
 
@@ -245,7 +241,7 @@ namespace Fuyu.Backend.EFT
             var usecJson = Resx.GetText("eft", "database.profiles.player.unheard-usec.json");
             var savageJson = Resx.GetText("eft", "database.profiles.player.savage.json");
 
-            _eftOrm.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, Profile>()
+            WipeProfiles.Add("unheard", new Dictionary<EPlayerSide, Profile>()
             {
                 { EPlayerSide.Bear, Json.Parse<Profile>(bearJson) },
                 { EPlayerSide.Usec, Json.Parse<Profile>(usecJson) },
