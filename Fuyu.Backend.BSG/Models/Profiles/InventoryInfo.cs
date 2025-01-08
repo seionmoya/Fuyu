@@ -58,7 +58,6 @@ namespace Fuyu.Backend.BSG.Models.Profiles
 
         public IEnumerable<ItemInstance> FindItems(List<MongoId> id)
         {
-            //return Items.Where(item => id.Contains(item.Id)).ToList();
             int amount = id.Count;
             for (int i = 0; i < amount; i++)
             {
