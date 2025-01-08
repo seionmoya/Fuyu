@@ -1,4 +1,6 @@
-using BepInEx;
+using System.Threading.Tasks;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
 using Fuyu.Plugin.Common.Utils;
 using Fuyu.Plugin.Common.Reflection;
 using Fuyu.Plugin.EFT.Patches;
@@ -6,12 +8,15 @@ using Fuyu.Plugin.EFT.Utils;
 
 namespace Fuyu.Plugin.EFT
 {
-    [BepInPlugin("com.fuyu.plugin.eft", "Fuyu.Plugin.EFT", "1.0.0")]
-    public class Plugin : BaseUnityPlugin
+    public class EFTMod : Mod
     {
         private readonly APatch[] _patches;
 
-        public Plugin()
+        public override string Id { get; } = "com.fuyu.plugin.eft";
+
+        public override string Name { get; } = "Fuyu.Plugin.EFT";
+
+        public EFTMod()
         {
             _patches = new APatch[]
             {
@@ -20,7 +25,7 @@ namespace Fuyu.Plugin.EFT
             };
         }
 
-        protected void Awake()
+        public override Task OnLoad(DependencyContainer container)
         {
             LogWriter.Initialize(Logger, GetType().Assembly);
 
@@ -34,9 +39,11 @@ namespace Fuyu.Plugin.EFT
             {
                 patch.Enable();
             }
+
+            return Task.CompletedTask;
         }
 
-        protected void OnApplicationQuit()
+        public override Task OnShutdown()
         {
             LogWriter.WriteLine("Unpatching...");
 
@@ -44,6 +51,8 @@ namespace Fuyu.Plugin.EFT
             {
                 patch.Disable();
             }
+
+            return Task.CompletedTask;
         }
     }
 }

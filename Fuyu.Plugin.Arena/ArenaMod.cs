@@ -1,4 +1,6 @@
-using BepInEx;
+using System.Threading.Tasks;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
 using Fuyu.Plugin.Arena.Patches;
 using Fuyu.Plugin.Arena.Utils;
 using Fuyu.Plugin.Common.Reflection;
@@ -6,12 +8,15 @@ using Fuyu.Plugin.Common.Utils;
 
 namespace Fuyu.Plugin.Arena
 {
-    [BepInPlugin("com.fuyu.plugin.arena", "Fuyu.Plugin.Arena", "1.0.0")]
-    public class Plugin : BaseUnityPlugin
+    public class ArenaMod : Mod
     {
         private readonly APatch[] _patches;
 
-        public Plugin()
+        public override string Id { get; } = "com.fuyu.plugin.arena";
+
+        public override string Name { get; } = "Fuyu.Plugin.Arena";
+
+        public ArenaMod()
         {
             _patches = new APatch[]
             {
@@ -20,7 +25,7 @@ namespace Fuyu.Plugin.Arena
             };
         }
 
-        protected void Awake()
+        public override Task OnLoad(DependencyContainer container)
         {
             LogWriter.Initialize(Logger, GetType().Assembly);
 
@@ -34,9 +39,11 @@ namespace Fuyu.Plugin.Arena
             {
                 patch.Enable();
             }
+
+            return Task.CompletedTask;
         }
 
-        protected void OnApplicationQuit()
+        public override Task OnShutdown()
         {
             LogWriter.WriteLine("Unpatching...");
 
@@ -44,6 +51,8 @@ namespace Fuyu.Plugin.Arena
             {
                 patch.Disable();
             }
+
+            return Task.CompletedTask;
         }
     }
 }
