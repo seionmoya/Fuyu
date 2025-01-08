@@ -9,13 +9,16 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class FuyuGameRegisterController : EftHttpController<FuyuGameRegisterRequest>
     {
+        private readonly AccountService _accountService;
+
         public FuyuGameRegisterController() : base("/fuyu/game/register")
         {
+            _accountService = AccountService.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, FuyuGameRegisterRequest request)
         {
-            var accountId = AccountService.Instance.RegisterAccount(request.Username, request.Edition);
+            var accountId = _accountService.RegisterAccount(request.Username, request.Edition);
             var response = new FuyuGameRegisterResponse()
             {
                 AccountId = accountId

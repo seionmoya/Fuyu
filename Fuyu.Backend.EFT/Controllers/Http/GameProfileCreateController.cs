@@ -12,15 +12,20 @@ namespace Fuyu.Backend.EFT.Controllers.Http
     // -- seionmoya, 2024/09/02
     public class GameProfileCreateController : EftHttpController<GameProfileCreateRequest>
     {
+        private readonly EftOrm _eftOrm;
+        private readonly ProfileService _profileService;
+
         public GameProfileCreateController() : base("/client/game/profile/create")
         {
+            _eftOrm = EftOrm.Instance;
+            _profileService = ProfileService.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, GameProfileCreateRequest request)
         {
             var sessionId = context.GetSessionId();
-            var account = EftOrm.Instance.GetAccount(sessionId);
-            var pmcId = ProfileService.Instance.WipeProfile(account, request.side, request.headId, request.voiceId);
+            var account = _eftOrm.GetAccount(sessionId);
+            var pmcId = _profileService.WipeProfile(account, request.side, request.headId, request.voiceId);
 
             var response = new ResponseBody<GameProfileCreateResponse>()
             {

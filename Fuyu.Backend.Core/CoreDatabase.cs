@@ -20,6 +20,8 @@ namespace Fuyu.Backend.Core
         //                                sessid  aid
         internal readonly ThreadDictionary<string, int> Sessions;
 
+        private readonly CoreOrm _coreOrm;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
@@ -27,6 +29,8 @@ namespace Fuyu.Backend.Core
         {
             Accounts = new ThreadList<Account>();
             Sessions = new ThreadDictionary<string, int>();
+
+            _coreOrm = CoreOrm.Instance;
         }
 
         public void Load()
@@ -50,7 +54,7 @@ namespace Fuyu.Backend.Core
             {
                 var json = VFS.ReadTextFile(filepath);
                 var account = Json.Parse<Account>(json);
-                CoreOrm.Instance.SetOrAddAccount(account);
+                _coreOrm.SetOrAddAccount(account);
 
                 Terminal.WriteLine($"Loaded fuyu account {account.Id}");
             }

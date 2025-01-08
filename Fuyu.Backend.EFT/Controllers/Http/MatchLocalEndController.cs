@@ -9,15 +9,18 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class MatchLocalEndController : EftHttpController<MatchLocalEndRequest>
     {
+        private readonly EftOrm _eftOrm;
+
         public MatchLocalEndController() : base("/client/match/local/end")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, MatchLocalEndRequest body)
         {
             var sessionId = context.GetSessionId();
 
-            var profile = EftOrm.Instance.GetActiveProfile(sessionId);
+            var profile = _eftOrm.GetActiveProfile(sessionId);
 
             // TODO: move this to a service
             // --seionmoya, 2024-11-18

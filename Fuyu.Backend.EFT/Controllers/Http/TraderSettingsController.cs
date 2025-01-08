@@ -9,15 +9,18 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class TraderSettingsController : AbstractEftHttpController
     {
+        private readonly TraderDatabase _traderDatabase;
+
         public TraderSettingsController() : base("/client/trading/api/traderSettings")
         {
+            _traderDatabase = TraderDatabase.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
             var response = new ResponseBody<IEnumerable<TraderTemplate>>
             {
-                data = TraderDatabase.Instance.GetTraderTemplates().Values
+                data = _traderDatabase.GetTraderTemplates().Values
             };
 
             var text = Json.Stringify(response);

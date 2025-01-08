@@ -5,15 +5,18 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class HandbookTemplatesController : AbstractEftHttpController
     {
+        private readonly EftOrm _eftOrm;
+
         public HandbookTemplatesController() : base("/client/handbook/templates")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
             // TODO: generate this
             // --seionmoya, 2024-11-18
-            var text = EftOrm.Instance.GetHandbook();
+            var text = _eftOrm.GetHandbook();
             return context.SendJsonAsync(text, true, true);
         }
     }

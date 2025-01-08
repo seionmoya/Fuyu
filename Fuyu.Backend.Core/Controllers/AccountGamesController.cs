@@ -8,14 +8,17 @@ namespace Fuyu.Backend.Core.Controllers
 {
     public class AccountGamesController : AbstractCoreHttpController
     {
+        private readonly AccountService _accountService;
+
         public AccountGamesController() : base("/account/games")
         {
+            _accountService = AccountService.Instance;
         }
 
         public override Task RunAsync(CoreHttpContext context)
         {
             var sessionId = context.GetSessionId();
-            var result = AccountService.Instance.GetGames(sessionId);
+            var result = _accountService.GetGames(sessionId);
             var response = new AccountGamesResponse()
             {
                 Games = result

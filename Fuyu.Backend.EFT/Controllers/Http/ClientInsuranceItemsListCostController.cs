@@ -7,18 +7,22 @@ using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
+using Fuyu.Backend.BSG.ItemTemplates;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class ClientInsuranceItemsListCostController : EftHttpController<InsuranceCostRequest>
     {
+        private readonly EftOrm _eftOrm;
+
         public ClientInsuranceItemsListCostController() : base("/client/insurance/items/list/cost")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, InsuranceCostRequest body)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.GetSessionId());
+            var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
             var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
             var response = new ResponseBody<InsuranceCostResponse>();
 

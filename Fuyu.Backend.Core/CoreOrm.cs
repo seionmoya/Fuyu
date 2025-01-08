@@ -9,24 +9,26 @@ namespace Fuyu.Backend.Core
         public static CoreOrm Instance => instance.Value;
         private static readonly Lazy<CoreOrm> instance = new(() => new CoreOrm());
 
+        private readonly CoreDatabase _coreDatabase;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private CoreOrm()
         {
-
+            _coreDatabase = CoreDatabase.Instance;
         }
 
         #region Accounts
         public List<Account> GetAccounts()
         {
-            return CoreDatabase.Instance.Accounts.ToList();
+            return _coreDatabase.Accounts.ToList();
         }
 
         public Account GetAccount(string sessionId)
         {
             var accountId = GetSession(sessionId);
-            if (!CoreDatabase.Instance.Accounts.TryGet(accountId, out var account))
+            if (!_coreDatabase.Accounts.TryGet(accountId, out var account))
             {
                 throw new Exception($"Failed to get account with sessionID: {sessionId}");
             }
@@ -36,7 +38,7 @@ namespace Fuyu.Backend.Core
 
         public Account GetAccount(int accountId)
         {
-            foreach (var entry in CoreDatabase.Instance.Accounts.ToList())
+            foreach (var entry in _coreDatabase.Accounts.ToList())
             {
                 if (entry.Id == accountId)
                 {
@@ -49,29 +51,29 @@ namespace Fuyu.Backend.Core
 
         public void SetOrAddAccount(Account account)
         {
-            var accounts = CoreDatabase.Instance.Accounts.ToList();
+            var accounts = _coreDatabase.Accounts.ToList();
 
             for (var i = 0; i < accounts.Count; ++i)
             {
                 if (accounts[i].Id == account.Id)
                 {
-                    CoreDatabase.Instance.Accounts.TrySet(i, account);
+                    _coreDatabase.Accounts.TrySet(i, account);
                     return;
                 }
             }
 
-            CoreDatabase.Instance.Accounts.Add(account);
+            _coreDatabase.Accounts.Add(account);
         }
 
         public void RemoveAccount(int accountId)
         {
-            var accounts = CoreDatabase.Instance.Accounts.ToList();
+            var accounts = _coreDatabase.Accounts.ToList();
 
             for (var i = 0; i < accounts.Count; ++i)
             {
                 if (accounts[i].Id == accountId)
                 {
-                    CoreDatabase.Instance.Accounts.TryRemoveAt(i);
+                    _coreDatabase.Accounts.TryRemoveAt(i);
                     return;
                 }
             }
@@ -81,12 +83,12 @@ namespace Fuyu.Backend.Core
         #region Sessions
         public Dictionary<string, int> GetSessions()
         {
-            return CoreDatabase.Instance.Sessions.ToDictionary();
+            return _coreDatabase.Sessions.ToDictionary();
         }
 
         public int GetSession(string sessionId)
         {
-            if (!CoreDatabase.Instance.Sessions.TryGet(sessionId, out var id))
+            if (!_coreDatabase.Sessions.TryGet(sessionId, out var id))
             {
                 throw new Exception($"Failed to find ID for sessionId: {sessionId}");
             }
@@ -96,19 +98,19 @@ namespace Fuyu.Backend.Core
 
         public void SetOrAddSession(string sessionId, int accountId)
         {
-            if (CoreDatabase.Instance.Sessions.ContainsKey(sessionId))
+            if (_coreDatabase.Sessions.ContainsKey(sessionId))
             {
-                CoreDatabase.Instance.Sessions.Set(sessionId, accountId);
+                _coreDatabase.Sessions.Set(sessionId, accountId);
             }
             else
             {
-                CoreDatabase.Instance.Sessions.Set(sessionId, accountId);
+                _coreDatabase.Sessions.Set(sessionId, accountId);
             }
         }
 
         public void RemoveSession(string sessionId)
         {
-            CoreDatabase.Instance.Sessions.Remove(sessionId);
+            _coreDatabase.Sessions.Remove(sessionId);
         }
         #endregion
     }

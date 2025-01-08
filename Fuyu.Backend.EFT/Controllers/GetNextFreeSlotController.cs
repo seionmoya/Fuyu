@@ -25,13 +25,16 @@ namespace Fuyu.Backend.EFT.Controllers
     // -- nexus4880, 2024-11-26
     public class GetNextFreeSlotController : EftHttpController<GetNextFreeSlotRequest>
     {
+        private readonly EftOrm _eftOrm;
+
         public GetNextFreeSlotController() : base("/get/next/free/slot")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, GetNextFreeSlotRequest body)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.GetSessionId());
+            var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
             var freeSlot = profile.Pmc.Inventory.GetNextFreeSlot(body.Width, body.Height, out var gridName, body.Rotation);
             if (freeSlot == null)
             {

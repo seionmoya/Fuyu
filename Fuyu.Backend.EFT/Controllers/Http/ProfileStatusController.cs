@@ -8,15 +8,18 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class ProfileStatusController : AbstractEftHttpController
     {
+        private readonly EftOrm _eftOrm;
+
         public ProfileStatusController() : base("/client/profile/status")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
             var sessionId = context.GetSessionId();
 
-            var profile = EftOrm.Instance.GetActiveProfile(sessionId);
+            var profile = _eftOrm.GetActiveProfile(sessionId);
 
             // TODO: generate this
             // --seionmoya, 2024-11-18

@@ -6,13 +6,16 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
     public class UnbindItemEventController : AbstractItemEventController<UnbindItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public UnbindItemEventController() : base("Unbind")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, UnbindItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
 
             if (!profile.Pmc.Inventory.FastPanel.TryGetValue(request.Index, out var boundItemId))
             {

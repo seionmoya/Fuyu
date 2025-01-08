@@ -8,14 +8,17 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class GameProfileListController : AbstractEftHttpController
     {
+        private readonly EftOrm _eftOrm;
+
         public GameProfileListController() : base("/client/game/profile/list")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
             var sessionId = context.GetSessionId();
-            var profile = EftOrm.Instance.GetActiveProfile(sessionId);
+            var profile = _eftOrm.GetActiveProfile(sessionId);
             Profile[] profiles;
 
             if (profile.ShouldWipe)

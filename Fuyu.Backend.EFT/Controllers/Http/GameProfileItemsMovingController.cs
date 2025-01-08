@@ -12,6 +12,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
     public class GameProfileItemsMovingController : EftHttpController<JObject>
     {
         public ItemEventRouter ItemEventRouter { get; } = new ItemEventRouter();
+        private readonly EftOrm _eftOrm;
 
         public GameProfileItemsMovingController() : base("/client/game/profile/items/moving")
         {
@@ -40,6 +41,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             ItemEventRouter.AddController<TagItemEventController>();
             ItemEventRouter.AddController<ToggleItemEventController>();
             ItemEventRouter.AddController<RepairItemEventController>();
+
+            _eftOrm = EftOrm.Instance;
         }
 
         public override async Task RunAsync(EftHttpContext context, JObject request)
@@ -50,7 +53,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
             }
 
             var sessionId = context.GetSessionId();
-            var profile = EftOrm.Instance.GetActiveProfile(sessionId);
+            var profile = _eftOrm.GetActiveProfile(sessionId);
             var requestData = request.Value<JArray>("data");
             var itemEventResponse = new ItemEventResponse();
             /*{

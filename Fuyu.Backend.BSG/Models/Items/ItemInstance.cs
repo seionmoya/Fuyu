@@ -10,6 +10,13 @@ namespace Fuyu.Backend.BSG.Models.Items
     [DataContract]
     public class ItemInstance
     {
+        private ItemFactoryService _itemFactoryService;
+
+        public ItemInstance()
+        {
+            _itemFactoryService = ItemFactoryService.Instance;
+        }
+
         [DataMember(Name = "_id")]
         public MongoId Id { get; set; }
 
@@ -36,7 +43,7 @@ namespace Fuyu.Backend.BSG.Models.Items
         {
             if (Updatable == null)
             {
-                Updatable = ItemFactoryService.Instance.CreateItemUpdatable(TemplateId);
+                Updatable = _itemFactoryService.CreateItemUpdatable(TemplateId);
             }
 
             // NOTE: Intentionally letting this throw here. The idea is that GetOrCreateUpdatable should
