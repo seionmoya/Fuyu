@@ -5,7 +5,7 @@
 For code formatting:
 
 - .NET Coding Convention
-- I don't permit, labdas, `System.LINQ` unless it's for `Fuyu.Plugin` / `Fuyu.Plugin.Core` lookup patterns
+- I don't permit, labdas, `System.LINQ` unless it's for `Fuyu.Plugin` / `Fuyu.Client.Core` lookup patterns
 - I don't permit primary constructors
 - Only use structures that exist in a widespread of other languages (`if`, `else`, `for`, `while`, `break`, `continue`, `var`, `foreach`, `switch`, `case`, `return`, `struct`, `class`, `interface`)
 - Use `using` as dispose pattern.

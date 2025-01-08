@@ -1,11 +1,11 @@
-# Fuyu.Client.NLog
+# Fuyu.Modding.NLog
 
 Fuyu mod loader for clients using NLog.
 
 ## Installation
 
 1. Build the project
-2. Place `Fuyu.Client.NLog` inside `<game data>/Managed/`
+2. Place `Fuyu.Modding.NLog` inside `<game data>/Managed/`
 3. Place `NLog.dll` inside `<game data>/Managed/`, override when prompted
 4. Add the following to `NLog/NLog.config`:
 
@@ -20,7 +20,7 @@ Fuyu mod loader for clients using NLog.
       internalLogLevel="Off" internalLogFile="c:\temp\nlog-internal.log">
 
     <extensions> 
-        <add assembly="Fuyu.Client.NLog"/> 
+        <add assembly="Fuyu.Modding.NLog"/> 
     </extensions> 
 
     <targets async="true">

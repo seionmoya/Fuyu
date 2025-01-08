@@ -3,7 +3,7 @@ using System.Reflection;
 using Fuyu.Common.IO;
 using HarmonyLib;
 
-namespace Fuyu.Plugin.Common.Reflection
+namespace Fuyu.Client.Common.Reflection
 {
     public abstract class AbstractPatch
     {

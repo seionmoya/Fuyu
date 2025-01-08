@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fuyu.Plugin.EFT.Reflection
+namespace Fuyu.Client.EFT.Reflection
 {
     public static class PatchHelper
     {

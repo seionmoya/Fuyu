@@ -3,20 +3,28 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using EFT;
-using Fuyu.Plugin.Common.Reflection;
+using Fuyu.Client.Arena.Reflection;
+using Fuyu.Client.Common.Reflection;
 
-namespace Fuyu.Plugin.EFT.Patches
+namespace Fuyu.Client.Arena.Patches
 {
     public class ConsistencyGeneralPatch : AbstractPatch
     {
-        public ConsistencyGeneralPatch() : base("com.fuyu.plugin.eft.consistencygeneral", EPatchType.Prefix)
+        private static readonly MethodInfo _mi;
+
+        static ConsistencyGeneralPatch()
+        {
+            var flags = PatchHelper.PrivateFlags;
+            _mi = typeof(TarkovApplication).BaseType.GetMethod("RunFilesChecking", flags);
+        }
+
+        public ConsistencyGeneralPatch() : base("com.Fuyu.Client.arena.consistencygeneral", EPatchType.Prefix)
         {
         }
 
         protected override MethodBase GetOriginalMethod()
         {
-            var flags = BindingFlags.Instance | BindingFlags.NonPublic;
-            return typeof(TarkovApplication).BaseType.GetMethod("RunFilesChecking", flags);
+            return _mi;
         }
 
         protected static bool Patch(ref Task __result)

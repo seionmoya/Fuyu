@@ -48,6 +48,14 @@ namespace Fuyu.Common.Collections
             }
         }
 
+        public void Add(T1 key, T2 value)
+        {
+            lock (_lock)
+            {
+                _dictionary.Add(key, value);
+            }
+        }
+
         public void Remove(T1 key)
         {
             lock (_lock)
