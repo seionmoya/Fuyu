@@ -21,6 +21,7 @@ namespace Fuyu.Backend.EFT.Services
         private static readonly Lazy<BotService> instance = new(() => new BotService());
 
         private readonly Dictionary<EBotRole, string> _profiles;
+        private readonly InventoryService _inventoryService;
 
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
@@ -90,6 +91,8 @@ namespace Fuyu.Backend.EFT.Services
                 { EBotRole.infectedLaborant,            Resx.GetText("eft", "database.bots.infectedlaborant.json")          },
                 { EBotRole.infectedTagilla,             string.Empty                                                        },    // TODO: missing
             };
+
+            _inventoryService = InventoryService.Instance;
         }
 
         public Profile[] GetBots(BotCondition[] conditions)
@@ -117,7 +120,7 @@ namespace Fuyu.Backend.EFT.Services
 
             // regenerate all ids
             profile._id = new MongoId(true);
-            InventoryService.Instance.RegenerateIds(profile.Inventory);
+            _inventoryService.RegenerateIds(profile.Inventory);
 
             // set difficulty
             profile.Info.Settings.BotDifficulty = difficulty;

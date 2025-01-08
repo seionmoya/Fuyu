@@ -5,15 +5,18 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class WeatherController : EftHttpController
     {
+        private readonly EftOrm _eftOrm;
+
         public WeatherController() : base("/client/weather")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
             // TODO: generate this
             // --seionmoya, 2024-11-18
-            var text = EftOrm.Instance.GetWeather();
+            var text = _eftOrm.GetWeather();
             return context.SendJsonAsync(text, true, true);
         }
     }

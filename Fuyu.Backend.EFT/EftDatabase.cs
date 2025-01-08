@@ -21,6 +21,8 @@ namespace Fuyu.Backend.EFT
         public static EftDatabase Instance => instance.Value;
         private static readonly Lazy<EftDatabase> instance = new(() => new EftDatabase());
 
+        private readonly EftOrm _eftOrm;
+
         internal readonly ThreadList<EftAccount> Accounts;
 
         internal readonly ThreadList<EftProfile> Profiles;
@@ -98,6 +100,8 @@ namespace Fuyu.Backend.EFT
             Settings = new ThreadObject<string>(string.Empty);
             Traders = new ThreadObject<string>(string.Empty);
             Weather = new ThreadObject<string>(string.Empty);
+
+            _eftOrm = EftOrm.Instance;
         }
 
         // NOTE: load order is VERY important!
@@ -141,7 +145,7 @@ namespace Fuyu.Backend.EFT
             {
                 var json = VFS.ReadTextFile(filepath);
                 var account = Json.Parse<EftAccount>(json);
-                EftOrm.Instance.SetOrAddAccount(account);
+                _eftOrm.SetOrAddAccount(account);
 
                 Terminal.WriteLine($"Loaded EFT account {account.Id}");
             }
@@ -162,7 +166,7 @@ namespace Fuyu.Backend.EFT
             {
                 var json = VFS.ReadTextFile(filepath);
                 var profile = Json.Parse<EftProfile>(json);
-                EftOrm.Instance.SetOrAddProfile(profile);
+                _eftOrm.SetOrAddProfile(profile);
 
                 Terminal.WriteLine($"Loaded EFT profile {profile.Pmc._id}");
             }
@@ -182,7 +186,7 @@ namespace Fuyu.Backend.EFT
 
             foreach (var kvp in response.data)
             {
-                EftOrm.Instance.SetOrAddCustomization(kvp.Key, kvp.Value);
+                _eftOrm.SetOrAddCustomization(kvp.Key, kvp.Value);
             }
         }
 
@@ -193,7 +197,7 @@ namespace Fuyu.Backend.EFT
 
             foreach (var entry in response.data)
             {
-                EftOrm.Instance.SetOrAddCustomizationStorage(entry);
+                _eftOrm.SetOrAddCustomizationStorage(entry);
             }
         }
 
@@ -204,33 +208,33 @@ namespace Fuyu.Backend.EFT
 
             foreach (var kvp in response.data)
             {
-                EftOrm.Instance.SetOrAddLanguage(kvp.Key, kvp.Value);
+                _eftOrm.SetOrAddLanguage(kvp.Key, kvp.Value);
             }
         }
 
         private void LoadGlobalLocales()
         {
-            var languages = EftOrm.Instance.GetLanguages();
+            var languages = _eftOrm.GetLanguages();
 
             foreach (var languageId in languages.Keys)
             {
                 var json = Resx.GetText("eft", $"database.locales.client.locale-{languageId}.json");
                 var response = Json.Parse<ResponseBody<Dictionary<string, string>>>(json);
 
-                EftOrm.Instance.SetOrAddGlobalLocale(languageId, response.data);
+                _eftOrm.SetOrAddGlobalLocale(languageId, response.data);
             }
         }
 
         private void LoadMenuLocales()
         {
-            var languages = EftOrm.Instance.GetLanguages();
+            var languages = _eftOrm.GetLanguages();
 
             foreach (var languageId in languages.Keys)
             {
                 var json = Resx.GetText("eft", $"database.locales.client.menu.locale-{languageId}.json");
                 var response = Json.Parse<ResponseBody<MenuLocaleResponse>>(json);
 
-                EftOrm.Instance.SetOrAddMenuLocale(languageId, response.data);
+                _eftOrm.SetOrAddMenuLocale(languageId, response.data);
             }
         }
 
@@ -241,7 +245,7 @@ namespace Fuyu.Backend.EFT
             var usecJson = Resx.GetText("eft", "database.profiles.player.unheard-usec.json");
             var savageJson = Resx.GetText("eft", "database.profiles.player.savage.json");
 
-            EftOrm.Instance.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, Profile>()
+            _eftOrm.SetOrAddWipeProfile("unheard", new Dictionary<EPlayerSide, Profile>()
             {
                 { EPlayerSide.Bear, Json.Parse<Profile>(bearJson) },
                 { EPlayerSide.Usec, Json.Parse<Profile>(usecJson) },

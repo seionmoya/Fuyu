@@ -7,13 +7,16 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
     public class MoveItemEventController : ItemEventController<MoveItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public MoveItemEventController() : base("Move")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, MoveItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var item = profile.Pmc.Inventory.FindItem(request.Item);
             if (item != null)
             {

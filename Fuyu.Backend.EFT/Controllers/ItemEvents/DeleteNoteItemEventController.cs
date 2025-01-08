@@ -6,13 +6,16 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
     public class DeleteNoteItemEventController : ItemEventController<DeleteNoteItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public DeleteNoteItemEventController() : base("DeleteNote")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, DeleteNoteItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var notes = profile.Pmc.Notes.Notes;
 
             if (request.Index < 0 || request.Index > notes.Count)

@@ -8,14 +8,16 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
     public class RepairItemEventController : ItemEventController<RepairItemEvent>
     {
+        private readonly EftOrm _eftOrm;
+
         public RepairItemEventController() : base("Repair")
         {
-
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(ItemEventContext context, RepairItemEvent request)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(context.SessionId);
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
             var targetItem = profile.Pmc.Inventory.FindItem(request.TargetItemId);
             var repairable = targetItem.GetOrCreateUpdatable<ItemRepairableComponent>();
 

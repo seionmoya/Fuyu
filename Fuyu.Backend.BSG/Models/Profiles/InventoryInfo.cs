@@ -16,6 +16,17 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     [DataContract]
     public class InventoryInfo
     {
+        private readonly ItemFactoryService _itemFactoryService;
+        private readonly InventoryService _inventoryService;
+        private readonly ItemService _itemService;
+
+        public InventoryInfo()
+        {
+            _itemFactoryService = ItemFactoryService.Instance;
+            _inventoryService = InventoryService.Instance;
+            _itemService = ItemService.Instance;
+        }
+
         [DataMember(Name = "items")]
         public List<ItemInstance> Items { get; set; }
 
@@ -48,7 +59,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
 
         public List<ItemInstance> RemoveItem(ItemInstance item)
         {
-            return InventoryService.Instance.RemoveItem(this, item);
+            return _inventoryService.RemoveItem(this, item);
         }
 
         public ItemInstance FindItem(MongoId id)
@@ -77,7 +88,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                 throw new Exception($"Failed to find item with id {id} in inventory");
             }
 
-            return InventoryService.Instance.RemoveItem(this, item);
+            return _inventoryService.RemoveItem(this, item);
         }
 
         public List<ItemInstance> GetItemsByTemplate(MongoId tpl)
@@ -87,21 +98,21 @@ namespace Fuyu.Backend.BSG.Models.Profiles
 
         public ItemInstance GetStock(ItemInstance root)
         {
-            var rootItemTemplate = ItemFactoryService.Instance.ItemTemplates[root.TemplateId];
+            var rootItemTemplate = _itemFactoryService.ItemTemplates[root.TemplateId];
             if (!rootItemTemplate.Props.ContainsKey("FoldedSlot"))
             {
                 return null;
             }
 
             var weaponItemProperties = rootItemTemplate.Props.ToObject<WeaponItemProperties>();
-            var subItems = ItemService.GetItemAndChildren(Items, root).Skip(1);
+            var subItems = _itemService.GetItemAndChildren(Items, root).Skip(1);
 
             return subItems.FirstOrDefault(i => i.SlotId == weaponItemProperties.FoldedSlot);
         }
 
         public Vector2 GetItemSize(ItemInstance root)
         {
-            var rootTemplate = ItemFactoryService.Instance.ItemTemplates[root.TemplateId];
+            var rootTemplate = _itemFactoryService.ItemTemplates[root.TemplateId];
             var rootProperties = rootTemplate.Props.ToObject<ItemProperties>();
             var width = rootProperties.Width;
             var height = rootProperties.Height;
@@ -115,10 +126,10 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             var forcedLeft = 0;
             var forcedRight = 0;
 
-            var children = ItemService.GetItemAndChildren(Items, root).Skip(1);
+            var children = _itemService.GetItemAndChildren(Items, root).Skip(1);
             foreach (var child in children)
             {
-                var itemTemplate = ItemFactoryService.Instance.ItemTemplates[child.TemplateId];
+                var itemTemplate = _itemFactoryService.ItemTemplates[child.TemplateId];
                 var itemProperties = itemTemplate.Props.ToObject<ItemProperties>();
                 if (itemProperties.ExtraSizeForceAdd)
                 {
@@ -169,7 +180,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                 return null;
             }
 
-            var stashItemTemplate = ItemFactoryService.Instance.ItemTemplates[stashItem.TemplateId];
+            var stashItemTemplate = _itemFactoryService.ItemTemplates[stashItem.TemplateId];
             var stashItemProps = stashItemTemplate.Props.ToObject<CompoundItemItemProperties>();
 
             foreach (var grid in stashItemProps.Grids)
@@ -178,7 +189,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                 var gridWidth = grid.Properties.CellsHorizontal;
                 var gridHeight = grid.Properties.CellsVertical;
                 var cells = new bool[gridWidth * gridHeight];
-                var itemsInThisGrid = ItemService.GetItemAndChildren(Items, stashItem).Skip(1);
+                var itemsInThisGrid = _itemService.GetItemAndChildren(Items, stashItem).Skip(1);
 
                 foreach (var itemInThisGrid in itemsInThisGrid)
                 {
@@ -187,7 +198,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                         continue;
                     }
 
-                    var itemTemplate = ItemFactoryService.Instance.ItemTemplates[itemInThisGrid.TemplateId];
+                    var itemTemplate = _itemFactoryService.ItemTemplates[itemInThisGrid.TemplateId];
                     var itemProps = itemTemplate.Props.ToObject<ItemProperties>();
                     var itemLocation = itemInThisGrid.Location.Value1;
                     var itemSize = GetItemSize(itemInThisGrid);

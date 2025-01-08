@@ -13,12 +13,14 @@ namespace Fuyu.Backend.EFT.Services
         public static ProfileService Instance => instance.Value;
         private static readonly Lazy<ProfileService> instance = new(() => new ProfileService());
 
+        private readonly EftOrm _eftOrm;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private ProfileService()
         {
-
+            _eftOrm = EftOrm.Instance;
         }
 
         public string CreateProfile(int accountId)
@@ -43,7 +45,7 @@ namespace Fuyu.Backend.EFT.Services
             profile.Savage.aid = accountId;
 
             // store profile
-            EftOrm.Instance.SetOrAddProfile(profile);
+            _eftOrm.SetOrAddProfile(profile);
             WriteToDisk(profile);
 
             return pmcId;
@@ -51,12 +53,12 @@ namespace Fuyu.Backend.EFT.Services
 
         public string WipeProfile(EftAccount account, string side, string headId, string voiceId)
         {
-            var profile = EftOrm.Instance.GetActiveProfile(account);
+            var profile = _eftOrm.GetActiveProfile(account);
             var pmcId = profile.Pmc._id;
             var savageId = profile.Savage._id;
 
             // create profiles
-            var edition = EftOrm.Instance.GetWipeProfile(account.Edition);
+            var edition = _eftOrm.GetWipeProfile(account.Edition);
 
             profile.Savage = edition[EPlayerSide.Savage].Clone();
 
@@ -81,7 +83,7 @@ namespace Fuyu.Backend.EFT.Services
             profile.Savage.aid = account.Id;
 
             // setup pmc
-            var voiceTemplate = EftOrm.Instance.GetCustomization(voiceId);
+            var voiceTemplate = _eftOrm.GetCustomization(voiceId);
 
             profile.Pmc._id = pmcId;
             profile.Pmc.savage = savageId;
@@ -95,7 +97,7 @@ namespace Fuyu.Backend.EFT.Services
             profile.ShouldWipe = false;
 
             // store profile
-            EftOrm.Instance.SetOrAddProfile(profile);
+            _eftOrm.SetOrAddProfile(profile);
             WriteToDisk(profile);
 
             return profile.Pmc._id;

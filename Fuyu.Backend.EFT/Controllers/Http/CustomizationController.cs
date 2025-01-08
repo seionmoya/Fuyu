@@ -9,13 +9,16 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class CustomizationController : EftHttpController
     {
+        private readonly EftOrm _eftOrm;
+
         public CustomizationController() : base("/client/customization")
         {
+            _eftOrm = EftOrm.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
-            var customizations = EftOrm.Instance.GetCustomizations();
+            var customizations = _eftOrm.GetCustomizations();
             var response = new ResponseBody<Dictionary<string, CustomizationTemplate>>()
             {
                 data = customizations

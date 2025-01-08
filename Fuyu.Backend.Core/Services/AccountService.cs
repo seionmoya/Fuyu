@@ -18,18 +18,22 @@ namespace Fuyu.Backend.Core.Services
         public static AccountService Instance => instance.Value;
         private static readonly Lazy<AccountService> instance = new(() => new AccountService());
 
+        private readonly CoreOrm _coreOrm;
+        private readonly RequestService _requestService;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private AccountService()
         {
-
+            _coreOrm = CoreOrm.Instance;
+            _requestService = RequestService.Instance;
         }
 
         public int AccountExists(string username)
         {
             var lowerUsername = username.ToLowerInvariant();
-            var accounts = CoreOrm.Instance.GetAccounts();
+            var accounts = _coreOrm.GetAccounts();
 
             // find account
             var found = new List<Account>();
@@ -70,7 +74,7 @@ namespace Fuyu.Backend.Core.Services
             }
 
             // validate password
-            var account = CoreOrm.Instance.GetAccount(accountId);
+            var account = _coreOrm.GetAccount(accountId);
 
             if (account.Password != password)
             {
@@ -94,7 +98,7 @@ namespace Fuyu.Backend.Core.Services
             }
 
             // find active account session
-            var sessions = CoreOrm.Instance.GetSessions();
+            var sessions = _coreOrm.GetSessions();
 
             foreach (var kvp in sessions)
             {
@@ -114,7 +118,7 @@ namespace Fuyu.Backend.Core.Services
             // -- seionmoya, 2024/09/02
             var sessionId = new MongoId(accountId).ToString();
 
-            CoreOrm.Instance.SetOrAddSession(sessionId, accountId);
+            _coreOrm.SetOrAddSession(sessionId, accountId);
 
             return new AccountLoginResponse()
             {
@@ -125,7 +129,7 @@ namespace Fuyu.Backend.Core.Services
 
         private int GetNewAccountId()
         {
-            var accounts = CoreOrm.Instance.GetAccounts();
+            var accounts = _coreOrm.GetAccounts();
 
             // using linq because sorting otherwise takes up too much code
             var sorted = accounts.OrderBy(account => account.Id).ToArray();
@@ -195,7 +199,7 @@ namespace Fuyu.Backend.Core.Services
                 IsBanned = false
             };
 
-            CoreOrm.Instance.SetOrAddAccount(account);
+            _coreOrm.SetOrAddAccount(account);
             WriteToDisk(account);
 
             return ERegisterStatus.Success;
@@ -203,7 +207,7 @@ namespace Fuyu.Backend.Core.Services
 
         public AccountRegisterGameResponse RegisterGame(string sessionId, string game, string edition)
         {
-            var account = CoreOrm.Instance.GetAccount(sessionId);
+            var account = _coreOrm.GetAccount(sessionId);
 
             // find existing game
             if (account.Games.ContainsKey(game) && account.Games[game].HasValue)
@@ -216,11 +220,11 @@ namespace Fuyu.Backend.Core.Services
             }
 
             // register game
-            var accountId = RequestService.Instance.RegisterGame(game, account.Username, edition);
+            var accountId = _requestService.RegisterGame(game, account.Username, edition);
             account.Games[game] = accountId;
 
             // store result
-            CoreOrm.Instance.SetOrAddAccount(account);
+            _coreOrm.SetOrAddAccount(account);
             WriteToDisk(account);
 
             return new AccountRegisterGameResponse()
@@ -232,7 +236,7 @@ namespace Fuyu.Backend.Core.Services
 
         public Dictionary<string, int?> GetGames(string sessionId)
         {
-            var account = CoreOrm.Instance.GetAccount(sessionId);
+            var account = _coreOrm.GetAccount(sessionId);
             return account.Games;
         }
 

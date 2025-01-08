@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fuyu.Backend.BSG.Models.Items;
@@ -7,7 +8,15 @@ namespace Fuyu.Backend.BSG.Services
 {
     public class ItemService
     {
-        public static void RegenerateItemIds(IEnumerable<ItemInstance> items, Dictionary<MongoId, MongoId> mapping)
+        public static ItemService Instance => instance.Value;
+        private static readonly Lazy<ItemService> instance = new(() => new ItemService());
+
+        private ItemService()
+        {
+
+        }
+
+        public void RegenerateItemIds(IEnumerable<ItemInstance> items, Dictionary<MongoId, MongoId> mapping)
         {
             // replace ids
             foreach (var item in items)
@@ -23,7 +32,7 @@ namespace Fuyu.Backend.BSG.Services
             }
         }
 
-        public static void RegenerateItemIds(List<ItemInstance> items)
+        public void RegenerateItemIds(List<ItemInstance> items)
         {
             var mapping = new Dictionary<MongoId, MongoId>();
 
@@ -39,12 +48,12 @@ namespace Fuyu.Backend.BSG.Services
             RegenerateItemIds(items, mapping);
         }
 
-        public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, ItemInstance item)
+        public List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, ItemInstance item)
         {
             return GetItemAndChildren(items, item.Id);
         }
 
-        public static bool IsChildItem(ItemInstance item, List<MongoId> ids)
+        public bool IsChildItem(ItemInstance item, List<MongoId> ids)
         {
             if (!item.ParentId.HasValue)
             {
@@ -55,7 +64,7 @@ namespace Fuyu.Backend.BSG.Services
         }
 
         // TODO: make the LINQ pattern more explicit
-        public static List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
+        public List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
         {
             var foundNewItem = true;
             var idsToReturn = new List<MongoId>

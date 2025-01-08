@@ -9,13 +9,16 @@ namespace Fuyu.Backend.Core.Controllers
 {
     public class AccountRegisterController : CoreHttpController<AccountRegisterRequest>
     {
+        private readonly AccountService _accountService;
+
         public AccountRegisterController() : base("/account/register")
         {
+            _accountService = AccountService.Instance;
         }
 
         public override Task RunAsync(CoreHttpContext context, AccountRegisterRequest request)
         {
-            var result = AccountService.Instance.RegisterAccount(request.Username, request.Password);
+            var result = _accountService.RegisterAccount(request.Username, request.Password);
             var response = new AccountRegisterResponse()
             {
                 Status = result

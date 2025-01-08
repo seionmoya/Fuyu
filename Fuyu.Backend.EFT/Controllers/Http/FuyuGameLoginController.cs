@@ -9,13 +9,16 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class FuyuGameLoginController : EftHttpController<FuyuGameLoginRequest>
     {
+        private readonly AccountService _accountService;
+
         public FuyuGameLoginController() : base("/fuyu/game/login")
         {
+            _accountService = AccountService.Instance;
         }
 
         public override Task RunAsync(EftHttpContext context, FuyuGameLoginRequest request)
         {
-            var sessionId = AccountService.Instance.LoginAccount(request.AccountId);
+            var sessionId = _accountService.LoginAccount(request.AccountId);
             var response = new FuyuGameLoginResponse()
             {
                 SessionId = sessionId
