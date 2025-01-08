@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
@@ -27,7 +28,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
                 data = locale
             };
 
-            return ETagService.SendCachedAsync(context, response);
+            return context.SendJsonAsync(Json.Stringify(response), true, true);
         }
     }
 }

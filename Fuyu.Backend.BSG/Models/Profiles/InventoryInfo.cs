@@ -56,6 +56,19 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             return Items.Find(x => x.Id == id);
         }
 
+        public IEnumerable<ItemInstance> FindItems(List<MongoId> id)
+        {
+            int amount = id.Count;
+            for (int i = 0; i < amount; i++)
+            {
+                var item = FindItem(id[i]);
+                if (item != null)
+                {
+                    yield return item;
+                }
+            }
+        }
+
         public List<ItemInstance> RemoveItem(MongoId id)
         {
             var item = Items.Find(i => i.Id == id);
