@@ -1,7 +1,7 @@
 using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.DTO.Services;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 

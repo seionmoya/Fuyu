@@ -390,6 +390,18 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
+        #region Default builds
+        public BuildsListResponse GetDefaultBuilds()
+        {
+            return _eftDatabase.DefaultBuilds.Get();
+        }
+
+        public void SetDefaultBuilds(BuildsListResponse builds)
+        {
+            _eftDatabase.DefaultBuilds.Set(builds);
+        }
+        #endregion
+
         #region Wipe profiles
         public Dictionary<string, Dictionary<EPlayerSide, Profile>> GetWipeProfiles()
         {

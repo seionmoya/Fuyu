@@ -25,11 +25,13 @@ namespace Fuyu.Backend.EFT.Services
 
         public string CreateProfile(int accountId)
         {
+            var builds = _eftOrm.GetDefaultBuilds();
             var profile = new EftProfile()
             {
                 Pmc = new Profile(),
                 Savage = new Profile(),
                 Customization = [],
+                Builds = builds,
                 ShouldWipe = true
             };
 

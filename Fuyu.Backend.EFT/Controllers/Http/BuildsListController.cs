@@ -8,19 +8,23 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 {
     public class BuildsListController : AbstractEftHttpController
     {
-        private readonly ResponseBody<BuildsListResponse> _response;
-
         public BuildsListController() : base("/client/builds/list")
         {
-            var json = Resx.GetText("eft", "database.client.builds.list.json");
-            _response = Json.Parse<ResponseBody<BuildsListResponse>>(json);
         }
 
         public override Task RunAsync(EftHttpContext context)
         {
-            // TODO: generate this
-            // --seionmoya, 2024-11-18
-            var text = Json.Stringify(_response);
+            var sessionId = context.GetSessionId();
+            var account = EftOrm.Instance.GetAccount(sessionId);
+            var profile = EftOrm.Instance.GetActiveProfile(account);
+            var builds = profile.Builds;
+
+            var response = new ResponseBody<BuildsListResponse>
+            {
+                data = builds
+            };
+
+            var text = Json.Stringify(response);
             return context.SendJsonAsync(text, true, true);
         }
     }

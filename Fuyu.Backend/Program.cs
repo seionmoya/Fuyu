@@ -3,7 +3,7 @@ using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFT;
 using Fuyu.Backend.EFT.Servers;
-using Fuyu.Backend.BSG.DTO.Services;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 using System.Threading.Tasks;
