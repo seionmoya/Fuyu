@@ -25,7 +25,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
                 if (repairKit == null)
                 {
-                    throw new Exception("Could not find repair kit with id " + repairKitInfo.Id);
+                    throw new Exception($"Could not find repair kit with id {repairKitInfo.Id}");
                 }
 
                 var repairKitComponent = repairKit.GetOrCreateUpdatable<ItemRepairKitComponent>();
