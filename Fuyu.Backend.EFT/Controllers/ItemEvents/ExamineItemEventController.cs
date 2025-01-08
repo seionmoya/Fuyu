@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class ExamineItemEventController : ItemEventController<ExamineItemEvent>
+    public class ExamineItemEventController : AbstractItemEventController<ExamineItemEvent>
     {
         public ExamineItemEventController() : base("Examine")
         {

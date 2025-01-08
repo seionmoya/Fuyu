@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class SurveyController : EftHttpController
+    public class SurveyController : AbstractEftHttpController
     {
         public SurveyController() : base("/client/survey")
         {

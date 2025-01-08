@@ -3,7 +3,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class PrestigeListController : EftHttpController
+    public class PrestigeListController : AbstractEftHttpController
     {
         public PrestigeListController() : base("/client/prestige/list")
         {

@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class GameStartController : EftHttpController
+    public class GameStartController : AbstractEftHttpController
     {
         public GameStartController() : base("/client/game/start")
         {

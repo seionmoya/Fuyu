@@ -3,7 +3,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class QuestListController : EftHttpController
+    public class QuestListController : AbstractEftHttpController
     {
         public QuestListController() : base("/client/quest/list")
         {

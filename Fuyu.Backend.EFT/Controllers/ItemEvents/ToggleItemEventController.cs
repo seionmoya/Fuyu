@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class ToggleItemEventController : ItemEventController<ToggleItemEvent>
+    public class ToggleItemEventController : AbstractItemEventController<ToggleItemEvent>
     {
         public ToggleItemEventController() : base("Toggle")
         {

@@ -3,7 +3,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class HideoutCustomizationOfferListController : EftHttpController
+    public class HideoutCustomizationOfferListController : AbstractEftHttpController
     {
         public HideoutCustomizationOfferListController() : base("/client/hideout/customization/offer/list")
         {

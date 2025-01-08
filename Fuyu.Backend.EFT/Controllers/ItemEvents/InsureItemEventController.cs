@@ -6,7 +6,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class InsureEventController : ItemEventController<InsureItemEvent>
+    public class InsureEventController : AbstractItemEventController<InsureItemEvent>
     {
         public InsureEventController() : base("Insure")
         {

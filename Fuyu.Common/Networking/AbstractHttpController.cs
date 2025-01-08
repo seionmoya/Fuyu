@@ -4,20 +4,20 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Common.Networking
 {
-    public abstract class HttpController : WebController<HttpContext>
+    public abstract class AbstractHttpController : AbstractWebController<HttpContext>
     {
-        protected HttpController(Regex pattern) : base(pattern)
+        protected AbstractHttpController(Regex pattern) : base(pattern)
         {
             // match dynamic paths
         }
 
-        protected HttpController(string path) : base(path)
+        protected AbstractHttpController(string path) : base(path)
         {
             // match static paths
         }
     }
 
-    public abstract class HttpController<TRequest> : HttpController where TRequest : class
+    public abstract class HttpController<TRequest> : AbstractHttpController where TRequest : class
     {
         protected HttpController(Regex pattern) : base(pattern)
         {

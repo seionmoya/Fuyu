@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class TraderRepairEventController : ItemEventController<TraderRepairItemEvent>
+    public class TraderRepairEventController : AbstractItemEventController<TraderRepairItemEvent>
     {
         public TraderRepairEventController() : base("TraderRepair")
         {

@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class DeleteNoteItemEventController : ItemEventController<DeleteNoteItemEvent>
+    public class DeleteNoteItemEventController : AbstractItemEventController<DeleteNoteItemEvent>
     {
         public DeleteNoteItemEventController() : base("DeleteNote")
         {

@@ -9,20 +9,20 @@ namespace Fuyu.DependencyInjection
 {
     public class DependencyContainer
     {
-        private Dictionary<Type, List<DependencyRegistration>> _registrations;
+        private Dictionary<Type, List<AbstractDependencyRegistration>> _registrations;
 
         public DependencyContainer()
         {
-            _registrations = new Dictionary<Type, List<DependencyRegistration>>();
+            _registrations = new Dictionary<Type, List<AbstractDependencyRegistration>>();
         }
 
         #region Registrations
 
-        private void AddRegistration(Type type, DependencyRegistration registration)
+        private void AddRegistration(Type type, AbstractDependencyRegistration registration)
         {
             if (!_registrations.TryGetValue(type, out var registrations))
             {
-                _registrations[type] = registrations = new List<DependencyRegistration>();
+                _registrations[type] = registrations = new List<AbstractDependencyRegistration>();
             }
             else
             {
@@ -38,14 +38,14 @@ namespace Fuyu.DependencyInjection
             registrations.Add(registration);
         }
 
-        private List<DependencyRegistration> GetRegistrations(Type type)
+        private List<AbstractDependencyRegistration> GetRegistrations(Type type)
         {
             if (_registrations.TryGetValue(type, out var registrations))
             {
                 return registrations;
             }
 
-            return new List<DependencyRegistration>();
+            return new List<AbstractDependencyRegistration>();
         }
 
         #endregion

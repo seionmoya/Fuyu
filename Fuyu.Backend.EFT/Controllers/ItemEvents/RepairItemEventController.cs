@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class RepairItemEventController : ItemEventController<RepairItemEvent>
+    public class RepairItemEventController : AbstractItemEventController<RepairItemEvent>
     {
         public RepairItemEventController() : base("Repair")
         {

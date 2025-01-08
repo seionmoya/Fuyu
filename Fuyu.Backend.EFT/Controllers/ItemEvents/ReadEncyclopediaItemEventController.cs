@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class ReadEncyclopediaEventController : ItemEventController<ReadEncyclopediaItemEvent>
+    public class ReadEncyclopediaEventController : AbstractItemEventController<ReadEncyclopediaItemEvent>
     {
         public ReadEncyclopediaEventController() : base("ReadEncyclopedia")
         {

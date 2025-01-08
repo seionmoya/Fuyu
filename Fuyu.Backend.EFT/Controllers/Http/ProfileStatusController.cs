@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class ProfileStatusController : EftHttpController
+    public class ProfileStatusController : AbstractEftHttpController
     {
         public ProfileStatusController() : base("/client/profile/status")
         {

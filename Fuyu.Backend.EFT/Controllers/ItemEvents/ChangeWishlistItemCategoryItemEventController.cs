@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class ChangeWishlistItemCategoryItemEventController : ItemEventController<ChangeWishlistItemCategoryItemEvent>
+    public class ChangeWishlistItemCategoryItemEventController : AbstractItemEventController<ChangeWishlistItemCategoryItemEvent>
     {
         public ChangeWishlistItemCategoryItemEventController() : base("ChangeWishlistItemCategory")
         {

@@ -8,7 +8,7 @@ using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class ApplyInventoryChangesItemEventController : ItemEventController<ApplyInventoryChangesEvent>
+    public class ApplyInventoryChangesItemEventController : AbstractItemEventController<ApplyInventoryChangesEvent>
     {
         public ApplyInventoryChangesItemEventController() : base("ApplyInventoryChanges")
         {

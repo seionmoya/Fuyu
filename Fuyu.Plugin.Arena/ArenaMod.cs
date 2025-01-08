@@ -8,9 +8,9 @@ using Fuyu.Plugin.Common.Reflection;
 
 namespace Fuyu.Plugin.Arena
 {
-    public class ArenaMod : Mod
+    public class ArenaMod : AbstractMod
     {
-        private readonly APatch[] _patches;
+        private readonly AbstractPatch[] _patches;
 
         public override string Id { get; } = "com.fuyu.plugin.arena";
 
@@ -18,7 +18,7 @@ namespace Fuyu.Plugin.Arena
 
         public ArenaMod()
         {
-            _patches = new APatch[]
+            _patches = new AbstractPatch[]
             {
                 new BattlEyePatch(),
                 new ConsistencyGeneralPatch()

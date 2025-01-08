@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class EatItemEventController : ItemEventController<EatItemEvent>
+    public class EatItemEventController : AbstractItemEventController<EatItemEvent>
     {
         public EatItemEventController() : base("Eat")
         {

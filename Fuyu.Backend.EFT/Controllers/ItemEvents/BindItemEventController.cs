@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class BindItemEventController : ItemEventController<BindItemEvent>
+    public class BindItemEventController : AbstractItemEventController<BindItemEvent>
     {
         public BindItemEventController() : base("Bind")
         {

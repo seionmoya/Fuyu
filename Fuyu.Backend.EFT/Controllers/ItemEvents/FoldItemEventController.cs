@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class FoldItemEventController : ItemEventController<FoldItemEvent>
+    public class FoldItemEventController : AbstractItemEventController<FoldItemEvent>
     {
         public FoldItemEventController() : base("Fold")
         {

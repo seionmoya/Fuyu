@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class HideoutSettingsController : EftHttpController
+    public class HideoutSettingsController : AbstractEftHttpController
     {
         public HideoutSettingsController() : base("/client/hideout/settings")
         {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Fuyu.Common.Networking
 {
-    public abstract class WsController : WebController<WsContext>
+    public abstract class WsController : AbstractWebController<WsContext>
     {
         protected WsController(Regex pattern) : base(pattern)
         {

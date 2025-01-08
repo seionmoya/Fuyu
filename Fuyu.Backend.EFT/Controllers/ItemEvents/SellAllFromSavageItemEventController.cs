@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class SellAllFromSavageEventController : ItemEventController<SellAllFromSavageItemEvent>
+    public class SellAllFromSavageEventController : AbstractItemEventController<SellAllFromSavageItemEvent>
     {
         public SellAllFromSavageEventController() : base("SellAllFromSavage")
         {

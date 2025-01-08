@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class RaidConfigurationController : EftHttpController
+    public class RaidConfigurationController : AbstractEftHttpController
     {
         public RaidConfigurationController() : base("/client/raid/configuration")
         {

@@ -3,11 +3,11 @@ using Fuyu.Backend.BSG.Models.ItemEvents;
 
 namespace Fuyu.Backend.BSG.Networking
 {
-    public abstract class ItemEventController<TEvent> : IItemEventController where TEvent : BaseItemEvent
+    public abstract class AbstractItemEventController<TEvent> : IItemEventController where TEvent : BaseItemEvent
     {
         public string Action { get; private set; }
 
-        public ItemEventController(string action)
+        public AbstractItemEventController(string action)
         {
             Action = action;
         }

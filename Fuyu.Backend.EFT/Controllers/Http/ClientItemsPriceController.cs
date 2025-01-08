@@ -12,7 +12,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class ClientItemsPriceController : EftHttpController
+    public partial class ClientItemsPriceController : AbstractEftHttpController
     {
         [GeneratedRegex(@"^/client/items/prices(/(?<traderId>[A-Za-z0-9]+))?$")]
         private static partial Regex PathExpression();

@@ -3,7 +3,7 @@ using Fuyu.DependencyInjection;
 
 namespace Fuyu.Modding
 {
-    public abstract class Mod
+    public abstract class AbstractMod
     {
         internal bool IsLoaded { get; set; }
 

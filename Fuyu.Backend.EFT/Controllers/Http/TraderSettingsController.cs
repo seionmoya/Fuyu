@@ -7,7 +7,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class TraderSettingsController : EftHttpController
+    public class TraderSettingsController : AbstractEftHttpController
     {
         public TraderSettingsController() : base("/client/trading/api/traderSettings")
         {

@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class TradingConfirmEventController : ItemEventController<TradingConfirmItemEvent>
+    public class TradingConfirmEventController : AbstractItemEventController<TradingConfirmItemEvent>
     {
         public TradingConfirmEventController() : base("TradingConfirm")
         {

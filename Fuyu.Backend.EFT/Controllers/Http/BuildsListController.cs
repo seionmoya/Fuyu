@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class BuildsListController : EftHttpController
+    public class BuildsListController : AbstractEftHttpController
     {
         private readonly ResponseBody<BuildsListResponse> _response;
 

@@ -3,7 +3,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class WeatherController : EftHttpController
+    public class WeatherController : AbstractEftHttpController
     {
         public WeatherController() : base("/client/weather")
         {

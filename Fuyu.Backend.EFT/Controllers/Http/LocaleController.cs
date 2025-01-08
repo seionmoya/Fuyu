@@ -8,7 +8,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public partial class LocaleController : EftHttpController
+    public partial class LocaleController : AbstractEftHttpController
     {
         [GeneratedRegex("^/client/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
         private static partial Regex PathExpression();

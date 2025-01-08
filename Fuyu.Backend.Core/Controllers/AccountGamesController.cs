@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.Core.Controllers
 {
-    public class AccountGamesController : CoreHttpController
+    public class AccountGamesController : AbstractCoreHttpController
     {
         public AccountGamesController() : base("/account/games")
         {

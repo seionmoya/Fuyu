@@ -3,42 +3,42 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.Core.Networking
+namespace Fuyu.Backend.EFT.Networking
 {
-    public abstract class CoreHttpController : HttpController
+    public abstract class AbstractEftHttpController : AbstractHttpController
     {
-        protected CoreHttpController(Regex pattern) : base(pattern)
+        protected AbstractEftHttpController(Regex pattern) : base(pattern)
         {
             // match dynamic paths
         }
 
-        protected CoreHttpController(string path) : base(path)
+        protected AbstractEftHttpController(string path) : base(path)
         {
             // match static paths
         }
 
         public override Task RunAsync(HttpContext context)
         {
-            var downcast = new CoreHttpContext(context.Request, context.Response);
+            var downcast = new EftHttpContext(context.Request, context.Response);
             return RunAsync(downcast);
         }
 
-        public abstract Task RunAsync(CoreHttpContext context);
+        public abstract Task RunAsync(EftHttpContext context);
     }
 
-    public abstract class CoreHttpController<TRequest> : CoreHttpController where TRequest : class
+    public abstract class EftHttpController<TRequest> : AbstractEftHttpController where TRequest : class
     {
-        protected CoreHttpController(Regex pattern) : base(pattern)
+        protected EftHttpController(Regex pattern) : base(pattern)
         {
             // match dynamic paths
         }
 
-        protected CoreHttpController(string path) : base(path)
+        protected EftHttpController(string path) : base(path)
         {
             // match static paths
         }
 
-        public override Task RunAsync(CoreHttpContext context)
+        public override Task RunAsync(EftHttpContext context)
         {
             // TODO:
             // - Use better exception type
@@ -61,6 +61,6 @@ namespace Fuyu.Backend.Core.Networking
             return RunAsync(context, body);
         }
 
-        public abstract Task RunAsync(CoreHttpContext context, TRequest body);
+        public abstract Task RunAsync(EftHttpContext context, TRequest body);
     }
 }

@@ -3,7 +3,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class SettingsController : EftHttpController
+    public class SettingsController : AbstractEftHttpController
     {
         public SettingsController() : base("/client/settings")
         {

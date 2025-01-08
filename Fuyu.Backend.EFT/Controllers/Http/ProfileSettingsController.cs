@@ -5,7 +5,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http
 {
-    public class ProfileSettingsController : EftHttpController
+    public class ProfileSettingsController : AbstractEftHttpController
     {
         public ProfileSettingsController() : base("/client/profile/settings")
         {

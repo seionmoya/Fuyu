@@ -5,7 +5,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class TagItemEventController : ItemEventController<TagItemEvent>
+    public class TagItemEventController : AbstractItemEventController<TagItemEvent>
     {
         public TagItemEventController() : base("Tag")
         {

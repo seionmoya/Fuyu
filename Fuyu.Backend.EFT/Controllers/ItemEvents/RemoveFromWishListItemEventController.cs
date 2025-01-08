@@ -4,7 +4,7 @@ using Fuyu.Backend.BSG.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {
-    public class RemoveFromWishListItemEventController : ItemEventController<RemoveFromWishListItemEvent>
+    public class RemoveFromWishListItemEventController : AbstractItemEventController<RemoveFromWishListItemEvent>
     {
         public RemoveFromWishListItemEventController() : base("RemoveFromWishList")
         {

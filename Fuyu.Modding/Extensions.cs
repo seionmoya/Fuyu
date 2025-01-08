@@ -4,9 +4,9 @@ namespace Fuyu.Modding
 {
     public static class Extensions
     {
-        public static T ResolveMod<T>(this DependencyContainer container, string id) where T : Mod
+        public static T ResolveMod<T>(this DependencyContainer container, string id) where T : AbstractMod
         {
-            return container.Resolve<Mod, T>(id);
+            return container.Resolve<AbstractMod, T>(id);
         }
     }
 }
