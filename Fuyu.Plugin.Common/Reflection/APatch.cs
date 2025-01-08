@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
+using Fuyu.Common.IO;
 using HarmonyLib;
-using Fuyu.Plugin.Common.Utils;
 
 namespace Fuyu.Plugin.Common.Reflection
 {
@@ -28,7 +28,7 @@ namespace Fuyu.Plugin.Common.Reflection
 
         public void Enable()
         {
-            LogWriter.WriteLine($"Enabling: {Id}");
+            Terminal.WriteLine($"Enabling: {Id}");
 
             var patch = GetPatchMethod();
             var target = GetOriginalMethod();
@@ -59,7 +59,7 @@ namespace Fuyu.Plugin.Common.Reflection
 
         public void Disable()
         {
-            LogWriter.WriteLine($"Disabling: {Id}");
+            Terminal.WriteLine($"Disabling: {Id}");
 
             Harmony.UnpatchSelf();
         }

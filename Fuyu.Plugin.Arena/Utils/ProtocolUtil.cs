@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Fuyu.Common.IO;
 using HarmonyLib;
 using Fuyu.Plugin.Arena.Reflection;
-using Fuyu.Plugin.Common.Utils;
 
 namespace Fuyu.Plugin.Arena.Utils
 {
@@ -14,7 +14,7 @@ namespace Fuyu.Plugin.Arena.Utils
         // -- seionmoya, 2024/08/xx 
         public static void RemoveTransportPrefixes()
         {
-            LogWriter.WriteLine("Removing transport prefixes...");
+            Terminal.WriteLine("Removing transport prefixes...");
 
             var target = "TransportPrefixes";
             var type = PatchHelper.Types.Single(t => t.GetField(target) != null);
