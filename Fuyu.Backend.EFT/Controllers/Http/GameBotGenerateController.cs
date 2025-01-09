@@ -6,27 +6,26 @@ using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class GameBotGenerateController : EftHttpController<GameBotGenerateRequest>
 {
-    public class GameBotGenerateController : EftHttpController<GameBotGenerateRequest>
+    private readonly BotService _botService;
+
+    public GameBotGenerateController() : base("/client/game/bot/generate")
     {
-        private readonly BotService _botService;
+        _botService = BotService.Instance;
+    }
 
-        public GameBotGenerateController() : base("/client/game/bot/generate")
+    public override Task RunAsync(EftHttpContext context, GameBotGenerateRequest request)
+    {
+        var profiles = _botService.GetBots(request.conditions);
+        var response = new ResponseBody<Profile[]>()
         {
-            _botService = BotService.Instance;
-        }
+            data = profiles
+        };
 
-        public override Task RunAsync(EftHttpContext context, GameBotGenerateRequest request)
-        {
-            var profiles = _botService.GetBots(request.conditions);
-            var response = new ResponseBody<Profile[]>()
-            {
-                data = profiles
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

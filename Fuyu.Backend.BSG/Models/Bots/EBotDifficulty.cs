@@ -1,10 +1,9 @@
-namespace Fuyu.Backend.BSG.Models.Bots
+namespace Fuyu.Backend.BSG.Models.Bots;
+
+public enum EBotDifficulty
 {
-    public enum EBotDifficulty
-    {
-        easy,
-        normal,
-        hard,
-        impossible
-    }
+    easy,
+    normal,
+    hard,
+    impossible
 }

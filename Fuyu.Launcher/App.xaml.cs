@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace Fuyu.Launcher
+namespace Fuyu.Launcher;
+
+public partial class App : Application
 {
-    public partial class App : Application
-    {
-    }
 }

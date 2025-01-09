@@ -1,9 +1,8 @@
-﻿namespace Fuyu.Launcher.Store
-{
-    public class LogoutSessionAction
-    {
-        public readonly string UserName = string.Empty;
+﻿namespace Fuyu.Launcher.Store;
 
-        public readonly bool IsLoggedIn = false;
-    }
+public class LogoutSessionAction
+{
+    public readonly string UserName = string.Empty;
+
+    public readonly bool IsLoggedIn = false;
 }

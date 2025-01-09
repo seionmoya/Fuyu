@@ -1,10 +1,9 @@
-﻿namespace Fuyu.Backend.BSG.Models.Common
+﻿namespace Fuyu.Backend.BSG.Models.Common;
+
+public enum EMapMarkerType
 {
-    public enum EMapMarkerType
-    {
-        Loot,
-        LockedStuff,
-        Important,
-        Other
-    }
+    Loot,
+    LockedStuff,
+    Important,
+    Other
 }

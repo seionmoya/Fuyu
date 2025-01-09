@@ -6,59 +6,58 @@ using Fuyu.Common.Collections;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.Core.Services
+namespace Fuyu.Backend.Core.Services;
+
+public class RequestService
 {
-    public class RequestService
+    public static RequestService Instance => instance.Value;
+    private static readonly Lazy<RequestService> instance = new(() => new RequestService());
+
+    private readonly ThreadDictionary<string, HttpClient> _httpClients;
+
+    /// <summary>
+    /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+    /// </summary>
+    private RequestService()
     {
-        public static RequestService Instance => instance.Value;
-        private static readonly Lazy<RequestService> instance = new(() => new RequestService());
+        _httpClients = new ThreadDictionary<string, HttpClient>();
 
-        private readonly ThreadDictionary<string, HttpClient> _httpClients;
+        // TODO:
+        // * get address from config
+        // -- seionmoya, 2024/09/08
+        _httpClients.Set("eft", new HttpClient("http://localhost:8010"));
+        _httpClients.Set("arena", new HttpClient("http://localhost:8020"));
+    }
 
-        /// <summary>
-        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-        /// </summary>
-        private RequestService()
+    private T2 HttpPost<T1, T2>(string id, string path, T1 request)
+    {
+        if (!_httpClients.TryGet(id, out var httpc))
         {
-            _httpClients = new ThreadDictionary<string, HttpClient>();
-
-            // TODO:
-            // * get address from config
-            // -- seionmoya, 2024/09/08
-            _httpClients.Set("eft", new HttpClient("http://localhost:8010"));
-            _httpClients.Set("arena", new HttpClient("http://localhost:8020"));
+            throw new Exception($"Id '{id}' not found");
         }
 
-        private T2 HttpPost<T1, T2>(string id, string path, T1 request)
+        var requestJson = Json.Stringify(request);
+        var requestBytes = Encoding.UTF8.GetBytes(requestJson);
+
+        var response = httpc.Post(path, requestBytes);
+        var responseJson = Encoding.UTF8.GetString(response.Body);
+        var responseValue = Json.Parse<T2>(responseJson);
+
+        return responseValue;
+    }
+
+    public int RegisterGame(string game, string username, string edition)
+    {
+        var request = new FuyuGameRegisterRequest()
         {
-            if (!_httpClients.TryGet(id, out var httpc))
-            {
-                throw new Exception($"Id '{id}' not found");
-            }
+            Username = username,
+            Edition = edition
+        };
+        var response = HttpPost<FuyuGameRegisterRequest, FuyuGameRegisterResponse>(
+            game,
+            "/fuyu/game/register",
+            request);
 
-            var requestJson = Json.Stringify(request);
-            var requestBytes = Encoding.UTF8.GetBytes(requestJson);
-
-            var response = httpc.Post(path, requestBytes);
-            var responseJson = Encoding.UTF8.GetString(response.Body);
-            var responseValue = Json.Parse<T2>(responseJson);
-
-            return responseValue;
-        }
-
-        public int RegisterGame(string game, string username, string edition)
-        {
-            var request = new FuyuGameRegisterRequest()
-            {
-                Username = username,
-                Edition = edition
-            };
-            var response = HttpPost<FuyuGameRegisterRequest, FuyuGameRegisterResponse>(
-                game,
-                "/fuyu/game/register",
-                request);
-
-            return response.AccountId;
-        }
+        return response.AccountId;
     }
 }

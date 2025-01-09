@@ -3,24 +3,23 @@ using Fuyu.Backend.Core.Servers;
 using Fuyu.Common.Networking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Fuyu.Tests.Backend.Core.EndToEnd
+namespace Fuyu.Tests.Backend.Core.EndToEnd;
+
+[TestClass]
+public class BackendTest
 {
-    [TestClass]
-    public class BackendTest
+    private static HttpClient _coreClient;
+
+    [AssemblyInitialize]
+    public static void AssemblyInitialize(TestContext testContext)
     {
-        private static HttpClient _coreClient;
+        // setup databases
+        CoreLoader.Instance.Load();
 
-        [AssemblyInitialize]
-        public static void AssemblyInitialize(TestContext testContext)
-        {
-            // setup databases
-            CoreLoader.Instance.Load();
+        // setup server
+        _ = new CoreServer();
 
-            // setup server
-            _ = new CoreServer();
-
-            // create request clients
-            _coreClient = new HttpClient("http://localhost:8000");
-        }
+        // create request clients
+        _coreClient = new HttpClient("http://localhost:8000");
     }
 }

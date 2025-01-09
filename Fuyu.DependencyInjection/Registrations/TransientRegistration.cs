@@ -1,20 +1,19 @@
 ﻿using System;
 
-namespace Fuyu.DependencyInjection.Registrations
+namespace Fuyu.DependencyInjection.Registrations;
+
+internal class TransientRegistration<T> : AbstractDependencyRegistration
 {
-    internal class TransientRegistration<T> : AbstractDependencyRegistration
+    public Func<T> Factory { get; }
+
+    internal TransientRegistration(string id, Func<T> factory)
     {
-        public Func<T> Factory { get; }
+        Id = id;
+        Factory = factory;
+    }
 
-        internal TransientRegistration(string id, Func<T> factory)
-        {
-            Id = id;
-            Factory = factory;
-        }
-
-        public override object GetValue()
-        {
-            return Factory();
-        }
+    public override object GetValue()
+    {
+        return Factory();
     }
 }

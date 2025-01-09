@@ -1,15 +1,14 @@
 using System.Runtime.Serialization;
 using Fuyu.Common.Hashing;
 
-namespace Fuyu.Backend.BSG.Models.Profiles
-{
-    [DataContract]
-    public class InsuredItem
-    {
-        [DataMember]
-        public MongoId tid { get; set; }
+namespace Fuyu.Backend.BSG.Models.Profiles;
 
-        [DataMember]
-        public MongoId itemId { get; set; }
-    }
+[DataContract]
+public class InsuredItem
+{
+    [DataMember]
+    public MongoId tid { get; set; }
+
+    [DataMember]
+    public MongoId itemId { get; set; }
 }

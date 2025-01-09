@@ -4,27 +4,26 @@ using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class AchievementStatisticController : AbstractEftHttpController
 {
-    public class AchievementStatisticController : AbstractEftHttpController
+    private readonly AchievementService _achievementService;
+
+    public AchievementStatisticController() : base("/client/achievement/statistic")
     {
-        private readonly AchievementService _achievementService;
+        _achievementService = AchievementService.Instance;
+    }
 
-        public AchievementStatisticController() : base("/client/achievement/statistic")
+    public override Task RunAsync(EftHttpContext context)
+    {
+        var statistics = _achievementService.GetStatistics();
+        var response = new ResponseBody<AchievementStatisticResponse>()
         {
-            _achievementService = AchievementService.Instance;
-        }
+            data = statistics
+        };
 
-        public override Task RunAsync(EftHttpContext context)
-        {
-            var statistics = _achievementService.GetStatistics();
-            var response = new ResponseBody<AchievementStatisticResponse>()
-            {
-                data = statistics
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

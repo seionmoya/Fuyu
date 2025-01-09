@@ -1,10 +1,9 @@
-namespace Fuyu.Backend.Core.Models.Accounts
+namespace Fuyu.Backend.Core.Models.Accounts;
+
+public enum ELoginStatus
 {
-    public enum ELoginStatus
-    {
-        AccountBanned,
-        AccountNotFound,
-        SessionAlreadyExists,
-        Success
-    }
+    AccountBanned,
+    AccountNotFound,
+    SessionAlreadyExists,
+    Success
 }

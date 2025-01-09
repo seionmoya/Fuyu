@@ -1,20 +1,19 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Common
+namespace Fuyu.Backend.BSG.Models.Common;
+
+public enum ERepairBuffType
 {
-    public enum ERepairBuffType
-    {
-        [DataMember(Name = "WeaponSpread")]
-        WeaponSpread,
-        [DataMember(Name = "DamageReduction")]
-        DamageReduction,
-        [DataMember(Name = "MalfunctionProtections")]
-        MalfunctionProtections,
-        [DataMember(Name = "WeaponDamage")]
-        WeaponDamage,
-        [DataMember(Name = "ArmorEfficiency")]
-        ArmorEfficiency,
-        [DataMember(Name = "DurabilityImprovement")]
-        DurabilityImprovement
-    }
+    [DataMember(Name = "WeaponSpread")]
+    WeaponSpread,
+    [DataMember(Name = "DamageReduction")]
+    DamageReduction,
+    [DataMember(Name = "MalfunctionProtections")]
+    MalfunctionProtections,
+    [DataMember(Name = "WeaponDamage")]
+    WeaponDamage,
+    [DataMember(Name = "ArmorEfficiency")]
+    ArmorEfficiency,
+    [DataMember(Name = "DurabilityImprovement")]
+    DurabilityImprovement
 }

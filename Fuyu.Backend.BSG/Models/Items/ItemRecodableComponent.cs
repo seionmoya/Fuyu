@@ -2,25 +2,24 @@
 using Fuyu.Backend.BSG;
 using Newtonsoft.Json.Linq;
 
-namespace Fuyu.Backend.BSG.Models.Items
+namespace Fuyu.Backend.BSG.Models.Items;
+
+[DataContract]
+public class ItemRecodableComponent : IItemComponent
 {
-    [DataContract]
-    public class ItemRecodableComponent : IItemComponent
+    [DataMember]
+    public bool IsEncoded { get; set; }
+
+    public static object CreateComponent(JObject templateProperties)
     {
-        [DataMember]
-        public bool IsEncoded { get; set; }
-
-        public static object CreateComponent(JObject templateProperties)
+        if (!templateProperties.ContainsKey("IsEncoded"))
         {
-            if (!templateProperties.ContainsKey("IsEncoded"))
-            {
-                return null;
-            }
-
-            return new ItemRecodableComponent
-            {
-                IsEncoded = templateProperties.Value<bool>("IsEncoded")
-            };
+            return null;
         }
+
+        return new ItemRecodableComponent
+        {
+            IsEncoded = templateProperties.Value<bool>("IsEncoded")
+        };
     }
 }

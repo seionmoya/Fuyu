@@ -1,35 +1,34 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.EFT.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class LocationsController : AbstractEftHttpController
 {
-    public class LocationsController : AbstractEftHttpController
+    // private readonly LocationService _locationService;
+    private readonly EftOrm _eftOrm;
+
+    public LocationsController() : base("/client/locations")
     {
-        // private readonly LocationService _locationService;
-        private readonly EftOrm _eftOrm;
+        // _locationService = LocationService.Instance;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public LocationsController() : base("/client/locations")
+    // TODO: parse from model
+    // -- seionmoya, 2024-01-09
+    public override Task RunAsync(EftHttpContext context)
+    {
+        /*
+        var worldmap = _locationService.GetWorldMap();
+        var response = new ResponseBody<WorldMap>()
         {
-            // _locationService = LocationService.Instance;
-            _eftOrm = EftOrm.Instance;
-        }
+            data = worldmap
+        };
+        var text = Json.Stringify(response);
+        */
 
-        // TODO: parse from model
-        // -- seionmoya, 2024-01-09
-        public override Task RunAsync(EftHttpContext context)
-        {
-            /*
-            var worldmap = _locationService.GetWorldMap();
-            var response = new ResponseBody<WorldMap>()
-            {
-                data = worldmap
-            };
-            var text = Json.Stringify(response);
-            */
-
-            var response = _eftOrm.GetWorldMap();
-            var text = response.ToString();
-            return context.SendJsonAsync(text, true, true);
-        }
+        var response = _eftOrm.GetWorldMap();
+        var text = response.ToString();
+        return context.SendJsonAsync(text, true, true);
     }
 }

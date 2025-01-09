@@ -4,30 +4,29 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class GameProfileNicknameValidateController : EftHttpController<GameProfileNicknameValidateRequest>
 {
-    public class GameProfileNicknameValidateController : EftHttpController<GameProfileNicknameValidateRequest>
+    public GameProfileNicknameValidateController() : base("/client/game/profile/nickname/validate")
     {
-        public GameProfileNicknameValidateController() : base("/client/game/profile/nickname/validate")
-        {
-        }
+    }
 
-        public override Task RunAsync(EftHttpContext context, GameProfileNicknameValidateRequest request)
-        {
-            // TODO:
-            // * validate nickname usage
-            // -- seionmoya, 2024/08/28
+    public override Task RunAsync(EftHttpContext context, GameProfileNicknameValidateRequest request)
+    {
+        // TODO:
+        // * validate nickname usage
+        // -- seionmoya, 2024/08/28
 
-            var response = new ResponseBody<GameProfileNicknameValidateResponse>()
+        var response = new ResponseBody<GameProfileNicknameValidateResponse>()
+        {
+            data = new GameProfileNicknameValidateResponse()
             {
-                data = new GameProfileNicknameValidateResponse()
-                {
-                    status = "ok"
-                }
-            };
+                status = "ok"
+            }
+        };
 
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

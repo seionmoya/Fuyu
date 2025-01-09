@@ -1,8 +1,7 @@
 ﻿using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.BSG.Networking
+namespace Fuyu.Backend.BSG.Networking;
+
+public class ItemEventRouter : Router<IItemEventController, ItemEventContext>
 {
-    public class ItemEventRouter : Router<IItemEventController, ItemEventContext>
-    {
-    }
 }

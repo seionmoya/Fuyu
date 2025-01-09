@@ -2,28 +2,27 @@
 using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers.ItemEvents
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents;
+
+public class AddToWishListItemEventController : AbstractItemEventController<AddToWishListItemEvent>
 {
-    public class AddToWishListItemEventController : AbstractItemEventController<AddToWishListItemEvent>
+    private readonly EftOrm _eftOrm;
+
+    public AddToWishListItemEventController() : base("AddToWishList")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public AddToWishListItemEventController() : base("AddToWishList")
+    public override Task RunAsync(ItemEventContext context, AddToWishListItemEvent request)
+    {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var wishList = profile.Pmc.GetWishList();
+
+        foreach ((var itemId, var wishlistGroup) in request.Items)
         {
-            _eftOrm = EftOrm.Instance;
+            wishList[itemId] = wishlistGroup;
         }
 
-        public override Task RunAsync(ItemEventContext context, AddToWishListItemEvent request)
-        {
-            var profile = _eftOrm.GetActiveProfile(context.SessionId);
-            var wishList = profile.Pmc.GetWishList();
-
-            foreach ((var itemId, var wishlistGroup) in request.Items)
-            {
-                wishList[itemId] = wishlistGroup;
-            }
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

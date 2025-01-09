@@ -3,29 +3,28 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class GameKeepaliveController : AbstractEftHttpController
 {
-    public class GameKeepaliveController : AbstractEftHttpController
+    public GameKeepaliveController() : base("/client/game/keepalive")
     {
-        public GameKeepaliveController() : base("/client/game/keepalive")
-        {
-        }
+    }
 
-        public override Task RunAsync(EftHttpContext context)
+    public override Task RunAsync(EftHttpContext context)
+    {
+        // TODO: generate this
+        // --seionmoya, 2024-11-18
+        var response = new ResponseBody<GameKeepaliveResponse>
         {
-            // TODO: generate this
-            // --seionmoya, 2024-11-18
-            var response = new ResponseBody<GameKeepaliveResponse>
+            data = new GameKeepaliveResponse()
             {
-                data = new GameKeepaliveResponse()
-                {
-                    msg = "OK",
-                    utc_time = 1724627853.791631
-                }
-            };
+                msg = "OK",
+                utc_time = 1724627853.791631
+            }
+        };
 
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

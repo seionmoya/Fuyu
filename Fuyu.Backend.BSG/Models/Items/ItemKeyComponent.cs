@@ -2,25 +2,24 @@
 using Fuyu.Backend.BSG;
 using Newtonsoft.Json.Linq;
 
-namespace Fuyu.Backend.BSG.Models.Items
+namespace Fuyu.Backend.BSG.Models.Items;
+
+[DataContract]
+public class ItemKeyComponent : IItemComponent
 {
-    [DataContract]
-    public class ItemKeyComponent : IItemComponent
+    [DataMember(Name = "NumberOfUsages")]
+    public int NumberOfUsages { get; set; }
+
+    public static object CreateComponent(JObject templateProperties)
     {
-        [DataMember(Name = "NumberOfUsages")]
-        public int NumberOfUsages { get; set; }
-
-        public static object CreateComponent(JObject templateProperties)
+        if (!templateProperties.ContainsKey("MaximumNumberOfUsage"))
         {
-            if (!templateProperties.ContainsKey("MaximumNumberOfUsage"))
-            {
-                return null;
-            }
-
-            return new ItemKeyComponent
-            {
-                NumberOfUsages = templateProperties.Value<int>("MaximumNumberOfUsage")
-            };
+            return null;
         }
+
+        return new ItemKeyComponent
+        {
+            NumberOfUsages = templateProperties.Value<int>("MaximumNumberOfUsage")
+        };
     }
 }

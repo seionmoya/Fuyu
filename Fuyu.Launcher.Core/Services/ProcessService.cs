@@ -1,63 +1,62 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace Fuyu.Launcher.Core.Services
+namespace Fuyu.Launcher.Core.Services;
+
+public class ProcessService
 {
-    public class ProcessService
+    private static string[] GetLaunchArguments(string sessionId, string address)
     {
-        private static string[] GetLaunchArguments(string sessionId, string address)
-        {
-            var token = $"-token={sessionId}";
-            var config = "-config={\"BackendUrl\":\"" + address + "\",\"Version\":\"live\",\"MatchingVersion\":\"live\"}";
+        var token = $"-token={sessionId}";
+        var config = "-config={\"BackendUrl\":\"" + address + "\",\"Version\":\"live\",\"MatchingVersion\":\"live\"}";
 
-            return [
-                "-force-gfx-jobs",
-                "native",
-                token,
-                config
-            ];
+        return [
+            "-force-gfx-jobs",
+            "native",
+            token,
+            config
+        ];
+    }
+
+    public static Process StartEft(string cwd, string sessionId, string address)
+    {
+        var psi = new ProcessStartInfo()
+        {
+            FileName = Path.Combine(cwd, "EscapeFromTarkov.exe"),
+            WorkingDirectory = cwd
+        };
+
+        var args = GetLaunchArguments(sessionId, address);
+
+        foreach (var arg in args)
+        {
+            psi.ArgumentList.Add(arg);
         }
 
-        public static Process StartEft(string cwd, string sessionId, string address)
+        return new Process()
         {
-            var psi = new ProcessStartInfo()
-            {
-                FileName = Path.Combine(cwd, "EscapeFromTarkov.exe"),
-                WorkingDirectory = cwd
-            };
+            StartInfo = psi
+        };
+    }
 
-            var args = GetLaunchArguments(sessionId, address);
+    public static Process StartArena(string cwd, string sessionId, string address)
+    {
+        var psi = new ProcessStartInfo()
+        {
+            FileName = Path.Combine(cwd, "EscapeFromTarkovArena.exe"),
+            WorkingDirectory = cwd
+        };
 
-            foreach (var arg in args)
-            {
-                psi.ArgumentList.Add(arg);
-            }
+        var args = GetLaunchArguments(sessionId, address);
 
-            return new Process()
-            {
-                StartInfo = psi
-            };
+        foreach (var arg in args)
+        {
+            psi.ArgumentList.Add(arg);
         }
 
-        public static Process StartArena(string cwd, string sessionId, string address)
+        return new Process()
         {
-            var psi = new ProcessStartInfo()
-            {
-                FileName = Path.Combine(cwd, "EscapeFromTarkovArena.exe"),
-                WorkingDirectory = cwd
-            };
-
-            var args = GetLaunchArguments(sessionId, address);
-
-            foreach (var arg in args)
-            {
-                psi.ArgumentList.Add(arg);
-            }
-
-            return new Process()
-            {
-                StartInfo = psi
-            };
-        }
+            StartInfo = psi
+        };
     }
 }

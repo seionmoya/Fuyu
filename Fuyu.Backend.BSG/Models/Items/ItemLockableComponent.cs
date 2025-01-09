@@ -2,23 +2,22 @@
 using Fuyu.Backend.BSG;
 using Newtonsoft.Json.Linq;
 
-namespace Fuyu.Backend.BSG.Models.Items
+namespace Fuyu.Backend.BSG.Models.Items;
+
+[DataContract]
+public class ItemLockableComponent : IItemComponent
 {
-    [DataContract]
-    public class ItemLockableComponent : IItemComponent
+    [DataMember]
+    public bool Locked { get; set; }
+
+    public static object CreateComponent(JObject templateProperties)
     {
-        [DataMember]
-        public bool Locked { get; set; }
-
-        public static object CreateComponent(JObject templateProperties)
+        if (!templateProperties.ContainsKey("isSecured")
+            || !templateProperties.Value<bool>("isSecured"))
         {
-            if (!templateProperties.ContainsKey("isSecured")
-                || !templateProperties.Value<bool>("isSecured"))
-            {
-                return null;
-            }
-
-            return new ItemLockableComponent { Locked = true };
+            return null;
         }
+
+        return new ItemLockableComponent { Locked = true };
     }
 }

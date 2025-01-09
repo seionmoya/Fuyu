@@ -1,16 +1,15 @@
-namespace Fuyu.Backend.Core.Models.Accounts
+namespace Fuyu.Backend.Core.Models.Accounts;
+
+public enum ERegisterStatus
 {
-    public enum ERegisterStatus
-    {
-        UsernameEmpty,
-        UsernameTooShort,
-        UsernameTooLong,
-        UsernameInvalid,
-        PasswordEmpty,
-        PasswordTooShort,
-        PasswordTooLong,
-        PasswordInvalid,
-        AlreadyExists,
-        Success
-    }
+    UsernameEmpty,
+    UsernameTooShort,
+    UsernameTooLong,
+    UsernameInvalid,
+    PasswordEmpty,
+    PasswordTooShort,
+    PasswordTooLong,
+    PasswordInvalid,
+    AlreadyExists,
+    Success
 }

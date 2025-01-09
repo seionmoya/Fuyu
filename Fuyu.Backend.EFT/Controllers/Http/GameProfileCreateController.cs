@@ -5,38 +5,37 @@ using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+// TODO:
+// * move code into TemplateTable and ProfileService
+// -- seionmoya, 2024/09/02
+public class GameProfileCreateController : EftHttpController<GameProfileCreateRequest>
 {
-    // TODO:
-    // * move code into TemplateTable and ProfileService
-    // -- seionmoya, 2024/09/02
-    public class GameProfileCreateController : EftHttpController<GameProfileCreateRequest>
+    private readonly EftOrm _eftOrm;
+    private readonly ProfileService _profileService;
+
+    public GameProfileCreateController() : base("/client/game/profile/create")
     {
-        private readonly EftOrm _eftOrm;
-        private readonly ProfileService _profileService;
+        _eftOrm = EftOrm.Instance;
+        _profileService = ProfileService.Instance;
+    }
 
-        public GameProfileCreateController() : base("/client/game/profile/create")
+    public override Task RunAsync(EftHttpContext context, GameProfileCreateRequest request)
+    {
+        var sessionId = context.GetSessionId();
+        var account = _eftOrm.GetAccount(sessionId);
+        var pmcId = _profileService.WipeProfile(account, request.side, request.headId, request.voiceId);
+
+        var response = new ResponseBody<GameProfileCreateResponse>()
         {
-            _eftOrm = EftOrm.Instance;
-            _profileService = ProfileService.Instance;
-        }
-
-        public override Task RunAsync(EftHttpContext context, GameProfileCreateRequest request)
-        {
-            var sessionId = context.GetSessionId();
-            var account = _eftOrm.GetAccount(sessionId);
-            var pmcId = _profileService.WipeProfile(account, request.side, request.headId, request.voiceId);
-
-            var response = new ResponseBody<GameProfileCreateResponse>()
+            data = new GameProfileCreateResponse()
             {
-                data = new GameProfileCreateResponse()
-                {
-                    uid = pmcId
-                }
-            };
+                uid = pmcId
+            }
+        };
 
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

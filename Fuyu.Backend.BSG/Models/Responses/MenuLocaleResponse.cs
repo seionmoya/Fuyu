@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Responses
+namespace Fuyu.Backend.BSG.Models.Responses;
+
+[DataContract]
+public class MenuLocaleResponse
 {
-    [DataContract]
-    public class MenuLocaleResponse
-    {
-        [DataMember]
-        public Dictionary<string, string> menu { get; set; }
-    }
+    [DataMember]
+    public Dictionary<string, string> menu { get; set; }
 }

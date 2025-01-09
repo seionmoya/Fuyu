@@ -111,19 +111,18 @@ using Fuyu.Modding;
 // -- others
 using Fuyu.Common.IO;
 
-namespace Senko.HelloWorld
-{
-    public class HelloWorldMod : AbstractMod
-    {
-        public override string Id { get; } = "Senko.HelloWorld";
-        public override string Name { get; } = "Senko - HelloWorld";
-        public override string[] Dependencies { get; } = [];
+namespace Senko.HelloWorld;
 
-        public override Task OnLoad(DependencyContainer container)
-        {
-            // done loading the mod!
-            return Task.CompletedTask;
-        }
+public class HelloWorldMod : AbstractMod
+{
+    public override string Id { get; } = "Senko.HelloWorld";
+    public override string Name { get; } = "Senko - HelloWorld";
+    public override string[] Dependencies { get; } = [];
+
+    public override Task OnLoad(DependencyContainer container)
+    {
+        // done loading the mod!
+        return Task.CompletedTask;
     }
 }
 ```
@@ -242,21 +241,20 @@ using Fuyu.Modding;
 // -- others
 using Fuyu.Common.IO;
 
-namespace Senko.HelloWorld
+namespace Senko.HelloWorld;
+
+public class HelloWorldMod : AbstractMod
 {
-    public class HelloWorldMod : AbstractMod
+    public override string Id { get; } = "Senko.HelloWorld";
+    public override string Name { get; } = "Senko - HelloWorld";
+    public override string[] Dependencies { get; } = [];
+
+    public override Task OnLoad(DependencyContainer container)
     {
-        public override string Id { get; } = "Senko.HelloWorld";
-        public override string Name { get; } = "Senko - HelloWorld";
-        public override string[] Dependencies { get; } = [];
+        Terminal.WriteLine("Hello, mod!");
 
-        public override Task OnLoad(DependencyContainer container)
-        {
-            Terminal.WriteLine("Hello, mod!");
-
-            // done loading the mod!
-            return Task.CompletedTask;
-        }
+        // done loading the mod!
+        return Task.CompletedTask;
     }
 }
 ```
@@ -337,20 +335,19 @@ using Fuyu.Modding;
 using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
+
+public class HelloWorldMod : AbstractMod
 {
-    public class HelloWorldMod : AbstractMod
+    public override string Id { get; } = "Senko.HelloWorld";
+    public override string Name { get; } = "Senko - HelloWorld";
+    public override string[] Dependencies { get; } = [];
+
+    public override Task OnLoad(DependencyContainer container)
     {
-        public override string Id { get; } = "Senko.HelloWorld";
-        public override string Name { get; } = "Senko - HelloWorld";
-        public override string[] Dependencies { get; } = [];
+        Terminal.WriteLine("Hello, mod!");
 
-        public override Task OnLoad(DependencyContainer container)
-        {
-            Terminal.WriteLine("Hello, mod!");
-
-            // done loading the mod!
-            return Task.CompletedTask;
-        }
+        // done loading the mod!
+        return Task.CompletedTask;
     }
 }
 ```
@@ -372,21 +369,20 @@ using Fuyu.Modding;
 using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
+
+public class HelloWorldMod : AbstractMod
 {
-    public class HelloWorldMod : AbstractMod
+    public override string Id { get; } = "Senko.HelloWorld";
+    public override string Name { get; } = "Senko - HelloWorld";
+    public override string[] Dependencies { get; } = [];
+
+    public override Task OnLoad(DependencyContainer container)
     {
-        public override string Id { get; } = "Senko.HelloWorld";
-        public override string Name { get; } = "Senko - HelloWorld";
-        public override string[] Dependencies { get; } = [];
+        var message = Resx.GetText(Id, "messages.hello.txt");
+        Terminal.WriteLine("Hello, mod!");
 
-        public override Task OnLoad(DependencyContainer container)
-        {
-            var message = Resx.GetText(Id, "messages.hello.txt");
-            Terminal.WriteLine("Hello, mod!");
-
-            // done loading the mod!
-            return Task.CompletedTask;
-        }
+        // done loading the mod!
+        return Task.CompletedTask;
     }
 }
 ```
@@ -431,21 +427,20 @@ using Fuyu.Modding;
 using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
+
+public class HelloWorldMod : AbstractMod
 {
-    public class HelloWorldMod : AbstractMod
+    public override string Id { get; } = "Senko.HelloWorld";
+    public override string Name { get; } = "Senko - HelloWorld";
+    public override string[] Dependencies { get; } = [];
+
+    public override Task OnLoad(DependencyContainer container)
     {
-        public override string Id { get; } = "Senko.HelloWorld";
-        public override string Name { get; } = "Senko - HelloWorld";
-        public override string[] Dependencies { get; } = [];
+        var message = Resx.GetText(Id, "messages.hello.txt");
+        Terminal.WriteLine(message);
 
-        public override Task OnLoad(DependencyContainer container)
-        {
-            var message = Resx.GetText(Id, "messages.hello.txt");
-            Terminal.WriteLine(message);
-
-            // done loading the mod!
-            return Task.CompletedTask;
-        }
+        // done loading the mod!
+        return Task.CompletedTask;
     }
 }
 ```

@@ -2,29 +2,28 @@ using System;
 using System.IO.Compression;
 using System.Net.Http;
 
-namespace Fuyu.Launcher.Core.Networking
+namespace Fuyu.Launcher.Core.Networking;
+
+public class CoreHttpClient : Fuyu.Common.Networking.HttpClient
 {
-    public class CoreHttpClient : Fuyu.Common.Networking.HttpClient
+    public readonly string _sessionId;
+
+    public CoreHttpClient(string address, string sessionId) : base(address)
     {
-        public readonly string _sessionId;
+        _sessionId = sessionId;
+    }
 
-        public CoreHttpClient(string address, string sessionId) : base(address)
+    protected override HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+    {
+        var request = new HttpRequestMessage()
         {
-            _sessionId = sessionId;
-        }
+            Method = method,
+            RequestUri = new Uri(Address + path),
+        };
 
-        protected override HttpRequestMessage GetNewRequest(HttpMethod method, string path)
-        {
-            var request = new HttpRequestMessage()
-            {
-                Method = method,
-                RequestUri = new Uri(Address + path),
-            };
+        request.Headers.Add("X-Encryption", "aes");
+        request.Headers.Add("Cookie", $"Session={_sessionId}");
 
-            request.Headers.Add("X-Encryption", "aes");
-            request.Headers.Add("Cookie", $"Session={_sessionId}");
-
-            return request;
-        }
+        return request;
     }
 }

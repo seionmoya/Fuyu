@@ -1,9 +1,8 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.ItemTemplates
+namespace Fuyu.Backend.BSG.ItemTemplates;
+
+[DataContract]
+public class VisorsItemProperties : ArmoredEquipmentItemProperties
 {
-    [DataContract]
-    public class VisorsItemProperties : ArmoredEquipmentItemProperties
-    {
-    }
 }

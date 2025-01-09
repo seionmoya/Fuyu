@@ -1,4 +1,3 @@
-namespace Fuyu.Common.Delegates
-{
-    public delegate void LoadCallback();
-}
+namespace Fuyu.Common.Delegates;
+
+public delegate void LoadCallback();

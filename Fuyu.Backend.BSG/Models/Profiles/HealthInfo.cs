@@ -25,8 +25,8 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         [DataMember]
         public BodyPartInfo BodyParts { get; set; }
 
-        [DataMember]
-        public int? UpdateTime { get; set; }
+    [DataMember]
+    public int? UpdateTime { get; set; }
 
         public BodyPart GetBodyPart(EBodyPart bodyPart)
         {
