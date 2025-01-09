@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 
@@ -10,6 +11,11 @@ namespace Fuyu.Common.IO
         static VFS()
         {
             _writeLock = new ConcurrentDictionary<string, object>();
+        }
+
+        public static string GetWorkingDirectory()
+        {
+            return Environment.CurrentDirectory;
         }
 
         public static bool DirectoryExists(string filepath)
