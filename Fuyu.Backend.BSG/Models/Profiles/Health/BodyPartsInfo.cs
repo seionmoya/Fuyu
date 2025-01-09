@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Health;
@@ -25,4 +27,20 @@ public class BodyPartInfo
 
     [DataMember]
     public BodyPart RightLeg { get; set; }
+
+    // TODO: Refactor class to support IEnumerator?
+    [IgnoreDataMember]
+    public IEnumerable<BodyPart> AllBodyParts
+    {
+        get
+        {
+            yield return Head;
+            yield return Chest;
+            yield return Stomach;
+            yield return LeftArm;
+            yield return RightArm;
+            yield return LeftLeg;
+            yield return RightLeg;
+        }
+    }
 }

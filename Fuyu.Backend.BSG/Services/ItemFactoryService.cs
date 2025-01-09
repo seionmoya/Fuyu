@@ -32,6 +32,17 @@ public class ItemFactoryService
         ItemTemplates = Json.Parse<ResponseBody<Dictionary<MongoId, ItemTemplate>>>(itemsText).data;
     }
 
+    /// <summary>
+    /// Gets an <see cref="ItemProperties"/> from a <see cref="MongoId"/> TemplateId
+    /// </summary>
+    /// <typeparam name="T">The <see cref="ItemProperties"/> class to return</typeparam>
+    /// <param name="templateId">The <see cref="MongoId"/> TemplateId to get the <see cref="ItemProperties"/> from</param>
+    /// <returns>The <see cref="ItemProperties"/> class defined</returns>
+    public T GetItemProperties<T>(MongoId templateId) where T : ItemProperties
+    {
+        return ItemTemplates[templateId].Props.ToObject<T>();
+    }
+
     public ItemInstance CreateItem(MongoId tpl, MongoId? id = null)
     {
         var template = ItemTemplates[tpl];

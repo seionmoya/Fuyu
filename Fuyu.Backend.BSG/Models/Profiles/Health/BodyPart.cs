@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.Models.Common;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Health;
 
@@ -7,5 +7,8 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Health;
 public class BodyPart
 {
     [DataMember]
-    public CurrentMaximum<float> Health { get; set; }
+    public ClampedHealthStat<float> Health { get; set; }
+
+    [DataMember(EmitDefaultValue = false)]
+    public Dictionary<string, BodyPartEffect> Effects { get; set; }
 }
