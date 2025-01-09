@@ -36,7 +36,7 @@ TS type          | C# type
 - If the entry might be missing, use `[DataMember(EmitDefaultValue = false)]`
   and make it a nullable type (example: `HideoutInfo? HideoutInfo`).
 ```cs
-[DataMember("prestigeLevel", EmitDefaultValue = false)]
+[DataMember(Name = "prestigeLevel", EmitDefaultValue = false)]
 public int PrestigeLevel? { get; set; }
 ```
 - If you do not know the correct type, use `object` and add the comment
@@ -44,7 +44,7 @@ public int PrestigeLevel? { get; set; }
 ```cs
 // TODO: proper type
 // -- seionmoya, 2024-01-09
-[DataMember("exits")]
+[DataMember(Name = "exits")]
 public object[] Exits { get; set; }
 ```
 - If the member can be two possible types, use `Union<T1, T2>`. For example:
@@ -62,6 +62,6 @@ public object[] Exits { get; set; }
 }
 */
 
-[DataMember("TraderInfo")]
+[DataMember(Name = "TraderInfo")]
 public Union<TraderInfo, object[]> TraderInfo { get; set; }
 ```
