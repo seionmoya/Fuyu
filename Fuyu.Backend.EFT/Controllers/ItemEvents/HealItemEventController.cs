@@ -49,6 +49,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
             // TODO:
             // Check BackendConfig for 'HealExperience' and add to PMC profile
+            // Handle effects
 
             return Task.CompletedTask;
         }
