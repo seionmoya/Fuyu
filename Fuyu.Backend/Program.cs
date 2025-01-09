@@ -17,7 +17,7 @@ namespace Fuyu.Backend
         {
             var container = new DependencyContainer();
 
-            CoreDatabase.Instance.Load();
+            CoreLoader.Instance.Load();
             EftDatabase.Instance.Load();
             TraderDatabase.Instance.Load();
             ItemFactoryService.Instance.Load();

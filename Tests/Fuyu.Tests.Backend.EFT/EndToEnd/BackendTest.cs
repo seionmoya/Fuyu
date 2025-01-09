@@ -62,7 +62,7 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         public static void AssemblyInitialize(TestContext testContext)
         {
             // setup databases
-            CoreDatabase.Instance.Load();
+            CoreLoader.Instance.Load();
             EftDatabase.Instance.Load();
 
             // setup servers
