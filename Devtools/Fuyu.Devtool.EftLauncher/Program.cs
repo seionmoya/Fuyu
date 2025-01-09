@@ -27,7 +27,7 @@ namespace Fuyu.Devtool.EftLauncher
         public string VoiceId { get; set; }
     }
 
-        public class EftHttpClient : Fuyu.Common.Networking.HttpClient
+    public class EftHttpClient : Fuyu.Common.Networking.HttpClient
     {
         public readonly string _sessionId;
 
