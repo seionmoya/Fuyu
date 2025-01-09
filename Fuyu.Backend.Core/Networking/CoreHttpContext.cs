@@ -2,6 +2,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Fuyu.Backend.Core.Services;
 using Fuyu.Common.Networking;
 
 namespace Fuyu.Backend.Core.Networking
@@ -27,8 +28,7 @@ namespace Fuyu.Backend.Core.Networking
                     switch (encryption)
                     {
                         case "aes":
-                            // TODO: handle AES-192 encryption
-                            // body = CryptographyService.DecryptAes(body);
+                            body = CryptographyService.DecryptAes(body);
                             break;
 
                         default:
@@ -55,11 +55,8 @@ namespace Fuyu.Backend.Core.Networking
 
             if (hasData && encrypted)
             {
-                // TODO: handle X-Encryption: aes
-                /*
                 Response.Headers.Add("X-Encryption", "aes");
                 data = CryptographyService.EncryptAes(data);
-                */
                 encrypted = false;
             }
 

@@ -48,7 +48,7 @@ namespace Fuyu.Backend.Core.Networking
 
             if (body == null)
             {
-                throw new RequestBodyNotParsable("Body could not be parsed as TRequest.");
+                throw new RequestBodyNotParsableException("Body could not be parsed as TRequest.");
             }
 
             return RunAsync(context, body);

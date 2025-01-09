@@ -1,27 +1,16 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Fuyu.Backend.Core.Services;
 
-public class CryptographyService
+// Comment: Should we move this to elsewhere?
+public static class CryptographyService
 {
-    public static CryptographyService Instance => instance.Value;
-    private static readonly Lazy<CryptographyService> instance = new(() => new CryptographyService());
+    public static byte[] Key => Encoding.UTF8.GetBytes("Qo*np7*yPHqWX8ZB3ZO@m1k4");
 
-    /// <summary>
-    /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-    /// </summary>
-    private CryptographyService()
-    {
-
-
-    }
-    public byte[] Key => Encoding.UTF8.GetBytes("Qo*np7*yPHqWX8ZB3ZO@m1k4");
-
-    public byte[] EncryptAes(byte[] data)
+    public static byte[] EncryptAes(byte[] data)
     {
         Aes aes = Aes.Create();
         aes.GenerateIV();
@@ -37,7 +26,7 @@ public class CryptographyService
         return aes.IV.Concat(memory.ToArray()).ToArray();
     }
 
-    public byte[] DecryptAes(byte[] data)
+    public static byte[] DecryptAes(byte[] data)
     {
         Aes aes = Aes.Create();
         aes.GenerateIV();
