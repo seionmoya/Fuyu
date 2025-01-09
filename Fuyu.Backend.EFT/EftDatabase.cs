@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
+using Fuyu.Backend.BSG.Models.Locations;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
@@ -59,7 +60,7 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<string> HideoutSettings;
         internal readonly ThreadObject<JObject> Items;
         internal readonly ThreadObject<JObject> LocalWeather;
-        internal readonly ThreadObject<string> Locations;
+        internal readonly ThreadObject<WorldMap> WorldMap;
         internal readonly ThreadObject<JObject> Prestige;
         internal readonly ThreadObject<JObject> Quests;
         internal readonly ThreadObject<JObject> Settings;
@@ -82,6 +83,7 @@ namespace Fuyu.Backend.EFT
             MenuLocales = new ThreadDictionary<string, MenuLocaleResponse>();
             WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, Profile>>();
             DefaultBuilds = new ThreadObject<BuildsListResponse>(null);
+            WorldMap = new ThreadObject<WorldMap>(null);
 
             // TODO
             AchievementList = new ThreadObject<JObject>(null);
@@ -95,7 +97,6 @@ namespace Fuyu.Backend.EFT
             HideoutSettings = new ThreadObject<string>(string.Empty);
             Items = new ThreadObject<JObject>(null);
             LocalWeather = new ThreadObject<JObject>(null);
-            Locations = new ThreadObject<string>(string.Empty);
             Prestige = new ThreadObject<JObject>(null);
             Quests = new ThreadObject<JObject>(null);
             Settings = new ThreadObject<JObject>(null);
@@ -260,6 +261,13 @@ namespace Fuyu.Backend.EFT
             });
         }
 
+        private void LoadWorldMap()
+        {
+            var json = Resx.GetText("eft", "database.client.WorldMap.json");
+            var worldmap = Json.Parse<WorldMap>(json);
+            WorldMap.Set(worldmap);
+        }
+
         // TODO
         private void LoadUnparsed()
         {
@@ -274,7 +282,6 @@ namespace Fuyu.Backend.EFT
             HideoutSettings.Set(Resx.GetText("eft", "database.client.hideout.settings.json"));
             Items.Set(JObject.Parse(Resx.GetText("eft", "database.client.items.json")));
             LocalWeather.Set(JObject.Parse(Resx.GetText("eft", "database.client.localGame.weather.json")));
-            Locations.Set(Resx.GetText("eft", "database.client.locations.json"));
             Prestige.Set(JObject.Parse(Resx.GetText("eft", "database.client.prestige.list.json")));
             Quests.Set(JObject.Parse(Resx.GetText("eft", "database.client.quest.list.json")));
             Settings.Set(JObject.Parse(Resx.GetText("eft", "database.client.settings.json")));

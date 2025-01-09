@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
+using Fuyu.Backend.BSG.Models.Locations;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
@@ -437,6 +438,18 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
+        #region WorldMap
+        public WorldMap GetWorldMap()
+        {
+            return _eftDatabase.WorldMap.Get();
+        }
+
+        public void SetWorldMap(WorldMap worldmap)
+        {
+            _eftDatabase.WorldMap.Set(worldmap);
+        }
+        #endregion
+
         #region Unparsed
         public JObject GetAchievementList()
         {
@@ -493,12 +506,6 @@ namespace Fuyu.Backend.EFT
         public JObject GetLocalWeather()
         {
             return _eftDatabase.LocalWeather.Get();
-        }
-
-        // TODO: actual model exists
-        public string GetLocations()
-        {
-            return _eftDatabase.Locations.Get();
         }
 
         public JObject GetPrestige()
