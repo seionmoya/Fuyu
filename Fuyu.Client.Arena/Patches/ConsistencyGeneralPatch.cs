@@ -6,33 +6,32 @@ using EFT;
 using Fuyu.Client.Arena.Reflection;
 using Fuyu.Client.Common.Reflection;
 
-namespace Fuyu.Client.Arena.Patches
+namespace Fuyu.Client.Arena.Patches;
+
+public class ConsistencyGeneralPatch : AbstractPatch
 {
-    public class ConsistencyGeneralPatch : AbstractPatch
+    private static readonly MethodInfo _mi;
+
+    static ConsistencyGeneralPatch()
     {
-        private static readonly MethodInfo _mi;
+        var flags = PatchHelper.PrivateFlags;
+        _mi = typeof(TarkovApplication).BaseType.GetMethod("RunFilesChecking", flags);
+    }
 
-        static ConsistencyGeneralPatch()
-        {
-            var flags = PatchHelper.PrivateFlags;
-            _mi = typeof(TarkovApplication).BaseType.GetMethod("RunFilesChecking", flags);
-        }
+    public ConsistencyGeneralPatch() : base("com.Fuyu.Client.arena.consistencygeneral", EPatchType.Prefix)
+    {
+    }
 
-        public ConsistencyGeneralPatch() : base("com.Fuyu.Client.arena.consistencygeneral", EPatchType.Prefix)
-        {
-        }
+    protected override MethodBase GetOriginalMethod()
+    {
+        return _mi;
+    }
 
-        protected override MethodBase GetOriginalMethod()
-        {
-            return _mi;
-        }
+    protected static bool Patch(ref Task __result)
+    {
+        __result = Task.CompletedTask;
 
-        protected static bool Patch(ref Task __result)
-        {
-            __result = Task.CompletedTask;
-
-            // Don't run original code
-            return false;
-        }
+        // Don't run original code
+        return false;
     }
 }

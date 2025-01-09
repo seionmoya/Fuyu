@@ -1,25 +1,24 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Fuyu.Common.Hashing
+namespace Fuyu.Common.Hashing;
+
+public static class Sha256
 {
-    public static class Sha256
+    public static string Generate(string text)
     {
-        public static string Generate(string text)
+        using (var sha256 = SHA256.Create())
         {
-            using (var sha256 = SHA256.Create())
+            var sb = new StringBuilder();
+            var encoded = Encoding.UTF8.GetBytes(text);
+            var hash = sha256.ComputeHash(encoded);
+
+            foreach (var b in hash)
             {
-                var sb = new StringBuilder();
-                var encoded = Encoding.UTF8.GetBytes(text);
-                var hash = sha256.ComputeHash(encoded);
-
-                foreach (var b in hash)
-                {
-                    sb.Append(b.ToString("x2"));
-                }
-
-                return sb.ToString();
+                sb.Append(b.ToString("x2"));
             }
+
+            return sb.ToString();
         }
     }
 }

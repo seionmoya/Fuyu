@@ -1,11 +1,10 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.ItemTemplates
+namespace Fuyu.Backend.BSG.ItemTemplates;
+
+[DataContract]
+public class RadioTransmitterItemProperties : SpecItemItemProperties
 {
-    [DataContract]
-    public class RadioTransmitterItemProperties : SpecItemItemProperties
-    {
-        [DataMember(Name = "IsEncoded")]
-        public bool IsEncoded { get; set; }
-    }
+    [DataMember(Name = "IsEncoded")]
+    public bool IsEncoded { get; set; }
 }

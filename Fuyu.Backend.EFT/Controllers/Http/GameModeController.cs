@@ -5,42 +5,41 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class GameModeController : EftHttpController<ClientGameModeRequest>
 {
-    public class GameModeController : EftHttpController<ClientGameModeRequest>
+    private readonly EftOrm _eftOrm;
+
+    public GameModeController() : base("/client/game/mode")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public GameModeController() : base("/client/game/mode")
+    public override Task RunAsync(EftHttpContext context, ClientGameModeRequest body)
+    {
+        var account = _eftOrm.GetAccount(context.GetSessionId());
+
+        if (body.SessionMode == null)
         {
-            _eftOrm = EftOrm.Instance;
+            // wiped profile
+            body.SessionMode = ESessionMode.Pve;
         }
 
-        public override Task RunAsync(EftHttpContext context, ClientGameModeRequest body)
-        {
-            var account = _eftOrm.GetAccount(context.GetSessionId());
+        account.CurrentSession = body.SessionMode;
 
-            if (body.SessionMode == null)
+        var response = new ResponseBody<GameModeResponse>()
+        {
+            // TODO: don't use hardcoded address
+            // --seionmoya, 2024-11-18
+            data = new GameModeResponse()
             {
-                // wiped profile
-                body.SessionMode = ESessionMode.Pve;
+                GameMode = body.SessionMode,
+                BackendUrl = "http://localhost:8010"
             }
+        };
 
-            account.CurrentSession = body.SessionMode;
-
-            var response = new ResponseBody<GameModeResponse>()
-            {
-                // TODO: don't use hardcoded address
-                // --seionmoya, 2024-11-18
-                data = new GameModeResponse()
-                {
-                    GameMode = body.SessionMode,
-                    BackendUrl = "http://localhost:8010"
-                }
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

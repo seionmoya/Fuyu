@@ -2,25 +2,24 @@
 using Fuyu.Backend.BSG;
 using Newtonsoft.Json.Linq;
 
-namespace Fuyu.Backend.BSG.Models.Items
+namespace Fuyu.Backend.BSG.Models.Items;
+
+[DataContract]
+public class ItemSideEffectComponent : IItemComponent
 {
-    [DataContract]
-    public class ItemSideEffectComponent : IItemComponent
+    [DataMember]
+    public float Value { get; set; }
+
+    public static object CreateComponent(JObject templateProperties)
     {
-        [DataMember]
-        public float Value { get; set; }
-
-        public static object CreateComponent(JObject templateProperties)
+        if (!templateProperties.ContainsKey("MaxResource"))
         {
-            if (!templateProperties.ContainsKey("MaxResource"))
-            {
-                return null;
-            }
-
-            return new ItemSideEffectComponent
-            {
-                Value = templateProperties.Value<float>("MaxResource")
-            };
+            return null;
         }
+
+        return new ItemSideEffectComponent
+        {
+            Value = templateProperties.Value<float>("MaxResource")
+        };
     }
 }

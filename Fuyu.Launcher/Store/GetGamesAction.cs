@@ -1,6 +1,5 @@
-﻿namespace Fuyu.Launcher.Store
+﻿namespace Fuyu.Launcher.Store;
+
+public class GetGamesAction
 {
-    public class GetGamesAction
-    {
-    }
 }

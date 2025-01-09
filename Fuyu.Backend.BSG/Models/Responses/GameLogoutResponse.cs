@@ -1,11 +1,10 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Responses
+namespace Fuyu.Backend.BSG.Models.Responses;
+
+[DataContract]
+public class GameLogoutResponse
 {
-    [DataContract]
-    public class GameLogoutResponse
-    {
-        [DataMember]
-        public string status { get; set; }
-    }
+    [DataMember]
+    public string status { get; set; }
 }

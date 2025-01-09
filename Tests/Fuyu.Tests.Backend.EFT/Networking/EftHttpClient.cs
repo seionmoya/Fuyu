@@ -3,44 +3,46 @@ using System.IO.Compression;
 using System.Net.Http;
 using Fuyu.Common.Compression;
 
-namespace Fuyu.Tests.Backend.EFT.Networking
+namespace Fuyu.Tests.Backend.EFT.Networking;
+
+public class EftHttpClient : Fuyu.Common.Networking.HttpClient
 {
-    public class EftHttpClient : Fuyu.Common.Networking.HttpClient
+    public readonly string _sessionId;
+    public readonly string _version;
+
+    public EftHttpClient(string address, string sessionId, string version) : base(address)
     {
-        public readonly string _sessionId;
+        _sessionId = sessionId;
+        _version = version;
+    }
 
-        public EftHttpClient(string address, string sessionId) : base(address)
+    protected override byte[] OnSendBody(byte[] body)
+    {
+        return MemoryZlib.Compress(body, CompressionLevel.SmallestSize);
+    }
+
+    protected override byte[] OnReceiveBody(byte[] body)
+    {
+        if (MemoryZlib.IsCompressed(body))
         {
-            _sessionId = sessionId;
+            body = MemoryZlib.Decompress(body);
         }
 
-        protected override byte[] OnSendBody(byte[] body)
+        return body;
+    }
+
+    protected override HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+    {
+        var request = new HttpRequestMessage()
         {
-            return MemoryZlib.Compress(body, CompressionLevel.SmallestSize);
-        }
+            Method = method,
+            RequestUri = new Uri(Address + path),
+        };
 
-        protected override byte[] OnReceiveBody(byte[] body)
-        {
-            if (MemoryZlib.IsCompressed(body))
-            {
-                body = MemoryZlib.Decompress(body);
-            }
+        request.Headers.Add("X-Encryption", "aes");
+        request.Headers.Add("Cookie", $"PHPSESSID={_sessionId}");
+        request.Headers.Add("App-Version", $"EFT Client {_version}");
 
-            return body;
-        }
-
-        protected override HttpRequestMessage GetNewRequest(HttpMethod method, string path)
-        {
-            var request = new HttpRequestMessage()
-            {
-                Method = method,
-                RequestUri = new Uri(Address + path),
-            };
-
-            request.Headers.Add("X-Encryption", "aes");
-            request.Headers.Add("Cookie", $"PHPSESSID={_sessionId}");
-
-            return request;
-        }
+        return request;
     }
 }

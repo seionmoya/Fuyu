@@ -1,28 +1,27 @@
 using System;
 
-namespace Fuyu.Launcher.Core.Services
+namespace Fuyu.Launcher.Core.Services;
+
+public static class SettingsService
 {
-    public static class SettingsService
+    // server settings
+    public static string FuyuAddress;
+    public static string EftAddress;
+    public static string ArenaAddress;
+
+    // client settings
+    public static string EftDirectory;
+    public static string ArenaDirectory;
+
+    static SettingsService()
     {
         // server settings
-        public static string FuyuAddress;
-        public static string EftAddress;
-        public static string ArenaAddress;
+        FuyuAddress = "http://localhost:8000";
+        EftAddress = "http://localhost:8010";
+        ArenaAddress = "http://localhost:8020";
 
         // client settings
-        public static string EftDirectory;
-        public static string ArenaDirectory;
-
-        static SettingsService()
-        {
-            // server settings
-            FuyuAddress = "http://localhost:8000";
-            EftAddress = "http://localhost:8010";
-            ArenaAddress = "http://localhost:8020";
-
-            // client settings
-            EftDirectory = Environment.CurrentDirectory;
-            ArenaDirectory = Environment.CurrentDirectory;
-        }
+        EftDirectory = Environment.CurrentDirectory;
+        ArenaDirectory = Environment.CurrentDirectory;
     }
 }

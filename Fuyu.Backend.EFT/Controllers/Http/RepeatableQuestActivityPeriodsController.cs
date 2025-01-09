@@ -3,25 +3,24 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class RepeatableQuestActivityPeriodsController : AbstractEftHttpController
 {
-    public class RepeatableQuestActivityPeriodsController : AbstractEftHttpController
+    public RepeatableQuestActivityPeriodsController() : base("/client/repeatalbeQuests/activityPeriods")
     {
-        public RepeatableQuestActivityPeriodsController() : base("/client/repeatalbeQuests/activityPeriods")
-        {
-        }
+    }
 
-        public override Task RunAsync(EftHttpContext context)
+    public override Task RunAsync(EftHttpContext context)
+    {
+        // TODO: generate this
+        // --seionmoya, 2024-11-18
+        var response = new ResponseBody<object[]>
         {
-            // TODO: generate this
-            // --seionmoya, 2024-11-18
-            var response = new ResponseBody<object[]>
-            {
-                data = []
-            };
+            data = []
+        };
 
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

@@ -1,14 +1,13 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Common
-{
-    [DataContract]
-    public class CurrentMaximum<T>
-    {
-        [DataMember]
-        public T Current { get; set; }
+namespace Fuyu.Backend.BSG.Models.Common;
 
-        [DataMember]
-        public T Maximum { get; set; }
-    }
+[DataContract]
+public class CurrentMaximum<T>
+{
+    [DataMember]
+    public T Current { get; set; }
+
+    [DataMember]
+    public T Maximum { get; set; }
 }

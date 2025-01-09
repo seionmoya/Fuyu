@@ -4,27 +4,26 @@ using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class HideoutSettingsController : AbstractEftHttpController
 {
-    public class HideoutSettingsController : AbstractEftHttpController
+    private readonly HideoutService _hideoutService;
+
+    public HideoutSettingsController() : base("/client/hideout/settings")
     {
-        private readonly HideoutService _hideoutService;
+        _hideoutService = HideoutService.Instance;
+    }
 
-        public HideoutSettingsController() : base("/client/hideout/settings")
+    public override Task RunAsync(EftHttpContext context)
+    {
+        var settings = _hideoutService.GetSettings();
+        var response = new ResponseBody<HideoutSettingsResponse>()
         {
-            _hideoutService = HideoutService.Instance;
-        }
+            data = settings
+        };
 
-        public override Task RunAsync(EftHttpContext context)
-        {
-            var settings = _hideoutService.GetSettings();
-            var response = new ResponseBody<HideoutSettingsResponse>()
-            {
-                data = settings
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

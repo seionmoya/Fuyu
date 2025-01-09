@@ -3,33 +3,32 @@ using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers.ItemEvents
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents;
+
+public class RecodeItemEventController : AbstractItemEventController<RecodeItemEvent>
 {
-    public class RecodeItemEventController : AbstractItemEventController<RecodeItemEvent>
+    private readonly EftOrm _eftOrm;
+
+    public RecodeItemEventController() : base("Recode")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public RecodeItemEventController() : base("Recode")
+    public override Task RunAsync(ItemEventContext context, RecodeItemEvent request)
+    {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
+
+        if (item == null)
         {
-            _eftOrm = EftOrm.Instance;
-        }
-
-        public override Task RunAsync(ItemEventContext context, RecodeItemEvent request)
-        {
-            var profile = _eftOrm.GetActiveProfile(context.SessionId);
-            var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
-
-            if (item == null)
-            {
-                context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { Id = request.Item });
-                context.AppendInventoryError($"Failed to find item on backend: {request.Item}, removing it");
-
-                return Task.CompletedTask;
-            }
-
-            item.GetOrCreateUpdatable<ItemRecodableComponent>().IsEncoded = request.Encoded;
+            context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(new ItemInstance { Id = request.Item });
+            context.AppendInventoryError($"Failed to find item on backend: {request.Item}, removing it");
 
             return Task.CompletedTask;
         }
+
+        item.GetOrCreateUpdatable<ItemRecodableComponent>().IsEncoded = request.Encoded;
+
+        return Task.CompletedTask;
     }
 }

@@ -1,11 +1,10 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Responses
+namespace Fuyu.Backend.BSG.Models.Responses;
+
+[DataContract]
+public class GameStartResponse
 {
-    [DataContract]
-    public class GameStartResponse
-    {
-        [DataMember]
-        public double utc_time { get; set; }
-    }
+    [DataMember]
+    public double utc_time { get; set; }
 }

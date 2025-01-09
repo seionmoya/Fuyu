@@ -4,38 +4,37 @@ using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers.ItemEvents
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents;
+
+public class RepairItemEventController : AbstractItemEventController<RepairItemEvent>
 {
-    public class RepairItemEventController : AbstractItemEventController<RepairItemEvent>
+    private readonly EftOrm _eftOrm;
+
+    public RepairItemEventController() : base("Repair")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public RepairItemEventController() : base("Repair")
+    public override Task RunAsync(ItemEventContext context, RepairItemEvent request)
+    {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var targetItem = profile.Pmc.Inventory.FindItem(request.TargetItemId);
+        var repairable = targetItem.GetOrCreateUpdatable<ItemRepairableComponent>();
+
+        foreach (var repairKitInfo in request.RepairKitsInfo)
         {
-            _eftOrm = EftOrm.Instance;
-        }
+            var repairKit = profile.Pmc.Inventory.FindItem(repairKitInfo.Id);
 
-        public override Task RunAsync(ItemEventContext context, RepairItemEvent request)
-        {
-            var profile = _eftOrm.GetActiveProfile(context.SessionId);
-            var targetItem = profile.Pmc.Inventory.FindItem(request.TargetItemId);
-            var repairable = targetItem.GetOrCreateUpdatable<ItemRepairableComponent>();
-
-            foreach (var repairKitInfo in request.RepairKitsInfo)
+            if (repairKit == null)
             {
-                var repairKit = profile.Pmc.Inventory.FindItem(repairKitInfo.Id);
-
-                if (repairKit == null)
-                {
-                    throw new Exception($"Could not find repair kit with id {repairKitInfo.Id}");
-                }
-
-                var repairKitComponent = repairKit.GetOrCreateUpdatable<ItemRepairKitComponent>();
-                repairKitComponent.Resource -= repairKitInfo.Count;
-                repairable.Durability += repairKitInfo.Count;
+                throw new Exception($"Could not find repair kit with id {repairKitInfo.Id}");
             }
 
-            return Task.CompletedTask;
+            var repairKitComponent = repairKit.GetOrCreateUpdatable<ItemRepairKitComponent>();
+            repairKitComponent.Resource -= repairKitInfo.Count;
+            repairable.Durability += repairKitInfo.Count;
         }
+
+        return Task.CompletedTask;
     }
 }

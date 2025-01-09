@@ -1,10 +1,9 @@
-﻿namespace Fuyu.Backend.BSG.Models.Friends
+﻿namespace Fuyu.Backend.BSG.Models.Friends;
+
+public enum EChatMemberSide
 {
-    public enum EChatMemberSide
-    {
-        Usec = 1,
-        Bear,
-        Savage = 4,
-        Trader = 8
-    }
+    Usec = 1,
+    Bear,
+    Savage = 4,
+    Trader = 8
 }

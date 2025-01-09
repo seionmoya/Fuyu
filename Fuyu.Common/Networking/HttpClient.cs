@@ -3,153 +3,152 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Fuyu.Common.Networking
+namespace Fuyu.Common.Networking;
+
+// NOTE: Don't dispose this, keep a reference for the lifetime of the
+//       application.
+public class HttpClient : IDisposable
 {
-    // NOTE: Don't dispose this, keep a reference for the lifetime of the
-    //       application.
-    public class HttpClient : IDisposable
+    protected System.Net.Http.HttpClient Httpv;
+    protected string Address;
+    protected int Retries;
+
+    public HttpClient(string address, int retries = 3)
     {
-        protected System.Net.Http.HttpClient Httpv;
-        protected string Address;
-        protected int Retries;
+        Address = address;
+        Retries = retries;
 
-        public HttpClient(string address, int retries = 3)
+        var handler = new HttpClientHandler
         {
-            Address = address;
-            Retries = retries;
+            // set cookies in header instead
+            UseCookies = false
+        };
 
-            var handler = new HttpClientHandler
+        Httpv = new System.Net.Http.HttpClient(handler);
+    }
+
+    protected virtual HttpRequestMessage GetNewRequest(HttpMethod method, string path)
+    {
+        return new HttpRequestMessage()
+        {
+            Method = method,
+            RequestUri = new Uri(Address + path)
+        };
+    }
+
+    protected virtual byte[] OnSendBody(byte[] body)
+    {
+        return body;
+    }
+
+    protected virtual byte[] OnReceiveBody(byte[] body)
+    {
+        return body;
+    }
+
+    protected async Task<HttpResponse> SendAsync(HttpMethod method, string path, byte[] data)
+    {
+        HttpResponseMessage response = null;
+
+        using (var request = GetNewRequest(method, path))
+        {
+            if (data != null)
             {
-                // set cookies in header instead
-                UseCookies = false
-            };
-
-            Httpv = new System.Net.Http.HttpClient(handler);
-        }
-
-        protected virtual HttpRequestMessage GetNewRequest(HttpMethod method, string path)
-        {
-            return new HttpRequestMessage()
-            {
-                Method = method,
-                RequestUri = new Uri(Address + path)
-            };
-        }
-
-        protected virtual byte[] OnSendBody(byte[] body)
-        {
-            return body;
-        }
-
-        protected virtual byte[] OnReceiveBody(byte[] body)
-        {
-            return body;
-        }
-
-        protected async Task<HttpResponse> SendAsync(HttpMethod method, string path, byte[] data)
-        {
-            HttpResponseMessage response = null;
-
-            using (var request = GetNewRequest(method, path))
-            {
-                if (data != null)
-                {
-                    // add payload to request
-                    data = OnSendBody(data);
-                    request.Content = new ByteArrayContent(data);
-                }
-
-                // send request
-                response = await Httpv.SendAsync(request);
+                // add payload to request
+                data = OnSendBody(data);
+                request.Content = new ByteArrayContent(data);
             }
 
-            if (!response.IsSuccessStatusCode)
+            // send request
+            response = await Httpv.SendAsync(request);
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            // response error
+            throw new Exception($"Code {response.StatusCode}");
+        }
+
+        var body = Array.Empty<byte>();
+
+        // grap response payload
+        using (var ms = new MemoryStream())
+        {
+            using (var stream = await response.Content.ReadAsStreamAsync())
             {
-                // response error
-                throw new Exception($"Code {response.StatusCode}");
+                await stream.CopyToAsync(ms);
+                body = ms.ToArray();
             }
+        }
 
-            var body = Array.Empty<byte>();
+        // handle middleware
+        body = OnReceiveBody(body);
 
-            // grap response payload
-            using (var ms = new MemoryStream())
+        return new HttpResponse()
+        {
+            Status = response.StatusCode,
+            Body = body
+        };
+    }
+
+    protected Task<HttpResponse> SendWithRetriesAsync(HttpMethod method, string path, byte[] data)
+    {
+        var error = new Exception("Internal error");
+
+        // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
+        for (var i = 0; i <= Retries; ++i)
+        {
+            try
             {
-                using (var stream = await response.Content.ReadAsStreamAsync())
-                {
-                    await stream.CopyToAsync(ms);
-                    body = ms.ToArray();
-                }
+                return SendAsync(method, path, data);
             }
-
-            // handle middleware
-            body = OnReceiveBody(body);
-
-            return new HttpResponse()
+            catch (Exception ex)
             {
-                Status = response.StatusCode,
-                Body = body
-            };
-        }
-
-        protected Task<HttpResponse> SendWithRetriesAsync(HttpMethod method, string path, byte[] data)
-        {
-            var error = new Exception("Internal error");
-
-            // NOTE: <= is intentional. 0 is send, 1/2/3 is retry
-            for (var i = 0; i <= Retries; ++i)
-            {
-                try
-                {
-                    return SendAsync(method, path, data);
-                }
-                catch (Exception ex)
-                {
-                    error = ex;
-                }
+                error = ex;
             }
-
-            throw error;
         }
 
-        public Task<HttpResponse> GetAsync(string path)
-        {
-            return SendWithRetriesAsync(HttpMethod.Get, path, null);
-        }
+        throw error;
+    }
 
-        public HttpResponse Get(string path)
-        {
-            return Task.Run(() => GetAsync(path))
-                .GetAwaiter()
-                .GetResult();
-        }
+    public Task<HttpResponse> GetAsync(string path)
+    {
+        return SendWithRetriesAsync(HttpMethod.Get, path, null);
+    }
 
-        public Task<HttpResponse> PostAsync(string path, byte[] data)
-        {
-            return SendWithRetriesAsync(HttpMethod.Post, path, data);
-        }
+    public HttpResponse Get(string path)
+    {
+        return Task.Run(() => GetAsync(path))
+            .GetAwaiter()
+            .GetResult();
+    }
 
-        public HttpResponse Post(string path, byte[] data)
-        {
-            return Task.Run(() => PostAsync(path, data))
-                .GetAwaiter()
-                .GetResult();
-        }
+    public Task<HttpResponse> PostAsync(string path, byte[] data)
+    {
+        return SendWithRetriesAsync(HttpMethod.Post, path, data);
+    }
 
-        public Task<HttpResponse> PutAsync(string path, byte[] data)
-        {
-            return SendWithRetriesAsync(HttpMethod.Put, path, data);
-        }
+    public HttpResponse Post(string path, byte[] data)
+    {
+        return Task.Run(() => PostAsync(path, data))
+            .GetAwaiter()
+            .GetResult();
+    }
 
-        public HttpResponse Put(string path, byte[] data)
-        {
-            return Task.Run(() => PutAsync(path, data))
-                .GetAwaiter()
-                .GetResult();
-        }
+    public Task<HttpResponse> PutAsync(string path, byte[] data)
+    {
+        return SendWithRetriesAsync(HttpMethod.Put, path, data);
+    }
 
-        public void Dispose()
-        {
-            Httpv.Dispose();
-        }
+    public HttpResponse Put(string path, byte[] data)
+    {
+        return Task.Run(() => PutAsync(path, data))
+            .GetAwaiter()
+            .GetResult();
+    }
+
+    public void Dispose()
+    {
+        Httpv.Dispose();
     }
 }

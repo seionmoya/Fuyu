@@ -1,24 +1,23 @@
 using System.Threading.Tasks;
 using Fuyu.Backend.EFT.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class WeatherController : AbstractEftHttpController
 {
-    public class WeatherController : AbstractEftHttpController
+    private readonly EftOrm _eftOrm;
+
+    public WeatherController() : base("/client/weather")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public WeatherController() : base("/client/weather")
-        {
-            _eftOrm = EftOrm.Instance;
-        }
-
-        public override Task RunAsync(EftHttpContext context)
-        {
-            // TODO: generate this
-            // --seionmoya, 2024-11-18
-            var response = _eftOrm.GetWeather();
-            var text = response.ToString();
-            return context.SendJsonAsync(text, true, true);
-        }
+    public override Task RunAsync(EftHttpContext context)
+    {
+        // TODO: generate this
+        // --seionmoya, 2024-11-18
+        var response = _eftOrm.GetWeather();
+        var text = response.ToString();
+        return context.SendJsonAsync(text, true, true);
     }
 }

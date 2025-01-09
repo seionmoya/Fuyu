@@ -1,8 +1,7 @@
-﻿namespace Fuyu.Backend.BSG.Models.Items
+﻿namespace Fuyu.Backend.BSG.Models.Items;
+
+public enum EItemRotation
 {
-    public enum EItemRotation
-    {
-        Horizontal,
-        Vertical
-    }
+    Horizontal,
+    Vertical
 }

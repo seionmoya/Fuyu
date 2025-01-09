@@ -10,67 +10,65 @@ using Fuyu.Common.Networking;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 
-namespace Fuyu.Backend
+namespace Fuyu.Backend;
+
+public class Program
 {
-    public class Program
+    static async Task Main()
     {
-        static async Task Main()
+        var container = new DependencyContainer();
+
+        Terminal.SetLogFile("Fuyu/Logs/Backend.log");
+        LoadDatabase(container);
+        LoadServers(container);
+        await LoadMods(container);
+
+        Terminal.WriteLine("Done!");
+        Terminal.WriteLine("You can now run commands.");
+        Terminal.WriteLine("Users can now connect.");
+
+        while (CommandService.Instance.IsRunning)
         {
-            var container = new DependencyContainer();
-
-            Terminal.SetLogFile("Fuyu/Logs/Backend.log");
-
-            LoadDatabase(container);
-            LoadServers(container);
-            await LoadMods(container);
-
-            Terminal.WriteLine("Done!");
-            Terminal.WriteLine("You can now run commands.");
-            Terminal.WriteLine("Users can now connect.");
-
-            while (CommandService.Instance.IsRunning)
-            {
-                var text = Terminal.ReadLine();
-                var args = text.Split(' ');
-                CommandService.Instance.RunCommand(args);
-            }
-
-            await ModManager.Instance.UnloadAll();
+            var text = Terminal.ReadLine();
+            var args = text.Split(' ');
+            CommandService.Instance.RunCommand(args);
         }
 
-        static void LoadDatabase(DependencyContainer container)
-        {
-            Terminal.WriteLine("Loading database...");
+        await ModManager.Instance.UnloadAll();
+    }
 
-            CoreLoader.Instance.Load();
-            EftLoader.Instance.Load();
-            TraderDatabase.Instance.Load();
-            ItemFactoryService.Instance.Load();
-        }
+    static void LoadDatabase(DependencyContainer container)
+    {
+        Terminal.WriteLine("Loading database...");
 
-        static void LoadServers(DependencyContainer container)
-        {
-            Terminal.WriteLine("Loading backends...");
+        CoreLoader.Instance.Load();
+        EftLoader.Instance.Load();
+        TraderDatabase.Instance.Load();
+        ItemFactoryService.Instance.Load();
+    }
 
-            var coreServer = new CoreServer();
-            container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
+    static void LoadServers(DependencyContainer container)
+    {
+        Terminal.WriteLine("Loading backends...");
 
-            coreServer.RegisterServices();
-            coreServer.Start();
+        var coreServer = new CoreServer();
+        container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
 
-            var eftMainServer = new EftMainServer();
-            container.RegisterSingleton<HttpServer, EftMainServer>(eftMainServer);
+        coreServer.RegisterServices();
+        coreServer.Start();
 
-            eftMainServer.RegisterServices();
-            eftMainServer.Start();
-        }
+        var eftMainServer = new EftMainServer();
+        container.RegisterSingleton<HttpServer, EftMainServer>(eftMainServer);
 
-        static Task LoadMods(DependencyContainer container)
-        {
-            Terminal.WriteLine("Loading mods...");
+        eftMainServer.RegisterServices();
+        eftMainServer.Start();
+    }
 
-            ModManager.Instance.AddMods("./Fuyu/Mods/Backend");
-            return ModManager.Instance.Load(container);
-        }
+    static Task LoadMods(DependencyContainer container)
+    {
+        Terminal.WriteLine("Loading mods...");
+
+        ModManager.Instance.AddMods("./Fuyu/Mods/Backend");
+        return ModManager.Instance.Load(container);
     }
 }

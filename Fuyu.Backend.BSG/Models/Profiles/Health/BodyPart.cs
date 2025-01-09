@@ -1,12 +1,11 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Common;
 
-namespace Fuyu.Backend.BSG.Models.Profiles.Health
+namespace Fuyu.Backend.BSG.Models.Profiles.Health;
+
+[DataContract]
+public class BodyPart
 {
-    [DataContract]
-    public class BodyPart
-    {
-        [DataMember]
-        public CurrentMaximum<float> Health { get; set; }
-    }
+    [DataMember]
+    public CurrentMaximum<float> Health { get; set; }
 }

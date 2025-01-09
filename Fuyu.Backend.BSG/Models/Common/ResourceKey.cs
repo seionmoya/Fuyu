@@ -1,14 +1,13 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Common
-{
-    [DataContract]
-    public class ResourceKey
-    {
-        [DataMember(Name = "path")]
-        public string Path { get; set; }
+namespace Fuyu.Backend.BSG.Models.Common;
 
-        [DataMember(Name = "rcid")]
-        public string RCID { get; set; }
-    }
+[DataContract]
+public class ResourceKey
+{
+    [DataMember(Name = "path")]
+    public string Path { get; set; }
+
+    [DataMember(Name = "rcid")]
+    public string RCID { get; set; }
 }

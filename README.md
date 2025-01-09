@@ -48,4 +48,5 @@ Sorted alphabetically ascending.
 lacyway      | Maintainer
 nexus4880    | Maintainer
 seionmoya    | Project creator, maintainer
+slejmur      | Contributor
 thespartapt  | Maintainer

@@ -1,11 +1,10 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Responses
+namespace Fuyu.Backend.BSG.Models.Responses;
+
+[DataContract]
+public class GameProfileCreateResponse
 {
-    [DataContract]
-    public class GameProfileCreateResponse
-    {
-        [DataMember]
-        public string uid { get; set; }
-    }
+    [DataMember]
+    public string uid { get; set; }
 }

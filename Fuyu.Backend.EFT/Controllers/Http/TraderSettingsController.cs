@@ -5,26 +5,25 @@ using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class TraderSettingsController : AbstractEftHttpController
 {
-    public class TraderSettingsController : AbstractEftHttpController
+    private readonly TraderDatabase _traderDatabase;
+
+    public TraderSettingsController() : base("/client/trading/api/traderSettings")
     {
-        private readonly TraderDatabase _traderDatabase;
+        _traderDatabase = TraderDatabase.Instance;
+    }
 
-        public TraderSettingsController() : base("/client/trading/api/traderSettings")
+    public override Task RunAsync(EftHttpContext context)
+    {
+        var response = new ResponseBody<IEnumerable<TraderTemplate>>
         {
-            _traderDatabase = TraderDatabase.Instance;
-        }
+            data = _traderDatabase.GetTraderTemplates().Values
+        };
 
-        public override Task RunAsync(EftHttpContext context)
-        {
-            var response = new ResponseBody<IEnumerable<TraderTemplate>>
-            {
-                data = _traderDatabase.GetTraderTemplates().Values
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

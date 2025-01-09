@@ -1,10 +1,9 @@
-﻿namespace Fuyu.Backend.BSG.Models.Trading
+﻿namespace Fuyu.Backend.BSG.Models.Trading;
+
+public enum ECurrencyType
 {
-    public enum ECurrencyType
-    {
-        RUB,
-        USD,
-        EUR,
-        GP
-    }
+    RUB,
+    USD,
+    EUR,
+    GP
 }

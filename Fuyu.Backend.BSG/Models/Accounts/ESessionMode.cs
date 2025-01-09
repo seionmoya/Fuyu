@@ -2,15 +2,14 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Fuyu.Backend.BSG.Models.Accounts
+namespace Fuyu.Backend.BSG.Models.Accounts;
+
+[DataContract]
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ESessionMode
 {
-    [DataContract]
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum ESessionMode
-    {
-        [EnumMember(Value = "regular")]
-        Regular,
-        [EnumMember(Value = "pve")]
-        Pve
-    }
+    [EnumMember(Value = "regular")]
+    Regular,
+    [EnumMember(Value = "pve")]
+    Pve
 }

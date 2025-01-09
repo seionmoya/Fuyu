@@ -5,26 +5,25 @@ using Fuyu.Backend.Core.Networking;
 using Fuyu.Backend.Core.Services;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.Core.Controllers
+namespace Fuyu.Backend.Core.Controllers;
+
+public class AccountRegisterController : CoreHttpController<AccountRegisterRequest>
 {
-    public class AccountRegisterController : CoreHttpController<AccountRegisterRequest>
+    private readonly AccountService _accountService;
+
+    public AccountRegisterController() : base("/account/register")
     {
-        private readonly AccountService _accountService;
+        _accountService = AccountService.Instance;
+    }
 
-        public AccountRegisterController() : base("/account/register")
+    public override Task RunAsync(CoreHttpContext context, AccountRegisterRequest request)
+    {
+        var result = _accountService.RegisterAccount(request.Username, request.Password);
+        var response = new AccountRegisterResponse()
         {
-            _accountService = AccountService.Instance;
-        }
+            Status = result
+        };
 
-        public override Task RunAsync(CoreHttpContext context, AccountRegisterRequest request)
-        {
-            var result = _accountService.RegisterAccount(request.Username, request.Password);
-            var response = new AccountRegisterResponse()
-            {
-                Status = result
-            };
-
-            return context.SendJsonAsync(Json.Stringify(response));
-        }
+        return context.SendJsonAsync(Json.Stringify(response));
     }
 }

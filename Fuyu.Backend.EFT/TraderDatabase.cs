@@ -8,37 +8,36 @@ using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT
+namespace Fuyu.Backend.EFT;
+
+public class TraderDatabase
 {
-    public class TraderDatabase
+    public static TraderDatabase Instance => instance.Value;
+    private static readonly Lazy<TraderDatabase> instance = new(() => new TraderDatabase());
+
+    private readonly ThreadDictionary<MongoId, TraderTemplate> _traders;
+
+    /// <summary>
+    /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+    /// </summary>
+    private TraderDatabase()
     {
-        public static TraderDatabase Instance => instance.Value;
-        private static readonly Lazy<TraderDatabase> instance = new(() => new TraderDatabase());
+        _traders = new ThreadDictionary<MongoId, TraderTemplate>();
+    }
 
-        private readonly ThreadDictionary<MongoId, TraderTemplate> _traders;
+    public void Load()
+    {
+        var tradersJson = Resx.GetText("eft", "database.client.trading.api.traderSettings.json");
+        var body = Json.Parse<ResponseBody<TraderTemplate[]>>(tradersJson);
 
-        /// <summary>
-        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-        /// </summary>
-        private TraderDatabase()
+        foreach (var traderTemplate in body.data)
         {
-            _traders = new ThreadDictionary<MongoId, TraderTemplate>();
+            _traders.Set(traderTemplate.Id, traderTemplate);
         }
+    }
 
-        public void Load()
-        {
-            var tradersJson = Resx.GetText("eft", "database.client.trading.api.traderSettings.json");
-            var body = Json.Parse<ResponseBody<TraderTemplate[]>>(tradersJson);
-
-            foreach (var traderTemplate in body.data)
-            {
-                _traders.Set(traderTemplate.Id, traderTemplate);
-            }
-        }
-
-        public Dictionary<MongoId, TraderTemplate> GetTraderTemplates()
-        {
-            return _traders.ToDictionary();
-        }
+    public Dictionary<MongoId, TraderTemplate> GetTraderTemplates()
+    {
+        return _traders.ToDictionary();
     }
 }
