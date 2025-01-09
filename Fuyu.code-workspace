@@ -81,6 +81,14 @@
 				"dependsOrder": "sequence"
 			},
 			{
+				"label": "dotnet: format",
+				"type": "shell",
+				"command": "dotnet format --no-restore",
+				"problemMatcher": [],
+				"dependsOn": ["dotnet: clean"],
+				"dependsOrder": "sequence"
+			},
+			{
 				"label": "dotnet: build debug",
 				"type": "shell",
 				"command": "dotnet build --nologo --no-restore --configuration Debug",
