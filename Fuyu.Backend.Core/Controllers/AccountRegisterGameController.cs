@@ -17,7 +17,7 @@ public class AccountRegisterGameController : CoreHttpController<AccountRegisterG
 
     public override Task RunAsync(CoreHttpContext context, AccountRegisterGameRequest request)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var result = _accountService.RegisterGame(sessionId, request.Game, request.Edition);
 
         return context.SendJsonAsync(Json.Stringify(result));
