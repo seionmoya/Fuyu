@@ -22,7 +22,6 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
             _itemFactoryService = ItemFactoryService.Instance;
         }
 
-        // This method only finds the item, as well as the index. Actually consuming/deleting the item needs to be done.
         public override Task RunAsync(ItemEventContext context, HealItemEvent request)
         {
             var profile = _eftOrm.GetActiveProfile(context.SessionId);
