@@ -1,7 +1,9 @@
 ﻿using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Networking;
+using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.IO;
+using System;
 using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
@@ -9,10 +11,12 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
     public class HealItemEventController : AbstractItemEventController<HealItemEvent>
     {
         private readonly EftOrm _eftOrm;
+        private readonly HealthService _healthService;
 
         public HealItemEventController() : base("Heal")
         {
             _eftOrm = EftOrm.Instance;
+            _healthService = HealthService.Instance;
         }
 
         // This method only finds the item, as well as the index. Actually consuming/deleting the item needs to be done.
@@ -40,7 +44,8 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
                 profile.Pmc.Inventory.RemoveItem(item);
             }
 
-            var bodyPart = profile.Pmc.Health.GetBodyPart(request.BodyPart);
+            var bodyPart = _healthService.GetBodyPart(profile.Pmc.Health, request.BodyPart);
+            bodyPart.Health.Current = MathF.Max(bodyPart.Health.Current + request.Count, bodyPart.Health.Maximum);
 
             return Task.CompletedTask;
         }
