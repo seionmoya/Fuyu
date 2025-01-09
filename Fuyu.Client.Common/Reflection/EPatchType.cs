@@ -1,9 +1,8 @@
-namespace Fuyu.Client.Common.Reflection
+namespace Fuyu.Client.Common.Reflection;
+
+public enum EPatchType
 {
-    public enum EPatchType
-    {
-        Prefix = 0,
-        Postfix,
-        Transpile
-    }
+    Prefix = 0,
+    Postfix,
+    Transpile
 }

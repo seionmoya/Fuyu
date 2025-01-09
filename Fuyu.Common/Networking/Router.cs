@@ -2,84 +2,83 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Fuyu.Common.Networking
+namespace Fuyu.Common.Networking;
+
+public class Router<TController, TContext> where TController : IRouterController<TContext>
+    where TContext : IRouterContext
 {
-    public class Router<TController, TContext> where TController : IRouterController<TContext>
-        where TContext : IRouterContext
+    public List<TController> Controllers { get; private set; }
+
+    public Router()
     {
-        public List<TController> Controllers { get; private set; }
+        Controllers = new List<TController>();
+    }
 
-        public Router()
+    public T AddController<T>() where T : TController, new()
+    {
+        T controller = new T();
+        Controllers.Add(controller);
+        return controller;
+    }
+
+    public T GetController<T>() where T : TController
+    {
+        return (T)Controllers.Find(c => c is T);
+    }
+
+    public T RemoveController<T>() where T : TController
+    {
+        var controller = Controllers.Find(c => c is T);
+        if (controller != null)
         {
-            Controllers = new List<TController>();
+            Controllers.Remove(controller);
         }
 
-        public T AddController<T>() where T : TController, new()
-        {
-            T controller = new T();
-            Controllers.Add(controller);
-            return controller;
-        }
+        return (T)controller;
+    }
 
-        public T GetController<T>() where T : TController
-        {
-            return (T)Controllers.Find(c => c is T);
-        }
+    public TTo ReplaceController<TFrom, TTo>(out TFrom old)
+        where TFrom : TController
+        where TTo : TController, new()
+    {
+        old = RemoveController<TFrom>();
 
-        public T RemoveController<T>() where T : TController
+        return AddController<TTo>();
+    }
+
+    public List<TController> GetAllMatching(TContext context)
+    {
+        var matches = new List<TController>();
+
+        foreach (var controller in Controllers)
         {
-            var controller = Controllers.Find(c => c is T);
-            if (controller != null)
+            if (controller.IsMatch(context))
             {
-                Controllers.Remove(controller);
+                matches.Add(controller);
             }
-
-            return (T)controller;
         }
 
-        public TTo ReplaceController<TFrom, TTo>(out TFrom old)
-            where TFrom : TController
-            where TTo : TController, new()
+        if (matches.Count == 0)
         {
-            old = RemoveController<TFrom>();
-
-            return AddController<TTo>();
+            throw new RouteNotFoundException($"No match on context {context}");
         }
 
-        public List<TController> GetAllMatching(TContext context)
+        // NOTE: do we want to support multi-matching?
+        // -- seionmoya, 2024/09/02
+        if (matches.Count > 1)
         {
-            var matches = new List<TController>();
-
-            foreach (var controller in Controllers)
-            {
-                if (controller.IsMatch(context))
-                {
-                    matches.Add(controller);
-                }
-            }
-
-            if (matches.Count == 0)
-            {
-                throw new RouteNotFoundException($"No match on context {context}");
-            }
-
-            // NOTE: do we want to support multi-matching?
-            // -- seionmoya, 2024/09/02
-            if (matches.Count > 1)
-            {
-                throw new Exception($"Too many matches on context {context}");
-            }
-
-            return matches;
+            throw new Exception($"Too many matches on context {context}");
         }
 
-        public virtual async Task RouteAsync(TContext context)
+        return matches;
+    }
+
+    public virtual async Task RouteAsync(TContext context)
+    {
+        var matches = GetAllMatching(context);
+        foreach (var match in matches)
         {
-            var matches = GetAllMatching(context);
-            foreach (var match in matches)
-            {
-                await match.RunAsync(context);
-            }
+            await match.RunAsync(context);
         }
     }
 }

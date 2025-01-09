@@ -1,9 +1,8 @@
-﻿namespace Fuyu.DependencyInjection.Registrations
-{
-    internal abstract class AbstractDependencyRegistration
-    {
-        public string Id { get; set; }
+﻿namespace Fuyu.DependencyInjection.Registrations;
 
-        public abstract object GetValue();
-    }
+internal abstract class AbstractDependencyRegistration
+{
+    public string Id { get; set; }
+
+    public abstract object GetValue();
 }

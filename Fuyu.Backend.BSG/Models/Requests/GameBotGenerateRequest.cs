@@ -1,12 +1,11 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Bots;
 
-namespace Fuyu.Backend.BSG.Models.Requests
+namespace Fuyu.Backend.BSG.Models.Requests;
+
+[DataContract]
+public class GameBotGenerateRequest
 {
-    [DataContract]
-    public class GameBotGenerateRequest
-    {
-        [DataMember]
-        public BotCondition[] conditions { get; set; }
-    }
+    [DataMember]
+    public BotCondition[] conditions { get; set; }
 }

@@ -1,9 +1,8 @@
-﻿namespace Fuyu.Backend.BSG.Models.Trading
+﻿namespace Fuyu.Backend.BSG.Models.Trading;
+
+public enum EDogtagExchangeSide
 {
-    public enum EDogtagExchangeSide
-    {
-        Usec = 1,
-        Bear,
-        Any = 4
-    }
+    Usec = 1,
+    Bear,
+    Any = 4
 }

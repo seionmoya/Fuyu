@@ -1,9 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Fuyu.Common.Networking
+namespace Fuyu.Common.Networking;
+
+public interface IRoutable
 {
-    public interface IRoutable
-    {
-        Regex Matcher { get; }
-    }
+    Regex Matcher { get; }
 }

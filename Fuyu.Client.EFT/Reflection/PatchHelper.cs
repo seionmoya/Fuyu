@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace Fuyu.Client.EFT.Reflection
-{
-    public static class PatchHelper
-    {
-        public static readonly Type[] Types;
+namespace Fuyu.Client.EFT.Reflection;
 
-        static PatchHelper()
-        {
-            Types = typeof(ETransportProtocolType).Assembly.GetTypes();
-        }
+public static class PatchHelper
+{
+    public static readonly Type[] Types;
+
+    static PatchHelper()
+    {
+        Types = typeof(ETransportProtocolType).Assembly.GetTypes();
     }
 }

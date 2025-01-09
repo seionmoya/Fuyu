@@ -1,6 +1,5 @@
-﻿namespace Fuyu.Backend.BSG.Models.ItemEvents
+﻿namespace Fuyu.Backend.BSG.Models.ItemEvents;
+
+public class ReadEncyclopediaItemEvent : BaseItemEvent
 {
-    public class ReadEncyclopediaItemEvent : BaseItemEvent
-    {
-    }
 }

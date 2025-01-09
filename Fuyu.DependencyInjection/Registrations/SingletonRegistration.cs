@@ -1,18 +1,17 @@
-﻿namespace Fuyu.DependencyInjection.Registrations
+﻿namespace Fuyu.DependencyInjection.Registrations;
+
+internal class SingletonRegistration<T> : AbstractDependencyRegistration
 {
-    internal class SingletonRegistration<T> : AbstractDependencyRegistration
+    public T Instance { get; }
+
+    internal SingletonRegistration(string id, T instance)
     {
-        public T Instance { get; }
+        Id = id;
+        Instance = instance;
+    }
 
-        internal SingletonRegistration(string id, T instance)
-        {
-            Id = id;
-            Instance = instance;
-        }
-
-        public override object GetValue()
-        {
-            return Instance;
-        }
+    public override object GetValue()
+    {
+        return Instance;
     }
 }

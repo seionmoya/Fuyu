@@ -6,31 +6,30 @@ using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public partial class LocaleController : AbstractEftHttpController
 {
-    public partial class LocaleController : AbstractEftHttpController
+    [GeneratedRegex("^/client/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
+    private static partial Regex PathExpression();
+    private readonly EftOrm _eftOrm;
+
+    public LocaleController() : base(PathExpression())
     {
-        [GeneratedRegex("^/client/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
-        private static partial Regex PathExpression();
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public LocaleController() : base(PathExpression())
+    public override Task RunAsync(EftHttpContext context)
+    {
+        var parameters = context.GetPathParameters(this);
+
+        var languageId = parameters["languageId"];
+        var locale = _eftOrm.GetGlobalLocale(languageId);
+        var response = new ResponseBody<Dictionary<string, string>>
         {
-            _eftOrm = EftOrm.Instance;
-        }
+            data = locale
+        };
 
-        public override Task RunAsync(EftHttpContext context)
-        {
-            var parameters = context.GetPathParameters(this);
-
-            var languageId = parameters["languageId"];
-            var locale = _eftOrm.GetGlobalLocale(languageId);
-            var response = new ResponseBody<Dictionary<string, string>>
-            {
-                data = locale
-            };
-
-            return context.SendJsonAsync(Json.Stringify(response), true, true);
-        }
+        return context.SendJsonAsync(Json.Stringify(response), true, true);
     }
 }

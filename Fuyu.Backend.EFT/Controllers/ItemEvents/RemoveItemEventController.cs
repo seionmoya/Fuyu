@@ -2,32 +2,31 @@
 using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Networking;
 
-namespace Fuyu.Backend.EFT.Controllers.ItemEvents
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents;
+
+public class RemoveItemEventController : AbstractItemEventController<RemoveItemEvent>
 {
-    public class RemoveItemEventController : AbstractItemEventController<RemoveItemEvent>
+    private readonly EftOrm _eftOrm;
+
+    public RemoveItemEventController() : base("Remove")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public RemoveItemEventController() : base("Remove")
+    public override Task RunAsync(ItemEventContext context, RemoveItemEvent request)
+    {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var itemToRemove = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
+
+        if (itemToRemove == null)
         {
-            _eftOrm = EftOrm.Instance;
-        }
-
-        public override Task RunAsync(ItemEventContext context, RemoveItemEvent request)
-        {
-            var profile = _eftOrm.GetActiveProfile(context.SessionId);
-            var itemToRemove = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
-
-            if (itemToRemove == null)
-            {
-                context.AppendInventoryError($"Failed to find item on backend: {request.Item}");
-
-                return Task.CompletedTask;
-            }
-
-            profile.Pmc.Inventory.RemoveItem(itemToRemove);
+            context.AppendInventoryError($"Failed to find item on backend: {request.Item}");
 
             return Task.CompletedTask;
         }
+
+        profile.Pmc.Inventory.RemoveItem(itemToRemove);
+
+        return Task.CompletedTask;
     }
 }

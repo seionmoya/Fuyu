@@ -1,11 +1,10 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.Locations
+namespace Fuyu.Backend.BSG.Models.Locations;
+
+[DataContract]
+public class KhorovodEvent
 {
-    [DataContract]
-    public class KhorovodEvent
-    {
-        [DataMember]
-        public int Chance { get; set; }
-    }
+    [DataMember]
+    public int Chance { get; set; }
 }

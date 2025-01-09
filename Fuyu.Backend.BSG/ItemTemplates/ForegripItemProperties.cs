@@ -1,9 +1,8 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.ItemTemplates
+namespace Fuyu.Backend.BSG.ItemTemplates;
+
+[DataContract]
+public class ForegripItemProperties : FunctionalModItemProperties
 {
-    [DataContract]
-    public class ForegripItemProperties : FunctionalModItemProperties
-    {
-    }
 }

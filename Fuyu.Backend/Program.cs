@@ -9,46 +9,45 @@ using Fuyu.Common.Networking;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 
-namespace Fuyu.Backend
+namespace Fuyu.Backend;
+
+public class Program
 {
-    public class Program
+    static async Task Main()
     {
-        static async Task Main()
-        {
-            var container = new DependencyContainer();
+        var container = new DependencyContainer();
 
-            Terminal.SetLogFile("Fuyu/Logs/Backend.log");
+        Terminal.SetLogFile("Fuyu/Logs/Backend.log");
 
-            Terminal.WriteLine("Loading database...");
+        Terminal.WriteLine("Loading database...");
 
-            CoreLoader.Instance.Load();
-            EftLoader.Instance.Load();
-            TraderDatabase.Instance.Load();
-            ItemFactoryService.Instance.Load();
+        CoreLoader.Instance.Load();
+        EftLoader.Instance.Load();
+        TraderDatabase.Instance.Load();
+        ItemFactoryService.Instance.Load();
 
-            Terminal.WriteLine("Loading backends...");
+        Terminal.WriteLine("Loading backends...");
 
-            var coreServer = new CoreServer();
-            container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
+        var coreServer = new CoreServer();
+        container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
 
-            coreServer.RegisterServices();
-            coreServer.Start();
+        coreServer.RegisterServices();
+        coreServer.Start();
 
-            var eftMainServer = new EftMainServer();
-            container.RegisterSingleton<HttpServer, EftMainServer>(eftMainServer);
+        var eftMainServer = new EftMainServer();
+        container.RegisterSingleton<HttpServer, EftMainServer>(eftMainServer);
 
-            eftMainServer.RegisterServices();
-            eftMainServer.Start();
+        eftMainServer.RegisterServices();
+        eftMainServer.Start();
 
-            Terminal.WriteLine("Loading mods...");
-            ModManager.Instance.AddMods("./Fuyu/Mods/Backend");
-            await ModManager.Instance.Load(container);
-            Terminal.WriteLine("Finished loading mods");
+        Terminal.WriteLine("Loading mods...");
+        ModManager.Instance.AddMods("./Fuyu/Mods/Backend");
+        await ModManager.Instance.Load(container);
+        Terminal.WriteLine("Finished loading mods");
 
-            Terminal.WriteLine("Done! Users can now connect.");
+        Terminal.WriteLine("Done! Users can now connect.");
 
-            Terminal.WaitForInput();
-            await ModManager.Instance.UnloadAll();
-        }
+        Terminal.WaitForInput();
+        await ModManager.Instance.UnloadAll();
     }
 }

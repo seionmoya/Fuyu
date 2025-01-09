@@ -1,9 +1,8 @@
-namespace Fuyu.Backend.BSG.Models.Profiles.Info
+namespace Fuyu.Backend.BSG.Models.Profiles.Info;
+
+public enum EPlayerSide
 {
-    public enum EPlayerSide
-    {
-        Usec = 1,
-        Bear,
-        Savage = 4
-    }
+    Usec = 1,
+    Bear,
+    Savage = 4
 }

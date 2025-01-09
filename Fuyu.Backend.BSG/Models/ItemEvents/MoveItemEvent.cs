@@ -2,29 +2,28 @@
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Common.Hashing;
 
-namespace Fuyu.Backend.BSG.Models.ItemEvents
+namespace Fuyu.Backend.BSG.Models.ItemEvents;
+
+[DataContract]
+// There is more data to this I have not needed it so I have not added it yet
+public class MoveItemEvent : BaseItemEvent
 {
-    [DataContract]
-    // There is more data to this I have not needed it so I have not added it yet
-    public class MoveItemEvent : BaseItemEvent
-    {
-        [DataMember(Name = "item")]
-        public MongoId Item { get; set; }
+    [DataMember(Name = "item")]
+    public MongoId Item { get; set; }
 
-        [DataMember(Name = "to")]
-        public RelocateTarget To { get; set; }
-    }
+    [DataMember(Name = "to")]
+    public RelocateTarget To { get; set; }
+}
 
-    [DataContract]
-    public class RelocateTarget
-    {
-        [DataMember(Name = "id")]
-        public MongoId Id { get; set; }
+[DataContract]
+public class RelocateTarget
+{
+    [DataMember(Name = "id")]
+    public MongoId Id { get; set; }
 
-        [DataMember(Name = "container")]
-        public string Container { get; set; }
+    [DataMember(Name = "container")]
+    public string Container { get; set; }
 
-        [DataMember(Name = "location")]
-        public LocationInGrid Location { get; set; }
-    }
+    [DataMember(Name = "location")]
+    public LocationInGrid Location { get; set; }
 }

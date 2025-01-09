@@ -4,26 +4,25 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class CustomizationStorageController : AbstractEftHttpController
 {
-    public class CustomizationStorageController : AbstractEftHttpController
+    private readonly EftOrm _eftOrm;
+
+    public CustomizationStorageController() : base("/client/customization/storage")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public CustomizationStorageController() : base("/client/customization/storage")
+    public override Task RunAsync(EftHttpContext context)
+    {
+        var response = new ResponseBody<CustomizationStorageEntry[]>()
         {
-            _eftOrm = EftOrm.Instance;
-        }
+            data = _eftOrm.GetCustomizationStorage().ToArray()
+        };
 
-        public override Task RunAsync(EftHttpContext context)
-        {
-            var response = new ResponseBody<CustomizationStorageEntry[]>()
-            {
-                data = _eftOrm.GetCustomizationStorage().ToArray()
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

@@ -4,27 +4,26 @@ using Fuyu.Backend.Core.Networking;
 using Fuyu.Backend.Core.Services;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.Core.Controllers
+namespace Fuyu.Backend.Core.Controllers;
+
+public class AccountGamesController : AbstractCoreHttpController
 {
-    public class AccountGamesController : AbstractCoreHttpController
+    private readonly AccountService _accountService;
+
+    public AccountGamesController() : base("/account/games")
     {
-        private readonly AccountService _accountService;
+        _accountService = AccountService.Instance;
+    }
 
-        public AccountGamesController() : base("/account/games")
+    public override Task RunAsync(CoreHttpContext context)
+    {
+        var sessionId = context.GetSessionId();
+        var result = _accountService.GetGames(sessionId);
+        var response = new AccountGamesResponse()
         {
-            _accountService = AccountService.Instance;
-        }
+            Games = result
+        };
 
-        public override Task RunAsync(CoreHttpContext context)
-        {
-            var sessionId = context.GetSessionId();
-            var result = _accountService.GetGames(sessionId);
-            var response = new AccountGamesResponse()
-            {
-                Games = result
-            };
-
-            return context.SendJsonAsync(Json.Stringify(response));
-        }
+        return context.SendJsonAsync(Json.Stringify(response));
     }
 }

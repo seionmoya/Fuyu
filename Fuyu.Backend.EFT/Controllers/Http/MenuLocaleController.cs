@@ -4,32 +4,31 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public partial class MenuLocaleController : AbstractEftHttpController
 {
-    public partial class MenuLocaleController : AbstractEftHttpController
+    [GeneratedRegex("^/client/menu/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
+    private static partial Regex PathExpression();
+    private readonly EftOrm _eftOrm;
+
+    public MenuLocaleController() : base(PathExpression())
     {
-        [GeneratedRegex("^/client/menu/locale/(?<languageId>[a-z]+(-[a-z]+)?)$")]
-        private static partial Regex PathExpression();
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public MenuLocaleController() : base(PathExpression())
+    public override Task RunAsync(EftHttpContext context)
+    {
+        var parameters = context.GetPathParameters(this);
+
+        var languageId = parameters["languageId"];
+        var locale = _eftOrm.GetMenuLocale(languageId);
+        var response = new ResponseBody<MenuLocaleResponse>
         {
-            _eftOrm = EftOrm.Instance;
-        }
+            data = locale
+        };
 
-        public override Task RunAsync(EftHttpContext context)
-        {
-            var parameters = context.GetPathParameters(this);
-
-            var languageId = parameters["languageId"];
-            var locale = _eftOrm.GetMenuLocale(languageId);
-            var response = new ResponseBody<MenuLocaleResponse>
-            {
-                data = locale
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

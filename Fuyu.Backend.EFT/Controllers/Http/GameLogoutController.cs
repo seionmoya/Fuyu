@@ -3,28 +3,27 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class GameLogoutController : AbstractEftHttpController
 {
-    public class GameLogoutController : AbstractEftHttpController
+    public GameLogoutController() : base("/client/game/logout")
     {
-        public GameLogoutController() : base("/client/game/logout")
-        {
-        }
+    }
 
-        public override Task RunAsync(EftHttpContext context)
+    public override Task RunAsync(EftHttpContext context)
+    {
+        // TODO: handle this
+        // --seionmoya, 2024-11-18
+        var response = new ResponseBody<GameLogoutResponse>()
         {
-            // TODO: handle this
-            // --seionmoya, 2024-11-18
-            var response = new ResponseBody<GameLogoutResponse>()
+            data = new GameLogoutResponse()
             {
-                data = new GameLogoutResponse()
-                {
-                    status = "ok"
-                }
-            };
+                status = "ok"
+            }
+        };
 
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

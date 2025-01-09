@@ -1,14 +1,13 @@
-﻿namespace Fuyu.Launcher.Store
+﻿namespace Fuyu.Launcher.Store;
+
+public class LoginSessionAction
 {
-    public class LoginSessionAction
+    public readonly string UserName;
+
+    public readonly bool IsLoggedIn = true;
+
+    public LoginSessionAction(string userName)
     {
-        public readonly string UserName;
-
-        public readonly bool IsLoggedIn = true;
-
-        public LoginSessionAction(string userName)
-        {
-            UserName = userName;
-        }
+        UserName = userName;
     }
 }

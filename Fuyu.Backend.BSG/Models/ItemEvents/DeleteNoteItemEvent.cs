@@ -1,11 +1,10 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.BSG.Models.ItemEvents
+namespace Fuyu.Backend.BSG.Models.ItemEvents;
+
+[DataContract]
+public class DeleteNoteItemEvent : BaseItemEvent
 {
-    [DataContract]
-    public class DeleteNoteItemEvent : BaseItemEvent
-    {
-        [DataMember(Name = "index")]
-        public int Index { get; set; }
-    }
+    [DataMember(Name = "index")]
+    public int Index { get; set; }
 }

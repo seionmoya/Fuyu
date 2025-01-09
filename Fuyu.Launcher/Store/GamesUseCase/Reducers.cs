@@ -1,27 +1,26 @@
 ﻿using Fluxor;
 
-namespace Fuyu.Launcher.Store.GamesUseCase
+namespace Fuyu.Launcher.Store.GamesUseCase;
+
+public static class Reducers
 {
-    public static class Reducers
+    [ReducerMethod]
+    public static GamesState ReduceGetGamesAction(GamesState state, GetGamesAction action)
     {
-        [ReducerMethod]
-        public static GamesState ReduceGetGamesAction(GamesState state, GetGamesAction action)
-        {
-            return new GamesState(true, new());
-        }
+        return new GamesState(true, new());
+    }
 
-        [ReducerMethod]
-        public static GamesState ReduceGetGamesResultAction(GamesState state, GetGamesResultAction action)
-        {
-            return new GamesState(false, action.Games);
-        }
+    [ReducerMethod]
+    public static GamesState ReduceGetGamesResultAction(GamesState state, GetGamesResultAction action)
+    {
+        return new GamesState(false, action.Games);
+    }
 
-        [ReducerMethod]
-        public static GamesState ReduceAddGameAction(GamesState state, AddGameAction action)
-        {
-            state.Games[action.GameId] = action.AccountId;
+    [ReducerMethod]
+    public static GamesState ReduceAddGameAction(GamesState state, AddGameAction action)
+    {
+        state.Games[action.GameId] = action.AccountId;
 
-            return new GamesState(false, state.Games);
-        }
+        return new GamesState(false, state.Games);
     }
 }

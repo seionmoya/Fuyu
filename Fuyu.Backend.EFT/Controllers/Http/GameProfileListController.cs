@@ -4,39 +4,38 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.EFT.Controllers.Http
+namespace Fuyu.Backend.EFT.Controllers.Http;
+
+public class GameProfileListController : AbstractEftHttpController
 {
-    public class GameProfileListController : AbstractEftHttpController
+    private readonly EftOrm _eftOrm;
+
+    public GameProfileListController() : base("/client/game/profile/list")
     {
-        private readonly EftOrm _eftOrm;
+        _eftOrm = EftOrm.Instance;
+    }
 
-        public GameProfileListController() : base("/client/game/profile/list")
+    public override Task RunAsync(EftHttpContext context)
+    {
+        var sessionId = context.GetSessionId();
+        var profile = _eftOrm.GetActiveProfile(sessionId);
+        Profile[] profiles;
+
+        if (profile.ShouldWipe)
         {
-            _eftOrm = EftOrm.Instance;
+            profiles = [];
+        }
+        else
+        {
+            profiles = [profile.Pmc, profile.Savage];
         }
 
-        public override Task RunAsync(EftHttpContext context)
+        var response = new ResponseBody<Profile[]>()
         {
-            var sessionId = context.GetSessionId();
-            var profile = _eftOrm.GetActiveProfile(sessionId);
-            Profile[] profiles;
+            data = profiles
+        };
 
-            if (profile.ShouldWipe)
-            {
-                profiles = [];
-            }
-            else
-            {
-                profiles = [profile.Pmc, profile.Savage];
-            }
-
-            var response = new ResponseBody<Profile[]>()
-            {
-                data = profiles
-            };
-
-            var text = Json.Stringify(response);
-            return context.SendJsonAsync(text, true, true);
-        }
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text, true, true);
     }
 }

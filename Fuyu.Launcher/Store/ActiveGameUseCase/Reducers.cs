@@ -1,13 +1,12 @@
 ﻿using Fluxor;
 
-namespace Fuyu.Launcher.Store.ActiveGameUseCase
+namespace Fuyu.Launcher.Store.ActiveGameUseCase;
+
+public static class Reducers
 {
-    public static class Reducers
+    [ReducerMethod]
+    public static ActiveGameState ReduceGetGamesAction(ActiveGameState state, SetActiveGameAction action)
     {
-        [ReducerMethod]
-        public static ActiveGameState ReduceGetGamesAction(ActiveGameState state, SetActiveGameAction action)
-        {
-            return new ActiveGameState(action.GameId);
-        }
+        return new ActiveGameState(action.GameId);
     }
 }

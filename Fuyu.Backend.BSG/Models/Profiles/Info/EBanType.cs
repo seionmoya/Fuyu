@@ -1,13 +1,12 @@
-namespace Fuyu.Backend.BSG.Models.Profiles.Info
+namespace Fuyu.Backend.BSG.Models.Profiles.Info;
+
+public enum EBanType
 {
-    public enum EBanType
-    {
-        Chat,
-        Ragfair,
-        Voip,
-        Trading,
-        Online,
-        Friends,
-        ChangeNickname
-    }
+    Chat,
+    Ragfair,
+    Voip,
+    Trading,
+    Online,
+    Friends,
+    ChangeNickname
 }

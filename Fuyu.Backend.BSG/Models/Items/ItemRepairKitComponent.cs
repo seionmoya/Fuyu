@@ -2,25 +2,24 @@
 using Fuyu.Backend.BSG;
 using Newtonsoft.Json.Linq;
 
-namespace Fuyu.Backend.BSG.Models.Items
+namespace Fuyu.Backend.BSG.Models.Items;
+
+[DataContract]
+public class ItemRepairKitComponent : IItemComponent
 {
-    [DataContract]
-    public class ItemRepairKitComponent : IItemComponent
+    [DataMember]
+    public float Resource { get; set; }
+
+    public static object CreateComponent(JObject templateProperties)
     {
-        [DataMember]
-        public float Resource { get; set; }
-
-        public static object CreateComponent(JObject templateProperties)
+        if (!templateProperties.ContainsKey("MaxRepairResource"))
         {
-            if (!templateProperties.ContainsKey("MaxRepairResource"))
-            {
-                return null;
-            }
-
-            return new ItemRepairKitComponent
-            {
-                Resource = templateProperties.Value<float>("MaxRepairResource")
-            };
+            return null;
         }
+
+        return new ItemRepairKitComponent
+        {
+            Resource = templateProperties.Value<float>("MaxRepairResource")
+        };
     }
 }

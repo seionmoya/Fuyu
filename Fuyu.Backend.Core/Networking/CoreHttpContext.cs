@@ -5,87 +5,86 @@ using System.Threading.Tasks;
 using Fuyu.Backend.Core.Services;
 using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.Core.Networking
+namespace Fuyu.Backend.Core.Networking;
+
+public class CoreHttpContext : HttpContext
 {
-    public class CoreHttpContext : HttpContext
+    public CoreHttpContext(HttpListenerRequest request, HttpListenerResponse response) : base(request, response)
     {
-        public CoreHttpContext(HttpListenerRequest request, HttpListenerResponse response) : base(request, response)
-        {
-        }
+    }
 
-        public override byte[] GetBinary()
+    public override byte[] GetBinary()
+    {
+        using (var ms = new MemoryStream())
         {
-            using (var ms = new MemoryStream())
+            Request.InputStream.CopyTo(ms);
+
+            var body = ms.ToArray();
+            var encryption = GetEncryption();
+
+            if (!string.IsNullOrWhiteSpace(encryption))
             {
-                Request.InputStream.CopyTo(ms);
-
-                var body = ms.ToArray();
-                var encryption = GetEncryption();
-
-                if (!string.IsNullOrWhiteSpace(encryption))
+                // Tarkov Never sends AES encrypted body as request.
+                switch (encryption)
                 {
-                    // Tarkov Never sends AES encrypted body as request.
-                    switch (encryption)
-                    {
-                        case "aes":
-                            body = CryptographyService.DecryptAes(body);
-                            break;
+                    case "aes":
+                        body = CryptographyService.DecryptAes(body);
+                        break;
 
-                        default:
-                            throw new InvalidDataException(encryption);
-                    }
+                    default:
+                        throw new InvalidDataException(encryption);
                 }
-
-                return body;
             }
+
+            return body;
         }
+    }
 
-        protected Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool encrypted)
-        {
-            var hasData = !(data == null);
+    protected Task SendAsync(byte[] data, string mime, HttpStatusCode status, bool encrypted)
+    {
+        var hasData = !(data == null);
 
-            // Used for postman debugging by Nexus4880
-            // -- seionmoya, 2024-11-18
+        // Used for postman debugging by Nexus4880
+        // -- seionmoya, 2024-11-18
 #if DEBUG
-            if (Request.Headers["X-Require-Plaintext"] != null)
-            {
-                encrypted = false;
-            }
+        if (Request.Headers["X-Require-Plaintext"] != null)
+        {
+            encrypted = false;
+        }
 #endif
 
-            if (hasData && encrypted)
-            {
-                Response.Headers.Add("X-Encryption", "aes");
-                data = CryptographyService.EncryptAes(data);
-                encrypted = false;
-            }
-
-            return SendAsync(data, mime, status);
-        }
-
-        public Task SendBinaryAsync(byte[] data, string mime, bool encrypted)
+        if (hasData && encrypted)
         {
-            return SendAsync(data, mime, HttpStatusCode.OK, encrypted);
+            Response.Headers.Add("X-Encryption", "aes");
+            data = CryptographyService.EncryptAes(data);
+            encrypted = false;
         }
 
-        public Task SendJsonAsync(string text, bool encrypted)
-        {
-            var encoded = Encoding.UTF8.GetBytes(text);
-            var mime = encrypted
-                ? "application/octet-stream"
-                : "application/json; charset=utf-8";
+        return SendAsync(data, mime, status);
+    }
 
-            return SendAsync(encoded, mime, HttpStatusCode.OK, encrypted);
-        }
+    public Task SendBinaryAsync(byte[] data, string mime, bool encrypted)
+    {
+        return SendAsync(data, mime, HttpStatusCode.OK, encrypted);
+    }
 
-        public string GetEncryption()
-        {
-            return Request.Headers["X-Encryption"];
-        }
+    public Task SendJsonAsync(string text, bool encrypted)
+    {
+        var encoded = Encoding.UTF8.GetBytes(text);
+        var mime = encrypted
+            ? "application/octet-stream"
+            : "application/json; charset=utf-8";
 
-        public string GetSessionId()
-        {
-            return Request.Cookies["Session"].Value;
-        }
+        return SendAsync(encoded, mime, HttpStatusCode.OK, encrypted);
+    }
+
+    public string GetEncryption()
+    {
+        return Request.Headers["X-Encryption"];
+    }
+
+    public string GetSessionId()
+    {
+        return Request.Cookies["Session"].Value;
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Fuyu.Backend.BSG
+namespace Fuyu.Backend.BSG;
+
+public interface IItemComponent
 {
-    public interface IItemComponent
-    {
-        static abstract object CreateComponent(JObject templateProperties);
-    }
+    static abstract object CreateComponent(JObject templateProperties);
 }

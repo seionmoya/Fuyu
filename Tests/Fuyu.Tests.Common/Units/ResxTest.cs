@@ -5,60 +5,59 @@ using System.Text;
 using Fuyu.Common.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Fuyu.Tests.Common.Units
+namespace Fuyu.Tests.Common.Units;
+
+[TestClass]
+public class ResxTest
 {
-    [TestClass]
-    public class ResxTest
+    private const string _assemblyId = "resx_test";
+
+    public ResxTest()
     {
-        private const string _assemblyId = "resx_test";
+        Resx.SetSource(_assemblyId, typeof(ResxTest).Assembly);
+    }
 
-        public ResxTest()
+    [TestMethod]
+    public void TestGetStream()
+    {
+        // set expected info
+        var expectedText = "Hello, world!";
+        var expectedData = Encoding.UTF8.GetBytes(expectedText);
+
+        // get resource
+        byte[] data;
+
+        using (var ms = new MemoryStream())
         {
-            Resx.SetSource(_assemblyId, typeof(ResxTest).Assembly);
-        }
-
-        [TestMethod]
-        public void TestGetStream()
-        {
-            // set expected info
-            var expectedText = "Hello, world!";
-            var expectedData = Encoding.UTF8.GetBytes(expectedText);
-
-            // get resource
-            byte[] data;
-
-            using (var ms = new MemoryStream())
+            using (var rs = Resx.GetStream(_assemblyId, "test.txt"))
             {
-                using (var rs = Resx.GetStream(_assemblyId, "test.txt"))
-                {
-                    rs.CopyTo(ms);
-                }
-
-                data = ms.ToArray();
+                rs.CopyTo(ms);
             }
 
-            var result = data.SequenceEqual(expectedData);
-            Assert.IsTrue(result);
+            data = ms.ToArray();
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
-        public void TestGetStreamException()
+        var result = data.SequenceEqual(expectedData);
+        Assert.IsTrue(result);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(FileNotFoundException))]
+    public void TestGetStreamException()
+    {
+        using (var rs = Resx.GetStream(_assemblyId, "not.existing.file.txt"))
         {
-            using (var rs = Resx.GetStream(_assemblyId, "not.existing.file.txt"))
-            {
-            }
         }
+    }
 
-        [TestMethod]
-        public void TestGetText()
-        {
-            // set expected info
-            var expectedText = "Hello, world!";
+    [TestMethod]
+    public void TestGetText()
+    {
+        // set expected info
+        var expectedText = "Hello, world!";
 
-            // get resource
-            var data = Resx.GetText(_assemblyId, "test.txt");
-            Assert.IsTrue(data == expectedText);
-        }
+        // get resource
+        var data = Resx.GetText(_assemblyId, "test.txt");
+        Assert.IsTrue(data == expectedText);
     }
 }

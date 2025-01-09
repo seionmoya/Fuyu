@@ -1,11 +1,10 @@
-﻿namespace Fuyu.Backend.BSG.Models.Profiles
+﻿namespace Fuyu.Backend.BSG.Models.Profiles;
+
+public enum EWishlistGroup
 {
-    public enum EWishlistGroup
-    {
-        Quests,
-        Hideout,
-        Trading,
-        Equipment,
-        Other
-    }
+    Quests,
+    Hideout,
+    Trading,
+    Equipment,
+    Other
 }

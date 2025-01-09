@@ -1,12 +1,11 @@
 ﻿using System.Runtime.Serialization;
 using Fuyu.Common.Hashing;
 
-namespace Fuyu.Backend.BSG.Models.ItemEvents
+namespace Fuyu.Backend.BSG.Models.ItemEvents;
+
+[DataContract]
+public class RemoveItemEvent : BaseItemEvent
 {
-    [DataContract]
-    public class RemoveItemEvent : BaseItemEvent
-    {
-        [DataMember(Name = "item")]
-        public MongoId Item { get; set; }
-    }
+    [DataMember(Name = "item")]
+    public MongoId Item { get; set; }
 }
