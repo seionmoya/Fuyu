@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
@@ -22,18 +23,33 @@ public class GameProfileNicknameChangeController : AbstractEftHttpController<Gam
         // * validate nickname usage
         // -- seionmoya, 2024/08/28
 
-        bool validNickname = _profileService.IsValidNickname(request.Nickname, out string status);        
+        var result = _profileService.IsValidNickname(request.Nickname);
+        // TODO: Find if there is a more proper usage of EBackendErrorCode for this switch (find actual error message in globals.json)
+        var errorMessage = result switch
+        {
+            ENicknameChangeResult.WrongSymbol => EBackendErrorCode.NicknameNotValid,
+            ENicknameChangeResult.TooShort => EBackendErrorCode.NicknameNotValid,
+            ENicknameChangeResult.CharacterLimit => EBackendErrorCode.NicknameNotValid,
+            ENicknameChangeResult.InvalidNickname => EBackendErrorCode.NicknameNotValid,
+            ENicknameChangeResult.NicknameTaken => EBackendErrorCode.NicknameNotUnique,
+            ENicknameChangeResult.NicknameChangeTimeout => EBackendErrorCode.NicknameChangeTimeout,
+            ENicknameChangeResult.DigitsLimit => EBackendErrorCode.NicknameNotValid,
+            ENicknameChangeResult.Ok => EBackendErrorCode.None,
+            _ => EBackendErrorCode.None,
+        };
 
-        if (validNickname)
+        if (result == ENicknameChangeResult.Ok)
         {
             //TODO: Save profile
         }
 
         var response = new ResponseBody<GameProfileNicknameChangeResponse>()
         {
+            err = (int)errorMessage,
+            errmsg = errorMessage.ToString(),
             data = new GameProfileNicknameChangeResponse()
             {
-                Status = status
+                Status = result
             }
         };
 

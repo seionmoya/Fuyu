@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http.Headers;
+using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.Serialization;
 

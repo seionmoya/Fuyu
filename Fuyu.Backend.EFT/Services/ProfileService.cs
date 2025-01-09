@@ -111,25 +111,20 @@ public class ProfileService
     /// <param name="nickname">The new nickname</param>
     /// <param name="status">The status returned to the client</param>
     /// <returns>True if the nickname is valid</returns>
-    public bool IsValidNickname(string nickname, out string status)
+    public ENicknameChangeResult IsValidNickname(string nickname)
     {
+        //TODO: Handle all results
         if (nickname.Length < 3)
         {
-            status = "tooshort";
-            return false;
+            return ENicknameChangeResult.TooShort;
         }
 
         if (nickname.Length > 15)
         {
-            status = "toolong";
-            return false;
+            return ENicknameChangeResult.CharacterLimit;
         }
 
-        status = "ok";
-        return true;
-        //TODO: Handle status = "taken"?
-
-
+        return ENicknameChangeResult.Ok;
     }
 
     public void WriteToDisk(EftProfile profile)
