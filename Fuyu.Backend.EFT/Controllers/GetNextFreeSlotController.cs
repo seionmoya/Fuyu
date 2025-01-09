@@ -34,7 +34,7 @@ public class GetNextFreeSlotController : EftHttpController<GetNextFreeSlotReques
 
     public override Task RunAsync(EftHttpContext context, GetNextFreeSlotRequest body)
     {
-        var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         var freeSlot = profile.Pmc.Inventory.GetNextFreeSlot(body.Width, body.Height, out var gridName, body.Rotation);
         if (freeSlot == null)
         {

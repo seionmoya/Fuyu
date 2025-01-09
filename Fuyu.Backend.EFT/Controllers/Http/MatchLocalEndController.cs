@@ -18,7 +18,7 @@ public class MatchLocalEndController : EftHttpController<MatchLocalEndRequest>
 
     public override Task RunAsync(EftHttpContext context, MatchLocalEndRequest body)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
 
         var profile = _eftOrm.GetActiveProfile(sessionId);
 

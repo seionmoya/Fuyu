@@ -17,7 +17,7 @@ public class GameProfileListController : AbstractEftHttpController
 
     public override Task RunAsync(EftHttpContext context)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var profile = _eftOrm.GetActiveProfile(sessionId);
         Profile[] profiles;
 

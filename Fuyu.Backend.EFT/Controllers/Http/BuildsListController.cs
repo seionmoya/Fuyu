@@ -14,7 +14,7 @@ public class BuildsListController : AbstractEftHttpController
 
     public override Task RunAsync(EftHttpContext context)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var account = EftOrm.Instance.GetAccount(sessionId);
         var profile = EftOrm.Instance.GetActiveProfile(account);
         var builds = profile.Builds;

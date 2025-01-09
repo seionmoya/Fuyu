@@ -18,7 +18,7 @@ public class GameModeController : EftHttpController<ClientGameModeRequest>
 
     public override Task RunAsync(EftHttpContext context, ClientGameModeRequest body)
     {
-        var account = _eftOrm.GetAccount(context.GetSessionId());
+        var account = _eftOrm.GetAccount(context.SessionId);
 
         if (body.SessionMode == null)
         {
