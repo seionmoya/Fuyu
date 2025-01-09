@@ -40,12 +40,9 @@ public static class Terminal
             throw new NullReferenceException();
         }
 
-        WriteLine(o.ToString());
-    }
-
-    public static void WaitForInput()
-    {
-        // Console.ReadKey doesn't work in vscode buildin terminal
-        Console.In.ReadLine();
+        public static string ReadLine()
+        {
+            return Console.In.ReadLine();
+        }
     }
 }

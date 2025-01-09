@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Services;
+using Fuyu.Backend.Common;
 using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFT;
@@ -18,14 +19,36 @@ public class Program
         var container = new DependencyContainer();
 
         Terminal.SetLogFile("Fuyu/Logs/Backend.log");
+        LoadDatabase(container);
+        LoadServers(container);
+        await LoadMods(container);
 
+        Terminal.WriteLine("Done!");
+        Terminal.WriteLine("You can now run commands.");
+        Terminal.WriteLine("Users can now connect.");
+
+        while (CommandService.Instance.IsRunning)
+        {
+            var text = Terminal.ReadLine();
+            var args = text.Split(' ');
+            CommandService.Instance.RunCommand(args);
+        }
+
+        await ModManager.Instance.UnloadAll();
+    }
+
+    static void LoadDatabase(DependencyContainer container)
+    {
         Terminal.WriteLine("Loading database...");
 
         CoreLoader.Instance.Load();
         EftLoader.Instance.Load();
         TraderDatabase.Instance.Load();
         ItemFactoryService.Instance.Load();
+    }
 
+    static void LoadServers(DependencyContainer container)
+    {
         Terminal.WriteLine("Loading backends...");
 
         var coreServer = new CoreServer();
@@ -39,15 +62,13 @@ public class Program
 
         eftMainServer.RegisterServices();
         eftMainServer.Start();
+    }
 
+    static Task LoadMods(DependencyContainer container)
+    {
         Terminal.WriteLine("Loading mods...");
+
         ModManager.Instance.AddMods("./Fuyu/Mods/Backend");
-        await ModManager.Instance.Load(container);
-        Terminal.WriteLine("Finished loading mods");
-
-        Terminal.WriteLine("Done! Users can now connect.");
-
-        Terminal.WaitForInput();
-        await ModManager.Instance.UnloadAll();
+        return ModManager.Instance.Load(container);
     }
 }
