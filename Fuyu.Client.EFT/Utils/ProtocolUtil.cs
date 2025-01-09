@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Fuyu.Client.EFT.Reflection;
 using Fuyu.Common.IO;
 using HarmonyLib;
-using Fuyu.Client.EFT.Reflection;
 
 namespace Fuyu.Client.EFT.Utils
 {

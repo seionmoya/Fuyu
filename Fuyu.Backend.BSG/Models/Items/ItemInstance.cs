@@ -10,7 +10,7 @@ namespace Fuyu.Backend.BSG.Models.Items
     [DataContract]
     public class ItemInstance
     {
-        private ItemFactoryService _itemFactoryService;
+        private readonly ItemFactoryService _itemFactoryService;
 
         public ItemInstance()
         {

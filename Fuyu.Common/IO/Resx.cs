@@ -97,7 +97,7 @@ namespace Fuyu.Common.IO
 #if DOTNET_7_0_OR_GREATER
                 rs.ReadExactly(bytes);
 #else
-                rs.Read(bytes, 0, bytes.Length);
+                rs.ReadExactly(bytes);
 #endif
 
                 return bytes;

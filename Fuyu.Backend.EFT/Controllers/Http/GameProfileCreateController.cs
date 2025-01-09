@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Requests;
+using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.Serialization;

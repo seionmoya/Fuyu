@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Locations;
@@ -9,6 +8,7 @@ using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT
 {

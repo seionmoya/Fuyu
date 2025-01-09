@@ -1,8 +1,8 @@
+using System;
 using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using System;
 
 namespace Fuyu.Backend.Core
 {

@@ -1,5 +1,5 @@
-﻿using Fuyu.Backend.BSG.Models.Trading;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Models.Trading;
 
 namespace Fuyu.Backend.BSG.Models.ItemEvents
 {

@@ -8,7 +8,7 @@ namespace Fuyu.Backend.EFT.Services
         public static AchievementService Instance => instance.Value;
         private static readonly Lazy<AchievementService> instance = new(() => new AchievementService());
 
-        private EftOrm _eftOrm;
+        private readonly EftOrm _eftOrm;
 
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
