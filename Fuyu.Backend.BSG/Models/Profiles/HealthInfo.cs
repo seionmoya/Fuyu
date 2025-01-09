@@ -45,7 +45,7 @@ public class HealthInfo
     }
 
     /// <summary>
-    /// Returns whether any bodyparts contain a <see cref="BodyPartEffect"/>
+    /// Returns whether any <see cref="BodyPart"/> contain a <see cref="BodyPartEffect"/>
     /// </summary>
     [IgnoreDataMember]
     public bool HasEffects
