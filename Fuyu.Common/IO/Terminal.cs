@@ -40,9 +40,11 @@ public static class Terminal
             throw new NullReferenceException();
         }
 
-        public static string ReadLine()
-        {
-            return Console.In.ReadLine();
-        }
+        WriteLine(o.ToString());
+    }
+
+    public static string ReadLine()
+    {
+        return Console.In.ReadLine();
     }
 }
