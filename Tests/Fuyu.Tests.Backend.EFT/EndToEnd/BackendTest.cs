@@ -80,7 +80,7 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
             _eftSessionId = Fuyu.Backend.EFT.Services.AccountService.Instance.LoginAccount(eftAccountId);
 
             // create request clients
-            _eftMainClient = new EftHttpClient("http://localhost:8010", _eftSessionId);
+            _eftMainClient = new EftHttpClient("http://localhost:8010", _eftSessionId, "0.16.0.2.34510");
         }
 
         [TestMethod]

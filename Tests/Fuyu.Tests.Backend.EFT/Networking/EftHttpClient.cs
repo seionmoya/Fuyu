@@ -8,10 +8,12 @@ namespace Fuyu.Tests.Backend.EFT.Networking
     public class EftHttpClient : Fuyu.Common.Networking.HttpClient
     {
         public readonly string _sessionId;
+        public readonly string _version;
 
-        public EftHttpClient(string address, string sessionId) : base(address)
+        public EftHttpClient(string address, string sessionId, string version) : base(address)
         {
             _sessionId = sessionId;
+            _version = version;
         }
 
         protected override byte[] OnSendBody(byte[] body)
@@ -39,6 +41,7 @@ namespace Fuyu.Tests.Backend.EFT.Networking
 
             request.Headers.Add("X-Encryption", "aes");
             request.Headers.Add("Cookie", $"PHPSESSID={_sessionId}");
+            request.Headers.Add("App-Version", $"EFT Client {_version}");
 
             return request;
         }
