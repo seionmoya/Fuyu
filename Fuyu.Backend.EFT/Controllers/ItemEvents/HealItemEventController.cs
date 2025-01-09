@@ -12,13 +12,11 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents;
 public class HealItemEventController : AbstractItemEventController<HealItemEvent>
 {
     private readonly EftOrm _eftOrm;
-    private readonly HealthService _healthService;
     private readonly ItemFactoryService _itemFactoryService;
 
     public HealItemEventController() : base("Heal")
     {
         _eftOrm = EftOrm.Instance;
-        _healthService = HealthService.Instance;
         _itemFactoryService = ItemFactoryService.Instance;
     }
 
