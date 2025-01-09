@@ -5,7 +5,7 @@ namespace Fuyu.Devtool.EftLauncher
 {
     public class Program
     {
-        static void  Main()
+        static void Main()
         {
             // Register account
             var username = "User";
