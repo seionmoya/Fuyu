@@ -16,7 +16,8 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
             // TODO: generate this
             // --seionmoya, 2024-11-18
-            var text = _eftOrm.GetLocalWeather();
+            var response = _eftOrm.GetLocalWeather();
+            var text = response.ToString();
             return context.SendJsonAsync(text, true, true);
         }
     }

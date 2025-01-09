@@ -9,14 +9,14 @@ namespace Fuyu.Backend.EFT.Services
         public static LocationService Instance => instance.Value;
         private static readonly Lazy<LocationService> instance = new(() => new LocationService());
 
-        private readonly Dictionary<string, string> _locations;
+        private readonly Dictionary<string, string> _locationLoot;
 
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private LocationService()
         {
-            _locations = new Dictionary<string, string>()
+            _locationLoot = new Dictionary<string, string>()
             {
                 { "bigmap",         Resx.GetText("eft", "database.locations.bigmap.json")          },
                 { "factory4_day",   Resx.GetText("eft", "database.locations.factory4_day.json")    },
@@ -32,9 +32,11 @@ namespace Fuyu.Backend.EFT.Services
             };
         }
 
+        // TODO: generate this
+        // --seionmoya, 2024-11-18
         public string GetLoot(string location)
         {
-            return _locations[location];
+            return _locationLoot[location];
         }
     }
 }

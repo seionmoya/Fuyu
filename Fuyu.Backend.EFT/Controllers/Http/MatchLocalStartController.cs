@@ -13,10 +13,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context, MatchLocalStartRequest request)
         {
-            // TODO: generate this
-            // --seionmoya, 2024-11-18
             var location = request.location;
-
             var text = LocationService.Instance.GetLoot(location);
             return context.SendJsonAsync(text, true, true);
         }
