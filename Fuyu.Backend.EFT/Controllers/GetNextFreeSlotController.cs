@@ -23,7 +23,7 @@ public class GetNextFreeSlotRequest
 
 // TODO: Delete later
 // -- nexus4880, 2024-11-26
-public class GetNextFreeSlotController : EftHttpController<GetNextFreeSlotRequest>
+public class GetNextFreeSlotController : AbstractEftHttpController<GetNextFreeSlotRequest>
 {
     private readonly EftOrm _eftOrm;
 

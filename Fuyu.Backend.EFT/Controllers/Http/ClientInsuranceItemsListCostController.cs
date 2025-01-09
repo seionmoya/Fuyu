@@ -11,7 +11,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class ClientInsuranceItemsListCostController : EftHttpController<InsuranceCostRequest>
+public class ClientInsuranceItemsListCostController : AbstractEftHttpController<InsuranceCostRequest>
 {
     private readonly EftOrm _eftOrm;
 

@@ -7,7 +7,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class FuyuGameLoginController : EftHttpController<FuyuGameLoginRequest>
+public class FuyuGameLoginController : AbstractEftHttpController<FuyuGameLoginRequest>
 {
     private readonly AccountService _accountService;
 
