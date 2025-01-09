@@ -46,12 +46,13 @@ namespace Fuyu.Backend.EFT
         //                                        edition            side         profile
         internal readonly ThreadDictionary<string, Dictionary<EPlayerSide, Profile>> WipeProfiles;
 
+        internal readonly ThreadObject<AchievementStatisticResponse> AchievementStatistic;
         internal readonly ThreadObject<BuildsListResponse> DefaultBuilds;
         internal readonly ThreadObject<HideoutSettingsResponse> HideoutSettings;
+        internal readonly ThreadObject<WorldMap> WorldMap;
 
         // TODO
         internal readonly ThreadObject<JObject> AchievementList;
-        internal readonly ThreadObject<string> AchievementStatistic;
         internal readonly ThreadObject<JObject> Globals;
         internal readonly ThreadObject<JObject> Handbook;
         internal readonly ThreadObject<JObject> HideoutAreas;
@@ -60,7 +61,6 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<JObject> HideoutQteList;
         internal readonly ThreadObject<JObject> Items;
         internal readonly ThreadObject<JObject> LocalWeather;
-        internal readonly ThreadObject<WorldMap> WorldMap;
         internal readonly ThreadObject<JObject> Prestige;
         internal readonly ThreadObject<JObject> Quests;
         internal readonly ThreadObject<JObject> Settings;
@@ -82,13 +82,13 @@ namespace Fuyu.Backend.EFT
             Languages = new ThreadDictionary<string, string>();
             MenuLocales = new ThreadDictionary<string, MenuLocaleResponse>();
             WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, Profile>>();
+            AchievementStatistic = new ThreadObject<AchievementStatisticResponse>(null);
             DefaultBuilds = new ThreadObject<BuildsListResponse>(null);
             WorldMap = new ThreadObject<WorldMap>(null);
             HideoutSettings = new ThreadObject<HideoutSettingsResponse>(null);
 
             // TODO
             AchievementList = new ThreadObject<JObject>(null);
-            AchievementStatistic = new ThreadObject<string>(string.Empty);
             Globals = new ThreadObject<JObject>(null);
             Handbook = new ThreadObject<JObject>(null);
             HideoutAreas = new ThreadObject<JObject>(null);
@@ -126,6 +126,9 @@ namespace Fuyu.Backend.EFT
             LoadCustomizationStorage();
             LoadDefaultBuilds();
             LoadWipeProfiles();
+            LoadWorldMap();
+            LoadHideoutSettings();
+            LoadAchievementStatistics();
 
             // TODO
             LoadUnparsed();
@@ -261,9 +264,16 @@ namespace Fuyu.Backend.EFT
             });
         }
 
+        private void LoadAchievementStatistics()
+        {
+            var json = Resx.GetText("eft", "database.client.achievement.statistic.json");
+            var statistics = Json.Parse<AchievementStatisticResponse>(json);
+            AchievementStatistic.Set(statistics);
+        }
+
         private void LoadWorldMap()
         {
-            var json = Resx.GetText("eft", "database.client.WorldMap.json");
+            var json = Resx.GetText("eft", "database.client.locations.json");
             var worldmap = Json.Parse<WorldMap>(json);
             WorldMap.Set(worldmap);
         }
@@ -279,7 +289,6 @@ namespace Fuyu.Backend.EFT
         private void LoadUnparsed()
         {
             AchievementList.Set(JObject.Parse(Resx.GetText("eft", "database.client.achievement.list.json")));
-            AchievementStatistic.Set(Resx.GetText("eft", "database.client.achievement.statistic.json"));
             Globals.Set(JObject.Parse(Resx.GetText("eft", "database.client.globals.json")));
             Handbook.Set(JObject.Parse(Resx.GetText("eft", "database.client.handbook.templates.json")));
             HideoutAreas.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.areas.json")));

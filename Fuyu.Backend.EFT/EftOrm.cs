@@ -462,16 +462,22 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
+        #region Achievement statistic
+        public AchievementStatisticResponse GetAchievementStatistics()
+        {
+            return _eftDatabase.AchievementStatistic.Get();
+        }
+
+        public void GetAchievementStatistics(AchievementStatisticResponse statistics)
+        {
+            _eftDatabase.AchievementStatistic.Set(statistics);
+        }
+        #endregion
+
         #region Unparsed
         public JObject GetAchievementList()
         {
             return _eftDatabase.AchievementList.Get();
-        }
-
-        // TODO: actual model exists
-        public string GetAchievementStatistic()
-        {
-            return _eftDatabase.AchievementStatistic.Get();
         }
 
         public JObject GetGlobals()
