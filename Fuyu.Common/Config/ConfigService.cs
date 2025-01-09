@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Fuyu.Common.Delegates;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
 
@@ -11,12 +12,13 @@ public class ConfigService
     private readonly Lazy<Dictionary<string, AbstractConfig>> lazyConfigs = new(() => new());
     private readonly string _platform;
 
-    public Action Load;
+    public static ConfigCallback Loaded;
+    public static ConfigCallback Unloaded;
 
     private ConfigService(string platform)
     {
         _platform = platform;
-        Load?.Invoke();
+        Loaded?.Invoke(platform);
     }
 
     public static ConfigService GetInstance(string platform)
@@ -31,6 +33,7 @@ public class ConfigService
     public static void FreeInstance(string platform)
     {
         instances.Value.Remove(platform);
+        Unloaded?.Invoke(platform);
     }
 
     #region Regular config
@@ -76,7 +79,9 @@ public class ConfigService
             {
                 value = (T)lazyConfigs.Value[configName];
                 if (!reload)
+                {
                     return;
+                }
             }
         }
         // we loading here if we dont already have it.
@@ -106,7 +111,9 @@ public class ConfigService
     {
         lazyConfigs.Value.Remove(configName);
         if (!deleteFile)
+        {
             return;
+        }
         var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
         File.Delete(file);
     }
