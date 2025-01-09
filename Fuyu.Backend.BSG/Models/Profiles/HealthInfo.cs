@@ -51,7 +51,7 @@ public class HealthInfo
     {
         get
         {
-            return BodyParts.Any(x => x.Effects.Count > 0);
+            return BodyParts.AllBodyParts.Any(x => x.Effects.Count > 0);
         }
     }
 

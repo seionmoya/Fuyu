@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Fuyu.Backend.BSG.Models.Profiles.Health;
 
 [DataContract]
-public class BodyPartInfo : IEnumerable<BodyPart>
+public class BodyPartInfo
 {
     [DataMember]
     public BodyPart Head { get; set; }
@@ -28,19 +28,19 @@ public class BodyPartInfo : IEnumerable<BodyPart>
     [DataMember]
     public BodyPart RightLeg { get; set; }
 
-    public IEnumerator<BodyPart> GetEnumerator()
+    // TODO: Refactor class to support IEnumerator?
+    [IgnoreDataMember]
+    public IEnumerable<BodyPart> AllBodyParts
     {
-        yield return Head;
-        yield return Chest;
-        yield return Stomach;
-        yield return LeftArm;
-        yield return RightArm;
-        yield return LeftLeg;
-        yield return RightLeg;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        throw new System.NotImplementedException();
+        get
+        {
+            yield return Head;
+            yield return Chest;
+            yield return Stomach;
+            yield return LeftArm;
+            yield return RightArm;
+            yield return LeftLeg;
+            yield return RightLeg;
+        }
     }
 }
