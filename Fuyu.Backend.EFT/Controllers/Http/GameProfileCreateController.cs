@@ -23,7 +23,7 @@ public class GameProfileCreateController : AbstractEftHttpController<GameProfile
 
     public override Task RunAsync(EftHttpContext context, GameProfileCreateRequest request)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var account = _eftOrm.GetAccount(sessionId);
         var pmcId = _profileService.WipeProfile(account, request.side, request.headId, request.voiceId);
 

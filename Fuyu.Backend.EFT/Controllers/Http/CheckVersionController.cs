@@ -16,7 +16,7 @@ public class CheckVersionController : AbstractEftHttpController
         // TODO: Add global constant somewhere where we can define the supported version of EFT/Arena?
         // -- slejmur, 2025-01-09
         string currentVersion = "0.16.0.2.34510";
-        var appVersion = context.GetEftVersion();
+        var appVersion = context.EftVersion;
         appVersion = appVersion.Replace("EFT Client ", "");
 
         var response = new ResponseBody<CheckVersionResponse>()

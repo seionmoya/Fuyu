@@ -27,7 +27,7 @@ public partial class ClientItemsPriceController : AbstractEftHttpController
     public override Task RunAsync(EftHttpContext context)
     {
         var parameters = context.GetPathParameters(this);
-        var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         var response = new ResponseBody<Union<SupplyData, Dictionary<MongoId, float>>>();
 
         if (parameters.TryGetValue("traderId", out var traderId))

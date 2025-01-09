@@ -3,8 +3,10 @@ using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.Compression;
 using Fuyu.Common.Networking;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Networking;
 
@@ -21,7 +23,7 @@ public class EftHttpContext : HttpContext
             Request.InputStream.CopyTo(ms);
 
             var body = ms.ToArray();
-            var encryption = GetEncryption();
+            var encryption = Encryption;
 
             if (!string.IsNullOrWhiteSpace(encryption))
             {
@@ -93,31 +95,43 @@ public class EftHttpContext : HttpContext
         return SendAsync(encoded, mime, HttpStatusCode.OK, zipped, encrypted);
     }
 
-    public string GetEncryption()
+    public string Encryption
     {
-        return Request.Headers["X-Encryption"];
+        get
+        {
+            return Request.Headers["X-Encryption"];
+        }
     }
 
-    public string GetETag()
+    public string ETag
     {
-        return Request.Headers["If-None-Match"];
+        get
+        {
+            return Request.Headers["If-None-Match"];
+        }
     }
 
-    public string GetSessionId()
+    public string SessionId
     {
-        return Request.Cookies["PHPSESSID"].Value;
+        get
+        {
+            return Request.Cookies["PHPSESSID"].Value;
+        }
     }
 
     /// <summary>
     /// Getting the current Eft version from the Request Headers.
     /// </summary>
     /// <returns>Client EFT Version</returns>
-    public string GetEftVersion()
+    public string EftVersion
     {
         // In header tarkov always sends the current version. (Example: "EFT Client 0.15.5.1.33420")
 
         // TODO: Replace the "EFT Client" or the same in Arena
         //  -- slejmur, 2025-01-09
-        return Request.Headers["App-Version"];
+        get
+        {
+            return Request.Headers["App-Version"];
+        }
     }
 }

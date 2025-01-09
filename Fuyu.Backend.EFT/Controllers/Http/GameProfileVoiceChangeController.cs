@@ -17,7 +17,7 @@ public class GameProfileVoiceChangeController : AbstractEftHttpController<GamePr
 
     public override Task RunAsync(EftHttpContext context, GameProfileVoiceChangeRequest body)
     {
-        var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
 
         profile.Pmc.Info.Voice = body.Voice;
 

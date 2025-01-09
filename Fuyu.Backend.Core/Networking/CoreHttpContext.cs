@@ -20,7 +20,7 @@ public class CoreHttpContext : HttpContext
             Request.InputStream.CopyTo(ms);
 
             var body = ms.ToArray();
-            var encryption = GetEncryption();
+            var encryption = Encryption;
 
             if (!string.IsNullOrWhiteSpace(encryption))
             {
@@ -78,13 +78,19 @@ public class CoreHttpContext : HttpContext
         return SendAsync(encoded, mime, HttpStatusCode.OK, encrypted);
     }
 
-    public string GetEncryption()
+    public string Encryption
     {
-        return Request.Headers["X-Encryption"];
+        get
+        {
+            return Request.Headers["X-Encryption"];
+        }
     }
 
-    public string GetSessionId()
+    public string SessionId
     {
-        return Request.Cookies["Session"].Value;
+        get
+        {
+            return Request.Cookies["Session"].Value;
+        }
     }
 }

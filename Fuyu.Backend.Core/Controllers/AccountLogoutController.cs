@@ -11,7 +11,7 @@ public class AccountLogoutController : AbstractCoreHttpController
 
     public override Task RunAsync(CoreHttpContext context)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         CoreOrm.Instance.RemoveSession(sessionId);
 
         return context.SendJsonAsync("{}");

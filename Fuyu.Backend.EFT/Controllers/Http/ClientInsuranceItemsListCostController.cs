@@ -22,7 +22,7 @@ public class ClientInsuranceItemsListCostController : AbstractEftHttpController<
 
     public override Task RunAsync(EftHttpContext context, InsuranceCostRequest body)
     {
-        var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
         var response = new ResponseBody<InsuranceCostResponse>();
 

@@ -52,7 +52,7 @@ public class GameProfileItemsMovingController : AbstractEftHttpController<JObjec
             return;
         }
 
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var profile = _eftOrm.GetActiveProfile(sessionId);
         var requestData = request.Value<JArray>("data");
         var itemEventResponse = new ItemEventResponse();
