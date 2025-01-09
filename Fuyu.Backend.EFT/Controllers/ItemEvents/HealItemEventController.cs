@@ -7,66 +7,65 @@ using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.IO;
 
-namespace Fuyu.Backend.EFT.Controllers.ItemEvents
-{
-    public class HealItemEventController : AbstractItemEventController<HealItemEvent>
-    {
-        private readonly EftOrm _eftOrm;
-        private readonly HealthService _healthService;
-        private readonly ItemFactoryService _itemFactoryService;
+namespace Fuyu.Backend.EFT.Controllers.ItemEvents;
 
-        public HealItemEventController() : base("Heal")
+public class HealItemEventController : AbstractItemEventController<HealItemEvent>
+{
+    private readonly EftOrm _eftOrm;
+    private readonly HealthService _healthService;
+    private readonly ItemFactoryService _itemFactoryService;
+
+    public HealItemEventController() : base("Heal")
+    {
+        _eftOrm = EftOrm.Instance;
+        _healthService = HealthService.Instance;
+        _itemFactoryService = ItemFactoryService.Instance;
+    }
+
+    public override Task RunAsync(ItemEventContext context, HealItemEvent request)
+    {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var item = profile.Pmc.Inventory.FindItem(request.Item);
+
+        if (item == null)
         {
-            _eftOrm = EftOrm.Instance;
-            _healthService = HealthService.Instance;
-            _itemFactoryService = ItemFactoryService.Instance;
+            Terminal.WriteLine($"Failed to find item {request.Item}");
+            return Task.CompletedTask;
         }
 
-        public override Task RunAsync(ItemEventContext context, HealItemEvent request)
+        var medKit = item.GetOrCreateUpdatable<ItemMedKitComponent>();            
+
+        var bodyPart = _healthService.GetBodyPart(profile.Pmc.Health, request.BodyPart);
+        float toHeal = request.Count;
+
+        if (profile.Pmc.Health.HasEffects)
         {
-            var profile = _eftOrm.GetActiveProfile(context.SessionId);
-            var item = profile.Pmc.Inventory.FindItem(request.Item);
+            var itemProperties = _itemFactoryService.GetItemProperties<MedsItemProperties>(item.TemplateId);
 
-            if (item == null)
+            if (itemProperties.DamageEffects.IsValue1)
             {
-                Terminal.WriteLine($"Failed to find item {request.Item}");
-                return Task.CompletedTask;
-            }
-
-            var medKit = item.GetOrCreateUpdatable<ItemMedKitComponent>();            
-
-            var bodyPart = _healthService.GetBodyPart(profile.Pmc.Health, request.BodyPart);
-            float toHeal = request.Count;
-
-            if (profile.Pmc.Health.HasEffects)
-            {
-                var itemProperties = _itemFactoryService.GetItemProperties<MedsItemProperties>(item.TemplateId);
-
-                if (itemProperties.DamageEffects.IsValue1)
+                foreach (var (effectName, effect) in itemProperties.DamageEffects.Value1)
                 {
-                    foreach (var (effectName, effect) in itemProperties.DamageEffects.Value1)
+                    if (bodyPart.Effects.ContainsKey(effectName))
                     {
-                        if (bodyPart.Effects.ContainsKey(effectName))
-                        {
-                            toHeal -= effect.Cost;
-                            bodyPart.Effects.Remove(effectName);
-                        }
+                        toHeal -= effect.Cost;
+                        bodyPart.Effects.Remove(effectName);
                     }
                 }
             }
-
-            bodyPart.Health.Current += toHeal;
-            medKit.HpResource -= request.Count;
-
-            if (medKit.HpResource <= 0)
-            {
-                profile.Pmc.Inventory.RemoveItem(item);
-            }
-
-            // TODO:
-            // Check BackendConfig for 'HealExperience' and add to PMC profile
-
-            return Task.CompletedTask;
         }
+
+        bodyPart.Health.Current += toHeal;
+        medKit.HpResource -= request.Count;
+
+        if (medKit.HpResource <= 0)
+        {
+            profile.Pmc.Inventory.RemoveItem(item);
+        }
+
+        // TODO:
+        // Check BackendConfig for 'HealExperience' and add to PMC profile
+
+        return Task.CompletedTask;
     }
 }
