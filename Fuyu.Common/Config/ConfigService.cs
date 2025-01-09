@@ -76,7 +76,7 @@ public class ConfigService
 
     #region Lazy config
 
-    public void GetConfigLazy<T>(string configName, ref T value, bool reload = false) 
+    public void GetConfigLazy<T>(string configName, ref T value, bool reload = false)
         where T : AbstractConfig, new()
     {
         value = new();
@@ -113,7 +113,7 @@ public class ConfigService
         return lazyConfigs.Value.ContainsKey(configName);
     }
 
-    public void SaveConfigLazy(string configName) 
+    public void SaveConfigLazy(string configName)
     {
         var Config = lazyConfigs.Value[configName];
         var file = GetConfigPath(configName);
