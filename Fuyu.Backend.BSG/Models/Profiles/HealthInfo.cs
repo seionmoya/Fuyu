@@ -38,7 +38,7 @@ public class HealthInfo
             EBodyPart.RightArm => BodyParts.RightArm,
             EBodyPart.LeftLeg => BodyParts.LeftLeg,
             EBodyPart.RightLeg => BodyParts.RightLeg,
-            EBodyPart.Common => throw new NotImplementedException("Cannot use Common?"),
+            EBodyPart.Common => throw new NotImplementedException("Only used in client"),
             _ => null,
         };
     }
