@@ -114,8 +114,6 @@ namespace Fuyu.Backend.EFT.Services
 
         private Profile GenerateBot(EBotRole role, EBotDifficulty difficulty)
         {
-            Terminal.WriteLine(role.ToString());
-
             var profile = Json.Parse<Profile>(_profiles[role]);
 
             // regenerate all ids
