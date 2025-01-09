@@ -35,7 +35,7 @@ public class HealItemEventController : AbstractItemEventController<HealItemEvent
 
         var medKit = item.GetOrCreateUpdatable<ItemMedKitComponent>();            
 
-        var bodyPart = _healthService.GetBodyPart(profile.Pmc.Health, request.BodyPart);
+        var bodyPart = profile.Pmc.Health.GetBodyPart(request.BodyPart);
         float toHeal = request.Count;
 
         if (profile.Pmc.Health.HasEffects)

@@ -13,9 +13,4 @@ public class HealthService
     {
 
     }
-
-    public BodyPart GetBodyPart(HealthInfo health, EBodyPart bodyPart)
-    {
-        return health.GetBodyPart(bodyPart);
-    }
 }
