@@ -36,10 +36,16 @@ public class ConfigService
         Unloaded?.Invoke(platform);
     }
 
+    private string GetConfigPath(string configName)
+    {
+        return $"./Fuyu/Configs/{_platform}/{configName}.json";
+    }
+
     #region Regular config
+
     public T GetConfig<T>(string configName) where T : AbstractConfig, new()
     {
-        var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
+        var file = GetConfigPath(configName);
         if (VFS.Exists(file))
         {
             return Json.Parse<T>(VFS.ReadTextFile(file));
@@ -49,35 +55,39 @@ public class ConfigService
 
     public bool IsConfigExists(string configName)
     {
-        var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
+        var file = GetConfigPath(configName);
         return VFS.Exists(file);
     }
 
     public void SaveConfig<T>(string configName, T Config) where T : AbstractConfig
     {
-        var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
+        var file = GetConfigPath(configName);
         var json = Json.Stringify(Config);
         VFS.WriteTextFile(file, json);
     }
 
     public void DeleteConfig(string configName)
     {
-        var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
+        var file = GetConfigPath(configName);
         File.Delete(file);
     }
+
     #endregion
 
     #region Lazy config
-    public void GetConfigLazy<T>(string configName, ref T value, bool reload = false) where T : AbstractConfig, new()
+
+    public void GetConfigLazy<T>(string configName, ref T value, bool reload = false) 
+        where T : AbstractConfig, new()
     {
         value = new();
         if (lazyConfigs.Value.ContainsKey(configName))
         {
-            // TODO: Check if can parse to that type.
+            // Check if can parse to that type.
             var x = lazyConfigs.Value[configName];
             if (typeof(T).IsAssignableFrom(x.GetType()))
             {
                 value = (T)lazyConfigs.Value[configName];
+                // if we dont want to reload from the file, we just return
                 if (!reload)
                 {
                     return;
@@ -85,12 +95,16 @@ public class ConfigService
             }
         }
         // we loading here if we dont already have it.
-        var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
+        var file = GetConfigPath(configName);
         if (VFS.Exists(file))
+        {
             value = Json.Parse<T>(VFS.ReadTextFile(file));
-        // storing the files.
+        }
+        // storing the config name and the value.
         if (!lazyConfigs.Value.ContainsKey(configName))
+        {
             lazyConfigs.Value.Add(configName, value);
+        }
         lazyConfigs.Value[configName] = value;
     }
 
@@ -102,7 +116,7 @@ public class ConfigService
     public void SaveConfigLazy(string configName) 
     {
         var Config = lazyConfigs.Value[configName];
-        var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
+        var file = GetConfigPath(configName);
         var json = Json.Stringify(Config);
         VFS.WriteTextFile(file, json);
     }
@@ -114,8 +128,9 @@ public class ConfigService
         {
             return;
         }
-        var file = $"./Fuyu/Configs/{_platform}/{configName}.json";
+        var file = GetConfigPath(configName);
         File.Delete(file);
     }
+
     #endregion
 }

@@ -10,28 +10,58 @@ public class ConfigTest
     [TestMethod]
     public void TestConfigService()
     {
-        // Before you scream at me why I use GetHashCode let me explain.
-        // even if the two object share the same, and ergo the GetHashCode that usually checked between 2 type is not used by the UnitTesting tool.
-        // but atleast it works.
+        // GetHashCode returns a hash of the value. so we don't compare references
+        // Other check if value which is checked after hashcode
 
+        // creating new instance
         var configservice = ConfigService.GetInstance("test");
         Assert.IsNotNull(configservice);
+
+        // creating empty and other empty TestConfig.
         var empty_config = new TestConfig();
         var test_config = configservice.GetConfig<TestConfig>("testing");
+
+        // we are checking if both are the same
         Assert.AreEqual(test_config.GetHashCode(), empty_config.GetHashCode());
+        Assert.AreEqual(test_config.Text, empty_config.Text);
+
+        // we changing the value and saving it
         test_config.Text = "changedValue";
         configservice.SaveConfig("testing", test_config);
+        // we make sure it is not Equal!
+        Assert.AreNotEqual(test_config.Text, empty_config.Text);
+
+        // we reload from the config change
         test_config = configservice.GetConfig<TestConfig>("testing");
+
+        // we make sure the test_config is not empty!
         Assert.AreNotEqual(test_config.GetHashCode(), empty_config.GetHashCode());
+        Assert.AreNotEqual(test_config.Text, empty_config.Text);
+
+        // we make sure the Text is our prev set value.
         Assert.AreEqual(test_config.Text, "changedValue");
+
+        // freeing and re-getting for test.
         ConfigService.FreeInstance("test");
         configservice = ConfigService.GetInstance("test");
         Assert.IsNotNull(configservice);
+
+        // check if the config from disk not empty
         test_config = configservice.GetConfig<TestConfig>("testing");
         Assert.AreNotEqual(test_config.GetHashCode(), empty_config.GetHashCode());
+        Assert.AreNotEqual(test_config.Text, empty_config.Text);
+
+        // deleting the config
         configservice.DeleteConfig("testing");
+
+        // getting the deleted config.
         test_config = configservice.GetConfig<TestConfig>("testing");
+
+        // testing if its actually empty.
         Assert.AreEqual(test_config.GetHashCode(), empty_config.GetHashCode());
+        Assert.AreEqual(test_config.Text, empty_config.Text);
+
+        // lastly we free (ensuring nothing will use it.)
         ConfigService.FreeInstance("test");
     }
 
@@ -39,7 +69,6 @@ public class ConfigTest
     public void TestConfigServiceLazy()
     {
         // testing with Lazy Dictionary.
-
         var configservice = ConfigService.GetInstance("lazy");
         Assert.IsNotNull(configservice);
 
@@ -103,7 +132,9 @@ public class ConfigTest
         public override int GetHashCode()
         {
             if (!string.IsNullOrEmpty(Text))
+            {
                 return Text.GetHashCode();
+            }
             return 0;
         }
     }
