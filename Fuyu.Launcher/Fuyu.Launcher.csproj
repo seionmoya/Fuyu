@@ -8,9 +8,8 @@
 
   <PropertyGroup>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
     <RootNamespace>Fuyu.Launcher</RootNamespace>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
