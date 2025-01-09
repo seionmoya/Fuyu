@@ -47,6 +47,9 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
             var bodyPart = _healthService.GetBodyPart(profile.Pmc.Health, request.BodyPart);
             bodyPart.Health.Current = MathF.Max(bodyPart.Health.Current + request.Count, bodyPart.Health.Maximum);
 
+            // TODO:
+            // Check BackendConfig for 'HealExperience' and add to PMC profile
+
             return Task.CompletedTask;
         }
     }
