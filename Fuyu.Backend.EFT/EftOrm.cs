@@ -556,7 +556,7 @@ namespace Fuyu.Backend.EFT
 
         public void SetItemTemplates(JObject templates)
         {
-           _eftDatabase.ItemTemplates.Set(templates);
+            _eftDatabase.ItemTemplates.Set(templates);
         }
 
         public JObject GetLocalWeather()

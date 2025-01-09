@@ -19,7 +19,7 @@ namespace Fuyu.Backend.EFT.Services
         }
 
         // TODO: generate this
-         // --seionmoya, 2024-01-09
+        // --seionmoya, 2024-01-09
         public AchievementStatisticResponse GetStatistics()
         {
             return _eftOrm.GetAchievementStatistics();

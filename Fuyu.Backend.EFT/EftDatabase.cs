@@ -48,7 +48,7 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<AchievementStatisticResponse> AchievementStatistic;
         internal readonly ThreadObject<BuildsListResponse> DefaultBuilds;
         internal readonly ThreadObject<HideoutSettingsResponse> HideoutSettings;
-        
+
         // TODO
         internal readonly ThreadObject<JObject> Achievements;
         internal readonly ThreadObject<JObject> Globals;
@@ -101,6 +101,6 @@ namespace Fuyu.Backend.EFT
             Settings = new ThreadObject<JObject>(null);
             Traders = new ThreadObject<JObject>(null);
             Weather = new ThreadObject<JObject>(null);
-        }        
+        }
     }
 }
