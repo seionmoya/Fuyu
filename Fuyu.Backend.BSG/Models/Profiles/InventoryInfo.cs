@@ -103,7 +103,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                 return null;
             }
 
-            var weaponItemProperties = rootItemTemplate.Props.ToObject<WeaponItemProperties>();
+            var weaponItemProperties = _itemFactoryService.GetItemProperties<WeaponItemProperties>(root.TemplateId);
             var subItems = _itemService.GetItemAndChildren(Items, root).Skip(1);
 
             return subItems.FirstOrDefault(i => i.SlotId == weaponItemProperties.FoldedSlot);
@@ -112,7 +112,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
         public Vector2 GetItemSize(ItemInstance root)
         {
             var rootTemplate = _itemFactoryService.ItemTemplates[root.TemplateId];
-            var rootProperties = rootTemplate.Props.ToObject<ItemProperties>();
+            var rootProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
             var width = rootProperties.Width;
             var height = rootProperties.Height;
 
@@ -129,7 +129,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             foreach (var child in children)
             {
                 var itemTemplate = _itemFactoryService.ItemTemplates[child.TemplateId];
-                var itemProperties = itemTemplate.Props.ToObject<ItemProperties>();
+                var itemProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
                 if (itemProperties.ExtraSizeForceAdd)
                 {
                     forcedUp += itemProperties.ExtraSizeUp;
@@ -180,7 +180,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
             }
 
             var stashItemTemplate = _itemFactoryService.ItemTemplates[stashItem.TemplateId];
-            var stashItemProps = stashItemTemplate.Props.ToObject<CompoundItemItemProperties>();
+            var stashItemProps = _itemFactoryService.GetItemProperties<CompoundItemItemProperties>(stashItem.TemplateId);
 
             foreach (var grid in stashItemProps.Grids)
             {
@@ -198,7 +198,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                     }
 
                     var itemTemplate = _itemFactoryService.ItemTemplates[itemInThisGrid.TemplateId];
-                    var itemProps = itemTemplate.Props.ToObject<ItemProperties>();
+                    var itemProps = _itemFactoryService.GetItemProperties<ItemProperties>(itemInThisGrid.TemplateId);
                     var itemLocation = itemInThisGrid.Location.Value1;
                     var itemSize = GetItemSize(itemInThisGrid);
                     var itemWidth = itemSize.X;

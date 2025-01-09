@@ -41,10 +41,9 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
             if (profile.Pmc.Health.HasEffects)
             {
-                var itemProperties = _itemFactoryService.ItemTemplates[item.TemplateId].Props.ToObject<MedsItemProperties>();
-                bool itemCanRemove = itemProperties.DamageEffects.IsValue1 && itemProperties.DamageEffects.Value1.Count > 0;
+                var itemProperties = _itemFactoryService.GetItemProperties<MedsItemProperties>(item.TemplateId);
 
-                if (itemCanRemove)
+                if (itemProperties.DamageEffects.IsValue1)
                 {
                     foreach (var (effectName, effect) in itemProperties.DamageEffects.Value1)
                     {
