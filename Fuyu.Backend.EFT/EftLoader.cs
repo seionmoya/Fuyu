@@ -8,12 +8,11 @@ using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.IO;
+using Fuyu.Common.Delegates;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT
 {
-    public delegate void LoadCallback();
-
     public class EftLoader
     {
         public static EftLoader Instance => instance.Value;
@@ -21,12 +20,68 @@ namespace Fuyu.Backend.EFT
 
         private readonly EftOrm _eftOrm;
 
+        public LoadCallback OnLoadAccounts;
+        public LoadCallback OnLoadProfiles;
+        public LoadCallback OnLoadSessions;
+        public LoadCallback OnLoadLanguages;
+        public LoadCallback OnLoadGlobalLocales;
+        public LoadCallback OnLoadMenuLocales;
+        public LoadCallback OnLoadCustomizations;
+        public LoadCallback OnLoadCustomizationStorage;
+        public LoadCallback OnLoadDefaultBuilds;
+        public LoadCallback OnLoadWipeProfiles;
+        public LoadCallback OnLoadWorldMap;
+        public LoadCallback OnLoadHideoutSettings;
+        public LoadCallback OnLoadAchievementStatistics;
+        public LoadCallback OnLoadAchievements;
+        public LoadCallback OnLoadGlobals;
+        public LoadCallback OnLoadHandbook;
+        public LoadCallback OnLoadHideoutAreas;
+        public LoadCallback OnLoadHideoutCustomizationOffers;
+        public LoadCallback OnLoadHideoutProductionRecipes;
+        public LoadCallback OnLoadHideoutQtes;
+        public LoadCallback OnLoadItemTemplates;
+        public LoadCallback OnLoadLocalWeather;
+        public LoadCallback OnLoadPretigste;
+        public LoadCallback OnLoadQuests;
+        public LoadCallback OnLoadSettings;
+        public LoadCallback OnLoadTraders;
+        public LoadCallback OnLoadWeather;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private EftLoader()
         {
             _eftOrm = EftOrm.Instance;
+
+            OnLoadAccounts += LoadAccounts;
+            OnLoadProfiles += LoadProfiles;
+            OnLoadSessions += LoadSessions;
+            OnLoadLanguages += LoadLanguages;
+            OnLoadGlobalLocales += LoadGlobalLocales;
+            OnLoadMenuLocales += LoadMenuLocales;
+            OnLoadCustomizations += LoadCustomizations;
+            OnLoadCustomizationStorage += LoadCustomizationStorage;
+            OnLoadDefaultBuilds += LoadDefaultBuilds;
+            OnLoadWipeProfiles += LoadWipeProfiles;
+            OnLoadWorldMap += LoadWorldMap;
+            OnLoadHideoutSettings += LoadHideoutSettings;
+            OnLoadAchievementStatistics += LoadAchievementStatistics;
+            OnLoadAchievements += LoadAchievements;
+            OnLoadGlobals += LoadGlobals;
+            OnLoadHandbook += LoadHandbook;
+            OnLoadHideoutAreas += LoadHideoutAreas;
+            OnLoadHideoutCustomizationOffers += LoadHideoutCustomizationOffers;
+            OnLoadHideoutProductionRecipes += LoadHideoutProductionRecipes;
+            OnLoadHideoutQtes += LoadHideoutQtes;
+            OnLoadItemTemplates += LoadItemTemplates;
+            OnLoadLocalWeather += LoadLocalWeather;
+            OnLoadPretigste += LoadPretigste;
+            OnLoadQuests += LoadQuests;
+            OnLoadSettings += LoadSettings;
+            OnLoadTraders += LoadTraders;
+            OnLoadWeather += LoadWeather;
         }
 
         // NOTE: load order is VERY important!
