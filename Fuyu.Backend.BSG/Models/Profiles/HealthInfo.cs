@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Common;
@@ -10,13 +11,16 @@ namespace Fuyu.Backend.BSG.Models.Profiles
     public class HealthInfo
     {
         [DataMember]
-        public CurrentMaximum<float> Hydration { get; set; }
+        public ClampedValue<float> Hydration { get; set; }
 
         [DataMember]
-        public CurrentMaximum<float> Energy { get; set; }
+        public ClampedValue<float> Energy { get; set; }
 
         [DataMember]
-        public CurrentMaximum<float> Temperature { get; set; }
+        public ClampedValue<float> Temperature { get; set; }
+
+        [DataMember]
+        public ClampedValue<float> Poison { get; set; }
 
         [DataMember]
         public BodyPartInfo BodyParts { get; set; }
@@ -38,6 +42,18 @@ namespace Fuyu.Backend.BSG.Models.Profiles
                 EBodyPart.Common => throw new NotImplementedException("Cannot use Common?"),
                 _ => null,
             };
+        }
+
+        /// <summary>
+        /// Returns whether any bodyparts contain a <see cref="BodyPartEffect"/>
+        /// </summary>
+        [IgnoreDataMember]        
+        public bool HasEffects
+        {
+            get
+            {
+                return BodyParts.Any(x => x.Effects.Count > 0);
+            }
         }
 
         // SKIPPED: Immortal

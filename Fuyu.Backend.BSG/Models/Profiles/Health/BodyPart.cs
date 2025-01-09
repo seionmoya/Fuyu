@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Common;
 
@@ -7,6 +8,9 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Health
     public class BodyPart
     {
         [DataMember]
-        public CurrentMaximum<float> Health { get; set; }
+        public ClampedValue<float> Health { get; set; }
+
+        [DataMember]
+        public Dictionary<string, BodyPartEffect> Effects { get; set; }
     }
 }

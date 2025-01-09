@@ -1,6 +1,5 @@
 ﻿using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.ItemTemplates;
-using Fuyu.Backend.BSG.Models.Profiles.Health;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.ItemEvents
