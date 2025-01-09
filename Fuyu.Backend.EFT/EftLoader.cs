@@ -12,6 +12,8 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT
 {
+    public delegate void LoadCallback();
+
     public class EftLoader
     {
         public static EftLoader Instance => instance.Value;

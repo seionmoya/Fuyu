@@ -1,5 +1,6 @@
 using System;
 using Fuyu.Backend.Core.Models.Accounts;
+using Fuyu.Common.Delegates;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
 
@@ -12,18 +13,24 @@ namespace Fuyu.Backend.Core
 
         private readonly CoreOrm _coreOrm;
 
+        public LoadCallback OnLoadAccounts;
+        public LoadCallback OnLoadSessions;
+
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
         /// </summary>
         private CoreLoader()
         {
             _coreOrm = CoreOrm.Instance;
+
+            OnLoadAccounts += LoadAccounts;
+            OnLoadSessions += LoadSessions;
         }
 
         public void Load()
         {
-            LoadAccounts();
-            LoadSessions();
+            OnLoadAccounts();
+            OnLoadSessions();
         }
 
         private void LoadAccounts()
