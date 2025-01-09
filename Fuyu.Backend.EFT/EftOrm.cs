@@ -5,6 +5,7 @@ using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT
 {
@@ -437,87 +438,90 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region Unparsed
-        public string GetAchievementList()
+        public JObject GetAchievementList()
         {
             return _eftDatabase.AchievementList.Get();
         }
 
+        // TODO: actual model exists
         public string GetAchievementStatistic()
         {
             return _eftDatabase.AchievementStatistic.Get();
         }
 
-        public string GetGlobals()
+        public JObject GetGlobals()
         {
             return _eftDatabase.Globals.Get();
         }
 
-        public string GetHandbook()
+        public JObject GetHandbook()
         {
             return _eftDatabase.Handbook.Get();
         }
 
-        public string GetHideoutAreas()
+        public JObject GetHideoutAreas()
         {
             return _eftDatabase.HideoutAreas.Get();
         }
 
-        public string GetHideoutCustomizationOfferList()
+        public JObject GetHideoutCustomizationOfferList()
         {
             return _eftDatabase.HideoutCustomizationOfferList.Get();
         }
 
-        public string GetHideoutProductionRecipes()
+        public JObject GetHideoutProductionRecipes()
         {
             return _eftDatabase.HideoutProductionRecipes.Get();
         }
 
-        public string GetHideoutQteList()
+        public JObject GetHideoutQteList()
         {
             return _eftDatabase.HideoutQteList.Get();
         }
 
+        // TODO: actual model exists
         public string GetHideoutSettings()
         {
             return _eftDatabase.HideoutSettings.Get();
         }
 
-        public string GetItems()
+        public JObject GetItems()
         {
             return _eftDatabase.Items.Get();
         }
 
-        public string GetLocalWeather()
+        public JObject GetLocalWeather()
         {
             return _eftDatabase.LocalWeather.Get();
         }
 
+        // TODO: actual model exists
         public string GetLocations()
         {
             return _eftDatabase.Locations.Get();
         }
 
-        public string GetPrestige()
+        public JObject GetPrestige()
         {
             return _eftDatabase.Prestige.Get();
         }
 
-        public string GetQuests()
+        public JObject GetQuests()
         {
             return _eftDatabase.Quests.Get();
         }
 
-        public string GetSettings()
+        public JObject GetSettings()
         {
             return _eftDatabase.Settings.Get();
         }
 
-        public string GetTraders()
+        public JObject GetTraders()
         {
             return _eftDatabase.Traders.Get();
         }
 
-        public string GetWeather()
+        public JObject GetWeather()
         {
             return _eftDatabase.Weather.Get();
         }

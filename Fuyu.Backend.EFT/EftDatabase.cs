@@ -8,6 +8,7 @@ using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT
 {
@@ -47,23 +48,23 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<BuildsListResponse> DefaultBuilds;
 
         // TODO
-        internal readonly ThreadObject<string> AchievementList;
+        internal readonly ThreadObject<JObject> AchievementList;
         internal readonly ThreadObject<string> AchievementStatistic;
-        internal readonly ThreadObject<string> Globals;
-        internal readonly ThreadObject<string> Handbook;
-        internal readonly ThreadObject<string> HideoutAreas;
-        internal readonly ThreadObject<string> HideoutCustomizationOfferList;
-        internal readonly ThreadObject<string> HideoutProductionRecipes;
-        internal readonly ThreadObject<string> HideoutQteList;
+        internal readonly ThreadObject<JObject> Globals;
+        internal readonly ThreadObject<JObject> Handbook;
+        internal readonly ThreadObject<JObject> HideoutAreas;
+        internal readonly ThreadObject<JObject> HideoutCustomizationOfferList;
+        internal readonly ThreadObject<JObject> HideoutProductionRecipes;
+        internal readonly ThreadObject<JObject> HideoutQteList;
         internal readonly ThreadObject<string> HideoutSettings;
-        internal readonly ThreadObject<string> Items;
-        internal readonly ThreadObject<string> LocalWeather;
+        internal readonly ThreadObject<JObject> Items;
+        internal readonly ThreadObject<JObject> LocalWeather;
         internal readonly ThreadObject<string> Locations;
-        internal readonly ThreadObject<string> Prestige;
-        internal readonly ThreadObject<string> Quests;
-        internal readonly ThreadObject<string> Settings;
-        internal readonly ThreadObject<string> Traders;
-        internal readonly ThreadObject<string> Weather;
+        internal readonly ThreadObject<JObject> Prestige;
+        internal readonly ThreadObject<JObject> Quests;
+        internal readonly ThreadObject<JObject> Settings;
+        internal readonly ThreadObject<JObject> Traders;
+        internal readonly ThreadObject<JObject> Weather;
 
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
@@ -83,23 +84,23 @@ namespace Fuyu.Backend.EFT
             DefaultBuilds = new ThreadObject<BuildsListResponse>(null);
 
             // TODO
-            AchievementList = new ThreadObject<string>(string.Empty);
+            AchievementList = new ThreadObject<JObject>(null);
             AchievementStatistic = new ThreadObject<string>(string.Empty);
-            Globals = new ThreadObject<string>(string.Empty);
-            Handbook = new ThreadObject<string>(string.Empty);
-            HideoutAreas = new ThreadObject<string>(string.Empty);
-            HideoutCustomizationOfferList = new ThreadObject<string>(string.Empty);
-            HideoutProductionRecipes = new ThreadObject<string>(string.Empty);
-            HideoutQteList = new ThreadObject<string>(string.Empty);
+            Globals = new ThreadObject<JObject>(null);
+            Handbook = new ThreadObject<JObject>(null);
+            HideoutAreas = new ThreadObject<JObject>(null);
+            HideoutCustomizationOfferList = new ThreadObject<JObject>(null);
+            HideoutProductionRecipes = new ThreadObject<JObject>(null);
+            HideoutQteList = new ThreadObject<JObject>(null);
             HideoutSettings = new ThreadObject<string>(string.Empty);
-            Items = new ThreadObject<string>(string.Empty);
-            LocalWeather = new ThreadObject<string>(string.Empty);
+            Items = new ThreadObject<JObject>(null);
+            LocalWeather = new ThreadObject<JObject>(null);
             Locations = new ThreadObject<string>(string.Empty);
-            Prestige = new ThreadObject<string>(string.Empty);
-            Quests = new ThreadObject<string>(string.Empty);
-            Settings = new ThreadObject<string>(string.Empty);
-            Traders = new ThreadObject<string>(string.Empty);
-            Weather = new ThreadObject<string>(string.Empty);
+            Prestige = new ThreadObject<JObject>(null);
+            Quests = new ThreadObject<JObject>(null);
+            Settings = new ThreadObject<JObject>(null);
+            Traders = new ThreadObject<JObject>(null);
+            Weather = new ThreadObject<JObject>(null);
         }
 
         // NOTE: load order is VERY important!
@@ -262,23 +263,23 @@ namespace Fuyu.Backend.EFT
         // TODO
         private void LoadUnparsed()
         {
-            AchievementList.Set(Resx.GetText("eft", "database.client.achievement.list.json"));
+            AchievementList.Set(JObject.Parse(Resx.GetText("eft", "database.client.achievement.list.json")));
             AchievementStatistic.Set(Resx.GetText("eft", "database.client.achievement.statistic.json"));
-            Globals.Set(Resx.GetText("eft", "database.client.globals.json"));
-            Handbook.Set(Resx.GetText("eft", "database.client.handbook.templates.json"));
-            HideoutAreas.Set(Resx.GetText("eft", "database.client.hideout.areas.json"));
-            HideoutCustomizationOfferList.Set(Resx.GetText("eft", "database.client.hideout.customization.offer.list.json"));
-            HideoutProductionRecipes.Set(Resx.GetText("eft", "database.client.hideout.production.recipes.json"));
-            HideoutQteList.Set(Resx.GetText("eft", "database.client.hideout.qte.list.json"));
+            Globals.Set(JObject.Parse(Resx.GetText("eft", "database.client.globals.json")));
+            Handbook.Set(JObject.Parse(Resx.GetText("eft", "database.client.handbook.templates.json")));
+            HideoutAreas.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.areas.json")));
+            HideoutCustomizationOfferList.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.customization.offer.list.json")));
+            HideoutProductionRecipes.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.production.recipes.json")));
+            HideoutQteList.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.qte.list.json")));
             HideoutSettings.Set(Resx.GetText("eft", "database.client.hideout.settings.json"));
-            Items.Set(Resx.GetText("eft", "database.client.items.json"));
-            LocalWeather.Set(Resx.GetText("eft", "database.client.localGame.weather.json"));
+            Items.Set(JObject.Parse(Resx.GetText("eft", "database.client.items.json")));
+            LocalWeather.Set(JObject.Parse(Resx.GetText("eft", "database.client.localGame.weather.json")));
             Locations.Set(Resx.GetText("eft", "database.client.locations.json"));
-            Prestige.Set(Resx.GetText("eft", "database.client.prestige.list.json"));
-            Quests.Set(Resx.GetText("eft", "database.client.quest.list.json"));
-            Settings.Set(Resx.GetText("eft", "database.client.settings.json"));
-            Traders.Set(Resx.GetText("eft", "database.client.trading.api.traderSettings.json"));
-            Weather.Set(Resx.GetText("eft", "database.client.weather.json"));
+            Prestige.Set(JObject.Parse(Resx.GetText("eft", "database.client.prestige.list.json")));
+            Quests.Set(JObject.Parse(Resx.GetText("eft", "database.client.quest.list.json")));
+            Settings.Set(JObject.Parse(Resx.GetText("eft", "database.client.settings.json")));
+            Traders.Set(JObject.Parse(Resx.GetText("eft", "database.client.trading.api.traderSettings.json")));
+            Weather.Set(JObject.Parse(Resx.GetText("eft", "database.client.weather.json")));
         }
     }
 }
