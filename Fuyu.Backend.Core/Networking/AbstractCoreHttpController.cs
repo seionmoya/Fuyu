@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Fuyu.Common.Networking;
@@ -40,22 +39,16 @@ namespace Fuyu.Backend.Core.Networking
 
         public override Task RunAsync(CoreHttpContext context)
         {
-            // TODO:
-            // - Use better exception type
-            // -- seionmoya, 2024-10-13
             if (!context.HasBody())
             {
-                throw new Exception("Request does not contain body.");
+                throw new RequestNoBodyException("Request does not contain body.");
             }
 
             var body = context.GetJson<TRequest>();
 
-            // TODO:
-            // - Use better exception type
-            // -- seionmoya, 2024-10-13
             if (body == null)
             {
-                throw new Exception("Body could not be parsed as TRequest.");
+                throw new RequestBodyNotParsable("Body could not be parsed as TRequest.");
             }
 
             return RunAsync(context, body);

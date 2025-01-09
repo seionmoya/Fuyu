@@ -10,7 +10,7 @@
 - Linq: use where elegant, but make it readable (one operation per line instead of chaining on the same line)
 - Reflection: only use when no better solution exists, or no better elegant solution. Always include documentation.
 - Closures: avoid where possible (hard to inspect MSIL)
-- Labdas: fine unless it's a closure
+- Lambdas: fine unless it's a closure
 - Try be verbose
 - NEVER chain initialize variables (`var a = 10, b = 20, c = "myvalue";`)
 - Follow "One instruction per line" (easier to debug in vscode)
@@ -37,7 +37,7 @@ TS type          | C# type
   and make it a nullable type (example: `HideoutInfo? HideoutInfo`).
 ```cs
 [DataMember(Name = "prestigeLevel", EmitDefaultValue = false)]
-public int PrestigeLevel? { get; set; }
+public int? PrestigeLevel { get; set; }
 ```
 - If you do not know the correct type, use `object` and add the comment
   `// TODO: proper type`.

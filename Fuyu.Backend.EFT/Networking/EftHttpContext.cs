@@ -107,5 +107,18 @@ namespace Fuyu.Backend.EFT.Networking
         {
             return Request.Cookies["PHPSESSID"].Value;
         }
+
+        /// <summary>
+        /// Getting the current Eft version from the Request Headers.
+        /// </summary>
+        /// <returns>Client EFT Version</returns>
+        public string GetEftVersion()
+        {
+            // In header tarkov always sends the current version. (Example: "EFT Client 0.15.5.1.33420")
+
+            // TODO: Replace the "EFT Client" or the same in Arena
+            //  -- slejmur, 2025-01-09
+            return Request.Headers["App-Version"];
+        }
     }
 }

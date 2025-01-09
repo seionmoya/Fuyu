@@ -12,7 +12,5 @@ namespace Fuyu.Backend.BSG.Models.Locations
         [DataMember]
         public EBotRole Role { get; set; }
 
-        [DataMember]
-        public int Weight { get; set; }
     }
 }

@@ -180,9 +180,8 @@ namespace Fuyu.Backend.BSG.Models.Locations
         [DataMember]
         public MinMaxBot[] MinMaxBots { get; set; }
 
-        // TODO: update BotLocationModifier type
         [DataMember]
-        public object BotLocationModifier { get; set; }
+        public BotLocationModifier BotLocationModifier { get; set; }
 
         [DataMember]
         public Exit[] exits { get; set; }
@@ -214,9 +213,8 @@ namespace Fuyu.Backend.BSG.Models.Locations
         [DataMember]
         public string _Id { get; set; }
 
-        // TODO: proper type
         [DataMember]
-        public object[] Loot { get; set; }
+        public LootItem[] Loot { get; set; }
 
         [DataMember]
         public Banner[] Banners { get; set; }

@@ -13,16 +13,25 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context)
         {
-            // TODO: handle this
-            // --seionmoya, 2024-11-18
+            // TODO: Add global constant somewhere where we can define the supported version of EFT/Arena?
+            // -- slejmur, 2025-01-09
+            string currentVersion = "0.16.0.2.34510";
+            var appVersion = context.GetEftVersion();
+            appVersion = appVersion.Replace("EFT Client ", "");
+
             var response = new ResponseBody<CheckVersionResponse>()
             {
                 data = new CheckVersionResponse()
                 {
-                    isvalid = true,
+                    isvalid = false,
                     latestVersion = "0.16.0.2.34510"
                 }
             };
+
+            if (appVersion == currentVersion)
+            {
+                response.data.isvalid = true;
+            }
 
             var text = Json.Stringify(response);
             return context.SendJsonAsync(text, true, true);

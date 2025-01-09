@@ -21,18 +21,24 @@ namespace Fuyu.Backend.BSG.Models.Locations
         public float VisibleDistance { get; set; }
 
         [DataMember]
-        public float DistToPersueAxemanCoef { get; set; }
-
-        [DataMember]
         public float DistToSleep { get; set; }
 
         [DataMember]
         public float DistToActivate { get; set; }
 
         [DataMember]
-        public float MagnetPower { get; set; }
+        public float LeaveDist { get; set; }
 
         [DataMember]
-        public float KhorovodChance { get; set; }
+        public float DistToPersueAxemanCoef { get; set; }
+
+        [DataMember]
+        public float MinExfiltrationTime { get; set; }
+
+        [DataMember]
+        public float MaxExfiltrationTime { get; set; }
+
+        [DataMember]
+        public AdditionalHostilitySettings[] AdditionalHostilitySettings { get; set; }
     }
 }

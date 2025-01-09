@@ -23,6 +23,7 @@ namespace Fuyu.Backend.Core.Networking
 
                 if (!string.IsNullOrWhiteSpace(encryption))
                 {
+                    // Tarkov Never sends AES encrypted body as request.
                     switch (encryption)
                     {
                         case "aes":
