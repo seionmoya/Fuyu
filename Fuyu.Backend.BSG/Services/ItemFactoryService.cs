@@ -8,7 +8,7 @@ using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Backend.BSG.DTO.Services
+namespace Fuyu.Backend.BSG.Services
 {
     // TODO: split UPD factory and Item Factory
     public class ItemFactoryService

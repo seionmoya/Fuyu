@@ -57,8 +57,8 @@ Terminal > Run Task... > Fuyu: Test
 > Terminal
 
 1. `dotnet publish`
-2. Copy-paste `Fuyu.Backend/bin/Release/net8.0/win-x64/publish/Fuyu.Backend.exe` into `<gamedir>`
-3. Copy-paste `Fuyu.Launcher/bin/Release/net8.0/win-x64/publish/Fuyu.Launcher.exe` into `<gamedir>`
+2. Copy-paste `Fuyu.Backend/bin/Release/net9.0/win-x64/publish/Fuyu.Backend.exe` into `<gamedir>`
+3. Copy-paste `Fuyu.Launcher/bin/Release/net9.0/win-x64/publish/Fuyu.Launcher.exe` into `<gamedir>`
 4. Create folder `<gamedir>/Fuyu/Mods/Launcher/`
 5. Copy-paste `Fuyu.Launcher.Core` into `<gamedir>/Fuyu/Mods/Launcher/`
 6. Delete `bin` and `obj` inside `<gamedir>/Fuyu/Mods/Launcher/Fuyu.Launcher.Core`
@@ -70,8 +70,8 @@ Terminal > Run Task... > Fuyu: Test
 > Visual Studio Code
 
 1. Terminal > Run Build Task... > dotnet: build publish
-2. Copy-paste `Fuyu.Backend/bin/Release/net8.0/win-x64/publish/Fuyu.Backend.exe` into `<gamedir>`
-3. Copy-paste `Fuyu.Launcher/bin/Release/net8.0/win-x64/publish/Fuyu.Launcher.exe` into `<gamedir>`
+2. Copy-paste `Fuyu.Backend/bin/Release/net9.0/win-x64/publish/Fuyu.Backend.exe` into `<gamedir>`
+3. Copy-paste `Fuyu.Launcher/bin/Release/net9.0/win-x64/publish/Fuyu.Launcher.exe` into `<gamedir>`
 4. Create folder `<gamedir>/Fuyu/Mods/Launcher/`
 5. Copy-paste `Fuyu.Launcher.Core` into `<gamedir>/Fuyu/Mods/Launcher/`
 6. Delete `bin` and `obj` inside `<gamedir>/Fuyu/Mods/Launcher/Fuyu.Launcher.Core`

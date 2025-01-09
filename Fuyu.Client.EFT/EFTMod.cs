@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using Fuyu.Common.IO;
-using Fuyu.DependencyInjection;
-using Fuyu.Modding;
 using Fuyu.Client.Common.Reflection;
 using Fuyu.Client.EFT.Patches;
 using Fuyu.Client.EFT.Utils;
+using Fuyu.Common.IO;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
 
 namespace Fuyu.Client.EFT
 {

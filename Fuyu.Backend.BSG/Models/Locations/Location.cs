@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Common;
 
@@ -223,6 +222,6 @@ namespace Fuyu.Backend.BSG.Models.Locations
         public Banner[] Banners { get; set; }
 
         [DataMember]
-        public Dictionary<string, Event> Events { get; set; }
+        public Events Events { get; set; }
     }
 }

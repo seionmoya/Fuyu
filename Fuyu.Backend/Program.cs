@@ -1,13 +1,13 @@
-﻿using Fuyu.Common.IO;
+﻿using System.Threading.Tasks;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFT;
 using Fuyu.Backend.EFT.Servers;
-using Fuyu.Backend.BSG.DTO.Services;
+using Fuyu.Common.IO;
+using Fuyu.Common.Networking;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
-using System.Threading.Tasks;
-using Fuyu.Common.Networking;
 
 namespace Fuyu.Backend
 {
@@ -17,8 +17,8 @@ namespace Fuyu.Backend
         {
             var container = new DependencyContainer();
 
-            CoreDatabase.Instance.Load();
-            EftDatabase.Instance.Load();
+            CoreLoader.Instance.Load();
+            EftLoader.Instance.Load();
             TraderDatabase.Instance.Load();
             ItemFactoryService.Instance.Load();
 

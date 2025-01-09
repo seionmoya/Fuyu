@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using Fuyu.Common.IO;
-using Fuyu.DependencyInjection;
-using Fuyu.Modding;
 using Fuyu.Client.Arena.Patches;
 using Fuyu.Client.Arena.Utils;
 using Fuyu.Client.Common.Reflection;
+using Fuyu.Common.IO;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
 
 namespace Fuyu.Client.Arena
 {

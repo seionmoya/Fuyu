@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Converters;
 using Fuyu.Backend.BSG.Models.Profiles.Bonusses;
 using Fuyu.Common.Hashing;
+using Newtonsoft.Json.Converters;
 
 namespace Fuyu.Backend.BSG.Models.Profiles
 {

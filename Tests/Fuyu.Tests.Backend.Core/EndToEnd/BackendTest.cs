@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Fuyu.Backend.Core;
+﻿using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Servers;
 using Fuyu.Common.Networking;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Fuyu.Tests.Backend.Core.EndToEnd
 {
@@ -14,7 +14,7 @@ namespace Fuyu.Tests.Backend.Core.EndToEnd
         public static void AssemblyInitialize(TestContext testContext)
         {
             // setup databases
-            CoreDatabase.Instance.Load();
+            CoreLoader.Instance.Load();
 
             // setup server
             _ = new CoreServer();

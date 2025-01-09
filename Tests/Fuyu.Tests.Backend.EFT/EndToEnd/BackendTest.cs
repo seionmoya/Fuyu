@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Bots;
 using Fuyu.Backend.BSG.Models.Raid;
@@ -14,6 +13,7 @@ using Fuyu.Backend.EFT.Servers;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
 using Fuyu.Tests.Backend.EFT.Networking;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AccountService = Fuyu.Backend.Core.Services.AccountService;
 
 namespace Fuyu.Tests.Backend.EFT.EndToEnd
@@ -62,8 +62,8 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         public static void AssemblyInitialize(TestContext testContext)
         {
             // setup databases
-            CoreDatabase.Instance.Load();
-            EftDatabase.Instance.Load();
+            CoreLoader.Instance.Load();
+            EftLoader.Instance.Load();
 
             // setup servers
             var coreServer = new CoreServer();

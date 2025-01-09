@@ -1,11 +1,11 @@
+using System;
 using System.Collections.Generic;
-using Fuyu.Common.Hashing;
-using Fuyu.Common.IO;
-using Fuyu.Common.Serialization;
 using Fuyu.Backend.BSG.Models.Bots;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Services;
-using System;
+using Fuyu.Common.Hashing;
+using Fuyu.Common.IO;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Services
 {
@@ -114,8 +114,6 @@ namespace Fuyu.Backend.EFT.Services
 
         private Profile GenerateBot(EBotRole role, EBotDifficulty difficulty)
         {
-            Terminal.WriteLine(role.ToString());
-
             var profile = Json.Parse<Profile>(_profiles[role]);
 
             // regenerate all ids

@@ -1,6 +1,6 @@
-﻿using Fuyu.Backend.BSG.Models.Trading;
+﻿using System;
+using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Common.Hashing;
-using System;
 
 namespace Fuyu.Backend.EFT.Services
 {

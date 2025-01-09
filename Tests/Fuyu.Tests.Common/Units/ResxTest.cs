@@ -2,9 +2,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Fuyu.Common.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Fuyu.Tests.Common.Units
 {

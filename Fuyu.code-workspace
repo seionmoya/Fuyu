@@ -23,16 +23,16 @@
 				},
 				"program": "OVERWRITTEN_BY_OS_SPECIFIC",
 				"windows": {
-					"program": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net8.0/win-x64/Fuyu.Backend.dll",
-					"cwd": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net8.0/win-x64/",
+					"program": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net9.0/win-x64/Fuyu.Backend.dll",
+					"cwd": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net9.0/win-x64/",
 				},
 				"linux": {
-					"program": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net8.0/linux-x64/Fuyu.Backend.dll",
-					"cwd": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net8.0/linux-x64/",
+					"program": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net9.0/linux-x64/Fuyu.Backend.dll",
+					"cwd": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net9.0/linux-x64/",
 				},
 				"osx": {
-					"program": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net8.0/osx-x64/Fuyu.Backend.dll",
-					"cwd": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net8.0/osx-x64/",
+					"program": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net9.0/osx-x64/Fuyu.Backend.dll",
+					"cwd": "${workspaceFolder}/Fuyu.Backend/bin/Debug/net9.0/osx-x64/",
 				}
 			},
 			{
@@ -51,8 +51,8 @@
 				},
 				"program": "OVERWRITTEN_BY_OS_SPECIFIC",
 				"windows": {
-					"program": "${workspaceFolder}/Fuyu.Launcher/bin/Debug/net8.0-windows/win-x64/Fuyu.Launcher.dll",
-					"cwd": "${workspaceFolder}/Fuyu.Launcher/bin/Debug/net8.0-windows/win-x64/",
+					"program": "${workspaceFolder}/Fuyu.Launcher/bin/Debug/net9.0-windows/win-x64/Fuyu.Launcher.dll",
+					"cwd": "${workspaceFolder}/Fuyu.Launcher/bin/Debug/net9.0-windows/win-x64/",
 				}
 			}
 		]
@@ -78,6 +78,14 @@
 				"command": "dotnet clean --nologo",
 				"problemMatcher": [],
 				"dependsOn": ["dotnet: restore"],
+				"dependsOrder": "sequence"
+			},
+			{
+				"label": "dotnet: format",
+				"type": "shell",
+				"command": "dotnet format --no-restore",
+				"problemMatcher": [],
+				"dependsOn": ["dotnet: clean"],
 				"dependsOrder": "sequence"
 			},
 			{

@@ -9,7 +9,7 @@ namespace Fuyu.DependencyInjection
 {
     public class DependencyContainer
     {
-        private Dictionary<Type, List<AbstractDependencyRegistration>> _registrations;
+        private readonly Dictionary<Type, List<AbstractDependencyRegistration>> _registrations;
 
         public DependencyContainer()
         {

@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
+using Fuyu.Backend.BSG.Models.Locations;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT
 {
@@ -390,6 +392,18 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
+        #region Default builds
+        public BuildsListResponse GetDefaultBuilds()
+        {
+            return _eftDatabase.DefaultBuilds.Get();
+        }
+
+        public void SetDefaultBuilds(BuildsListResponse builds)
+        {
+            _eftDatabase.DefaultBuilds.Set(builds);
+        }
+        #endregion
+
         #region Wipe profiles
         public Dictionary<string, Dictionary<EPlayerSide, Profile>> GetWipeProfiles()
         {
@@ -424,90 +438,185 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
-        #region Unparsed
-        public string GetAchievementList()
+        #region WorldMap
+        // TODO: parse from model
+        // -- seionmoya, 2024-01-09
+        public JObject GetWorldMap()
         {
-            return _eftDatabase.AchievementList.Get();
+            return _eftDatabase.WorldMap.Get();
         }
 
-        public string GetAchievementStatistic()
+        // TODO: parse from model
+        // -- seionmoya, 2024-01-09
+        public void SetWorldMap(JObject worldmap)
         {
-            return _eftDatabase.AchievementStatistic.Get();
+            _eftDatabase.WorldMap.Set(worldmap);
         }
+        #endregion
 
-        public string GetGlobals()
-        {
-            return _eftDatabase.Globals.Get();
-        }
-
-        public string GetHandbook()
-        {
-            return _eftDatabase.Handbook.Get();
-        }
-
-        public string GetHideoutAreas()
-        {
-            return _eftDatabase.HideoutAreas.Get();
-        }
-
-        public string GetHideoutCustomizationOfferList()
-        {
-            return _eftDatabase.HideoutCustomizationOfferList.Get();
-        }
-
-        public string GetHideoutProductionRecipes()
-        {
-            return _eftDatabase.HideoutProductionRecipes.Get();
-        }
-
-        public string GetHideoutQteList()
-        {
-            return _eftDatabase.HideoutQteList.Get();
-        }
-
-        public string GetHideoutSettings()
+        #region Hideout settings
+        public HideoutSettingsResponse GetHideoutSettings()
         {
             return _eftDatabase.HideoutSettings.Get();
         }
 
-        public string GetItems()
+        public void SetHideoutSettings(HideoutSettingsResponse settings)
         {
-            return _eftDatabase.Items.Get();
+            _eftDatabase.HideoutSettings.Set(settings);
+        }
+        #endregion
+
+        #region Achievement statistic
+        public AchievementStatisticResponse GetAchievementStatistics()
+        {
+            return _eftDatabase.AchievementStatistic.Get();
         }
 
-        public string GetLocalWeather()
+        public void SetAchievementStatistics(AchievementStatisticResponse statistics)
+        {
+            _eftDatabase.AchievementStatistic.Set(statistics);
+        }
+        #endregion
+
+        #region Unparsed
+        public JObject GetAchievements()
+        {
+            return _eftDatabase.Achievements.Get();
+        }
+
+        public void SetAchievements(JObject achievements)
+        {
+            _eftDatabase.Achievements.Set(achievements);
+        }
+
+        public JObject GetGlobals()
+        {
+            return _eftDatabase.Globals.Get();
+        }
+
+        public void SetGlobals(JObject globals)
+        {
+            _eftDatabase.Globals.Set(globals);
+        }
+
+        public JObject GetHandbook()
+        {
+            return _eftDatabase.Handbook.Get();
+        }
+
+        public void SetHandbook(JObject handbook)
+        {
+            _eftDatabase.Handbook.Set(handbook);
+        }
+
+        public JObject GetHideoutAreas()
+        {
+            return _eftDatabase.HideoutAreas.Get();
+        }
+
+        public void SetHideoutAreas(JObject areas)
+        {
+            _eftDatabase.HideoutAreas.Set(areas);
+        }
+
+        public JObject GetHideoutCustomizationOffers()
+        {
+            return _eftDatabase.HideoutCustomizationOffers.Get();
+        }
+
+        public void SetHideoutCustomizationOffers(JObject offers)
+        {
+            _eftDatabase.HideoutCustomizationOffers.Set(offers);
+        }
+
+        public JObject GetHideoutProductionRecipes()
+        {
+            return _eftDatabase.HideoutProductionRecipes.Get();
+        }
+
+        public void SetHideoutProductionRecipes(JObject recipes)
+        {
+            _eftDatabase.HideoutProductionRecipes.Set(recipes);
+        }
+
+        public JObject GetHideoutQtes()
+        {
+            return _eftDatabase.HideoutQtes.Get();
+        }
+
+        public void SetHideoutQtes(JObject qtes)
+        {
+            _eftDatabase.HideoutQtes.Set(qtes);
+        }
+
+        public JObject GetItemTemplates()
+        {
+            return _eftDatabase.ItemTemplates.Get();
+        }
+
+        public void SetItemTemplates(JObject templates)
+        {
+            _eftDatabase.ItemTemplates.Set(templates);
+        }
+
+        public JObject GetLocalWeather()
         {
             return _eftDatabase.LocalWeather.Get();
         }
 
-        public string GetLocations()
+        public void SetLocalWeather(JObject weather)
         {
-            return _eftDatabase.Locations.Get();
+            _eftDatabase.LocalWeather.Set(weather);
         }
 
-        public string GetPrestige()
+        public JObject GetPrestige()
         {
             return _eftDatabase.Prestige.Get();
         }
 
-        public string GetQuests()
+        public void SetPrestige(JObject pretigste)
+        {
+            _eftDatabase.Prestige.Set(pretigste);
+        }
+
+        public JObject GetQuests()
         {
             return _eftDatabase.Quests.Get();
         }
 
-        public string GetSettings()
+        public void SetQuests(JObject quests)
+        {
+            _eftDatabase.Quests.Set(quests);
+        }
+
+        public JObject GetSettings()
         {
             return _eftDatabase.Settings.Get();
         }
 
-        public string GetTraders()
+        public void SetSettings(JObject settings)
+        {
+            _eftDatabase.Settings.Set(settings);
+        }
+
+        public JObject GetTraders()
         {
             return _eftDatabase.Traders.Get();
         }
 
-        public string GetWeather()
+        public void SetTraders(JObject traders)
+        {
+            _eftDatabase.Traders.Set(traders);
+        }
+
+        public JObject GetWeather()
         {
             return _eftDatabase.Weather.Get();
+        }
+
+        public void SetWeather(JObject weather)
+        {
+            _eftDatabase.Weather.Set(weather);
         }
         #endregion
     }

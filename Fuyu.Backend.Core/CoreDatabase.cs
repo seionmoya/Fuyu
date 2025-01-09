@@ -1,8 +1,8 @@
+using System;
 using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using System;
 
 namespace Fuyu.Backend.Core
 {
@@ -27,40 +27,6 @@ namespace Fuyu.Backend.Core
         {
             Accounts = new ThreadList<Account>();
             Sessions = new ThreadDictionary<string, int>();
-        }
-
-        public void Load()
-        {
-            LoadAccounts();
-            LoadSessions();
-        }
-
-        private void LoadAccounts()
-        {
-            var path = "./Fuyu/Accounts/Core/";
-
-            if (!VFS.DirectoryExists(path))
-            {
-                VFS.CreateDirectory(path);
-            }
-
-            var files = VFS.GetFiles(path);
-
-            foreach (var filepath in files)
-            {
-                var json = VFS.ReadTextFile(filepath);
-                var account = Json.Parse<Account>(json);
-                Accounts.Add(account);
-
-                Terminal.WriteLine($"Loaded fuyu account {account.Id}");
-            }
-        }
-
-        private void LoadSessions()
-        {
-            // intentionally empty
-            // sessions are created when users are logged in successfully
-            // -- seionmoya, 2024/09/02
         }
     }
 }

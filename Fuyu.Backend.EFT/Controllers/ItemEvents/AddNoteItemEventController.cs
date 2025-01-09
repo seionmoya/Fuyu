@@ -1,6 +1,6 @@
-﻿using Fuyu.Backend.BSG.Models.ItemEvents;
+﻿using System.Threading.Tasks;
+using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Networking;
-using System.Threading.Tasks;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 {

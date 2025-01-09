@@ -1,6 +1,6 @@
 using System;
-using Newtonsoft.Json;
 using Fuyu.Common.Serialization;
+using Newtonsoft.Json;
 
 namespace Fuyu.Common.Hashing
 {

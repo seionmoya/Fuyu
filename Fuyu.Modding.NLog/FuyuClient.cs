@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NLog;
-using NLog.Targets;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
+using NLog;
+using NLog.Targets;
 
 [Target(nameof(FuyuClient))]
 public sealed class FuyuClient : TargetWithLayout

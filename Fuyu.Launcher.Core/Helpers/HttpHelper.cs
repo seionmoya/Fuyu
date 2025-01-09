@@ -11,7 +11,7 @@ namespace Fuyu.Launcher.Core.Helpers
 {
     public class HttpHelper
     {
-        private static ThreadDictionary<string, CoreHttpClient> _httpClients;
+        private static readonly ThreadDictionary<string, CoreHttpClient> _httpClients;
 
         static HttpHelper()
         {

@@ -1,5 +1,5 @@
-﻿using Fuyu.Common.Hashing;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.ItemEvents
 {

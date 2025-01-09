@@ -13,7 +13,7 @@ namespace Fuyu.Backend.Core.Services
         public static RequestService Instance => instance.Value;
         private static readonly Lazy<RequestService> instance = new(() => new RequestService());
 
-        private ThreadDictionary<string, HttpClient> _httpClients;
+        private readonly ThreadDictionary<string, HttpClient> _httpClients;
 
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Fuyu.Backend.BSG.Models.Locations
 {
     [DataContract]
-    public class Event
+    public class HalloweenEvent
     {
         [DataMember]
         public int InfectionPercentage { get; set; }
