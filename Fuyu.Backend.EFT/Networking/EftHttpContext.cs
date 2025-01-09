@@ -3,8 +3,10 @@ using System.IO.Compression;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.Compression;
 using Fuyu.Common.Networking;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Networking;
 

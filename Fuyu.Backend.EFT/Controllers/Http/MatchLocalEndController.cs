@@ -1,19 +1,19 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Requests;
-using Fuyu.Backend.BSG.Models.Responses;
+using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFT.Networking;
-using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
 public class MatchLocalEndController : EftHttpController<MatchLocalEndRequest>
 {
     private readonly EftOrm _eftOrm;
+    private readonly ResponseService _responseService;
 
     public MatchLocalEndController() : base("/client/match/local/end")
     {
         _eftOrm = EftOrm.Instance;
+        _responseService = ResponseService.Instance;
     }
 
     public override Task RunAsync(EftHttpContext context, MatchLocalEndRequest body)
@@ -50,12 +50,7 @@ public class MatchLocalEndController : EftHttpController<MatchLocalEndRequest>
         */
 
         // send response
-        var response = new ResponseBody<object>()
-        {
-            data = null
-        };
 
-        var text = Json.Stringify(response);
-        return context.SendJsonAsync(text, true, true);
+        return context.SendJsonAsync(_responseService.EmptyJsonResponse, true, true);
     }
 }
