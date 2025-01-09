@@ -16,8 +16,11 @@ namespace Fuyu.Backend.EFT.Controllers.Http
 
         public override Task RunAsync(EftHttpContext context)
         {
-            var json = _eftOrm.GetHideoutSettings();
-            var response = Json.Parse<ResponseBody<HideoutSettingsResponse>>(json);
+            var settings = _eftOrm.GetHideoutSettings();
+            var response = new ResponseBody<HideoutSettingsResponse>()
+            {
+                data = settings
+            };
 
             var text = Json.Stringify(response);
             return context.SendJsonAsync(text, true, true);

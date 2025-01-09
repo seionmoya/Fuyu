@@ -450,6 +450,18 @@ namespace Fuyu.Backend.EFT
         }
         #endregion
 
+        #region Hideout settings
+        public HideoutSettingsResponse GetHideoutSettings()
+        {
+            return _eftDatabase.HideoutSettings.Get();
+        }
+
+        public void GetHideoutSettings(HideoutSettingsResponse settings)
+        {
+            _eftDatabase.HideoutSettings.Set(settings);
+        }
+        #endregion
+
         #region Unparsed
         public JObject GetAchievementList()
         {
@@ -490,12 +502,6 @@ namespace Fuyu.Backend.EFT
         public JObject GetHideoutQteList()
         {
             return _eftDatabase.HideoutQteList.Get();
-        }
-
-        // TODO: actual model exists
-        public string GetHideoutSettings()
-        {
-            return _eftDatabase.HideoutSettings.Get();
         }
 
         public JObject GetItems()

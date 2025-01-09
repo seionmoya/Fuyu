@@ -47,6 +47,7 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadDictionary<string, Dictionary<EPlayerSide, Profile>> WipeProfiles;
 
         internal readonly ThreadObject<BuildsListResponse> DefaultBuilds;
+        internal readonly ThreadObject<HideoutSettingsResponse> HideoutSettings;
 
         // TODO
         internal readonly ThreadObject<JObject> AchievementList;
@@ -57,7 +58,6 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<JObject> HideoutCustomizationOfferList;
         internal readonly ThreadObject<JObject> HideoutProductionRecipes;
         internal readonly ThreadObject<JObject> HideoutQteList;
-        internal readonly ThreadObject<string> HideoutSettings;
         internal readonly ThreadObject<JObject> Items;
         internal readonly ThreadObject<JObject> LocalWeather;
         internal readonly ThreadObject<WorldMap> WorldMap;
@@ -84,6 +84,7 @@ namespace Fuyu.Backend.EFT
             WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, Profile>>();
             DefaultBuilds = new ThreadObject<BuildsListResponse>(null);
             WorldMap = new ThreadObject<WorldMap>(null);
+            HideoutSettings = new ThreadObject<HideoutSettingsResponse>(null);
 
             // TODO
             AchievementList = new ThreadObject<JObject>(null);
@@ -94,7 +95,6 @@ namespace Fuyu.Backend.EFT
             HideoutCustomizationOfferList = new ThreadObject<JObject>(null);
             HideoutProductionRecipes = new ThreadObject<JObject>(null);
             HideoutQteList = new ThreadObject<JObject>(null);
-            HideoutSettings = new ThreadObject<string>(string.Empty);
             Items = new ThreadObject<JObject>(null);
             LocalWeather = new ThreadObject<JObject>(null);
             Prestige = new ThreadObject<JObject>(null);
@@ -268,6 +268,13 @@ namespace Fuyu.Backend.EFT
             WorldMap.Set(worldmap);
         }
 
+        private void LoadHideoutSettings()
+        {
+            var json = Resx.GetText("eft", "database.client.hideout.settings.json");
+            var settings = Json.Parse<HideoutSettingsResponse>(json);
+            HideoutSettings.Set(settings);
+        }
+
         // TODO
         private void LoadUnparsed()
         {
@@ -279,7 +286,6 @@ namespace Fuyu.Backend.EFT
             HideoutCustomizationOfferList.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.customization.offer.list.json")));
             HideoutProductionRecipes.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.production.recipes.json")));
             HideoutQteList.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.qte.list.json")));
-            HideoutSettings.Set(Resx.GetText("eft", "database.client.hideout.settings.json"));
             Items.Set(JObject.Parse(Resx.GetText("eft", "database.client.items.json")));
             LocalWeather.Set(JObject.Parse(Resx.GetText("eft", "database.client.localGame.weather.json")));
             Prestige.Set(JObject.Parse(Resx.GetText("eft", "database.client.prestige.list.json")));
