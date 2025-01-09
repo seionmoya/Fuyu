@@ -103,18 +103,18 @@ public class InventoryInfo
             return null;
         }
 
-            var weaponItemProperties = _itemFactoryService.GetItemProperties<WeaponItemProperties>(root.TemplateId);
-            var subItems = _itemService.GetItemAndChildren(Items, root).Skip(1);
+        var weaponItemProperties = _itemFactoryService.GetItemProperties<WeaponItemProperties>(root.TemplateId);
+        var subItems = _itemService.GetItemAndChildren(Items, root).Skip(1);
 
         return subItems.FirstOrDefault(i => i.SlotId == weaponItemProperties.FoldedSlot);
     }
 
-        public Vector2 GetItemSize(ItemInstance root)
-        {
-            var rootTemplate = _itemFactoryService.ItemTemplates[root.TemplateId];
-            var rootProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
-            var width = rootProperties.Width;
-            var height = rootProperties.Height;
+    public Vector2 GetItemSize(ItemInstance root)
+    {
+        var rootTemplate = _itemFactoryService.ItemTemplates[root.TemplateId];
+        var rootProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
+        var width = rootProperties.Width;
+        var height = rootProperties.Height;
 
         var sizeUp = 0;
         var sizeDown = 0;
@@ -125,26 +125,26 @@ public class InventoryInfo
         var forcedLeft = 0;
         var forcedRight = 0;
 
-            var children = _itemService.GetItemAndChildren(Items, root).Skip(1);
-            foreach (var child in children)
+        var children = _itemService.GetItemAndChildren(Items, root).Skip(1);
+        foreach (var child in children)
+        {
+            var itemTemplate = _itemFactoryService.ItemTemplates[child.TemplateId];
+            var itemProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
+            if (itemProperties.ExtraSizeForceAdd)
             {
-                var itemTemplate = _itemFactoryService.ItemTemplates[child.TemplateId];
-                var itemProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
-                if (itemProperties.ExtraSizeForceAdd)
-                {
-                    forcedUp += itemProperties.ExtraSizeUp;
-                    forcedDown += itemProperties.ExtraSizeDown;
-                    forcedLeft += itemProperties.ExtraSizeLeft;
-                    forcedRight += itemProperties.ExtraSizeRight;
-                }
-                else
-                {
-                    sizeUp = Math.Max(sizeUp, itemProperties.ExtraSizeUp);
-                    sizeDown = Math.Max(sizeDown, itemProperties.ExtraSizeDown);
-                    sizeLeft = Math.Max(sizeLeft, itemProperties.ExtraSizeLeft);
-                    sizeRight = Math.Max(sizeRight, itemProperties.ExtraSizeRight);
-                }
+                forcedUp += itemProperties.ExtraSizeUp;
+                forcedDown += itemProperties.ExtraSizeDown;
+                forcedLeft += itemProperties.ExtraSizeLeft;
+                forcedRight += itemProperties.ExtraSizeRight;
             }
+            else
+            {
+                sizeUp = Math.Max(sizeUp, itemProperties.ExtraSizeUp);
+                sizeDown = Math.Max(sizeDown, itemProperties.ExtraSizeDown);
+                sizeLeft = Math.Max(sizeLeft, itemProperties.ExtraSizeLeft);
+                sizeRight = Math.Max(sizeRight, itemProperties.ExtraSizeRight);
+            }
+        }
 
         width += sizeLeft + sizeRight + forcedLeft + forcedRight;
         height += sizeUp + sizeDown + forcedUp + forcedDown;
@@ -179,8 +179,8 @@ public class InventoryInfo
             return null;
         }
 
-            var stashItemTemplate = _itemFactoryService.ItemTemplates[stashItem.TemplateId];
-            var stashItemProps = _itemFactoryService.GetItemProperties<CompoundItemItemProperties>(stashItem.TemplateId);
+        var stashItemTemplate = _itemFactoryService.ItemTemplates[stashItem.TemplateId];
+        var stashItemProps = _itemFactoryService.GetItemProperties<CompoundItemItemProperties>(stashItem.TemplateId);
 
         foreach (var grid in stashItemProps.Grids)
         {
@@ -197,12 +197,12 @@ public class InventoryInfo
                     continue;
                 }
 
-                    var itemTemplate = _itemFactoryService.ItemTemplates[itemInThisGrid.TemplateId];
-                    var itemProps = _itemFactoryService.GetItemProperties<ItemProperties>(itemInThisGrid.TemplateId);
-                    var itemLocation = itemInThisGrid.Location.Value1;
-                    var itemSize = GetItemSize(itemInThisGrid);
-                    var itemWidth = itemSize.X;
-                    var itemHeight = itemSize.Y;
+                var itemTemplate = _itemFactoryService.ItemTemplates[itemInThisGrid.TemplateId];
+                var itemProps = _itemFactoryService.GetItemProperties<ItemProperties>(itemInThisGrid.TemplateId);
+                var itemLocation = itemInThisGrid.Location.Value1;
+                var itemSize = GetItemSize(itemInThisGrid);
+                var itemWidth = itemSize.X;
+                var itemHeight = itemSize.Y;
 
                 for (var y = 0; y < itemHeight; y++)
                 {
