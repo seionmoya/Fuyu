@@ -51,13 +51,13 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<WorldMap> WorldMap;
 
         // TODO
-        internal readonly ThreadObject<JObject> AchievementList;
+        internal readonly ThreadObject<JObject> Achievements;
         internal readonly ThreadObject<JObject> Globals;
         internal readonly ThreadObject<JObject> Handbook;
         internal readonly ThreadObject<JObject> HideoutAreas;
-        internal readonly ThreadObject<JObject> HideoutCustomizationOfferList;
+        internal readonly ThreadObject<JObject> HideoutCustomizationOffers;
         internal readonly ThreadObject<JObject> HideoutProductionRecipes;
-        internal readonly ThreadObject<JObject> HideoutQteList;
+        internal readonly ThreadObject<JObject> HideoutQtes;
         internal readonly ThreadObject<JObject> ItemTemplates;
         internal readonly ThreadObject<JObject> LocalWeather;
         internal readonly ThreadObject<JObject> Prestige;
@@ -87,13 +87,13 @@ namespace Fuyu.Backend.EFT
             HideoutSettings = new ThreadObject<HideoutSettingsResponse>(null);
 
             // TODO
-            AchievementList = new ThreadObject<JObject>(null);
+            Achievements = new ThreadObject<JObject>(null);
             Globals = new ThreadObject<JObject>(null);
             Handbook = new ThreadObject<JObject>(null);
             HideoutAreas = new ThreadObject<JObject>(null);
-            HideoutCustomizationOfferList = new ThreadObject<JObject>(null);
+            HideoutCustomizationOffers = new ThreadObject<JObject>(null);
             HideoutProductionRecipes = new ThreadObject<JObject>(null);
-            HideoutQteList = new ThreadObject<JObject>(null);
+            HideoutQtes = new ThreadObject<JObject>(null);
             ItemTemplates = new ThreadObject<JObject>(null);
             LocalWeather = new ThreadObject<JObject>(null);
             Prestige = new ThreadObject<JObject>(null);

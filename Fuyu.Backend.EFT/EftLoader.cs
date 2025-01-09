@@ -53,8 +53,21 @@ namespace Fuyu.Backend.EFT
             LoadHideoutSettings();
             LoadAchievementStatistics();
 
-            // TODO
-            LoadUnparsed();
+            // JOBJECT
+            LoadAchievements();
+            LoadGlobals();
+            LoadHandbook();
+            LoadHideoutAreas();
+            LoadHideoutCustomizationOffers();
+            LoadHideoutProductionRecipes();
+            LoadHideoutQtes();
+            LoadItemTemplates();
+            LoadLocalWeather();
+            LoadPretigste();
+            LoadQuests();
+            LoadSettings();
+            LoadTraders();
+            LoadWeather();
         }
 
         private void LoadAccounts()
@@ -208,23 +221,102 @@ namespace Fuyu.Backend.EFT
             _eftOrm.SetHideoutSettings(settings);
         }
 
-        // TODO
-        private void LoadUnparsed()
+        private void LoadAchievements()
         {
-            _eftOrm.SetAchievementList(JObject.Parse(Resx.GetText("eft", "database.client.achievement.list.json")));
-            _eftOrm.SetGlobals(JObject.Parse(Resx.GetText("eft", "database.client.globals.json")));
-            _eftOrm.SetHandbook(JObject.Parse(Resx.GetText("eft", "database.client.handbook.templates.json")));
-            _eftOrm.SetHideoutAreas(JObject.Parse(Resx.GetText("eft", "database.client.hideout.areas.json")));
-            _eftOrm.SetHideoutCustomizationOfferList(JObject.Parse(Resx.GetText("eft", "database.client.hideout.customization.offer.list.json")));
-            _eftOrm.SetHideoutProductionRecipes(JObject.Parse(Resx.GetText("eft", "database.client.hideout.production.recipes.json")));
-            _eftOrm.SetHideoutQteList(JObject.Parse(Resx.GetText("eft", "database.client.hideout.qte.list.json")));
-            _eftOrm.SetItemTemplates(JObject.Parse(Resx.GetText("eft", "database.client.items.json")));
-            _eftOrm.SetLocalWeather(JObject.Parse(Resx.GetText("eft", "database.client.localGame.weather.json")));
-            _eftOrm.SetPrestige(JObject.Parse(Resx.GetText("eft", "database.client.prestige.list.json")));
-            _eftOrm.SetQuests(JObject.Parse(Resx.GetText("eft", "database.client.quest.list.json")));
-            _eftOrm.SetSettings(JObject.Parse(Resx.GetText("eft", "database.client.settings.json")));
-            _eftOrm.SetTraders(JObject.Parse(Resx.GetText("eft", "database.client.trading.api.traderSettings.json")));
-            _eftOrm.SetWeather(JObject.Parse(Resx.GetText("eft", "database.client.weather.json")));
+            var json = Resx.GetText("eft", "database.client.achievement.list.json");
+            var achievements = JObject.Parse(json);
+            _eftOrm.SetAchievements(achievements);
+        }
+
+        private void LoadGlobals()
+        {
+            var json = Resx.GetText("eft", "database.client.globals.json");
+            var globals = JObject.Parse(json);
+            _eftOrm.SetGlobals(globals);
+        }
+
+        private void LoadHandbook()
+        {
+            var json = Resx.GetText("eft", "database.client.handbook.templates.json");
+            var handbook = JObject.Parse(json);
+            _eftOrm.SetHandbook(handbook);
+        }
+
+        private void LoadHideoutAreas()
+        {
+            var json = Resx.GetText("eft", "database.client.hideout.areas.json");
+            var areas = JObject.Parse(json);
+            _eftOrm.SetHideoutAreas(areas);
+        }
+
+        private void LoadHideoutCustomizationOffers()
+        {
+            var json = Resx.GetText("eft", "database.client.hideout.customization.offer.list.json");
+            var offers = JObject.Parse(json);
+            _eftOrm.SetHideoutCustomizationOffers(offers);
+        }
+
+        private void LoadHideoutProductionRecipes()
+        {
+            var json = Resx.GetText("eft", "database.client.hideout.production.recipes.json");
+            var recipes = JObject.Parse(json);
+            _eftOrm.SetHideoutProductionRecipes(recipes);
+        }
+
+        private void LoadHideoutQtes()
+        {
+            var json = Resx.GetText("eft", "database.client.hideout.qte.list.json");
+            var qtes = JObject.Parse(json);
+            _eftOrm.SetHideoutQtes(qtes);
+        }
+
+        private void LoadItemTemplates()
+        {
+            var json = Resx.GetText("eft", "database.client.items.json");
+            var items = JObject.Parse(json);
+            _eftOrm.SetItemTemplates(items);
+        }
+
+        private void LoadLocalWeather()
+        {
+            var json = Resx.GetText("eft", "database.client.localGame.weather.json");
+            var weather = JObject.Parse(json);
+            _eftOrm.SetLocalWeather(weather);
+        }
+
+        private void LoadPretigste()
+        {
+            var json = Resx.GetText("eft", "database.client.prestige.list.json");
+            var prestige = JObject.Parse(json);
+            _eftOrm.SetPrestige(prestige);
+        }
+
+        private void LoadQuests()
+        {
+            var json = Resx.GetText("eft", "database.client.quest.list.json");
+            var quests = JObject.Parse(json);
+            _eftOrm.SetQuests(quests);
+        }
+
+        private void LoadSettings()
+        {
+            var json = Resx.GetText("eft", "database.client.settings.json");
+            var settings = JObject.Parse(json);
+            _eftOrm.SetSettings(settings);
+        }
+
+        private void LoadTraders()
+        {
+            var json = Resx.GetText("eft", "database.client.trading.api.traderSettings.json");
+            var traders = JObject.Parse(json);
+            _eftOrm.SetTraders(traders);
+        }
+
+        private void LoadWeather()
+        {
+            var json = Resx.GetText("eft", "database.client.weather.json");
+            var weather = JObject.Parse(json);
+            _eftOrm.SetWeather(weather);
         }
     }
 }

@@ -475,14 +475,14 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region Unparsed
-        public JObject GetAchievementList()
+        public JObject GetAchievements()
         {
-            return _eftDatabase.AchievementList.Get();
+            return _eftDatabase.Achievements.Get();
         }
 
-        public void SetAchievementList(JObject achievements)
+        public void SetAchievements(JObject achievements)
         {
-            _eftDatabase.AchievementList.Set(achievements);
+            _eftDatabase.Achievements.Set(achievements);
         }
 
         public JObject GetGlobals()
@@ -515,14 +515,14 @@ namespace Fuyu.Backend.EFT
             _eftDatabase.HideoutAreas.Set(areas);
         }
 
-        public JObject GetHideoutCustomizationOfferList()
+        public JObject GetHideoutCustomizationOffers()
         {
-            return _eftDatabase.HideoutCustomizationOfferList.Get();
+            return _eftDatabase.HideoutCustomizationOffers.Get();
         }
 
-        public void SetHideoutCustomizationOfferList(JObject offers)
+        public void SetHideoutCustomizationOffers(JObject offers)
         {
-            _eftDatabase.HideoutCustomizationOfferList.Set(offers);
+            _eftDatabase.HideoutCustomizationOffers.Set(offers);
         }
 
         public JObject GetHideoutProductionRecipes()
@@ -535,14 +535,14 @@ namespace Fuyu.Backend.EFT
             _eftDatabase.HideoutProductionRecipes.Set(recipes);
         }
 
-        public JObject GetHideoutQteList()
+        public JObject GetHideoutQtes()
         {
-            return _eftDatabase.HideoutQteList.Get();
+            return _eftDatabase.HideoutQtes.Get();
         }
 
-        public void SetHideoutQteList(JObject qtes)
+        public void SetHideoutQtes(JObject qtes)
         {
-            _eftDatabase.HideoutQteList.Set(qtes);
+            _eftDatabase.HideoutQtes.Set(qtes);
         }
 
         public JObject GetItemTemplates()

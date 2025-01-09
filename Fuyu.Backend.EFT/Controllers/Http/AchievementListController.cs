@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
             // TODO: generate this
             // --seionmoya, 2024-11-18
-            var response = _eftOrm.GetAchievementList();
+            var response = _eftOrm.GetAchievements();
             var text = response.ToString();
             return context.SendJsonAsync(text, true, true);
         }

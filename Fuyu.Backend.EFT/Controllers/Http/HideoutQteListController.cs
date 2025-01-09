@@ -16,7 +16,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http
         {
             // TODO: generate this
             // --seionmoya, 2024-11-18
-            var response = _eftOrm.GetHideoutQteList();
+            var response = _eftOrm.GetHideoutQtes();
             var text = response.ToString();
             return context.SendJsonAsync(text, true, true);
         }
