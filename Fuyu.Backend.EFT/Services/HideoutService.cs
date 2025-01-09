@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using Fuyu.Common.IO;
 using System;
-using Fuyu.Backend.BSG.Models.Locations;
 using Fuyu.Backend.BSG.Models.Responses;
 
 namespace Fuyu.Backend.EFT.Services

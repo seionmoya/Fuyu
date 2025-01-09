@@ -37,11 +37,15 @@ namespace Fuyu.Backend.EFT.Services
             };
         }
 
+        // TODO: generate this
+        // --seionmoya, 2025-01-09
         public WorldMap GetWorldMap()
         {
             return _eftOrm.GetWorldMap();
         }
 
+        // TODO: generate this
+            // --seionmoya, 2024-11-18
         public string GetLoot(string location)
         {
             return _locationLoot[location];
