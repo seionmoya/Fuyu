@@ -1,10 +1,15 @@
 using System;
+#if NET9_0_OR_GREATER
+using Lock = System.Threading.Lock;
+#else
+using Lock = object;
+#endif
 
 namespace Fuyu.Common.IO;
 
 public static class Terminal
 {
-    private static readonly object _lock = new object();
+    private static readonly Lock _lock = new Lock();
     private static string _filepath;
 
     static Terminal()

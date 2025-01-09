@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+#if NET9_0_OR_GREATER
+using Lock = System.Threading.Lock;
+#else
+using Lock = object;
+#endif
 
 namespace Fuyu.Common.IO;
 
 public static class VFS
 {
-    private static readonly ConcurrentDictionary<string, object> _writeLock;
+    private static readonly ConcurrentDictionary<string, Lock> _writeLock;
 
     static VFS()
     {
-        _writeLock = new ConcurrentDictionary<string, object>();
+        _writeLock = new ConcurrentDictionary<string, Lock>();
     }
 
     public static string GetWorkingDirectory()
@@ -116,7 +121,7 @@ public static class VFS
         }
 
         // get thread lock
-        _writeLock.TryAdd(filepath, new object());
+        _writeLock.TryAdd(filepath, new Lock());
 
         // write text
         lock (_writeLock[filepath])
