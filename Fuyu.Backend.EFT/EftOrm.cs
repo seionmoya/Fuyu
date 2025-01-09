@@ -456,7 +456,7 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.HideoutSettings.Get();
         }
 
-        public void GetHideoutSettings(HideoutSettingsResponse settings)
+        public void SetHideoutSettings(HideoutSettingsResponse settings)
         {
             _eftDatabase.HideoutSettings.Set(settings);
         }
@@ -468,7 +468,7 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.AchievementStatistic.Get();
         }
 
-        public void GetAchievementStatistics(AchievementStatisticResponse statistics)
+        public void SetAchievementStatistics(AchievementStatisticResponse statistics)
         {
             _eftDatabase.AchievementStatistic.Set(statistics);
         }
@@ -480,9 +480,19 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.AchievementList.Get();
         }
 
+        public void SetAchievementList(JObject achievements)
+        {
+            _eftDatabase.AchievementList.Set(achievements);
+        }
+
         public JObject GetGlobals()
         {
             return _eftDatabase.Globals.Get();
+        }
+
+        public void SetGlobals(JObject globals)
+        {
+            _eftDatabase.Globals.Set(globals);
         }
 
         public JObject GetHandbook()
@@ -490,9 +500,19 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.Handbook.Get();
         }
 
+        public void SetHandbook(JObject handbook)
+        {
+            _eftDatabase.Handbook.Set(handbook);
+        }
+
         public JObject GetHideoutAreas()
         {
             return _eftDatabase.HideoutAreas.Get();
+        }
+
+        public void SetHideoutAreas(JObject areas)
+        {
+            _eftDatabase.HideoutAreas.Set(areas);
         }
 
         public JObject GetHideoutCustomizationOfferList()
@@ -500,9 +520,19 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.HideoutCustomizationOfferList.Get();
         }
 
+        public void SetHideoutCustomizationOfferList(JObject offers)
+        {
+            _eftDatabase.HideoutCustomizationOfferList.Set(offers);
+        }
+
         public JObject GetHideoutProductionRecipes()
         {
             return _eftDatabase.HideoutProductionRecipes.Get();
+        }
+
+        public void SetHideoutProductionRecipes(JObject recipes)
+        {
+            _eftDatabase.HideoutProductionRecipes.Set(recipes);
         }
 
         public JObject GetHideoutQteList()
@@ -510,9 +540,19 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.HideoutQteList.Get();
         }
 
-        public JObject GetItems()
+        public void SetHideoutQteList(JObject qtes)
         {
-            return _eftDatabase.Items.Get();
+            _eftDatabase.HideoutQteList.Set(qtes);
+        }
+
+        public JObject GetItemTemplates()
+        {
+            return _eftDatabase.ItemTemplates.Get();
+        }
+
+        public void SetItemTemplates(JObject templates)
+        {
+           _eftDatabase.ItemTemplates.Set(templates);
         }
 
         public JObject GetLocalWeather()
@@ -520,9 +560,19 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.LocalWeather.Get();
         }
 
+        public void SetLocalWeather(JObject weather)
+        {
+            _eftDatabase.LocalWeather.Set(weather);
+        }
+
         public JObject GetPrestige()
         {
             return _eftDatabase.Prestige.Get();
+        }
+
+        public void SetPrestige(JObject pretigste)
+        {
+            _eftDatabase.Prestige.Set(pretigste);
         }
 
         public JObject GetQuests()
@@ -530,9 +580,19 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.Quests.Get();
         }
 
+        public void SetQuests(JObject quests)
+        {
+            _eftDatabase.Quests.Set(quests);
+        }
+
         public JObject GetSettings()
         {
             return _eftDatabase.Settings.Get();
+        }
+
+        public void SetSettings(JObject settings)
+        {
+            _eftDatabase.Settings.Set(settings);
         }
 
         public JObject GetTraders()
@@ -540,9 +600,19 @@ namespace Fuyu.Backend.EFT
             return _eftDatabase.Traders.Get();
         }
 
+        public void SetTraders(JObject traders)
+        {
+            _eftDatabase.Traders.Set(traders);
+        }
+
         public JObject GetWeather()
         {
             return _eftDatabase.Weather.Get();
+        }
+
+        public void SetWeather(JObject weather)
+        {
+            _eftDatabase.Weather.Set(weather);
         }
         #endregion
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using Fuyu.Backend.BSG.Models.Accounts;
 using Fuyu.Backend.BSG.Models.Customization;
 using Fuyu.Backend.BSG.Models.Locations;
@@ -8,8 +9,6 @@ using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Common.Collections;
 using Fuyu.Common.IO;
-using Fuyu.Common.Serialization;
-using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT
 {
@@ -59,7 +58,7 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<JObject> HideoutCustomizationOfferList;
         internal readonly ThreadObject<JObject> HideoutProductionRecipes;
         internal readonly ThreadObject<JObject> HideoutQteList;
-        internal readonly ThreadObject<JObject> Items;
+        internal readonly ThreadObject<JObject> ItemTemplates;
         internal readonly ThreadObject<JObject> LocalWeather;
         internal readonly ThreadObject<JObject> Prestige;
         internal readonly ThreadObject<JObject> Quests;
@@ -95,213 +94,13 @@ namespace Fuyu.Backend.EFT
             HideoutCustomizationOfferList = new ThreadObject<JObject>(null);
             HideoutProductionRecipes = new ThreadObject<JObject>(null);
             HideoutQteList = new ThreadObject<JObject>(null);
-            Items = new ThreadObject<JObject>(null);
+            ItemTemplates = new ThreadObject<JObject>(null);
             LocalWeather = new ThreadObject<JObject>(null);
             Prestige = new ThreadObject<JObject>(null);
             Quests = new ThreadObject<JObject>(null);
             Settings = new ThreadObject<JObject>(null);
             Traders = new ThreadObject<JObject>(null);
             Weather = new ThreadObject<JObject>(null);
-        }
-
-        // NOTE: load order is VERY important!
-        // -- seionmoya, 2024/09/04
-        public void Load()
-        {
-            // set data source
-            Resx.SetSource("eft", typeof(EftDatabase).Assembly);
-
-            // load accounts
-            LoadAccounts();
-            LoadProfiles();
-            LoadSessions();
-
-            // load locales
-            LoadLanguages();
-            LoadGlobalLocales();
-            LoadMenuLocales();
-
-            // load templates
-            LoadCustomizations();
-            LoadCustomizationStorage();
-            LoadDefaultBuilds();
-            LoadWipeProfiles();
-            LoadWorldMap();
-            LoadHideoutSettings();
-            LoadAchievementStatistics();
-
-            // TODO
-            LoadUnparsed();
-        }
-
-        private void LoadAccounts()
-        {
-            var path = "./Fuyu/Accounts/EFT/";
-
-            if (!VFS.DirectoryExists(path))
-            {
-                VFS.CreateDirectory(path);
-            }
-
-            var files = VFS.GetFiles(path);
-
-            foreach (var filepath in files)
-            {
-                var json = VFS.ReadTextFile(filepath);
-                var account = Json.Parse<EftAccount>(json);
-                Accounts.Add(account);
-
-                Terminal.WriteLine($"Loaded EFT account {account.Id}");
-            }
-        }
-
-        private void LoadProfiles()
-        {
-            var path = "./Fuyu/Profiles/EFT/";
-
-            if (!VFS.DirectoryExists(path))
-            {
-                VFS.CreateDirectory(path);
-            }
-
-            var files = VFS.GetFiles(path);
-
-            foreach (var filepath in files)
-            {
-                var json = VFS.ReadTextFile(filepath);
-                var profile = Json.Parse<EftProfile>(json);
-                Profiles.Add(profile);
-
-                Terminal.WriteLine($"Loaded EFT profile {profile.Pmc._id}");
-            }
-        }
-
-        private void LoadSessions()
-        {
-            // intentionally empty
-            // sessions are created when users are logged in successfully
-            // -- seionmoya, 2024/09/06
-        }
-
-        private void LoadCustomizations()
-        {
-            var json = Resx.GetText("eft", "database.client.customization.json");
-            var response = Json.Parse<ResponseBody<Dictionary<string, CustomizationTemplate>>>(json);
-
-            foreach (var kvp in response.data)
-            {
-                Customizations.Add(kvp.Key, kvp.Value);
-            }
-        }
-
-        private void LoadCustomizationStorage()
-        {
-            var json = Resx.GetText("eft", "database.client.customization.storage.json");
-            var response = Json.Parse<ResponseBody<CustomizationStorageEntry[]>>(json);
-
-            foreach (var entry in response.data)
-            {
-                CustomizationStorage.Add(entry);
-            }
-        }
-
-        private void LoadLanguages()
-        {
-            var json = Resx.GetText("eft", $"database.locales.client.languages.json");
-            var response = Json.Parse<ResponseBody<Dictionary<string, string>>>(json);
-
-            foreach (var kvp in response.data)
-            {
-                Languages.Add(kvp.Key, kvp.Value);
-            }
-        }
-
-        private void LoadGlobalLocales()
-        {
-            var languages = Languages.ToDictionary();
-
-            foreach (var languageId in languages.Keys)
-            {
-                var json = Resx.GetText("eft", $"database.locales.client.locale-{languageId}.json");
-                var response = Json.Parse<ResponseBody<Dictionary<string, string>>>(json);
-
-                GlobalLocales.Add(languageId, response.data);
-            }
-        }
-
-        private void LoadMenuLocales()
-        {
-            var languages = Languages.ToDictionary();
-
-            foreach (var languageId in languages.Keys)
-            {
-                var json = Resx.GetText("eft", $"database.locales.client.menu.locale-{languageId}.json");
-                var response = Json.Parse<ResponseBody<MenuLocaleResponse>>(json);
-
-                MenuLocales.Add(languageId, response.data);
-            }
-        }
-
-        private void LoadDefaultBuilds()
-        {
-            var json = Resx.GetText("eft", "database.client.builds.list.json");
-            var response = Json.Parse<ResponseBody<BuildsListResponse>>(json);
-            DefaultBuilds.Set(response.data);
-        }
-
-        private void LoadWipeProfiles()
-        {
-            // profile
-            var bearJson = Resx.GetText("eft", "database.profiles.player.unheard-bear.json");
-            var usecJson = Resx.GetText("eft", "database.profiles.player.unheard-usec.json");
-            var savageJson = Resx.GetText("eft", "database.profiles.player.savage.json");
-
-            WipeProfiles.Add("unheard", new Dictionary<EPlayerSide, Profile>()
-            {
-                { EPlayerSide.Bear, Json.Parse<Profile>(bearJson) },
-                { EPlayerSide.Usec, Json.Parse<Profile>(usecJson) },
-                { EPlayerSide.Savage, Json.Parse<Profile>(savageJson) }
-            });
-        }
-
-        private void LoadAchievementStatistics()
-        {
-            var json = Resx.GetText("eft", "database.client.achievement.statistic.json");
-            var statistics = Json.Parse<AchievementStatisticResponse>(json);
-            AchievementStatistic.Set(statistics);
-        }
-
-        private void LoadWorldMap()
-        {
-            var json = Resx.GetText("eft", "database.client.locations.json");
-            var worldmap = Json.Parse<WorldMap>(json);
-            WorldMap.Set(worldmap);
-        }
-
-        private void LoadHideoutSettings()
-        {
-            var json = Resx.GetText("eft", "database.client.hideout.settings.json");
-            var settings = Json.Parse<HideoutSettingsResponse>(json);
-            HideoutSettings.Set(settings);
-        }
-
-        // TODO
-        private void LoadUnparsed()
-        {
-            AchievementList.Set(JObject.Parse(Resx.GetText("eft", "database.client.achievement.list.json")));
-            Globals.Set(JObject.Parse(Resx.GetText("eft", "database.client.globals.json")));
-            Handbook.Set(JObject.Parse(Resx.GetText("eft", "database.client.handbook.templates.json")));
-            HideoutAreas.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.areas.json")));
-            HideoutCustomizationOfferList.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.customization.offer.list.json")));
-            HideoutProductionRecipes.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.production.recipes.json")));
-            HideoutQteList.Set(JObject.Parse(Resx.GetText("eft", "database.client.hideout.qte.list.json")));
-            Items.Set(JObject.Parse(Resx.GetText("eft", "database.client.items.json")));
-            LocalWeather.Set(JObject.Parse(Resx.GetText("eft", "database.client.localGame.weather.json")));
-            Prestige.Set(JObject.Parse(Resx.GetText("eft", "database.client.prestige.list.json")));
-            Quests.Set(JObject.Parse(Resx.GetText("eft", "database.client.quest.list.json")));
-            Settings.Set(JObject.Parse(Resx.GetText("eft", "database.client.settings.json")));
-            Traders.Set(JObject.Parse(Resx.GetText("eft", "database.client.trading.api.traderSettings.json")));
-            Weather.Set(JObject.Parse(Resx.GetText("eft", "database.client.weather.json")));
-        }
+        }        
     }
 }

@@ -63,7 +63,7 @@ namespace Fuyu.Tests.Backend.EFT.EndToEnd
         {
             // setup databases
             CoreLoader.Instance.Load();
-            EftDatabase.Instance.Load();
+            EftLoader.Instance.Load();
 
             // setup servers
             var coreServer = new CoreServer();
