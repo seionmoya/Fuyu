@@ -34,13 +34,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
                 return Task.CompletedTask;
             }
 
-            var medKit = item.GetOrCreateUpdatable<ItemMedKitComponent>();
-
-            medKit.HpResource -= request.Count;
-            if (medKit.HpResource <= 0)
-            {
-                profile.Pmc.Inventory.RemoveItem(item);
-            }
+            var medKit = item.GetOrCreateUpdatable<ItemMedKitComponent>();            
 
             var bodyPart = _healthService.GetBodyPart(profile.Pmc.Health, request.BodyPart);
             float toHeal = request.Count;
@@ -52,18 +46,24 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
 
                 if (itemCanRemove)
                 {
-                    foreach (var effectPair in itemProperties.DamageEffects.Value1)
+                    foreach (var (effectName, effect) in itemProperties.DamageEffects.Value1)
                     {
-                        if (bodyPart.Effects.ContainsKey(effectPair.Key))
+                        if (bodyPart.Effects.ContainsKey(effectName))
                         {
-                            toHeal -= effectPair.Value.Cost = 0;
-                            bodyPart.Effects.Remove(effectPair.Key);
+                            toHeal -= effect.Cost = 0;
+                            bodyPart.Effects.Remove(effectName);
                         }
                     }
                 }
             }
 
             bodyPart.Health.Current += toHeal;
+            medKit.HpResource -= request.Count;
+
+            if (medKit.HpResource <= 0)
+            {
+                profile.Pmc.Inventory.RemoveItem(item);
+            }
 
             // TODO:
             // Check BackendConfig for 'HealExperience' and add to PMC profile
