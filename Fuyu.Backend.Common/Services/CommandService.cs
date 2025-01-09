@@ -2,61 +2,60 @@ using System;
 using Fuyu.Backend.Common.Delegates;
 using Fuyu.Common.IO;
 
-namespace Fuyu.Backend.Common
+namespace Fuyu.Backend.Common;
+
+public class CommandService
 {
-    public class CommandService
+    public static CommandService Instance => instance.Value;
+    private static readonly Lazy<CommandService> instance = new(() => new CommandService());
+
+    public bool IsRunning { get; private set; }
+
+    public CommandCallback OnCommand;
+    public CommandCallback OnHelp;
+
+    /// <summary>
+    /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+    /// </summary>
+    private CommandService()
     {
-        public static CommandService Instance => instance.Value;
-        private static readonly Lazy<CommandService> instance = new(() => new CommandService());
+        IsRunning = true;
 
-        public bool IsRunning { get; private set; }
+        OnCommand += ExitCommand;
+        OnHelp += ExitHelp;
+    }
 
-        public CommandCallback OnCommand;
-        public CommandCallback OnHelp;
-
-        /// <summary>
-        /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
-        /// </summary>
-        private CommandService()
+    public void RunCommand(string[] args)
+    {
+        if (args == null || args.Length == 0)
         {
-            IsRunning = true;
-
-            OnCommand += ExitCommand;
-            OnHelp += ExitHelp;
+            // no commands to run
+            return;
         }
 
-        public void RunCommand(string[] args)
+        if (args.Length == 1 && args[0] == "help")
         {
-            if (args == null || args.Length == 0)
-            {
-                // no commands to run
-                return;
-            }
-
-            if (args.Length == 1 && args[0] == "help")
-            {
-                // show help
-                OnHelp(args);
-                return;
-            }
-
-            OnCommand(args);
+            // show help
+            OnHelp(args);
+            return;
         }
 
-        private void ExitCommand(string[] args)
-        {
-            if (args.Length != 1 && args[0] != "exit")
-            {
-                // not ours to run
-                return;
-            }
+        OnCommand(args);
+    }
 
-            IsRunning = false;
+    private void ExitCommand(string[] args)
+    {
+        if (args.Length != 1 && args[0] != "exit")
+        {
+            // not ours to run
+            return;
         }
 
-        private void ExitHelp(string[] args)
-        {
-            Terminal.WriteLine("exit: close the application");
-        }
+        IsRunning = false;
+    }
+
+    private void ExitHelp(string[] args)
+    {
+        Terminal.WriteLine("exit: close the application");
     }
 }
