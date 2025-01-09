@@ -13,6 +13,8 @@ public sealed class FuyuClient : TargetWithLayout
     {
         var container = new DependencyContainer();
 
+        Terminal.SetLogFile("Fuyu/Logs/Client.log");
+
         CheckIncompatibleSoftware();
 
         Terminal.WriteLine("Loading mods...");

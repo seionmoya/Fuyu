@@ -2,15 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
     <RootNamespace>Fuyu.Launcher</RootNamespace>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>

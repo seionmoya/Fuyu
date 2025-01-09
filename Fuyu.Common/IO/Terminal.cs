@@ -5,6 +5,22 @@ namespace Fuyu.Common.IO
     public static class Terminal
     {
         private static readonly object _lock = new object();
+        private static string _filepath;
+
+        static Terminal()
+        {
+            _filepath = "./Fuyu/Logs/trace.log";
+        }
+
+        public static void SetLogFile(string filepath)
+        {
+            _filepath = filepath;
+        }
+
+        private static void WriteToFile(string text)
+        {
+            VFS.WriteTextFile(_filepath, text, true);
+        }
 
         public static void WriteLine(string text)
         {
@@ -31,11 +47,6 @@ namespace Fuyu.Common.IO
         {
             // Console.ReadKey doesn't work in vscode buildin terminal
             Console.In.ReadLine();
-        }
-
-        private static void WriteToFile(string text)
-        {
-            VFS.WriteTextFile("./Fuyu/Logs/trace.log", text, true);
         }
     }
 }
