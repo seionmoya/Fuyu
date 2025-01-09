@@ -4,7 +4,6 @@ using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.Services;
-using Fuyu.Backend.EFT.Services;
 using Fuyu.Common.IO;
 
 namespace Fuyu.Backend.EFT.Controllers.ItemEvents;
@@ -31,7 +30,7 @@ public class HealItemEventController : AbstractItemEventController<HealItemEvent
             return Task.CompletedTask;
         }
 
-        var medKit = item.GetOrCreateUpdatable<ItemMedKitComponent>();            
+        var medKit = item.GetOrCreateUpdatable<ItemMedKitComponent>();
 
         var bodyPart = profile.Pmc.Health.GetBodyPart(request.BodyPart);
         float toHeal = request.Count;

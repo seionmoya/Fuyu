@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.ItemTemplates;
-using Fuyu.Backend.BSG.Models.Common;
 using Fuyu.Backend.BSG.Models.Profiles.Health;
 
 namespace Fuyu.Backend.BSG.Models.Profiles;
@@ -11,16 +10,16 @@ namespace Fuyu.Backend.BSG.Models.Profiles;
 public class HealthInfo
 {
     [DataMember]
-    public ClampedValue<float> Hydration { get; set; }
+    public ClampedHealthStat<float> Hydration { get; set; }
 
     [DataMember]
-    public ClampedValue<float> Energy { get; set; }
+    public ClampedHealthStat<float> Energy { get; set; }
 
     [DataMember]
-    public ClampedValue<float> Temperature { get; set; }
+    public ClampedHealthStat<float> Temperature { get; set; }
 
     [DataMember]
-    public ClampedValue<float> Poison { get; set; }
+    public ClampedHealthStat<float> Poison { get; set; }
 
     [DataMember]
     public BodyPartInfo BodyParts { get; set; }

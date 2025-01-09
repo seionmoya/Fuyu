@@ -8,7 +8,7 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Health;
 public class BodyPart
 {
     [DataMember]
-    public ClampedValue<float> Health { get; set; }
+    public ClampedHealthStat<float> Health { get; set; }
 
     [DataMember]
     public Dictionary<string, BodyPartEffect> Effects { get; set; }
