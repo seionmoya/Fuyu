@@ -93,7 +93,12 @@ namespace Fuyu.Common.IO
             using (var rs = GetStream(id, path))
             {
                 var bytes = new byte[rs.Length];
+
+#if DOTNET_7_0_OR_GREATER
+                rs.ReadExactly(bytes);
+#else
                 rs.Read(bytes, 0, bytes.Length);
+#endif
 
                 return bytes;
             }
