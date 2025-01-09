@@ -36,7 +36,7 @@ namespace Fuyu.Backend.BSG.Services
         /// Gets an <see cref="ItemProperties"/> from a <see cref="MongoId"/> TemplateId
         /// </summary>
         /// <typeparam name="T">The <see cref="ItemProperties"/> class to return</typeparam>
-        /// <param name="templateId"></param>
+        /// <param name="templateId">The <see cref="MongoId"/> TemplateId to get the <see cref="ItemProperties"/> from</param>
         /// <returns>The <see cref="ItemProperties"/> class defined</returns>
         public T GetItemProperties<T>(MongoId templateId) where T : ItemProperties
         {
