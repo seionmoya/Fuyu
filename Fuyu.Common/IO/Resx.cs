@@ -94,10 +94,10 @@ namespace Fuyu.Common.IO
             {
                 var bytes = new byte[rs.Length];
 
-#if DOTNET_7_0_OR_GREATER
+#if NET7_0_OR_GREATER
                 rs.ReadExactly(bytes);
 #else
-                rs.ReadExactly(bytes);
+                rs.Read(bytes, 0, bytes.Length);
 #endif
 
                 return bytes;

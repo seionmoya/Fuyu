@@ -17,10 +17,16 @@ namespace Fuyu.Backend
         {
             var container = new DependencyContainer();
 
+            Terminal.SetLogFile("Fuyu/Logs/Backend.log");
+
+            Terminal.WriteLine("Loading database...");
+
             CoreLoader.Instance.Load();
             EftLoader.Instance.Load();
             TraderDatabase.Instance.Load();
             ItemFactoryService.Instance.Load();
+
+            Terminal.WriteLine("Loading backends...");
 
             var coreServer = new CoreServer();
             container.RegisterSingleton<HttpServer, CoreServer>(coreServer);
@@ -38,6 +44,8 @@ namespace Fuyu.Backend
             ModManager.Instance.AddMods("./Fuyu/Mods/Backend");
             await ModManager.Instance.Load(container);
             Terminal.WriteLine("Finished loading mods");
+
+            Terminal.WriteLine("Done! Users can now connect.");
 
             Terminal.WaitForInput();
             await ModManager.Instance.UnloadAll();
