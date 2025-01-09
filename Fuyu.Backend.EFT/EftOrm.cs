@@ -439,12 +439,16 @@ namespace Fuyu.Backend.EFT
         #endregion
 
         #region WorldMap
-        public WorldMap GetWorldMap()
+        // TODO: parse from model
+        // -- seionmoya, 2024-01-09
+        public JObject GetWorldMap()
         {
             return _eftDatabase.WorldMap.Get();
         }
 
-        public void SetWorldMap(WorldMap worldmap)
+        // TODO: parse from model
+        // -- seionmoya, 2024-01-09
+        public void SetWorldMap(JObject worldmap)
         {
             _eftDatabase.WorldMap.Set(worldmap);
         }

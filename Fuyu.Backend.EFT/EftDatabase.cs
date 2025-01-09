@@ -48,8 +48,7 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<AchievementStatisticResponse> AchievementStatistic;
         internal readonly ThreadObject<BuildsListResponse> DefaultBuilds;
         internal readonly ThreadObject<HideoutSettingsResponse> HideoutSettings;
-        internal readonly ThreadObject<WorldMap> WorldMap;
-
+        
         // TODO
         internal readonly ThreadObject<JObject> Achievements;
         internal readonly ThreadObject<JObject> Globals;
@@ -65,6 +64,7 @@ namespace Fuyu.Backend.EFT
         internal readonly ThreadObject<JObject> Settings;
         internal readonly ThreadObject<JObject> Traders;
         internal readonly ThreadObject<JObject> Weather;
+        internal readonly ThreadObject<JObject> WorldMap;
 
         /// <summary>
         /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
@@ -83,7 +83,7 @@ namespace Fuyu.Backend.EFT
             WipeProfiles = new ThreadDictionary<string, Dictionary<EPlayerSide, Profile>>();
             AchievementStatistic = new ThreadObject<AchievementStatisticResponse>(null);
             DefaultBuilds = new ThreadObject<BuildsListResponse>(null);
-            WorldMap = new ThreadObject<WorldMap>(null);
+            WorldMap = new ThreadObject<JObject>(null);
             HideoutSettings = new ThreadObject<HideoutSettingsResponse>(null);
 
             // TODO

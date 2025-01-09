@@ -264,10 +264,13 @@ namespace Fuyu.Backend.EFT
             _eftOrm.SetAchievementStatistics(statistics);
         }
 
+        // TODO: parse from model
+        // -- seionmoya, 2024-01-09
         private void LoadWorldMap()
         {
             var json = Resx.GetText("eft", "database.client.locations.json");
-            var worldmap = Json.Parse<WorldMap>(json);
+            //var worldmap = Json.Parse<WorldMap>(json);
+            var worldmap = JObject.Parse(json);
             _eftOrm.SetWorldMap(worldmap);
         }
 
