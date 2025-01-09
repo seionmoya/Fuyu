@@ -50,7 +50,7 @@ namespace Fuyu.Backend.EFT.Controllers.ItemEvents
                     {
                         if (bodyPart.Effects.ContainsKey(effectName))
                         {
-                            toHeal -= effect.Cost = 0;
+                            toHeal -= effect.Cost;
                             bodyPart.Effects.Remove(effectName);
                         }
                     }
