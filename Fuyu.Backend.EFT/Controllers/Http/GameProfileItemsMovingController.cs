@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class GameProfileItemsMovingController : EftHttpController<JObject>
+public class GameProfileItemsMovingController : AbstractEftHttpController<JObject>
 {
     public ItemEventRouter ItemEventRouter { get; } = new ItemEventRouter();
     private readonly EftOrm _eftOrm;

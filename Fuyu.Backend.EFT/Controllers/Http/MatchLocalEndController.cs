@@ -5,7 +5,7 @@ using Fuyu.Backend.EFT.Networking;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class MatchLocalEndController : EftHttpController<MatchLocalEndRequest>
+public class MatchLocalEndController : AbstractEftHttpController<MatchLocalEndRequest>
 {
     private readonly EftOrm _eftOrm;
     private readonly ResponseService _responseService;
