@@ -277,7 +277,7 @@ public class BackendTest
         // get request data
         var request = new GameProfileNicknameValidateRequest()
         {
-            nickname = "senko"
+            Nickname = "senko"
         };
 
         // get request body

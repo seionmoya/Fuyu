@@ -5,6 +5,6 @@ namespace Fuyu.Backend.BSG.Models.Requests;
 [DataContract]
 public class GameProfileNicknameValidateRequest
 {
-    [DataMember]
-    public string nickname { get; set; }
+    [DataMember(Name = "nickname")]
+    public string Nickname { get; set; }
 }
