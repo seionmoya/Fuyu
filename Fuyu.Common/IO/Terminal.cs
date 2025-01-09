@@ -43,10 +43,9 @@ namespace Fuyu.Common.IO
             WriteLine(o.ToString());
         }
 
-        public static void WaitForInput()
+        public static string ReadLine()
         {
-            // Console.ReadKey doesn't work in vscode buildin terminal
-            Console.In.ReadLine();
+            return Console.In.ReadLine();
         }
     }
 }
