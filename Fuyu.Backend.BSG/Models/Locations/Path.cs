@@ -9,6 +9,9 @@ namespace Fuyu.Backend.BSG.Models.Locations
         public string Source { get; set; }
 
         [DataMember]
+        public string Event { get; set; }
+
+        [DataMember]
         public string Destination { get; set; }
     }
 }
