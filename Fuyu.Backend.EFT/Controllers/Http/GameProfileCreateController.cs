@@ -10,7 +10,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http;
 // TODO:
 // * move code into TemplateTable and ProfileService
 // -- seionmoya, 2024/09/02
-public class GameProfileCreateController : EftHttpController<GameProfileCreateRequest>
+public class GameProfileCreateController : AbstractEftHttpController<GameProfileCreateRequest>
 {
     private readonly EftOrm _eftOrm;
     private readonly ProfileService _profileService;

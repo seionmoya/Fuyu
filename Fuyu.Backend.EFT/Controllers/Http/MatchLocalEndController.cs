@@ -7,7 +7,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class MatchLocalEndController : EftHttpController<MatchLocalEndRequest>
+public class MatchLocalEndController : AbstractEftHttpController<MatchLocalEndRequest>
 {
     private readonly EftOrm _eftOrm;
 

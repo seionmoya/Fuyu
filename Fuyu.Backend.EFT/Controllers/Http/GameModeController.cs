@@ -7,7 +7,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class GameModeController : EftHttpController<ClientGameModeRequest>
+public class GameModeController : AbstractEftHttpController<ClientGameModeRequest>
 {
     private readonly EftOrm _eftOrm;
 
