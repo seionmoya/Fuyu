@@ -19,6 +19,8 @@ public class ProfileEquipmentBuildSaveController : AbstractEftHttpController<Equ
 
     public override Task RunAsync(EftHttpContext context, EquipmentBuildSaveRequest request)
     {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+
         var equipmentBuild = new EquipmentBuild()
         {
             Id = request.Id,
@@ -28,7 +30,6 @@ public class ProfileEquipmentBuildSaveController : AbstractEftHttpController<Equ
             BuildType = EEquipmentBuildType.Custom
         };
 
-        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         profile.Builds.EquipmentBuilds.Add(equipmentBuild);
 
         return context.SendJsonAsync(_responseService.EmptyJsonResponse, true, true);

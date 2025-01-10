@@ -1,8 +1,8 @@
+using System;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFT.Networking;
-using Fuyu.Common.IO;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
@@ -22,19 +22,26 @@ public class ProfileBuildDeleteController : AbstractEftHttpController<BuildDelet
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
 
         var index = profile.Builds.EquipmentBuilds.RemoveAll(x => x.Id == request.Id);
-        if (index < 1)
+        if (index > 0)
         {
-            index = profile.Builds.WeaponBuilds.RemoveAll(x => x.Id == request.Id);
-        }
-        if (index < 1)
-        {
-            index = profile.Builds.MagazineBuilds.RemoveAll(x => x.Id == request.Id);
-        }
-        if (index < 1)
-        {
-            Terminal.WriteLine($"Could not find a build with the id {request.Id}");
+            goto completed;
         }
 
+        index = profile.Builds.WeaponBuilds.RemoveAll(x => x.Id == request.Id);
+        if (index > 0)
+        {
+            goto completed;
+        }
+
+        index = profile.Builds.MagazineBuilds.RemoveAll(x => x.Id == request.Id);
+        if (index > 0)
+        {
+            goto completed;
+        }
+
+        throw new Exception($"Could not find a build with the id {request.Id}");
+
+    completed:
 
         return context.SendJsonAsync(_responseService.EmptyJsonResponse, true, true);
     }

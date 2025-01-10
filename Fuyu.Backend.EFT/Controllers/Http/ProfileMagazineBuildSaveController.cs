@@ -19,6 +19,8 @@ public class ProfileMagazineBuildSaveController : AbstractEftHttpController<Maga
 
     public override Task RunAsync(EftHttpContext context, MagazineBuildSaveRequest request)
     {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+
         var magazineBuild = new MagazineBuild()
         {
             Id = request.Id,
@@ -29,7 +31,6 @@ public class ProfileMagazineBuildSaveController : AbstractEftHttpController<Maga
             Items = request.Items,
         };
 
-        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         profile.Builds.MagazineBuilds.Add(magazineBuild);
 
         return context.SendJsonAsync(_responseService.EmptyJsonResponse, true, true);

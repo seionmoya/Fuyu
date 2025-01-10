@@ -19,6 +19,8 @@ public class ProfileWeaponBuildSaveController : AbstractEftHttpController<Weapon
 
     public override Task RunAsync(EftHttpContext context, WeaponBuildSaveRequest request)
     {
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
+
         var weaponBuild = new WeaponBuild()
         {
             Id = request.Id,
@@ -27,7 +29,6 @@ public class ProfileWeaponBuildSaveController : AbstractEftHttpController<Weapon
             Items = request.Items
         };
 
-        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         profile.Builds.WeaponBuilds.Add(weaponBuild);
 
         return context.SendJsonAsync(_responseService.EmptyJsonResponse, true, true);
