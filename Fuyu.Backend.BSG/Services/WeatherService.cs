@@ -59,7 +59,7 @@ public class WeatherService
     {
         var seasons = Enum.GetValues<ESeason>();
         var randomSeason = seasons[Random.Shared.Next(0, seasons.Length)];
-        
+
         var localWeather = new WeatherResponse()
         {
             Season = randomSeason,

@@ -8,7 +8,7 @@ public class WeatherNode
 {
     [DataMember(Name = "timestamp")]
     public long Timestamp { get; set; }
-    
+
     [DataMember(Name = "time")]
     public string Time { get; set; }
 
