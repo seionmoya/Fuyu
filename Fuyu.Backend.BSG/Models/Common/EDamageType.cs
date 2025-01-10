@@ -2,6 +2,7 @@
 
 namespace Fuyu.Backend.BSG.Models.Common;
 
+// NOTE: is marked as flags in the client
 [Flags]
 public enum EDamageType
 {

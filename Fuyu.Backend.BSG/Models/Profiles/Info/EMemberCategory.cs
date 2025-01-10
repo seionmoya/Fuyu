@@ -1,5 +1,9 @@
+using System;
+
 namespace Fuyu.Backend.BSG.Models.Profiles.Info;
 
+// NOTE: is marked as flags in the client
+[Flags]
 public enum EMemberCategory
 {
     Default = 0,
