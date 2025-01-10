@@ -23,7 +23,7 @@ public class WeatherController : AbstractEftHttpController
         {
             data = localWeather
         };
-        
+
         var text = Json.Stringify(response);
         return context.SendJsonAsync(text, true, true);
     }
