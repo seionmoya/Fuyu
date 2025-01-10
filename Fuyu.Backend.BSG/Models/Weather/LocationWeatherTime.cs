@@ -9,7 +9,7 @@ public class LocationWeatherTime
     public byte Season { get; set; }
 
     [DataMember(Name = "weather")]
-    public Weather Weather { get; set; }
+    public WeatherNode WeatherNode { get; set; }
 
     [DataMember(Name = "acceleration")]
     public float Acceleration { get; set; }

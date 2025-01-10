@@ -1,4 +1,5 @@
 ﻿using System;
+using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Weather;
 
 namespace Fuyu.Backend.BSG.Services;
@@ -25,46 +26,49 @@ public class WeatherService
             Time = currentTime.ToString("HH:mm:ss"),
             Acceleration = 0,
             Season = (byte)Random.Shared.Next(0, 5),
-            Weather = CreateDefault()
+            WeatherNode = CreateDefault()
         };
     }
 
-    public Weather CreateDefault()
+    public WeatherNode CreateDefault()
     {
         return new()
         {
-            time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-            cloud = -0.3f,
-            wind_gustiness = 0,
-            wind_direction = 7,
-            rain = 1,
-            rain_intensity = 0,
-            fog = 0.004f,
-            pressure = 760,
-            temp = 20,
-            wind_speed = 4
+            Timestamp = 1731627026,
+            Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            Date = DateTime.Now.ToString("yyyy-MM-dd"),
+            Cloud = -0.443f,
+            WindGustiness = 0.334f,
+            WindDirection = 1,
+            Rain = 1,
+            RainIntensity = 0f,
+            Fog = 0.002f,
+            Pressure = 762f,
+            Temperature = 12f,
+            WindSpeed = 2f
         };
     }
 
     // TODO: Make sure we generate default one then return edited values.
-    public Weather CreateWeatherType(EWeatherType weatherType)
+    public WeatherNode CreateWeatherType(EWeatherType weatherType)
     {
         return CreateDefault();
     }
 
-    public LocalWeather CreateLocalWeather()
+    public WeatherResponse CreateLocalWeather()
     {
-        var localWeather = new LocalWeather()
+        var seasons = Enum.GetValues<ESeason>();
+        var randomSeason = seasons[Random.Shared.Next(0, seasons.Length)];
+        
+        var localWeather = new WeatherResponse()
         {
-            Season = (byte)Random.Shared.Next(0, 5),
-            Weathers = []
+            Season = randomSeason,
+            Acceleration = 7f,
+            Date = DateTime.Now.ToString("yyyy-MM-dd"),
+            Time = DateTime.Now.ToString("HH:mm:ss")
         };
 
-        for (int i = 0; i < (int)EWeatherType.None; i++)
-        {
-            var weather_for_type_i = CreateWeatherType((EWeatherType)i);
-            localWeather.Weathers.Add(weather_for_type_i);
-        }
+        localWeather.WeatherNode = CreateWeatherType(EWeatherType.ClearDay);
 
         return localWeather;
     }
