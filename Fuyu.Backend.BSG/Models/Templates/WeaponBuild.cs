@@ -5,7 +5,7 @@ using Fuyu.Common.Hashing;
 namespace Fuyu.Backend.BSG.Models.Templates;
 
 [DataContract]
-public class WeaponBuild : IProfileBuild
+public class WeaponBuild
 {
     [DataMember]
     public MongoId Id { get; set; }

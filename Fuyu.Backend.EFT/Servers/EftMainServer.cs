@@ -82,6 +82,7 @@ public class EftMainServer : HttpServer
         HttpRouter.AddController<ProfileMagazineBuildSaveController>();
         HttpRouter.AddController<ProfileBuildDeleteController>();
         HttpRouter.AddController<ProfileEquipmentBuildSaveController>();
+        HttpRouter.AddController<ProfileWeaponBuildSaveController>();
 
         // EFT-WS
         WsRouter.AddController<PushNotiferGetWebsocketController>();
