@@ -624,9 +624,9 @@ public class BackendTest
         // get request data
         var request = new MatchLocalEndRequest()
         {
-            results = new MatchLocalEndResult()
+            Results = new MatchLocalEndResult()
             {
-                profile = profile.Pmc
+                Profile = profile.Pmc
             }
         };
 
