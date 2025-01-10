@@ -79,6 +79,10 @@ public class EftMainServer : HttpServer
         HttpRouter.AddController<ClientInsuranceItemsListCostController>();
         HttpRouter.AddController<GetNextFreeSlotController>();
         HttpRouter.AddController<GameProfileVoiceChangeController>();
+        HttpRouter.AddController<ProfileMagazineBuildSaveController>();
+        HttpRouter.AddController<ProfileBuildDeleteController>();
+        HttpRouter.AddController<ProfileEquipmentBuildSaveController>();
+        HttpRouter.AddController<ProfileWeaponBuildSaveController>();
 
         // EFT-WS
         WsRouter.AddController<PushNotiferGetWebsocketController>();
