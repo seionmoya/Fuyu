@@ -42,7 +42,7 @@ public class NavigationService
 
     public static bool IsInternalRequest(string url)
     {
-        return url.StartsWith(INTERNAL_DOMAIN);
+        return url.StartsWith(INTERNAL_DOMAIN) || url.StartsWith("./");
     }
 
     public static string GetInternalPath(string url)
