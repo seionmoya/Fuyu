@@ -10,7 +10,7 @@ namespace Fuyu.Backend.EFT.Controllers.Http;
 // TODO:
 // * move code into TemplateTable and ProfileService
 // -- seionmoya, 2024/09/02
-public class GameProfileCreateController : EftHttpController<GameProfileCreateRequest>
+public class GameProfileCreateController : AbstractEftHttpController<GameProfileCreateRequest>
 {
     private readonly EftOrm _eftOrm;
     private readonly ProfileService _profileService;
@@ -23,7 +23,7 @@ public class GameProfileCreateController : EftHttpController<GameProfileCreateRe
 
     public override Task RunAsync(EftHttpContext context, GameProfileCreateRequest request)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var account = _eftOrm.GetAccount(sessionId);
         var pmcId = _profileService.WipeProfile(account, request.side, request.headId, request.voiceId);
 

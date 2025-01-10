@@ -11,7 +11,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class ClientInsuranceItemsListCostController : EftHttpController<InsuranceCostRequest>
+public class ClientInsuranceItemsListCostController : AbstractEftHttpController<InsuranceCostRequest>
 {
     private readonly EftOrm _eftOrm;
 
@@ -22,7 +22,7 @@ public class ClientInsuranceItemsListCostController : EftHttpController<Insuranc
 
     public override Task RunAsync(EftHttpContext context, InsuranceCostRequest body)
     {
-        var profile = _eftOrm.GetActiveProfile(context.GetSessionId());
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
         var response = new ResponseBody<InsuranceCostResponse>();
 

@@ -13,7 +13,7 @@ public class ETagService
 {
     public static uint GetUIntETag(EftHttpContext context)
     {
-        var value = context.GetETag();
+        var value = context.ETag;
 
         if (string.IsNullOrWhiteSpace(value))
         {

@@ -17,7 +17,7 @@ public class AccountGamesController : AbstractCoreHttpController
 
     public override Task RunAsync(CoreHttpContext context)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var result = _accountService.GetGames(sessionId);
         var response = new AccountGamesResponse()
         {

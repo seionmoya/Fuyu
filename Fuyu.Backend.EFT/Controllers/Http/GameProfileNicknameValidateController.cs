@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class GameProfileNicknameValidateController : EftHttpController<GameProfileNicknameValidateRequest>
+public class GameProfileNicknameValidateController : AbstractEftHttpController<GameProfileNicknameValidateRequest>
 {
     public GameProfileNicknameValidateController() : base("/client/game/profile/nickname/validate")
     {

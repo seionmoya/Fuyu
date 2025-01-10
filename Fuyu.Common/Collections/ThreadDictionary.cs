@@ -1,4 +1,9 @@
 using System.Collections.Generic;
+#if NET9_0_OR_GREATER
+using Lock = System.Threading.Lock;
+#else
+using Lock = object;
+#endif
 
 namespace Fuyu.Common.Collections;
 
@@ -10,18 +15,18 @@ namespace Fuyu.Common.Collections;
 public class ThreadDictionary<T1, T2>
 {
     private readonly Dictionary<T1, T2> _dictionary;
-    private readonly object _lock;
+    private readonly Lock _lock;
 
     public ThreadDictionary()
     {
         _dictionary = new Dictionary<T1, T2>();
-        _lock = new object();
+        _lock = new Lock();
     }
 
     public ThreadDictionary(IDictionary<T1, T2> enumerable)
     {
         _dictionary = new Dictionary<T1, T2>(enumerable);
-        _lock = new object();
+        _lock = new Lock();
     }
 
     public Dictionary<T1, T2> ToDictionary()

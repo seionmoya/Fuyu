@@ -5,7 +5,7 @@ using Fuyu.Backend.EFT.Services;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class MatchLocalStartController : EftHttpController<MatchLocalStartRequest>
+public class MatchLocalStartController : AbstractEftHttpController<MatchLocalStartRequest>
 {
     public MatchLocalStartController() : base("/client/match/local/start")
     {

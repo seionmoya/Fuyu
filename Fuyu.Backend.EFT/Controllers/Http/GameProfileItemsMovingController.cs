@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class GameProfileItemsMovingController : EftHttpController<JObject>
+public class GameProfileItemsMovingController : AbstractEftHttpController<JObject>
 {
     public ItemEventRouter ItemEventRouter { get; } = new ItemEventRouter();
     private readonly EftOrm _eftOrm;
@@ -52,7 +52,7 @@ public class GameProfileItemsMovingController : EftHttpController<JObject>
             return;
         }
 
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var profile = _eftOrm.GetActiveProfile(sessionId);
         var requestData = request.Value<JArray>("data");
         var itemEventResponse = new ItemEventResponse();

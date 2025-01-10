@@ -26,14 +26,14 @@ public abstract class AbstractEftHttpController : AbstractHttpController
     public abstract Task RunAsync(EftHttpContext context);
 }
 
-public abstract class EftHttpController<TRequest> : AbstractEftHttpController where TRequest : class
+public abstract class AbstractEftHttpController<TRequest> : AbstractEftHttpController where TRequest : class
 {
-    protected EftHttpController(Regex pattern) : base(pattern)
+    protected AbstractEftHttpController(Regex pattern) : base(pattern)
     {
         // match dynamic paths
     }
 
-    protected EftHttpController(string path) : base(path)
+    protected AbstractEftHttpController(string path) : base(path)
     {
         // match static paths
     }

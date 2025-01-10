@@ -8,7 +8,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
-public class GameBotGenerateController : EftHttpController<GameBotGenerateRequest>
+public class GameBotGenerateController : AbstractEftHttpController<GameBotGenerateRequest>
 {
     private readonly BotService _botService;
 

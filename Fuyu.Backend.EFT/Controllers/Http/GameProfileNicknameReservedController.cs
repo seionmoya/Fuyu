@@ -16,7 +16,7 @@ public class GameProfileNicknameReservedController : AbstractEftHttpController
 
     public override Task RunAsync(EftHttpContext context)
     {
-        var sessionId = context.GetSessionId();
+        var sessionId = context.SessionId;
         var account = _eftOrm.GetAccount(sessionId);
 
         var response = new ResponseBody<string>()
