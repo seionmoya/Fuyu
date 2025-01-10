@@ -18,7 +18,7 @@ public class HealthInfo
     [DataMember]
     public ClampedHealthStat<float> Temperature { get; set; }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public ClampedHealthStat<float> Poison { get; set; }
 
     [DataMember]
