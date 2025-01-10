@@ -9,6 +9,7 @@ using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFTMain;
+using Fuyu.Backend.EFTMain.Services;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
 using Fuyu.Tests.Backend.EFT.Networking;
@@ -76,10 +77,13 @@ public class BackendTest
         // register test account
         var coreSessionId = CreateFuyuAccount("TestUser1", "TestPass1!");
         var eftAccountId = CreateGameAccount(coreSessionId, "eft", "unheard");
-        _eftSessionId = Fuyu.Backend.EFTMain.Services.AccountService.Instance.LoginAccount(eftAccountId);
+        _eftSessionId = Fuyu.Backend.EFTMain.Services.AccountService.Instance.LoginAccount(eftAccountId);        
 
         // create request clients
         _eftMainClient = new EftHttpClient("http://localhost:8010", _eftSessionId, "0.16.0.2.34510");
+
+        var account = EftOrm.Instance.GetAccount(eftAccountId);
+        ProfileService.Instance.WipeProfile(account, "Usec", "5cde96047d6c8b20b577f016", "6284d6ab8e4092597733b7a7");
     }
 
     [TestMethod]
@@ -307,7 +311,7 @@ public class BackendTest
         var response = await _eftMainClient.PostAsync("/client/game/profile/nickname/change", body);
         var result = Encoding.UTF8.GetString(response.Body);
 
-        Assert.IsTrue(string.IsNullOrEmpty(result));
+        Assert.IsFalse(string.IsNullOrEmpty(result));
     }
 
     [TestMethod]

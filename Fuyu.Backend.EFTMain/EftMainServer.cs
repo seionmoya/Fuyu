@@ -1,3 +1,4 @@
+using Fuyu.Backend.EFT.Controllers.Http;
 using Fuyu.Backend.EFTMain.Controllers;
 using Fuyu.Backend.EFTMain.Controllers.Http;
 using Fuyu.Backend.EFTMain.Controllers.Websocket;

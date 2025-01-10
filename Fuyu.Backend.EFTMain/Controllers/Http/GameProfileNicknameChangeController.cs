@@ -1,10 +1,10 @@
-using System;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.BSG.Models.Responses;
-using Fuyu.Backend.EFT.Networking;
-using Fuyu.Backend.EFT.Services;
+using Fuyu.Backend.EFTMain;
+using Fuyu.Backend.EFTMain.Networking;
+using Fuyu.Backend.EFTMain.Services;
 using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
