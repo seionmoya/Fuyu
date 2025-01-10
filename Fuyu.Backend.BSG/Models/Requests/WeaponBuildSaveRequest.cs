@@ -14,7 +14,7 @@ public class WeaponBuildSaveRequest
     public string Name { get; set; }
 
     [DataMember]
-    public string Root { get; set; }
+    public MongoId Root { get; set; }
 
     [DataMember]
     public ItemInstance[] Items { get; set; }

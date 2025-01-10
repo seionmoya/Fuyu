@@ -932,4 +932,75 @@ public class BackendTest
 
         Assert.IsFalse(string.IsNullOrEmpty(result));
     }
+
+    [TestMethod]
+    public async Task TestEquipmentBuildSaving()
+    {
+        // get request data
+        var request = new EquipmentBuildSaveRequest()
+        {
+            Id = new MongoId(true),
+            Name = "TestEquipmentBuild",
+            Items = [],
+            Root = new MongoId(true)
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/builds/equipment/save", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestWeaponBuildSaving()
+    {
+        // get request data
+        var request = new WeaponBuildSaveRequest()
+        {
+            Id = new MongoId(true),
+            Name = "TestEquipmentBuild",
+            Items = [],
+            Root = new MongoId(true)
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/builds/weapon/save", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestMagazineBuildSaving()
+    {
+        // get request data
+        var request = new MagazineBuildSaveRequest()
+        {
+            Id = new MongoId(true),
+            Name = "TestEquipmentBuild",
+            Items = [],
+            BottomCount = 0,
+            TopCount = 0,
+            Caliber = "Caliber9x39"
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/builds/weapon/save", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
 }
