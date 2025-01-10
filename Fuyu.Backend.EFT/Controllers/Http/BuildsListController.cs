@@ -24,7 +24,6 @@ public class BuildsListController : AbstractEftHttpController
             data = builds
         };
 
-        var text = Json.Stringify(response);
-        return context.SendJsonAsync(text, true, true);
+        return context.SendResponseAsync(response, true, true);
     }
 }
