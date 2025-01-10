@@ -1,11 +1,12 @@
 using System.Threading.Tasks;
-using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Launcher.Common.Services;
 using Fuyu.Modding;
 
 namespace Fuyu.Launcher.Core;
 
+// TODO: refactor into pages
+// -- seionmoya, 2024-01-11
 public class Mod : AbstractMod
 {
     public override string Id { get; } = "Fuyu.Launcher.Core";
@@ -56,10 +57,6 @@ public class Mod : AbstractMod
 
     void HandleIndexMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (message == "LOADING_COMPLETED")
         {
             var page = "account-login.html";
@@ -70,10 +67,6 @@ public class Mod : AbstractMod
 
     void HandleAccountLibraryMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (!string.IsNullOrWhiteSpace(message))
         {
             // TODO: navigation system
@@ -86,10 +79,6 @@ public class Mod : AbstractMod
 
     void HandleAccountLoginMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (!string.IsNullOrWhiteSpace(message))
         {
             // TODO: Login validation
@@ -102,10 +91,6 @@ public class Mod : AbstractMod
 
     void HandleAccountRegisterMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (!string.IsNullOrWhiteSpace(message))
         {
             // TODO: Registration validation
@@ -118,10 +103,6 @@ public class Mod : AbstractMod
 
     void HandleGameEftMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (!string.IsNullOrWhiteSpace(message))
         {
             // TODO: Launch game callback
@@ -132,10 +113,6 @@ public class Mod : AbstractMod
 
     void HandleStoreLibraryMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (!string.IsNullOrWhiteSpace(message))
         {
             // TODO: navigation system
@@ -148,10 +125,6 @@ public class Mod : AbstractMod
 
     void HandleStoreEftMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (!string.IsNullOrWhiteSpace(message))
         {
             // TODO: add game
@@ -162,10 +135,6 @@ public class Mod : AbstractMod
 
     void HandleSettingsMessage(string message)
     {
-#if DEBUG
-        Terminal.WriteLine(message);
-#endif
-
         if (message == "NAVIGATE_BACK")
         {
             NavigationService.NavigatePrevious();

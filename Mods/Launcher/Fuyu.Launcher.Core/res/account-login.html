@@ -24,7 +24,24 @@
     <!-- content -->
     <main>
         <div class="container-fluid">
-            <button class="btn btn-outline" type="button" onclick="login()">Login</button>
+            <div class="mt-3">
+
+                 <!-- username -->
+                <div class="mb-3">
+                    <label for="field_username" class="form-label">Username</label>
+                    <input type="field_username" class="form-control" id="username" placeholder="User">
+                </div>
+
+                <!-- password -->
+                <div class="mb-3">
+                    <label for="field_password" class="form-label">Password</label>
+                    <input type="field_password" class="form-control" id="password" placeholder="********">
+                </div>
+
+                <!-- submit -->
+                <button class="btn btn-outline-light" type="button" onclick="login()">Login</button>
+
+            </div>
         </div>
     </main>
 

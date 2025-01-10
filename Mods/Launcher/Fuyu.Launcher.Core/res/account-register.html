@@ -24,7 +24,37 @@
     <!-- content -->
     <main>
         <div class="container-fluid">
-            <button class="btn btn-outline" type="button" onclick="register()">Register</button>
+            <div class="my-3">
+
+                <!-- username -->
+                <label for="field_username" class="form-label">Username</label>
+                <input type="text" id="field_username" class="form-control" placeholder="User">
+                <div class="form-text">
+                    Your username must:
+                    <ul>
+                        <li>Be 8-15 characters long</li>
+                        <li>NOT contain special characters</li>
+                    </ul>
+                </div>
+
+                <!-- password -->
+                <label for="field_password" class="form-label">Password</label>
+                <input type="password" id="field_password" class="form-control" placeholder="********">
+                <div class="form-text">
+                    Your password must:
+                    <ul>
+                        <li>Be 8-32 characters long</li>
+                        <li>Contain lowercase letters</li>
+                        <li>Contain uppercase letters</li>
+                        <li>Contain numbers</li>
+                        <li>Contain special characters</li>
+                    </ul>
+                </div>
+
+                <!-- submit -->
+                <button class="btn btn-outline-light" type="button" onclick="register()">Register</button>
+
+            </div>
         </div>
     </main>
 
