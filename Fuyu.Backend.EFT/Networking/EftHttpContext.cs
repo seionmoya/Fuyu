@@ -95,6 +95,13 @@ public class EftHttpContext : HttpContext
         return SendAsync(encoded, mime, HttpStatusCode.OK, zipped, encrypted);
     }
 
+    public Task SendResponseAsync<T>(ResponseBody<T> responseBody, bool zipped, bool encrypted)
+    {
+        var responseText = Json.Stringify(responseBody);
+        
+        return SendJsonAsync(responseText, zipped, encrypted);
+    }
+
     public string Encryption
     {
         get
