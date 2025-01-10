@@ -11,6 +11,15 @@ indent_size = 2
 # C# files
 [*.cs]
 
+### MODIFIED BY FUYU ###
+end_of_line = crlf
+place_attribute_on_same_line = false
+dotnet_separate_import_directive_groups = false
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_prefer_system_threading_lock = true:warning
+### ---
+
+
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
@@ -24,9 +33,9 @@ insert_final_newline = false
 [*.{cs,vb}]
 
 # Organize usings
-dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = true
 file_header_template = unset
+
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:silent
@@ -115,7 +124,6 @@ csharp_style_prefer_readonly_struct_member = true:suggestion
 # Code-block preferences
 csharp_prefer_braces = true:silent
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_style_namespace_declarations = file_scoped:warning
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
 csharp_style_prefer_top_level_statements = true:silent
@@ -184,7 +192,6 @@ csharp_space_between_square_brackets = false
 # Wrapping preferences
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
-csharp_prefer_system_threading_lock = true:suggestion
 
 #### Naming styles ####
 [*.{cs,vb}]
@@ -376,7 +383,4 @@ dotnet_naming_style.s_camelcase.required_prefix = s_
 dotnet_naming_style.s_camelcase.required_suffix = 
 dotnet_naming_style.s_camelcase.word_separator = 
 dotnet_naming_style.s_camelcase.capitalization = camel_case
-tab_width = 4
-indent_size = 4
-end_of_line = crlf
 
