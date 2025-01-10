@@ -98,7 +98,6 @@ public class EftHttpContext : HttpContext
     public Task SendResponseAsync<T>(ResponseBody<T> responseBody, bool zipped, bool encrypted)
     {
         var responseText = Json.Stringify(responseBody);
-        
         return SendJsonAsync(responseText, zipped, encrypted);
     }
 
