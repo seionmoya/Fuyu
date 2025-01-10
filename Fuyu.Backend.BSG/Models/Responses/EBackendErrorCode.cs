@@ -1,4 +1,5 @@
 ﻿namespace Fuyu.Backend.BSG.Models.Responses;
+
 public enum EBackendErrorCode
 {
     None,

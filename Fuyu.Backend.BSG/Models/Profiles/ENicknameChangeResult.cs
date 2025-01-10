@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
 namespace Fuyu.Backend.BSG.Models.Profiles;
+
 public enum ENicknameChangeResult
 {
     [DataMember(Name = "wrongSymbol")]

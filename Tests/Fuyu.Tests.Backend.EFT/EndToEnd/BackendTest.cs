@@ -292,6 +292,26 @@ public class BackendTest
     }
 
     [TestMethod]
+    public async Task TestClientGameProfileNicknameChange()
+    {
+        // get request data
+        var request = new GameProfileNicknameChangeRequest()
+        {
+            Nickname = "senko"
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/game/profile/nickname/change", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
     public async Task TestClientGameProfileSelect()
     {
         var response = await _eftMainClient.GetAsync("/client/game/profile/select");

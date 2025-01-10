@@ -12,7 +12,7 @@ public class GameProfileNicknameChangeController : AbstractEftHttpController<Gam
 {
     private readonly ProfileService _profileService;
 
-    public GameProfileNicknameChangeController() : base("/client/game/profile/nickname/validate")
+    public GameProfileNicknameChangeController() : base("/client/game/profile/nickname/change")
     {
         _profileService = ProfileService.Instance;
     }
