@@ -56,9 +56,9 @@ For starters, create a new folder inside `./Fuyu/Mods/Server/` called
 ```
 Fuyu.Backend.exe
 Fuyu/
-    Mods/
-        Backend/
-            Senko.HelloWorld/
+└── Mods/
+    └── Backend/
+        └── Senko.HelloWorld/
 ```
 
 `Senko.HelloWorld` will be your mod's root folder. The name of the folder is
@@ -70,10 +70,10 @@ Inside of it, make a new folder: `src`:
 ```
 Fuyu.Backend.exe
 Fuyu/
-    Mods/
-        Backend/
-            Senko.HelloWorld/
-                src/
+└── Mods/
+    └── Backend/
+        └── Senko.HelloWorld/
+            └── src/
 ```
 
 The `src` folder will contains all scripts for your mod. 
@@ -85,14 +85,14 @@ Inside the `src` folder, create a new file called `ModEntry.cs`:
 ```
 Fuyu.Backend.exe
 Fuyu/
-    Mods/
-        Backend/
-            Senko.HelloWorld/
-                src/
-                    HelloWorldMod.cs
+└── Mods/
+    └── Backend/
+        └── Senko.HelloWorld/
+            └── src/
+                └── Mod.cs
 ```
 
-`.cs` files are scripts and contain C# code. `HelloWorldMod.cs` is the file
+`.cs` files are scripts and contain C# code. `Mod.cs` is the file
 which will contain your mod's entry point.
 
 An entry point is the first code that will run when the mod gets loaded.
@@ -100,7 +100,7 @@ An entry point is the first code that will run when the mod gets loaded.
 A good convention for naming this file is `<ModName>Mod.cs`, for example
 `ReplaysMod.cs`.
 
-Open `HelloWorldMod.cs` in `Visual Studio Code` and _WRITE_ (don't copy paste!)
+Open `Mod.cs` in `Visual Studio Code` and _WRITE_ (don't copy paste!)
 the following from below:
 
 ```cs
@@ -113,7 +113,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld;
 
-public class HelloWorldMod : AbstractMod
+public class Mod : AbstractMod
 {
     public override string Id { get; } = "Senko.HelloWorld";
     public override string Name { get; } = "Senko - HelloWorld";
@@ -149,7 +149,7 @@ This imports things we can use in our mod. Some of them are required by `Abstrac
 to function.
 
 ```cs
-public class HelloWorldMod : AbstractMod
+public class Mod : AbstractMod
 ```
 
 This is a `class` and also the heart of our mod. Here we can include
@@ -177,13 +177,14 @@ public override string Name { get; } = "Senko - HelloWorld";
 
 This is the name that will show up in the logs. If you want something more
 descriptive than your `Id` as name, you can change it. I would recommend
-sticking with `Senko.HelloWorld` however.
+sticking with `<Author>.<ModName>` however.
 
 ```cs
 public override string[] Dependencies { get; } = [];
 ```
 
-When you depend on other mods, you list the dependencies here, like so:
+When you depend on other mods, you list the dependencies here. The dependency
+list uses the `Id`'s from other mods, like so:
 
 ```cs
 public override string[] Dependencies { get; } = [
@@ -243,7 +244,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld;
 
-public class HelloWorldMod : AbstractMod
+public class Mod : AbstractMod
 {
     public override string Id { get; } = "Senko.HelloWorld";
     public override string Name { get; } = "Senko - HelloWorld";
@@ -281,12 +282,12 @@ In `Senko.HelloWorld`, create the `res` folder:
 ```
 Fuyu.Backend.exe
 Fuyu/
-    Mods/
-        Backend/
-            Senko.HelloWorld/
-                res/
-                src/
-                    HelloWorldMod.cs
+└── Mods/
+    └── Backend/
+        └── Senko.HelloWorld/
+            ├── res/
+            └── src/
+                └── Mod.cs
 ```
 
 In `res`, create the `messages` folder:
@@ -294,13 +295,13 @@ In `res`, create the `messages` folder:
 ```
 Fuyu.Backend.exe
 Fuyu/
-    Mods/
-        Backend/
-            Senko.HelloWorld/
-                res/
-                    messages/
-                src/
-                    HelloWorldMod.cs
+└── Mods/
+    └── Backend/
+        └── Senko.HelloWorld/
+            ├── res/
+            │   └── messages/
+            └── src/
+                └── Mod.cs
 ```
 
 In `messages`, create the file `message.txt`:
@@ -308,14 +309,14 @@ In `messages`, create the file `message.txt`:
 ```
 Fuyu.Backend.exe
 Fuyu/
-    Mods/
-        Backend/
-            Senko.HelloWorld/
-                res/
-                    messages/
-                        hello.txt
-                src/
-                    HelloWorldMod.cs
+└── Mods/
+    └── Backend/
+        └── Senko.HelloWorld/
+            ├── res/
+            │   └── messages/
+            │       └── hello.txt
+            └── src/
+                └── Mod.cs
 ```
 
 In notepad, open `res/messages/message.txt` and write the following:
@@ -336,7 +337,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
 
-public class HelloWorldMod : AbstractMod
+public class Mod : AbstractMod
 {
     public override string Id { get; } = "Senko.HelloWorld";
     public override string Name { get; } = "Senko - HelloWorld";
@@ -358,7 +359,13 @@ We're going to add the following before `Terminal.WriteLine("Hello, mod!")`:
 var message = Resx.GetText(Id, "messages.hello.txt");
 ```
 
-Like so:
+And replace `Terminal.WriteLine("Hello, mod!")`: with this:
+
+```cs
+Terminal.WriteLine(message);
+```
+
+The final result will be this:
 
 ```cs
 // -- required
@@ -370,7 +377,7 @@ using Fuyu.Common.IO;
 
 namespace Senko.HelloWorld
 
-public class HelloWorldMod : AbstractMod
+public class Mod : AbstractMod
 {
     public override string Id { get; } = "Senko.HelloWorld";
     public override string Name { get; } = "Senko - HelloWorld";
@@ -379,7 +386,7 @@ public class HelloWorldMod : AbstractMod
     public override Task OnLoad(DependencyContainer container)
     {
         var message = Resx.GetText(Id, "messages.hello.txt");
-        Terminal.WriteLine("Hello, mod!");
+        Terminal.WriteLine(message);
 
         // done loading the mod!
         return Task.CompletedTask;
@@ -408,42 +415,11 @@ That means that `path/to/file.ext` becomes `path.to.file.ext`.
 `id` is the mod's `Id`. Yes, you can also use the id of another mod if you want
 to read from their `res` folder!
 
-Now, replace `Terminal.WriteLine("Hello, mod!")` with this:
-
 ```cs
 Terminal.WriteLine(message);
 ```
 
 It will now show the text from `message` instead of what we had before.
-
-The final result will be:
-
-```cs
-// -- required
-using System.Threading.Tasks;
-using Fuyu.DependencyInjection;
-using Fuyu.Modding;
-// -- others
-using Fuyu.Common.IO;
-
-namespace Senko.HelloWorld
-
-public class HelloWorldMod : AbstractMod
-{
-    public override string Id { get; } = "Senko.HelloWorld";
-    public override string Name { get; } = "Senko - HelloWorld";
-    public override string[] Dependencies { get; } = [];
-
-    public override Task OnLoad(DependencyContainer container)
-    {
-        var message = Resx.GetText(Id, "messages.hello.txt");
-        Terminal.WriteLine(message);
-
-        // done loading the mod!
-        return Task.CompletedTask;
-    }
-}
-```
 
 ### Test the mod
 
