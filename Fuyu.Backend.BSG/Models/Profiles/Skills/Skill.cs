@@ -11,10 +11,10 @@ public class Skill
     public ESkillType Id { get; set; }
 
     [DataMember]
-    public int Progress { get; set; }
+    public float Progress { get; set; }
 
     [DataMember]
-    public int PointsEarnedDuringSession { get; set; }
+    public float PointsEarnedDuringSession { get; set; }
 
     [DataMember]
     public long LastAccess { get; set; }

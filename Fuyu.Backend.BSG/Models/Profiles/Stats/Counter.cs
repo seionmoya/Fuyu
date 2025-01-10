@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Stats;
@@ -7,5 +8,5 @@ public class Counter
 {
     // TODO: proper type
     [DataMember]
-    public object[] Items { get; set; }
+    public List<KeyValuePair<List<string>, long>> Items { get; set; }
 }
