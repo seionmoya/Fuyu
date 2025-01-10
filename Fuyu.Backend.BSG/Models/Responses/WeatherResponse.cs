@@ -8,10 +8,10 @@ public class WeatherResponse
 {
     [DataMember(Name = "season")]
     public ESeason Season { get; set; }
-    
+
     [DataMember(Name = "weather")]
     public Weather.WeatherNode WeatherNode { get; set; }
-    
+
     [DataMember(Name = "acceleration")]
     public float Acceleration;
 
