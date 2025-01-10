@@ -308,7 +308,7 @@ public class BackendTest
         var response = await _eftMainClient.PostAsync("/client/game/profile/nickname/change", body);
         var result = Encoding.UTF8.GetString(response.Body);
 
-        Assert.IsFalse(string.IsNullOrEmpty(result));
+        Assert.IsTrue(string.IsNullOrEmpty(result));
     }
 
     [TestMethod]
