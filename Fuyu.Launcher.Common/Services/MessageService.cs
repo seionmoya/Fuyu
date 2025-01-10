@@ -3,55 +3,54 @@ using System.Collections.Generic;
 using Fuyu.Common.IO;
 using Microsoft.Web.WebView2.Core;
 
-namespace Fuyu.Launcher.Common.Services
+namespace Fuyu.Launcher.Common.Services;
+
+public class MessageService
 {
-    public class MessageService
+    //                                 path           msg
+    private static readonly Dictionary<string, Action<string>> _messageCallbacks;
+    private static CoreWebView2 _webview;
+
+    static MessageService()
     {
-        //                                 path           msg
-        private static readonly Dictionary<string, Action<string>> _messageCallbacks;
-        private static CoreWebView2 _webview;
+        _messageCallbacks = [];
+        _webview = null;
+    }
 
-        static MessageService()
+    public static void Initialize(CoreWebView2 webview)
+    {
+        _webview = webview;
+    }
+
+    public static void Add(string path, Action<string> callback)
+    {
+        _messageCallbacks.Add(path, callback);
+    }
+
+    public static void HandleMessage(string path, string message)
+    {
+        #if DEBUG
+        // show received message
+        Terminal.WriteLine($"[{path}]: {message}");
+        #endif
+
+        if (_messageCallbacks.TryGetValue(path, out var callback))
         {
-            _messageCallbacks = [];
-            _webview = null;
+            callback(message);
+            return;
         }
 
-        public static void Initialize(CoreWebView2 webview)
-        {
-            _webview = webview;
-        }
+        throw new ArgumentException("No message handler found on path");
+    }
 
-        public static void Add(string path, Action<string> callback)
-        {
-            _messageCallbacks.Add(path, callback);
-        }
+    // can be intercepted in JS by window.chrome._webview.addEventListener('message', onMessage)
+    public static void SendMessage(string text)
+    {
+        #if DEBUG
+        // show received message
+        Terminal.WriteLine($"Backend message: {text}");
+        #endif
 
-        public static void HandleMessage(string path, string message)
-        {
-            #if DEBUG
-            // show received message
-            Terminal.WriteLine($"[{path}]: {message}");
-            #endif
-
-            if (_messageCallbacks.TryGetValue(path, out var callback))
-            {
-                callback(message);
-                return;
-            }
-
-            throw new ArgumentException("No message handler found on path");
-        }
-
-        // can be intercepted in JS by window.chrome._webview.addEventListener('message', onMessage)
-        public static void SendMessage(string text)
-        {
-            #if DEBUG
-            // show received message
-            Terminal.WriteLine($"Backend message: {text}");
-            #endif
-
-            _webview.PostWebMessageAsString(text);
-        }
+        _webview.PostWebMessageAsString(text);
     }
 }
