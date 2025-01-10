@@ -28,7 +28,7 @@ public class CoreHttpContext : HttpContext
                 switch (encryption)
                 {
                     case "aes":
-                        body = CryptographyService.DecryptAes(body);
+                        //body = CryptographyService.DecryptAes(body);
                         break;
 
                     default:

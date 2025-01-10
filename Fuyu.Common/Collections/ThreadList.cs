@@ -1,4 +1,9 @@
 using System.Collections.Generic;
+#if NET9_0_OR_GREATER
+using Lock = System.Threading.Lock;
+#else
+using Lock = object;
+#endif
 
 namespace Fuyu.Common.Collections;
 
@@ -11,12 +16,12 @@ namespace Fuyu.Common.Collections;
 public class ThreadList<T>
 {
     private readonly List<T> _list;
-    private readonly object _lock;
+    private readonly Lock _lock;
 
     public ThreadList()
     {
         _list = new List<T>();
-        _lock = new object();
+        _lock = new Lock();
     }
 
     public List<T> ToList()

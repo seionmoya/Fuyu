@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFT.Networking;
+using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
@@ -17,19 +18,8 @@ public class WeatherController : AbstractEftHttpController
 
     public override Task RunAsync(EftHttpContext context)
     {
-        var weather = _weatherService.CreateMainMenuWeather();
-        var dateTime = DateTime.Now;
-
-        var response = new WeatherResponse()
-        {
-            Weather = weather,
-            Acceleration = 0f,
-            Time = dateTime.ToString("HH:mm:ss"),
-            Date = dateTime.ToString("d")
-
-        };
-
-        var text = response.ToString();
+        var response = _weatherService.CreateLocalWeather();
+        var text = Json.Stringify(response);
         return context.SendJsonAsync(text, true, true);
     }
 }
