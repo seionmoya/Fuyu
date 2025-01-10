@@ -1,32 +1,33 @@
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Profiles;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.Models.Raid;
 
 [DataContract]
 public class MatchLocalEndResult
 {
-    [DataMember]
-    public Profile profile { get; set; }
+    [DataMember(Name = "profile")]
+    public Profile Profile { get; set; }
 
-    [DataMember]
-    public string result { get; set; }
+    [DataMember(Name = "result")]
+    public EExitStatus Result { get; set; }
 
-    [DataMember]
-    public string killerId { get; set; }
+    [DataMember(Name = "killerId")]
+    public string KillerId { get; set; }
 
-    [DataMember]
-    public int? killerAid { get; set; }
+    [DataMember(Name = "killerAid")]
+    public string KillerAid { get; set; }
 
-    [DataMember]
-    public string exitName { get; set; }
+    [DataMember(Name = "exitName")]
+    public string ExitName { get; set; }
 
-    [DataMember]
-    public bool inSession { get; set; }
+    [DataMember(Name = "inSession")]
+    public bool InSession { get; set; }
 
-    [DataMember]
-    public bool favorite { get; set; }
+    [DataMember(Name = "favorite")]
+    public bool Favorite { get; set; }
 
-    [DataMember]
-    public int playTime { get; set; }
+    [DataMember(Name = "playTime")]
+    public int PlayTime { get; set; }
 }

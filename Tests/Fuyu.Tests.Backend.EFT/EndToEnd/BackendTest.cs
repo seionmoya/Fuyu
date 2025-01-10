@@ -8,8 +8,7 @@ using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Backend.Core.Servers;
-using Fuyu.Backend.EFT;
-using Fuyu.Backend.EFT.Servers;
+using Fuyu.Backend.EFTMain;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
 using Fuyu.Tests.Backend.EFT.Networking;
@@ -77,7 +76,7 @@ public class BackendTest
         // register test account
         var coreSessionId = CreateFuyuAccount("TestUser1", "TestPass1!");
         var eftAccountId = CreateGameAccount(coreSessionId, "eft", "unheard");
-        _eftSessionId = Fuyu.Backend.EFT.Services.AccountService.Instance.LoginAccount(eftAccountId);
+        _eftSessionId = Fuyu.Backend.EFTMain.Services.AccountService.Instance.LoginAccount(eftAccountId);
 
         // create request clients
         _eftMainClient = new EftHttpClient("http://localhost:8010", _eftSessionId, "0.16.0.2.34510");
@@ -644,9 +643,9 @@ public class BackendTest
         // get request data
         var request = new MatchLocalEndRequest()
         {
-            results = new MatchLocalEndResult()
+            Results = new MatchLocalEndResult()
             {
-                profile = profile.Pmc
+                Profile = profile.Pmc
             }
         };
 

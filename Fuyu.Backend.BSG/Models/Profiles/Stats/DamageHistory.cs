@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Models.Profiles.Health;
+using Fuyu.Common.Collections;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Stats;
 
@@ -12,7 +15,6 @@ public class DamageHistory
     [DataMember]
     public object LethalDamage { get; set; }
 
-    // TODO: proper type
     [DataMember]
-    public object[] BodyParts { get; set; }
+    public Union<Dictionary<string, List<BodyPartDamage>>, List<BodyPartDamage>> BodyParts { get; set; }
 }

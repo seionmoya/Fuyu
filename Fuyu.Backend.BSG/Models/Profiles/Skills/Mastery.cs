@@ -9,5 +9,5 @@ public class Mastery
     public string Id { get; set; }
 
     [DataMember]
-    public int Progress { get; set; }
+    public float Progress { get; set; }
 }
