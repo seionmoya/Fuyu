@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../Fuyu.Common/Fuyu.Common.csproj" />
+    <ProjectReference Include="../../../Fuyu.DependencyInjection/Fuyu.DependencyInjection.csproj" />
+    <ProjectReference Include="../../../Fuyu.Launcher.Common/Fuyu.Launcher.Common.csproj" />
+    <ProjectReference Include="../../../Fuyu.Modding/Fuyu.Modding.csproj" />
+  </ItemGroup>
+
+</Project>

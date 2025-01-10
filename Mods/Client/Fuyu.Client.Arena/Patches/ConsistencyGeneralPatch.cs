@@ -18,7 +18,7 @@ public class ConsistencyGeneralPatch : AbstractPatch
         _mi = typeof(TarkovApplication).BaseType.GetMethod("RunFilesChecking", flags);
     }
 
-    public ConsistencyGeneralPatch() : base("com.Fuyu.Client.arena.consistencygeneral", EPatchType.Prefix)
+    public ConsistencyGeneralPatch() : base("Fuyu.Client.Arena.ConsistencyGeneralPatch", EPatchType.Prefix)
     {
     }
 

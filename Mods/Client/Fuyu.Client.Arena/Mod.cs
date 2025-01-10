@@ -1,22 +1,22 @@
 using System.Threading.Tasks;
+using Fuyu.Client.Arena.Patches;
+using Fuyu.Client.Arena.Utils;
 using Fuyu.Client.Common.Reflection;
-using Fuyu.Client.EFT.Patches;
-using Fuyu.Client.EFT.Utils;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 
-namespace Fuyu.Client.EFT;
+namespace Fuyu.Client.Arena;
 
-public class EFTMod : AbstractMod
+public class ArenaMod : AbstractMod
 {
     private readonly AbstractPatch[] _patches;
 
-    public override string Id { get; } = "com.Fuyu.Client.eft";
+    public override string Id { get; } = "Fuyu.Client.Arena";
 
-    public override string Name { get; } = "Fuyu.Client.EFT";
+    public override string Name { get; } = "Fuyu.Client.Arena";
 
-    public EFTMod()
+    public ArenaMod()
     {
         _patches = new AbstractPatch[]
         {

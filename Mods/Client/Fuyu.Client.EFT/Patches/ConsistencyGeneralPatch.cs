@@ -9,7 +9,7 @@ namespace Fuyu.Client.EFT.Patches;
 
 public class ConsistencyGeneralPatch : AbstractPatch
 {
-    public ConsistencyGeneralPatch() : base("com.Fuyu.Client.eft.consistencygeneral", EPatchType.Prefix)
+    public ConsistencyGeneralPatch() : base("Fuyu.Client.EFT.ConsistencyGeneralPatch", EPatchType.Prefix)
     {
     }
 

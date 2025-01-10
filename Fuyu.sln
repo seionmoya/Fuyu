@@ -19,13 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Common", "Fuyu.Common\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Launcher", "Fuyu.Launcher\Fuyu.Launcher.csproj", "{7C62D77E-1C6E-4EF0-8436-49FD1603A1D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Launcher.Core", "Fuyu.Launcher.Core\Fuyu.Launcher.Core.csproj", "{C06DFF4F-3F61-4178-9221-A7580ED03305}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Launcher.Core", "Mods\Launcher\Fuyu.Launcher.Core\Fuyu.Launcher.Core.csproj", "{C06DFF4F-3F61-4178-9221-A7580ED03305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Client.Arena", "Fuyu.Client.Arena\Fuyu.Client.Arena.csproj", "{1346446F-1914-4008-BF39-C115303A0B0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Client.Arena", "Mods\Client\Fuyu.Client.Arena\Fuyu.Client.Arena.csproj", "{1346446F-1914-4008-BF39-C115303A0B0A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Client.Common", "Fuyu.Client.Common\Fuyu.Client.Common.csproj", "{C9544557-EF73-485C-9578-410F373DFCF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Client.Common", "Mods\Client\Fuyu.Client.Common\Fuyu.Client.Common.csproj", "{C9544557-EF73-485C-9578-410F373DFCF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Client.EFT", "Fuyu.Client.EFT\Fuyu.Client.EFT.csproj", "{6C285025-50E9-4970-AFBF-4D216BCD4D7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Client.EFT", "Mods\Client\Fuyu.Client.EFT\Fuyu.Client.EFT.csproj", "{6C285025-50E9-4970-AFBF-4D216BCD4D7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Tests.Backend.Arena", "Tests\Fuyu.Tests.Backend.Arena\Fuyu.Tests.Backend.Arena.csproj", "{57699BC1-D80E-4CB2-BDEE-DF0136AF2526}"
 EndProject

@@ -22,7 +22,7 @@ public class BattlEyePatch : AbstractPatch
         _mi = type.GetMethod(name);
     }
 
-    public BattlEyePatch() : base("com.Fuyu.Client.eft.battleye", EPatchType.Prefix)
+    public BattlEyePatch() : base("Fuyu.Client.EFT.BattlEyePatch", EPatchType.Prefix)
     {
     }
 

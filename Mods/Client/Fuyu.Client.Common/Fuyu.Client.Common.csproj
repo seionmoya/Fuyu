@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Fuyu.Modding/Fuyu.Modding.csproj" />
+    <ProjectReference Include="../../../Fuyu.Modding/Fuyu.Modding.csproj" />
   </ItemGroup>
 
 </Project>
