@@ -18,7 +18,7 @@ public class AchievementListController : AbstractEftHttpController
         // --seionmoya, 2024-11-18
         var response = _eftOrm.GetAchievements();
         var text = response.ToString();
-        
+
         return context.SendJsonAsync(text, true, true);
     }
 }
