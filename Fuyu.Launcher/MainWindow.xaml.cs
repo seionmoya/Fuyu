@@ -1,31 +1,49 @@
 ﻿using System.Windows;
-using Dark.Net;
-using Fluxor;
-using Microsoft.Extensions.DependencyInjection;
-using MudBlazor;
-using MudBlazor.Services;
+using Microsoft.Web.WebView2.Core;
+using Fuyu.Common.IO;
+using Fuyu.DependencyInjection;
+using Fuyu.Launcher.Common.Services;
+using Fuyu.Modding;
 
-namespace Fuyu.Launcher;
-
-public partial class MainWindow : Window
+namespace Fuyu.Launcher
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
+        private DependencyContainer _container;
+        private CoreWebView2 _webview;
 
-        DarkNet.Instance.SetWindowThemeWpf(this, Theme.Dark);
-
-        var services = new ServiceCollection();
-        services.AddWpfBlazorWebView();
-        services.AddMudServices(config =>
+        public MainWindow()
         {
-            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
-        });
+            // initialize variables
+            _container = new DependencyContainer();
+            _webview = null;
 
-        var currentAssembly = typeof(MainWindow).Assembly;
-        services.AddFluxor(options => options.ScanAssemblies(currentAssembly));
+            // initialize page
+            InitializeComponent();
+            InitializeAsync();
+        }
 
-        services.AddBlazorWebViewDeveloperTools();
-        Resources.Add("services", services.BuildServiceProvider());
+        // lazy initialize _webview
+        async void InitializeAsync()
+        {
+            // initialize webview
+            await browser.EnsureCoreWebView2Async(null);
+            _webview = browser.CoreWebView2;
+
+            // initialize services
+            WebViewService.Initialize(_webview);
+            NavigationService.Initialize(_webview);
+            MessageService.Initialize(_webview);
+
+            // load mods
+            Terminal.WriteLine("Loading mods...");
+            ModManager.Instance.AddMods("./Fuyu/Mods/Launcher");
+            await ModManager.Instance.Load(_container);
+            Terminal.WriteLine("Finished loading mods");
+
+            // load initial page
+            var url = NavigationService.GetInternalUrl("index.html");
+            NavigationService.Navigate(url);
+        }
     }
 }

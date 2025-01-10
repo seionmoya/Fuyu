@@ -1,0 +1,60 @@
+<head>
+    <title>Fuyu.Launcher</title>
+    <link rel="stylesheet" href="http://launcher.fuyu.api/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://launcher.fuyu.api/assets/css/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="http://launcher.fuyu.api/index.html">Home</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="http://launcher.fuyu.api/msg.html">Message</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <main role="main">
+        <div class="container">
+
+            <hr />
+
+            <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="launchEft()">Start game</button>
+
+        </div>
+    </main>
+
+    <script>
+        function sendMessage(text) {
+            // let's send a message to the launcher's backend!
+            window.chrome.webview.postMessage(text);
+        }
+
+        function onMessage(event) {
+            // we receive a message here from the launcher's backend!
+            const text = event.data;
+
+            // show what we received
+            alert(text);
+            
+            if (text === "Don't think so!")
+            {
+                sendMessage("NAVIGATE_HOME");
+            }
+        }
+
+        // allow us to listen to messages from the launcher's backend
+        window.chrome.webview.addEventListener("message", onMessage);
+
+        function launchEft() {
+            sendMessage("START_EFT");
+        }
+    </script>
+</body>

@@ -2,51 +2,42 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <SelfContained>false</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
     <RootNamespace>Fuyu.Launcher</RootNamespace>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DarkNet" Version="2.3.0" />
-    <PackageReference Include="Fluxor.Blazor.Web" Version="6.1.0" />
-    <PackageReference Include="Fluxor.Persist" Version="2.5.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.100" />
-    <PackageReference Include="MudBlazor" Version="7.15.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../Fuyu.Common/Fuyu.Common.csproj" />
-    <ProjectReference Include="../Fuyu.Launcher.Core/Fuyu.Launcher.Core.csproj" />
+    <ProjectReference Include="../Fuyu.DependencyInjection/Fuyu.DependencyInjection.csproj" />
+    <ProjectReference Include="../Fuyu.Modding/Fuyu.Modding.csproj" />
+    <ProjectReference Include="../Fuyu.Launcher.Common/Fuyu.Launcher.Common.csproj" />
   </ItemGroup>
 
+  <!-- add compiled resources -->
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\**">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
+  <!-- handle compiled resources -->
   <ItemGroup>
     <Compile Update="Resources\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="Resources\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
