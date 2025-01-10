@@ -6,7 +6,7 @@ using Fuyu.Modding;
 
 namespace Fuyu.Launcher.Core
 {
-    public class ModEntry : Mod
+    public class Mod : AbstractMod
     {
         public override string Id { get; } = "Fuyu.Launcher.Core";
         public override string Name { get; } = "Fuyu.Launcher.Core";

@@ -18,9 +18,9 @@ public static class VFS
         _writeLock = new ConcurrentDictionary<string, Lock>();
     }
 
-    public static string GetWorkingDirectory()
+    public static string GetFileExtension(string filepath)
     {
-        return Environment.CurrentDirectory;
+        return Path.GetExtension(filepath);
     }
 
     public static bool DirectoryExists(string filepath)
