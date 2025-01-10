@@ -9,7 +9,6 @@ using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Backend.Core.Servers;
 using Fuyu.Backend.EFTMain;
-using Fuyu.Backend.EFTMain.Servers;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
 using Fuyu.Tests.Backend.EFT.Networking;
