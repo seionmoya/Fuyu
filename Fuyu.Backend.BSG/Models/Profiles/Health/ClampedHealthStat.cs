@@ -46,5 +46,5 @@ public class ClampedHealthStat<T> where T : INumber<T>
     [DataMember]
     public T EnvironmentDamageMultiplier { get; set; }
 
-    
+
 }
