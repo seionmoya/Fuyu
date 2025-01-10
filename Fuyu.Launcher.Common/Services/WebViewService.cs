@@ -31,6 +31,7 @@ public class WebViewService
         Terminal.WriteLine($"Navigating to: {args.Uri}");
         #endif
 
+        NavigationService.PreviousPage = NavigationService.CurrentPage;
         NavigationService.CurrentPage = args.Uri;
     }
 

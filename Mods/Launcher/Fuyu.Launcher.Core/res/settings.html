@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assets/css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-md bg-body-tertiary">
+        <div class="container-fluid">
+            <form class="d-flex" role="search">
+                <button class="btn btn-outline" type="button" onclick="navigateBack()">Back</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- content -->
+    <main>
+        <div class="container-fluid">
+            <!-- code here-->
+        </div>
+    </main>
+
+    <!-- load javascript -->
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function sendMessage(obj) {
+            window.chrome.webview.postMessage(obj.toString());
+        }
+
+        function navigateBack() {
+            sendMessage("NAVIGATE_BACK");
+        };
+    </script>
+</body>

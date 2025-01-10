@@ -8,11 +8,13 @@ public class NavigationService
 {
     public const string INTERNAL_DOMAIN = "http://launcher.fuyu.api";
     public static string CurrentPage;
+    public static string PreviousPage;
     private static CoreWebView2 _webview;
 
     static NavigationService()
     {
         CurrentPage = string.Empty;
+        PreviousPage = string.Empty;
         _webview = null;
     }
 
@@ -63,5 +65,10 @@ public class NavigationService
         #endif
 
         _webview.Navigate(url);
+    }
+
+    public static void NavigatePrevious()
+    {
+        Navigate(PreviousPage);
     }
 }
