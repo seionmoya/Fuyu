@@ -1,23 +1,15 @@
 ﻿using System.Windows;
-using Microsoft.Web.WebView2.Core;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
-using Fuyu.Launcher.Common.Services;
 using Fuyu.Modding;
+using Fuyu.Launcher.Common.Services;
 
 namespace Fuyu.Launcher;
 
 public partial class MainWindow : Window
 {
-    private readonly DependencyContainer _container;
-    private CoreWebView2 _webview;
-
     public MainWindow()
     {
-        // initialize variables
-        _container = new DependencyContainer();
-        _webview = null;
-
         // initialize page
         InitializeComponent();
         InitializeAsync();
@@ -26,19 +18,29 @@ public partial class MainWindow : Window
     // lazy initialize _webview
     async void InitializeAsync()
     {
+        var container = new DependencyContainer();
+
         // initialize webview
         await browser.EnsureCoreWebView2Async(null);
-        _webview = browser.CoreWebView2;
+        var webview = browser.CoreWebView2;
 
         // initialize services
-        WebViewService.Initialize(_webview);
-        NavigationService.Initialize(_webview);
-        MessageService.Initialize(_webview);
-
+        WebViewService.Initialize(webview);
+        NavigationService.Initialize(webview);
+        MessageService.Initialize(webview);
+    
         // load mods
         Terminal.WriteLine("Loading mods...");
-        ModManager.Instance.AddMods("./Fuyu/Mods/Launcher");
-        await ModManager.Instance.Load(_container);
+
+#if DEBUG
+        // NOTE: assumes running inside VSCode or VS2022+
+        var modPath = "../../../../Mods/Launcher";
+#else
+        var modPath = "./Fuyu/Mods/Launcher";
+#endif
+
+        ModManager.Instance.AddMods(modPath);
+        await ModManager.Instance.Load(container);
 
         // load initial page
         var url = NavigationService.GetInternalUrl("index.html");
