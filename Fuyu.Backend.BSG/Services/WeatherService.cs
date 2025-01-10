@@ -1,4 +1,5 @@
 ﻿using System;
+using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Weather;
 
 namespace Fuyu.Backend.BSG.Services;
@@ -29,7 +30,7 @@ public class WeatherService
         };
     }
 
-    public Weather CreateDefault()
+    public WeatherInfo CreateDefault()
     {
         return new()
         {
@@ -47,14 +48,19 @@ public class WeatherService
     }
 
     // TODO: Make sure we generate default one then return edited values.
-    public Weather CreateWeatherType(EWeatherType weatherType)
+    public WeatherInfo CreateWeatherType(EWeatherType weatherType)
     {
         return CreateDefault();
     }
 
-    public LocalWeather CreateLocalWeather()
+    public WeatherInfo CreateMainMenuWeather()
     {
-        var localWeather = new LocalWeather()
+        return CreateDefault();
+    }
+
+    public LocalGameWeatherResponse CreateLocalWeather()
+    {
+        var localWeather = new LocalGameWeatherResponse()
         {
             Season = (byte)Random.Shared.Next(0, 5),
             Weathers = []
@@ -62,8 +68,8 @@ public class WeatherService
 
         for (int i = 0; i < (int)EWeatherType.None; i++)
         {
-            var weather_for_type_i = CreateWeatherType((EWeatherType)i);
-            localWeather.Weathers.Add(weather_for_type_i);
+            var weather = CreateWeatherType((EWeatherType)i);
+            localWeather.Weathers.Add(weather);
         }
 
         return localWeather;

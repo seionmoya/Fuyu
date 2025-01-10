@@ -3,7 +3,7 @@
 namespace Fuyu.Backend.BSG.Models.Weather;
 
 [DataContract]
-public class Weather
+public class WeatherInfo
 {
     [DataMember]
     public string time { get; set; }

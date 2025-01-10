@@ -11,10 +11,12 @@ namespace Fuyu.Backend.EFT.Controllers.Http;
 public class GameProfileNicknameChangeController : AbstractEftHttpController<GameProfileNicknameChangeRequest>
 {
     private readonly ProfileService _profileService;
+    private readonly EftOrm _eftOrm;
 
     public GameProfileNicknameChangeController() : base("/client/game/profile/nickname/change")
     {
         _profileService = ProfileService.Instance;
+        _eftOrm = EftOrm.Instance;
     }
 
     public override Task RunAsync(EftHttpContext context, GameProfileNicknameChangeRequest request)
@@ -41,6 +43,8 @@ public class GameProfileNicknameChangeController : AbstractEftHttpController<Gam
         if (result == ENicknameChangeResult.Ok)
         {
             //TODO: Save profile
+            var profile = _eftOrm.GetProfile(context.SessionId);
+            profile.Pmc.Info.Nickname = request.Nickname;
         }
 
         var response = new ResponseBody<GameProfileNicknameChangeResponse>()
