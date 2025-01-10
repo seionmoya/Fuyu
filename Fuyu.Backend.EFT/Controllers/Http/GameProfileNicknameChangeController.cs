@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Profiles;
 using Fuyu.Backend.BSG.Models.Requests;
@@ -42,15 +43,20 @@ public class GameProfileNicknameChangeController : AbstractEftHttpController<Gam
 
         if (result == ENicknameChangeResult.Ok)
         {
-            //TODO: Save profile
-            var profile = _eftOrm.GetProfile(context.SessionId);
+            //TODO: Save profile properly, currently doesn't persist?
+            var profile = _eftOrm.GetActiveProfile(context.SessionId);
+
             profile.Pmc.Info.Nickname = request.Nickname;
+            profile.Pmc.Info.LowerNickname = request.Nickname.ToLower();
+            //profile.Pmc.Info.NicknameChangeDate = ???
+
+            _profileService.WriteToDisk(profile);
         }
 
         var response = new ResponseBody<GameProfileNicknameChangeResponse>()
         {
             err = (int)errorMessage,
-            errmsg = errorMessage.ToString(),
+            errmsg = errorMessage != EBackendErrorCode.None ? errorMessage.ToString() : null,
             data = new GameProfileNicknameChangeResponse()
             {
                 Status = result
