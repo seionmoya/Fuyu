@@ -24,7 +24,7 @@ public class LocationsController : AbstractEftHttpController
         {
             data = worldmap
         };
-        var text = Json.Stringify(response);
+        
         */
 
         var response = _eftOrm.GetWorldMap();

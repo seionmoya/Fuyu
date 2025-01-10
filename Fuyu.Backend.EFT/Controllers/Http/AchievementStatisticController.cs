@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFT.Networking;
 using Fuyu.Backend.EFT.Services;
-using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFT.Controllers.Http;
 
@@ -23,7 +22,6 @@ public class AchievementStatisticController : AbstractEftHttpController
             data = statistics
         };
 
-        var text = Json.Stringify(response);
-        return context.SendJsonAsync(text, true, true);
+        return context.SendResponseAsync(response, true, true);
     }
 }

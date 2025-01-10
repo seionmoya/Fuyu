@@ -35,7 +35,6 @@ public class GameProfileCreateController : AbstractEftHttpController<GameProfile
             }
         };
 
-        var text = Json.Stringify(response);
-        return context.SendJsonAsync(text, true, true);
+        return context.SendResponseAsync(response, true, true);
     }
 }

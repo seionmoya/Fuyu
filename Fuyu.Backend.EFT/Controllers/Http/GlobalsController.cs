@@ -18,6 +18,7 @@ public class GlobalsController : AbstractEftHttpController
         // --seionmoya, 2024-11-18
         var response = _eftOrm.GetGlobals();
         var text = response.ToString();
+        
         return context.SendJsonAsync(text, true, true);
     }
 }
