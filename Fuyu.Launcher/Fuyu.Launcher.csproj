@@ -30,6 +30,7 @@
   <!-- add compiled resources -->
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
+    <EmbeddedResource Include="Resources\index.html" />
   </ItemGroup>
 
   <!-- handle compiled resources -->

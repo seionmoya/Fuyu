@@ -28,7 +28,13 @@ public partial class MainWindow : Window
         WebViewService.Initialize(webview);
         NavigationService.Initialize(webview);
         MessageService.Initialize(webview);
-    
+
+        // set content
+        var id = "Fuyu.Launcher";
+        Resx.SetSource(id, this.GetType().Assembly);
+        ContentService.Add(id, "favicon.ico", "icon.ico");
+        ContentService.Add(id, "index.html",  "index.html");
+
         // load mods
         Terminal.WriteLine("Loading mods...");
 
