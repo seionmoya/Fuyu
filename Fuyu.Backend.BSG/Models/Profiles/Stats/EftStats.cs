@@ -1,4 +1,5 @@
 using System.Runtime.Serialization;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Stats;
 
@@ -12,16 +13,16 @@ public class EftStats
     public Counter OverallCounters { get; set; }
 
     [DataMember]
-    public int SessionExperienceMult { get; set; }
+    public float SessionExperienceMult { get; set; }
 
     [DataMember]
-    public int ExperienceBonusMult { get; set; }
+    public float ExperienceBonusMult { get; set; }
 
     [DataMember]
     public int TotalSessionExperience { get; set; }
 
     [DataMember]
-    public long LastSessionDate { get; set; }
+    public int LastSessionDate { get; set; }
 
     // TODO: proper type
     [DataMember]
@@ -39,9 +40,8 @@ public class EftStats
     [DataMember]
     public object[] Victims { get; set; }
 
-    // TODO: proper type
     [DataMember]
-    public object[] CarriedQuestItems { get; set; }
+    public MongoId[] CarriedQuestItems { get; set; }
 
     [DataMember]
     public DamageHistory DamageHistory { get; set; }
@@ -51,7 +51,7 @@ public class EftStats
     public object LastPlayerState { get; set; }
 
     [DataMember]
-    public int TotalInGameTime { get; set; }
+    public long TotalInGameTime { get; set; }
 
     [DataMember]
     public string SurvivorClass { get; set; }

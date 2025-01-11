@@ -48,7 +48,6 @@ public class ClientInsuranceItemsListCostController : AbstractEftHttpController<
             response.errmsg = "One or more items could not be found on the backend";
         }
 
-        var text = Json.Stringify(response);
-        return context.SendJsonAsync(text, true, true);
+        return context.SendResponseAsync(response, true, true);
     }
 }

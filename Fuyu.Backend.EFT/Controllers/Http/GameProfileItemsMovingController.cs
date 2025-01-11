@@ -86,7 +86,6 @@ public class GameProfileItemsMovingController : AbstractEftHttpController<JObjec
             data = itemEventResponse
         };
 
-        var text = Json.Stringify(response);
-        await context.SendJsonAsync(text, true, true);
+        await context.SendResponseAsync(response, true, true);
     }
 }

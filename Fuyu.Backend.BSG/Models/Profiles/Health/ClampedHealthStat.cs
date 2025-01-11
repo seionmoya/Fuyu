@@ -10,6 +10,15 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Health;
 [DataContract]
 public class ClampedHealthStat<T> where T : INumber<T>
 {
+    public ClampedHealthStat(T minimum, T maximum, T current, T overDamageReceivedMultiplier, T environmentDamageMultiplier)
+    {
+        Minimum = minimum;
+        Maximum = maximum;
+        Current = current;
+        OverDamageReceivedMultiplier = overDamageReceivedMultiplier;
+        EnvironmentDamageMultiplier = environmentDamageMultiplier;
+    }
+
     [DataMember]
     public T Current
     {
@@ -36,4 +45,6 @@ public class ClampedHealthStat<T> where T : INumber<T>
 
     [DataMember]
     public T EnvironmentDamageMultiplier { get; set; }
+
+
 }

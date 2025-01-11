@@ -28,7 +28,6 @@ public class GameProfileVoiceChangeController : AbstractEftHttpController<GamePr
             data = null
         };
 
-        var text = Json.Stringify(response);
-        return context.SendJsonAsync(text, true, true);
+        return context.SendResponseAsync(response, true, true);
     }
 }
