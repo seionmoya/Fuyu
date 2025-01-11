@@ -268,7 +268,7 @@ public class Mod : AbstractMod
 
     void HandleSettingsMessage(string message)
     {
-        var data = Json.Parse<SaveSettingseMessage>(message);
+        var data = Json.Parse<SaveSettingsMessage>(message);
 
         if (data.Type == "SAVE_SETTINGS")
         {
