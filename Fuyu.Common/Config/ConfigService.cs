@@ -108,6 +108,39 @@ public class ConfigService
         lazyConfigs.Value[configName] = value;
     }
 
+    public T GetConfigLazy<T>(string configName, bool reload = false)
+    where T : AbstractConfig, new()
+    {
+        T value = new();
+        if (lazyConfigs.Value.ContainsKey(configName))
+        {
+            // Check if can parse to that type.
+            var x = lazyConfigs.Value[configName];
+            if (typeof(T).IsAssignableFrom(x.GetType()))
+            {
+                value = (T)lazyConfigs.Value[configName];
+                // if we dont want to reload from the file, we just return
+                if (!reload)
+                {
+                    return value;
+                }
+            }
+        }
+        // we loading here if we dont already have it.
+        var file = GetConfigPath(configName);
+        if (VFS.Exists(file))
+        {
+            value = Json.Parse<T>(VFS.ReadTextFile(file));
+        }
+        // storing the config name and the value.
+        if (!lazyConfigs.Value.ContainsKey(configName))
+        {
+            lazyConfigs.Value.Add(configName, value);
+        }
+        lazyConfigs.Value[configName] = value;
+        return value;
+    }
+
     public bool IsConfigExistsLazy(string configName)
     {
         return lazyConfigs.Value.ContainsKey(configName);
