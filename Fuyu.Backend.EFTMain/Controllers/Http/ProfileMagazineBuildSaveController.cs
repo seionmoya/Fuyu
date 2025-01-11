@@ -42,7 +42,7 @@ public class ProfileMagazineBuildSaveController : AbstractEftHttpController<Maga
                 BottomCount = request.BottomCount,
                 Caliber = request.Caliber,
                 Items = request.Items,
-            }; 
+            };
         }
 
         profile.Builds.MagazineBuilds.Add(magazineBuild);
