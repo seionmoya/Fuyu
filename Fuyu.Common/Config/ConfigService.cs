@@ -108,8 +108,8 @@ public class ConfigService
         lazyConfigs.Value[configName] = value;
     }
 
-    public T GetConfigLazy<T>(string configName, bool reload = false)
-    where T : AbstractConfig, new()
+    public T GetOrCreate<T>(string configName, bool reload = false)
+        where T : AbstractConfig, new()
     {
         T value = new();
         if (lazyConfigs.Value.ContainsKey(configName))
