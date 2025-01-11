@@ -29,13 +29,13 @@
                  <!-- username -->
                 <div class="mb-3">
                     <label for="field_username" class="form-label">Username</label>
-                    <input type="field_username" class="form-control" id="username" placeholder="User">
+                    <input type="text" class="form-control" id="field_username" placeholder="User">
                 </div>
 
                 <!-- password -->
                 <div class="mb-3">
                     <label for="field_password" class="form-label">Password</label>
-                    <input type="field_password" class="form-control" id="password" placeholder="********">
+                    <input type="password" class="form-control" id="field_password" placeholder="********">
                 </div>
 
                 <!-- submit -->
@@ -49,16 +49,32 @@
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
     <script>
         function sendMessage(obj) {
-            window.chrome.webview.postMessage(obj.toString());
+            const json = JSON.stringify(obj);
+            window.chrome.webview.postMessage(json);
         }
 
         function login() {
+            const username = document.getElementById("field_username").value;
+            const password = document.getElementById("field_password").value;
+
             const data = {
-                username: "Senko-san",
-                password: "Test123!"
-            }
+                type: "LOGIN_CORE",
+                username: username,
+                password: password
+            };
 
             sendMessage(data);
         };
+
+        function onMessage(event) {
+            const data = JSON.parse(event.data);
+
+            if (data.type == "LOGIN_ERROR")
+            {
+                alert(data.error);
+            }
+        }
+
+        window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

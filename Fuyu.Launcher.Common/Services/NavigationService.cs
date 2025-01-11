@@ -6,24 +6,30 @@ namespace Fuyu.Launcher.Common.Services;
 
 public class NavigationService
 {
-    public const string INTERNAL_DOMAIN = "http://launcher.fuyu.api";
-    public static string CurrentPage;
-    public static string PreviousPage;
-    private static CoreWebView2 _webview;
+    public static NavigationService Instance => instance.Value;
+    private static readonly Lazy<NavigationService> instance = new(() => new NavigationService());
 
-    static NavigationService()
+    public const string INTERNAL_DOMAIN = "http://launcher.fuyu.api";
+    public string CurrentPage;
+    public string PreviousPage;
+    private CoreWebView2 _webview;
+
+    /// <summary>
+    /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+    /// </summary>
+    private NavigationService()
     {
         CurrentPage = string.Empty;
         PreviousPage = string.Empty;
         _webview = null;
     }
 
-    public static void Initialize(CoreWebView2 webview)
+    public void Initialize(CoreWebView2 webview)
     {
         _webview = webview;
     }
 
-    public static string GetHeaders(string path)
+    public string GetHeaders(string path)
     {
         // get file extension from Uri
         var ext = VFS.GetFileExtension(path);
@@ -42,22 +48,22 @@ public class NavigationService
         return headers;
     }
 
-    public static bool IsInternalRequest(string url)
+    public bool IsInternalRequest(string url)
     {
         return url.StartsWith(INTERNAL_DOMAIN) || url.StartsWith("./");
     }
 
-    public static string GetInternalPath(string url)
+    public string GetInternalPath(string url)
     {
         return url.Replace(INTERNAL_DOMAIN + "/", string.Empty);
     }
 
-    public static string GetInternalUrl(string path)
+    public string GetInternalUrl(string path)
     {            
         return $"{INTERNAL_DOMAIN}/{path}";
     }
 
-    public static void Navigate(string url)
+    void Navigate(string url)
     {
         #if DEBUG
         // show received message
@@ -67,8 +73,14 @@ public class NavigationService
         _webview.Navigate(url);
     }
 
-    public static void NavigatePrevious()
+    public void NavigatePrevious()
     {
         Navigate(PreviousPage);
+    }
+
+    public void NavigateInternal(string page)
+    {
+        var url = GetInternalUrl(page);
+        Navigate(url);
     }
 }

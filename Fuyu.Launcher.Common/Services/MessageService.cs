@@ -7,27 +7,33 @@ namespace Fuyu.Launcher.Common.Services;
 
 public class MessageService
 {
-    //                                 path           msg
-    private static readonly Dictionary<string, Action<string>> _messageCallbacks;
-    private static CoreWebView2 _webview;
+    public static MessageService Instance => instance.Value;
+    private static readonly Lazy<MessageService> instance = new(() => new MessageService());
 
-    static MessageService()
+    //                                 path           msg
+    private readonly Dictionary<string, Action<string>> _messageCallbacks;
+    private CoreWebView2 _webview;
+
+    /// <summary>
+    /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+    /// </summary>
+    private MessageService()
     {
         _messageCallbacks = [];
         _webview = null;
     }
 
-    public static void Initialize(CoreWebView2 webview)
+    public void Initialize(CoreWebView2 webview)
     {
         _webview = webview;
     }
 
-    public static void Add(string path, Action<string> callback)
+    public void Add(string path, Action<string> callback)
     {
         _messageCallbacks.Add(path, callback);
     }
 
-    public static void HandleMessage(string path, string message)
+    public void HandleMessage(string path, string message)
     {
         #if DEBUG
         // show received message
@@ -44,7 +50,7 @@ public class MessageService
     }
 
     // can be intercepted in JS by window.chrome._webview.addEventListener('message', onMessage)
-    public static void SendMessage(string text)
+    public void SendMessage(string text)
     {
         #if DEBUG
         // show received message

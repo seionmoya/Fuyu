@@ -7,20 +7,26 @@ namespace Fuyu.Launcher.Common.Services;
 
 public class ContentService
 {
-    //                                path    ret
-    private static readonly List<Func<string, Stream>> _loadCallback;
+    public static ContentService Instance => instance.Value;
+    private static readonly Lazy<ContentService> instance = new(() => new ContentService());
 
-    static ContentService()
+    //                                path    ret
+    private readonly List<Func<string, Stream>> _loadCallback;
+
+    /// <summary>
+    /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
+    /// </summary>
+    private ContentService()
     {
         _loadCallback = [];
     }
 
-    public static void Add(Func<string, Stream> callback)
+    public void Add(Func<string, Stream> callback)
     {
         _loadCallback.Add(callback);
     }
 
-    public static void Add(string id, string filepath, string resxpath)
+    public void Add(string id, string filepath, string resxpath)
     {
         _loadCallback.Add((path) => {
             if (path == filepath)
@@ -33,7 +39,7 @@ public class ContentService
     }
 
     // return content as a Stream
-    public static Stream Load(string path)
+    public Stream Load(string path)
     {
         foreach (var callback in _loadCallback)
         {

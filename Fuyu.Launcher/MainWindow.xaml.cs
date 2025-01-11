@@ -18,22 +18,29 @@ public partial class MainWindow : Window
     // lazy initialize _webview
     async void InitializeAsync()
     {
+        // resolve dependencies
         var container = new DependencyContainer();
+
+        var contentService = ContentService.Instance;
+        var messageService = MessageService.Instance;
+        var modManager = ModManager.Instance;
+        var navigationService = NavigationService.Instance;
+        var webViewService = WebViewService.Instance;
 
         // initialize webview
         await browser.EnsureCoreWebView2Async(null);
         var webview = browser.CoreWebView2;
 
         // initialize services
-        WebViewService.Initialize(webview);
-        NavigationService.Initialize(webview);
-        MessageService.Initialize(webview);
+        webViewService.Initialize(webview);
+        navigationService.Initialize(webview);
+        messageService.Initialize(webview);
 
         // set content
         var id = "Fuyu.Launcher";
         Resx.SetSource(id, this.GetType().Assembly);
-        ContentService.Add(id, "favicon.ico", "icon.ico");
-        ContentService.Add(id, "index.html",  "index.html");
+        contentService.Add(id, "favicon.ico", "icon.ico");
+        contentService.Add(id, "index.html",  "index.html");
 
         // load mods
         Terminal.WriteLine("Loading mods...");
@@ -45,11 +52,11 @@ public partial class MainWindow : Window
         var modPath = "./Fuyu/Mods/Launcher";
 #endif
 
-        ModManager.Instance.AddMods(modPath);
-        await ModManager.Instance.Load(container);
+        modManager.AddMods(modPath);
+        await modManager.Load(container);
 
         // load initial page
-        var url = NavigationService.GetInternalUrl("index.html");
-        NavigationService.Navigate(url);
+        var url = navigationService.GetInternalUrl("index.html");
+        navigationService.NavigateInternal(url);
     }
 }

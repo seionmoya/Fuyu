@@ -66,11 +66,16 @@
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
     <script>
         function sendMessage(obj) {
-            window.chrome.webview.postMessage(obj.toString());
+            const json = JSON.stringify(obj);
+            window.chrome.webview.postMessage(json);
         }
 
         function navigateBack() {
-            sendMessage("NAVIGATE_BACK");
+            const data = {
+                message: "NAVIGATE_BACK"
+            }
+
+            sendMessage(data);
         };
     </script>
 </body>

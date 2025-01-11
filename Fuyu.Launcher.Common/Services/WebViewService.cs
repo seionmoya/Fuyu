@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Web.WebView2.Core;
 using Fuyu.Common.IO;
 
@@ -5,14 +6,17 @@ namespace Fuyu.Launcher.Common.Services;
 
 public class WebViewService
 {
-    private static CoreWebView2 _webview;
+    public static WebViewService Instance => instance.Value;
+    private static readonly Lazy<WebViewService> instance = new(() => new WebViewService());
 
-    static WebViewService()
+    private CoreWebView2 _webview;
+
+    private WebViewService()
     {
         _webview = null;
     }
 
-    public static void Initialize(CoreWebView2 webview)
+    public void Initialize(CoreWebView2 webview)
     {
         _webview = webview;
 
@@ -24,25 +28,32 @@ public class WebViewService
     }
 
     // handle all events registered on NavigationStarting
-    static void NavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs args)
+    void NavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs args)
     {
+        var url = args.Uri;
+
         #if DEBUG
-        // show requested resources
-        Terminal.WriteLine($"Navigating to: {args.Uri}");
+        Terminal.WriteLine($"Navigating to: {url}");
         #endif
 
+        if (!NavigationService.IsInternalRequest(url))
+        {
+            // block non-internal requests due to security concerns
+            throw new Exception($"Blocked request {url}");
+        }
+
+        // update navigation
         NavigationService.PreviousPage = NavigationService.CurrentPage;
-        NavigationService.CurrentPage = args.Uri;
+        NavigationService.CurrentPage = url;
     }
 
     // handle all events on registered AddWebResourceRequestedFilter
-    static void WebResourceRequested(object sender, CoreWebView2WebResourceRequestedEventArgs args)
+    void WebResourceRequested(object sender, CoreWebView2WebResourceRequestedEventArgs args)
     {
         var url = args.Request.Uri;
 
         #if DEBUG
-        // show requested resources
-        Terminal.WriteLine(url);
+        Terminal.WriteLine($"Requested resource: {url}");
         #endif
 
         if (NavigationService.IsInternalRequest(url))
@@ -56,12 +67,15 @@ public class WebViewService
             args.Response = _webview.Environment.CreateWebResourceResponse(content, 200, "OK", headers);
             return;
         }
-
-        // handle others here!
+        else
+        {
+            // block non-internal requests due to security concerns
+            throw new Exception($"Blocked request {url}");
+        }
     }
 
     // handle message received from JS window.chrome._webview.postMessage(text)
-    static void WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs args)
+    void WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs args)
     {
         var message = args.TryGetWebMessageAsString();
         var url = NavigationService.CurrentPage;
@@ -72,7 +86,10 @@ public class WebViewService
             MessageService.HandleMessage(path, message);
             return;
         }
-
-        // handle others here!
+        else
+        {
+            // block non-internal messages due to security concerns
+            throw new Exception($"Blocked message {url}");
+        }
     }
 }
