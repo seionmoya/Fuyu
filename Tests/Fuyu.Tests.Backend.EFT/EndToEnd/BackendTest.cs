@@ -77,7 +77,7 @@ public class BackendTest
         // register test account
         var coreSessionId = CreateFuyuAccount("TestUser1", "TestPass1!");
         var eftAccountId = CreateGameAccount(coreSessionId, "eft", "unheard");
-        _eftSessionId = Fuyu.Backend.EFTMain.Services.AccountService.Instance.LoginAccount(eftAccountId);        
+        _eftSessionId = Fuyu.Backend.EFTMain.Services.AccountService.Instance.LoginAccount(eftAccountId);
 
         // create request clients
         _eftMainClient = new EftHttpClient("http://localhost:8010", _eftSessionId, "0.16.0.2.34510");
