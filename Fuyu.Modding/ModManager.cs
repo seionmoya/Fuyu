@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
@@ -212,6 +213,8 @@ public class ModManager
                 AppDomain.CurrentDomain.GetAssemblies()
                     // Where it is a disk on file
                     .Where(a => !string.IsNullOrEmpty(a.Location))
+                    // Ensure DataContract is included
+                    .Append(typeof(DataContractAttribute).Assembly)
                     // Create a MetadataReference from it
                     .Select(a => MetadataReference.CreateFromFile(a.Location));
         }
