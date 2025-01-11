@@ -105,6 +105,28 @@ public class ProfileService
         return profile.Pmc._id;
     }
 
+    /// <summary>
+    /// Checks whether a nickname is valid for the client
+    /// </summary>
+    /// <param name="nickname">The new nickname</param>
+    /// <param name="status">The status returned to the client</param>
+    /// <returns>True if the nickname is valid</returns>
+    public ENicknameChangeResult IsValidNickname(string nickname)
+    {
+        //TODO: Handle all results
+        if (nickname.Length < 3)
+        {
+            return ENicknameChangeResult.TooShort;
+        }
+
+        if (nickname.Length > 15)
+        {
+            return ENicknameChangeResult.CharacterLimit;
+        }
+
+        return ENicknameChangeResult.Ok;
+    }
+
     public void WriteToDisk(EftProfile profile)
     {
         VFS.WriteTextFile(

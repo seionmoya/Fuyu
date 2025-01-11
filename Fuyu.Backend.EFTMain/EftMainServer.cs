@@ -1,3 +1,4 @@
+using Fuyu.Backend.EFT.Controllers.Http;
 using Fuyu.Backend.EFTMain.Controllers;
 using Fuyu.Backend.EFTMain.Controllers.Http;
 using Fuyu.Backend.EFTMain.Controllers.Websocket;
@@ -83,6 +84,7 @@ public class EftMainServer : HttpServer
         HttpRouter.AddController<ProfileBuildDeleteController>();
         HttpRouter.AddController<ProfileEquipmentBuildSaveController>();
         HttpRouter.AddController<ProfileWeaponBuildSaveController>();
+        HttpRouter.AddController<GameProfileNicknameChangeController>();
 
         // EFT-WS
         WsRouter.AddController<PushNotiferGetWebsocketController>();
