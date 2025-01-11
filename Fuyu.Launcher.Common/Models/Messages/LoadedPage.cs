@@ -3,6 +3,6 @@ using System.Runtime.Serialization;
 namespace Fuyu.Launcher.Common.Models.Messages;
 
 [DataContract]
-public class LoadedPageMessage : AbstractMessage
+public class LoadedPageMessage : Message
 {
 }

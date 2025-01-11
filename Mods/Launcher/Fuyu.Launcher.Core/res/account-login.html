@@ -85,7 +85,7 @@
             }
         }
 
-        window.chrome.webview.addEventListener("onload", onLoad);
+        window.onload = onLoad;
         window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

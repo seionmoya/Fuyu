@@ -3,6 +3,6 @@ using System.Runtime.Serialization;
 namespace Fuyu.Launcher.Common.Models.Messages;
 
 [DataContract]
-public class SaveSettingsMessage : AbstractMessage
+public class SaveSettingsMessage : Message
 {
 }

@@ -4,8 +4,8 @@ using Fuyu.Launcher.Common.Models.Replies;
 namespace Fuyu.Launcher.Core.Models.Replies;
 
 [DataContract]
-public class LoginAccountReply : Reply
+public class LaunchGameReply : Reply
 {
-    [DataMember(Name = "message")]
+    [DataMember(Name = "error")]
     public string Message { get; set; }
 }

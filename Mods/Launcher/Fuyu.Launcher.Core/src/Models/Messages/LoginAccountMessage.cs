@@ -4,7 +4,7 @@ using Fuyu.Launcher.Common.Models.Messages;
 namespace Fuyu.Launcher.Core.Models.Messages;
 
 [DataContract]
-public class LoginAccountMessage : AbstractMessage
+public class LoginAccountMessage : Message
 {
     [DataMember(Name = "username")]
     public string Username { get; set; }

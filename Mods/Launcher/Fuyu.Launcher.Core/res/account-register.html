@@ -67,10 +67,21 @@
         }
 
         function register() {
+            const username = document.getElementById("field_username").value;
+            const password = document.getElementById("field_password").value;
+
             const data = {
                 type: "REGISTER_CORE",
-                username: "Senko-san",
-                password: "Test123!"
+                username: username,
+                password: password
+            };
+
+            sendMessage(data);
+        };
+
+        function onLoad() {
+            const data = {
+                type: "LOADED_PAGE"
             };
 
             sendMessage(data);
@@ -91,6 +102,7 @@
             }
         }
 
+        window.onload = onLoad;
         window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>
