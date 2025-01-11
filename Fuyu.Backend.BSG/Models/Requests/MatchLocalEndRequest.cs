@@ -22,5 +22,5 @@ public class MatchLocalEndRequest
 
     // TODO: proper type
     [DataMember(Name = "locationTransit")]
-    public object LocationTransit { get; set; }
+    public TransitData LocationTransit { get; set; }
 }
