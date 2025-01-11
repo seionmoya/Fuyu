@@ -77,9 +77,9 @@ public class Mod : AbstractMod
 
     void HandleIndexMessage(string message)
     {
-        var data = Json.Parse<LoadingCompleteMessage>(message);
+        var data = Json.Parse<LoadedPageMessage>(message);
 
-        if (data.Type == "LOADED_INDEX")
+        if (data.Type == "LOADED_PAGE")
         {
             var page = "account-login.html";
             _navigationService.NavigateInternal(page);
@@ -145,7 +145,7 @@ public class Mod : AbstractMod
         var reply = new LoginAccountReply
         {
             Type = "LOGIN_ERROR",
-            Error = "Incorrect username or password."
+            Message = "Incorrect username or password."
         };
 
         var json = Json.Stringify(reply);
@@ -188,10 +188,10 @@ public class Mod : AbstractMod
 
     void ReplyRegisterError()
     {
-        var reply = new LoginAccountReply
+        var reply = new RegisterAccountReply
         {
             Type = "REGISTER_ERROR",
-            Error = "Incorrect username or password."
+            Message = "Incorrect username or password."
         };
 
         var json = Json.Stringify(reply);
@@ -200,10 +200,10 @@ public class Mod : AbstractMod
 
     void ReplyRegisterSuccess()
     {
-        var reply = new LoginAccountReply
+        var reply = new RegisterAccountReply
         {
             Type = "REGISTER_SUCCESS",
-            Error = "Success! You can now login."
+            Message = "Success! You can now login."
         };
 
         var json = Json.Stringify(reply);
@@ -212,22 +212,43 @@ public class Mod : AbstractMod
 
     void HandleGameEftMessage(string message)
     {
-        // TODO: Launch game callback
-        // -- seionmoya, 2025-01-11
-        var process = GetEftProcess(_eftPath, "http://localhost:8010/", _eftSessionId);
-        process.Start();
+        var data = Json.Parse<RegisterAccountMessage>(message);
 
-         // TODO: Keep track of game lifecycle
-        // -- seionmoya, 2025-01-11
+        if (data.Type == "LAUNCH_GAME")
+        {
+            // TODO: Keep track of game lifecycle
+            // -- seionmoya, 2025-01-11
+            var process = GetEftProcess(_eftPath, "http://localhost:8010/", _eftSessionId);
+            process.Start();
+
+            ReplyLaunchSuccess();
+        }
+    }
+
+    void ReplyLaunchSuccess()
+    {
+        var reply = new RegisterAccountReply
+        {
+            Type = "LAUNCH_SUCCESS",
+            Message = string.Empty
+        };
+
+        var json = Json.Stringify(reply);
+        _messageService.SendMessage(json);
     }
 
     void HandleStoreLibraryMessage(string message)
     {
-        if (!string.IsNullOrWhiteSpace(message))
+        var data = Json.Parse<NavigateGameMessage>(message);
+
+        if (data.Type == "NAVIGATE_GAME")
         {
-            // TODO: navigation system
-            // -- seionmoya, 2025-01-10
-            var page = "store-eft.html";
+            var page = data.Game switch
+            {
+                "eft" => "store-eft.html",
+                _ => string.Empty,
+            };
+
             _navigationService.NavigateInternal(page);
             return;
         }
@@ -235,7 +256,9 @@ public class Mod : AbstractMod
 
     void HandleStoreEftMessage(string message)
     {
-        if (!string.IsNullOrWhiteSpace(message))
+        var data = Json.Parse<NavigateGameMessage>(message);
+
+        if (data.Type == "ADD_GAME")
         {
             // TODO: add game
             // -- seionmoya, 2025-01-10

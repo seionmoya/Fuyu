@@ -72,10 +72,16 @@
 
         function navigateBack() {
             const data = {
-                message: "NAVIGATE_BACK"
+                message: "SAVE_SETTINGS"
             }
 
             sendMessage(data);
         };
+
+        function onMessage(event) {
+            // code here
+        }
+
+        window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

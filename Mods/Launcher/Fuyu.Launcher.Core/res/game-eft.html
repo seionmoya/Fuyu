@@ -38,10 +38,16 @@
 
         function launchGame() {
             const data = {
-                game: "Escape From Tarkov"
+                type: "LAUNCH_GAME"
             };
 
             sendMessage(data);
         };
+
+        function onMessage(event) {
+            // code here
+        }
+
+        window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

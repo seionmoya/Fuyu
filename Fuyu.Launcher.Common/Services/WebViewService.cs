@@ -9,10 +9,18 @@ public class WebViewService
     public static WebViewService Instance => instance.Value;
     private static readonly Lazy<WebViewService> instance = new(() => new WebViewService());
 
+    private readonly ContentService _contentService;
+    private readonly MessageService _messageService;
+    private readonly NavigationService _navigationService;
+
     private CoreWebView2 _webview;
 
     private WebViewService()
     {
+        _contentService = ContentService.Instance;
+        _messageService = MessageService.Instance;
+        _navigationService = NavigationService.Instance;
+
         _webview = null;
     }
 
@@ -36,15 +44,15 @@ public class WebViewService
         Terminal.WriteLine($"Navigating to: {url}");
         #endif
 
-        if (!NavigationService.IsInternalRequest(url))
+        if (!_navigationService.IsInternalRequest(url))
         {
             // block non-internal requests due to security concerns
             throw new Exception($"Blocked request {url}");
         }
 
         // update navigation
-        NavigationService.PreviousPage = NavigationService.CurrentPage;
-        NavigationService.CurrentPage = url;
+        _navigationService.PreviousPage = _navigationService.CurrentPage;
+        _navigationService.CurrentPage = url;
     }
 
     // handle all events on registered AddWebResourceRequestedFilter
@@ -56,12 +64,12 @@ public class WebViewService
         Terminal.WriteLine($"Requested resource: {url}");
         #endif
 
-        if (NavigationService.IsInternalRequest(url))
+        if (_navigationService.IsInternalRequest(url))
         {
             // grab the data
-            var path = NavigationService.GetInternalPath(url);
-            var headers = NavigationService.GetHeaders(path);
-            var content = ContentService.Load(path);
+            var path = _navigationService.GetInternalPath(url);
+            var headers = _navigationService.GetHeaders(path);
+            var content = _contentService.Load(path);
 
             // send response
             args.Response = _webview.Environment.CreateWebResourceResponse(content, 200, "OK", headers);
@@ -78,12 +86,12 @@ public class WebViewService
     void WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs args)
     {
         var message = args.TryGetWebMessageAsString();
-        var url = NavigationService.CurrentPage;
+        var url = _navigationService.CurrentPage;
 
-        if (NavigationService.IsInternalRequest(url))
+        if (_navigationService.IsInternalRequest(url))
         {
-            var path = NavigationService.GetInternalPath(url);
-            MessageService.HandleMessage(path, message);
+            var path = _navigationService.GetInternalPath(url);
+            _messageService.HandleMessage(path, message);
             return;
         }
         else

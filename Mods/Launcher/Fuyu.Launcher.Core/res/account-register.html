@@ -68,11 +68,29 @@
 
         function register() {
             const data = {
+                type: "REGISTER_CORE",
                 username: "Senko-san",
                 password: "Test123!"
             };
 
             sendMessage(data);
         };
+
+        function onMessage(event) {
+            const data = JSON.parse(event.data);
+
+            switch (data.type)
+            {
+                case "REGISTER_ERROR":
+                    alert(data.message);
+                    return;
+
+                case "REGISTER_SUCCESS":
+                    alert(data.message);
+                    return;
+            }
+        }
+
+        window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

@@ -66,15 +66,26 @@
             sendMessage(data);
         };
 
+        function onLoad() {
+            const data = {
+                type: "LOADED_PAGE"
+            };
+
+            sendMessage(data);
+        };
+
         function onMessage(event) {
             const data = JSON.parse(event.data);
 
-            if (data.type == "LOGIN_ERROR")
+            switch (data.type)
             {
-                alert(data.error);
+                case "LOGIN_ERROR":
+                    alert(data.message);
+                    return;
             }
         }
 
+        window.chrome.webview.addEventListener("onload", onLoad);
         window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

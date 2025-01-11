@@ -11,16 +11,14 @@
             window.chrome.webview.postMessage(json);
         }
 
-        function notifyLoadingComplete() {
+        function onLoad() {
             const data = {
-                type: "LOADED_INDEX"
+                type: "LOADED_PAGE"
             };
 
             sendMessage(data);
         };
 
-        window.onload = (event) => {
-            notifyLoadingComplete();
-        };
+        window.chrome.webview.addEventListener("onload", onLoad);
     </script>
 </body>

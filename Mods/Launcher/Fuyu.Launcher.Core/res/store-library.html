@@ -38,10 +38,17 @@
 
         function viewGame() {
             const data = {
-                game: "Escape From Tarkov"
+                type: "NAVIGATE_GAME",
+                game: "eft"
             };
 
             sendMessage(data);
         };
+
+        function onMessage(event) {
+            // code here
+        }
+
+        window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>
