@@ -1,7 +1,7 @@
 ﻿using System.Text;
+using Fuyu.Common.Compression;
 using Fuyu.Common.Hashing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Fuyu.Common.Compression;
 
 namespace Fuyu.Tests.Common.Units;
 
