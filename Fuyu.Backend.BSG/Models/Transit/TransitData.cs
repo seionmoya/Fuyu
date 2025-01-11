@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Raid;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Requests;
 
@@ -20,7 +21,7 @@ public class TransitData
     public string Location { get; set; }
 
     [DataMember(Name = "profiles")]
-    public Dictionary<string, ProfileKey> Profiles { get; set; }
+    public Dictionary<MongoId, ProfileKey> Profiles { get; set; }
 
     [DataMember(Name = "transitionRaidId")]
     public string TransitionRaidId { get; set; }

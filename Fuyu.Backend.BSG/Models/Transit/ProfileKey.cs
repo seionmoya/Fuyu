@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Requests;
 
@@ -7,10 +8,10 @@ namespace Fuyu.Backend.BSG.Models.Requests;
 public class ProfileKey
 {
     [DataMember(Name = "_id")]
-    public string Id { get; set; }
+    public MongoId Id { get; set; }
 
     [DataMember(Name = "keyId")]
-    public string KeyId { get; set; }
+    public MongoId KeyId { get; set; }
 
     [DataMember(Name = "isSold")]
     public bool IsSold { get; set; }
