@@ -20,14 +20,26 @@ public class ProfileWeaponBuildSaveController : AbstractEftHttpController<Weapon
     public override Task RunAsync(EftHttpContext context, WeaponBuildSaveRequest request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var weaponBuild = profile.Builds.WeaponBuilds.Find(x => x.Id == request.Id);
 
-        var weaponBuild = new WeaponBuild()
+        if (weaponBuild != null)
         {
-            Id = request.Id,
-            Name = request.Name,
-            Root = request.Root,
-            Items = request.Items
-        };
+            // Edit
+            weaponBuild.Name = request.Name;
+            weaponBuild.Items = request.Items;
+            weaponBuild.Root = request.Root;
+        }
+        else
+        {
+            // Create
+            weaponBuild = new WeaponBuild()
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Root = request.Root,
+                Items = request.Items
+            };
+        }
 
         profile.Builds.WeaponBuilds.Add(weaponBuild);
 

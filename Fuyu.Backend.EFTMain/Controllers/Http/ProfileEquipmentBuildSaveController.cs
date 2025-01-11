@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.BSG.Models.Templates;
 using Fuyu.Backend.BSG.Services;
@@ -20,15 +21,27 @@ public class ProfileEquipmentBuildSaveController : AbstractEftHttpController<Equ
     public override Task RunAsync(EftHttpContext context, EquipmentBuildSaveRequest request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var equipmentBuild = profile.Builds.EquipmentBuilds.Find(x => x.Id == request.Id);
 
-        var equipmentBuild = new EquipmentBuild()
+        if (equipmentBuild != null)
         {
-            Id = request.Id,
-            Name = request.Name,
-            Root = request.Root,
-            Items = request.Items,
-            BuildType = EEquipmentBuildType.Custom
-        };
+            // Edit
+            equipmentBuild.Name = request.Name;
+            equipmentBuild.Root = request.Root;
+            equipmentBuild.Items = request.Items;
+        }
+        else
+        {
+            // Create
+            equipmentBuild = new EquipmentBuild()
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Root = request.Root,
+                Items = request.Items,
+                BuildType = EEquipmentBuildType.Custom
+            };
+        }
 
         profile.Builds.EquipmentBuilds.Add(equipmentBuild);
 

@@ -20,16 +20,30 @@ public class ProfileMagazineBuildSaveController : AbstractEftHttpController<Maga
     public override Task RunAsync(EftHttpContext context, MagazineBuildSaveRequest request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
+        var magazineBuild = profile.Builds.MagazineBuilds.Find(x => x.Id == request.Id);
 
-        var magazineBuild = new MagazineBuild()
+        if (magazineBuild != null)
         {
-            Id = request.Id,
-            Name = request.Name,
-            TopCount = request.TopCount,
-            BottomCount = request.BottomCount,
-            Caliber = request.Caliber,
-            Items = request.Items,
-        };
+            // Edit
+            magazineBuild.Name = request.Name;
+            magazineBuild.TopCount = request.TopCount;
+            magazineBuild.BottomCount = request.BottomCount;
+            magazineBuild.Caliber = request.Caliber;
+            magazineBuild.Items = request.Items;
+        }
+        else
+        {
+            // Create
+            magazineBuild = new MagazineBuild()
+            {
+                Id = request.Id,
+                Name = request.Name,
+                TopCount = request.TopCount,
+                BottomCount = request.BottomCount,
+                Caliber = request.Caliber,
+                Items = request.Items,
+            }; 
+        }
 
         profile.Builds.MagazineBuilds.Add(magazineBuild);
 
