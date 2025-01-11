@@ -47,7 +47,6 @@ public class Mod : AbstractMod
         return Task.CompletedTask;
     }
 
-    #region index.html
     void HandleIndexMessage(string message)
     {
         var data = Json.Parse<Message>(message);
@@ -66,5 +65,4 @@ public class Mod : AbstractMod
         var page = "account-login.html";
         _navigationService.NavigateInternal(page);
     }
-    #endregion
 }
