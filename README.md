@@ -27,6 +27,11 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 EFT      | 0.16.0.34510
 Arena    | none (yet)
 
+## Contribute
+
+- For contributing guidelines, see `.github/CONTRIBUTING`
+- For documentation, see `Documentation/` and the in-line documentation in code
+
 ## License
 
 (C) seionmoya, all rights reserved.
