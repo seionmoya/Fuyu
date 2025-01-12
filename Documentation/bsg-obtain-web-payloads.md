@@ -96,3 +96,8 @@ This enables us to load the custom assembly with an invalid hash.
   - Arena: PvP match, visit shooting range
 - To get trader assortiments, you must visit each trader separately
 - To get trader suits, you must visit ragman's service tab
+
+## Finding AES encryption key
+
+It's located in the same class as `SendAndHandleRetries` method. It's a `byte[]`
+with a length of `24`.

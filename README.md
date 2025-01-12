@@ -2,14 +2,6 @@
 
 A BSG games backend written in C#.
 
-## Contribution
-
-The project is still in it's infancy and there still much work to be done.
-PRs are not accepted at this point in time unless discussed in advanced since
-the ground work is not there yet. Sorry for the inconvenience!
-
-See `Documentation/CONTRIBUTING.md` for more information on standards.
-
 ## Requirements
 
 - .NET 9.0 SDK
@@ -26,6 +18,11 @@ See `Documentation/CONTRIBUTING.md` for more information on standards.
 -------- | ------------
 EFT      | 0.16.0.34510
 Arena    | none (yet)
+
+## Contribute
+
+- For contributing guidelines, see `.github/CONTRIBUTING`
+- For documentation, see `Documentation/` and the in-line documentation in code
 
 ## License
 

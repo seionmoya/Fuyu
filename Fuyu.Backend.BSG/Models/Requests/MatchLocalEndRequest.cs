@@ -20,7 +20,6 @@ public class MatchLocalEndRequest
     [DataMember(Name = "transferItems")]
     public Dictionary<string, ItemInstance[]> TransferItems { get; set; }
 
-    // TODO: proper type
     [DataMember(Name = "locationTransit")]
-    public object LocationTransit { get; set; }
+    public TransitData LocationTransit { get; set; }
 }

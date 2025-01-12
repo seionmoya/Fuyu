@@ -15,13 +15,13 @@ Make sure in dnsy search that "Search in framework assemblies" is enabled.
 
 1. dnspy > file > open > `Assembly-CSharp.dll`
 2. dnspy > search > `CurrentDomain` > select `AppDomain.CurrentDomain { get; }`
-4. scroll up until you find:
+3. scroll up until you find:
 
 ```cs
 public extern object GetData(string name);
 ```
 
-5. right-click on `GetData` > `Analyze` > Used by > The second one with the unicode hash
+4. right-click on `GetData` > `Analyze` > Used by > The second one with the unicode hash
 
 You should now see this:
 

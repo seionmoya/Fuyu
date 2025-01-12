@@ -7,22 +7,22 @@ namespace Fuyu.Backend.BSG.Models.Locations;
 public class AdditionalHostilitySettings
 {
     [DataMember]
-    public EBotRole BotRole { get; set; }
+    public EWildSpawnType BotRole { get; set; }
 
     [DataMember]
-    public EBotRole[] AlwaysEnemies { get; set; }
+    public EWildSpawnType[] AlwaysEnemies { get; set; }
 
     [DataMember]
     public ChancedEnemy[] ChancedEnemies { get; set; }
 
     [DataMember]
-    public EBotRole[] Warn { get; set; }
+    public EWildSpawnType[] Warn { get; set; }
 
     [DataMember]
-    public EBotRole[] Neutral { get; set; }
+    public EWildSpawnType[] Neutral { get; set; }
 
     [DataMember]
-    public EBotRole[] AlwaysFriends { get; set; }
+    public EWildSpawnType[] AlwaysFriends { get; set; }
 
     [DataMember]
     public EWarnBehaviour SavagePlayerBehaviour { get; set; }

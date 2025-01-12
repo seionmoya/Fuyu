@@ -85,6 +85,8 @@ public class EftMainServer : HttpServer
         HttpRouter.AddController<ProfileEquipmentBuildSaveController>();
         HttpRouter.AddController<ProfileWeaponBuildSaveController>();
         HttpRouter.AddController<GameProfileNicknameChangeController>();
+        HttpRouter.AddController<GetOtherProfileController>();
+        HttpRouter.AddController<SearchOtherProfileController>();
 
         // EFT-WS
         WsRouter.AddController<PushNotiferGetWebsocketController>();
