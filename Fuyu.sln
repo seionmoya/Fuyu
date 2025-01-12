@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Common", "Fuyu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Core", "Fuyu.Backend.Core\Fuyu.Backend.Core.csproj", "{26EAF8DC-D482-409F-B2D5-FEB314413F61}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.EFT", "Fuyu.Backend.EFT\Fuyu.Backend.EFT.csproj", "{46A6EFAA-E466-4EF7-8012-83A070A5E005}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.EFTMain", "Fuyu.Backend.EFTMain\Fuyu.Backend.EFTMain.csproj", "{46A6EFAA-E466-4EF7-8012-83A070A5E005}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Common", "Fuyu.Common\Fuyu.Common.csproj", "{4396E84F-DCE9-4E5D-80AC-D8EC7C9A9D53}"
 EndProject

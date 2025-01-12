@@ -6,53 +6,51 @@ namespace Fuyu.Backend.BSG.Models.Profiles.Stats;
 [DataContract]
 public class EftStats
 {
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public Counter SessionCounters { get; set; }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public Counter OverallCounters { get; set; }
 
-    [DataMember]
-    public float SessionExperienceMult { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public float? SessionExperienceMult { get; set; }
 
-    [DataMember]
-    public float ExperienceBonusMult { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public float? ExperienceBonusMult { get; set; }
 
-    [DataMember]
-    public int TotalSessionExperience { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public int? TotalSessionExperience { get; set; }
 
-    [DataMember]
-    public int LastSessionDate { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public int? LastSessionDate { get; set; }
 
-    // TODO: proper type
-    [DataMember]
-    public object Aggressor { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public AggressorInfo Aggressor { get; set; }
 
-    // TODO: proper type
-    [DataMember]
-    public object[] DroppedItems { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public PlacedQuestItem[] DroppedItems { get; set; }
 
-    // TODO: proper type
-    [DataMember]
-    public object[] FoundInRaidItems { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public FoundQuestItem[] FoundInRaidItems { get; set; }
 
-    // TODO: proper type
-    [DataMember]
-    public object[] Victims { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public VictimInfo[] Victims { get; set; }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public MongoId[] CarriedQuestItems { get; set; }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public DamageHistory DamageHistory { get; set; }
 
-    // TODO: proper type
-    [DataMember]
-    public object LastPlayerState { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    public PlayerVisualRepresentation LastPlayerState { get; set; }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
+    public object DeathCause { get; set; }
+
+    [DataMember(EmitDefaultValue = false)]
     public long TotalInGameTime { get; set; }
 
     [DataMember]
-    public string SurvivorClass { get; set; }
+    public ESurvivorClass SurvivorClass { get; set; }
 }

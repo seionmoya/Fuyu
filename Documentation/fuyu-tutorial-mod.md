@@ -97,9 +97,6 @@ which will contain your mod's entry point.
 
 An entry point is the first code that will run when the mod gets loaded.
 
-A good convention for naming this file is `<ModName>Mod.cs`, for example
-`ReplaysMod.cs`.
-
 Open `Mod.cs` in `Visual Studio Code` and _WRITE_ (don't copy paste!)
 the following from below:
 
@@ -216,7 +213,7 @@ tools and helpers from `Fuyu` and other mods when we need to.
 
 ```cs
 {
-    // done loading the !
+    // done loading the mod!
     return Task.CompletedTask;
 }
 ```
@@ -233,6 +230,8 @@ Terminal.WriteLine("Hello, mod!");
 
 What this code does is show a bit of text in `Fuyu.Backend`'s window and in
 `./Fuyu/Logs/Fuyu.Log`.
+
+The final code looks like this:
 
 ```cs
 // -- required
@@ -259,8 +258,6 @@ public class Mod : AbstractMod
     }
 }
 ```
-
-The final result looks like this.
 
 ### Test the mod
 

@@ -26,8 +26,8 @@ public class HideoutAreaInfo
     public bool conclassing { get; set; }
 
     // TODO: proper type
-    [DataMember]
-    public object[] slots { get; set; }
+    [DataMember(Name = "slots")]
+    public HideoutSlot[] Slots { get; set; }
 
     [DataMember]
     public string lastRecipe { get; set; }

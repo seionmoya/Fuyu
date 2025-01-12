@@ -8,8 +8,8 @@ using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.Core;
 using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Backend.Core.Servers;
-using Fuyu.Backend.EFT;
-using Fuyu.Backend.EFT.Servers;
+using Fuyu.Backend.EFTMain;
+using Fuyu.Backend.EFTMain.Services;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
 using Fuyu.Tests.Backend.EFT.Networking;
@@ -77,10 +77,13 @@ public class BackendTest
         // register test account
         var coreSessionId = CreateFuyuAccount("TestUser1", "TestPass1!");
         var eftAccountId = CreateGameAccount(coreSessionId, "eft", "unheard");
-        _eftSessionId = Fuyu.Backend.EFT.Services.AccountService.Instance.LoginAccount(eftAccountId);
+        _eftSessionId = Fuyu.Backend.EFTMain.Services.AccountService.Instance.LoginAccount(eftAccountId);
 
         // create request clients
         _eftMainClient = new EftHttpClient("http://localhost:8010", _eftSessionId, "0.16.0.2.34510");
+
+        var account = EftOrm.Instance.GetAccount(eftAccountId);
+        ProfileService.Instance.WipeProfile(account, "Usec", "5cde96047d6c8b20b577f016", "6284d6ab8e4092597733b7a7");
     }
 
     [TestMethod]
@@ -173,7 +176,7 @@ public class BackendTest
             conditions = [
                 new BotCondition()
                 {
-                    Role = EBotRole.assault,
+                    Role = EWildSpawnType.assault,
                     Limit = 1,
                     Difficulty = EBotDifficulty.normal
                 }
@@ -277,7 +280,7 @@ public class BackendTest
         // get request data
         var request = new GameProfileNicknameValidateRequest()
         {
-            nickname = "senko"
+            Nickname = "senko"
         };
 
         // get request body
@@ -286,6 +289,26 @@ public class BackendTest
 
         // get response
         var response = await _eftMainClient.PostAsync("/client/game/profile/nickname/validate", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestClientGameProfileNicknameChange()
+    {
+        // get request data
+        var request = new GameProfileNicknameChangeRequest()
+        {
+            Nickname = "senko"
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/game/profile/nickname/change", body);
         var result = Encoding.UTF8.GetString(response.Body);
 
         Assert.IsFalse(string.IsNullOrEmpty(result));
@@ -929,6 +952,121 @@ public class BackendTest
     public async Task TestClientWeather()
     {
         var response = await _eftMainClient.GetAsync("/client/weather");
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestEquipmentBuildSaving()
+    {
+        // get request data
+        var request = new EquipmentBuildSaveRequest()
+        {
+            Id = new MongoId(true),
+            Name = "TestEquipmentBuild",
+            Items = [],
+            Root = new MongoId(true)
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/builds/equipment/save", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestWeaponBuildSaving()
+    {
+        // get request data
+        var request = new WeaponBuildSaveRequest()
+        {
+            Id = new MongoId(true),
+            Name = "TestEquipmentBuild",
+            Items = [],
+            Root = new MongoId(true)
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/builds/weapon/save", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestMagazineBuildSaving()
+    {
+        // get request data
+        var request = new MagazineBuildSaveRequest()
+        {
+            Id = new MongoId(true),
+            Name = "TestEquipmentBuild",
+            Items = [],
+            BottomCount = 0,
+            TopCount = 0,
+            Caliber = "Caliber9x39"
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/builds/weapon/save", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestGetOtherProfile()
+    {
+        var profile = EftOrm.Instance.GetActiveProfile(_eftSessionId);
+
+        // get request data
+        var request = new GetOtherProfileRequest()
+        {
+            AccountId = profile.Pmc.aid
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/profile/view", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestSearchOtherProfile()
+    {
+        var profile = EftOrm.Instance.GetActiveProfile(_eftSessionId);
+
+        // get request data
+        var request = new SearchOtherProfileRequest()
+        {
+            Nickname = "senko"
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/game/profile/search", body);
         var result = Encoding.UTF8.GetString(response.Body);
 
         Assert.IsFalse(string.IsNullOrEmpty(result));

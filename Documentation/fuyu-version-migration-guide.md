@@ -1,13 +1,13 @@
 # FUYU: Version migration guide
 
-This is a short-written guide with the steps required for updating Fuyu to a
+This is a hastely-written guide with the steps required for updating Fuyu to a
 new EFT version.
 
 ## Requirements
 
 - vscode
 - game client (version you want to migrate to)
-- obtained packets (see eft-packet-dumper.md)
+- obtained packets (see bsg-obtain-web-payloads.md)
 - batchhollower ([link](https://github.com/seionmoya/batchhollower/releases))
 
 ## Steps

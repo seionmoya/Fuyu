@@ -22,7 +22,7 @@ public class CoreHttpContext : HttpContext
             var body = ms.ToArray();
             var encryption = Encryption;
 
-            if (!string.IsNullOrWhiteSpace(encryption))
+            /*if (!string.IsNullOrWhiteSpace(encryption))
             {
                 // Tarkov Never sends AES encrypted body as request.
                 switch (encryption)
@@ -34,7 +34,7 @@ public class CoreHttpContext : HttpContext
                     default:
                         throw new InvalidDataException(encryption);
                 }
-            }
+            }*/
 
             return body;
         }

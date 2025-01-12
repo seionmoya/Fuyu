@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Profiles.Hideout;
+using Fuyu.Common.Collections;
+using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Profiles;
 
@@ -19,4 +22,10 @@ public class HideoutInfo
 
     [DataMember]
     public long Seed { get; set; }
+
+    [DataMember(Name = "Customization")]
+    public Dictionary<EHideoutCustomizationType, MongoId?> GlobalCustomization { get; set; }
+
+    [DataMember]
+    public Union<Dictionary<string, MongoId>, object[]> MannequinPoses { get; set; }
 }
