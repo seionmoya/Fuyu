@@ -20,18 +20,4 @@ public class CustomizationInfo
 
     [DataMember(Name = "dogtag", EmitDefaultValue = false)]
     public MongoId DogTag { get; set; }
-
-
-
-    /*public Dictionary<EBodyModelPart, MongoId> ToDictionary()
-    {
-        return new Dictionary<EBodyModelPart, MongoId>
-        {
-            { EBodyModelPart.Head, Head },
-            { EBodyModelPart.Body, Body },
-            { EBodyModelPart.Feet, Feet },
-            { EBodyModelPart.Hands, Hands },
-            { EBodyModelPart.DogTag, DogTag }
-        };
-    }*/
 }
