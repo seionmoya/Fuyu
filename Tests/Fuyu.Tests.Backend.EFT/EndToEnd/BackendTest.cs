@@ -176,7 +176,7 @@ public class BackendTest
             conditions = [
                 new BotCondition()
                 {
-                    Role = EBotRole.assault,
+                    Role = EWildSpawnType.assault,
                     Limit = 1,
                     Difficulty = EBotDifficulty.normal
                 }
@@ -1023,6 +1023,50 @@ public class BackendTest
 
         // get response
         var response = await _eftMainClient.PostAsync("/client/builds/weapon/save", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task TestGetOtherProfile()
+    {
+        var profile = EftOrm.Instance.GetActiveProfile(_eftSessionId);
+
+        // get request data
+        var request = new GetOtherProfileRequest()
+        {
+            AccountId = profile.Pmc.aid
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/profile/view", body);
+        var result = Encoding.UTF8.GetString(response.Body);
+
+        Assert.IsFalse(string.IsNullOrEmpty(result));
+    }
+
+    [TestMethod]
+    public async Task SearchOtherProfileTest()
+    {
+        var profile = EftOrm.Instance.GetActiveProfile(_eftSessionId);
+
+        // get request data
+        var request = new SearchOtherProfileRequest()
+        {
+            Nickname = "senko"
+        };
+
+        // get request body
+        var json = Json.Stringify(request);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        // get response
+        var response = await _eftMainClient.PostAsync("/client/game/profile/search", body);
         var result = Encoding.UTF8.GetString(response.Body);
 
         Assert.IsFalse(string.IsNullOrEmpty(result));

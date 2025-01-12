@@ -10,6 +10,6 @@ public class CrowdAttackSpawnParameters
     public EBotDifficulty Difficulty { get; set; }
 
     [DataMember]
-    public EBotRole Role { get; set; }
+    public EWildSpawnType Role { get; set; }
 
 }

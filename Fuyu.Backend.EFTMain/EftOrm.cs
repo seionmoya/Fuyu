@@ -250,7 +250,7 @@ public class EftOrm
 
         for (var i = 0; i < customization.Count; ++i)
         {
-            if (customization[i].id == customizationId)
+            if (customization[i].Id == customizationId)
             {
                 return customization[i];
             }
@@ -265,7 +265,7 @@ public class EftOrm
 
         for (var i = 0; i < customization.Count; ++i)
         {
-            if (customization[i].id == entry.id)
+            if (customization[i].Id == entry.Id)
             {
                 _eftDatabase.CustomizationStorage.TrySet(i, entry);
                 return;
@@ -281,7 +281,7 @@ public class EftOrm
 
         for (var i = 0; i < customization.Count; ++i)
         {
-            if (customization[i].id == entry.id)
+            if (customization[i].Id == entry.Id)
             {
                 _eftDatabase.CustomizationStorage.TryRemoveAt(i);
                 return;

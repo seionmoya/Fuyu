@@ -12,7 +12,7 @@ public class SquadMember
     public int aid { get; set; }
 
     [DataMember]
-    public SquadInfo Info { get; set; }
+    public ChatMemberInfo Info { get; set; }
 
     [DataMember]
     public bool isLeader { get; set; }

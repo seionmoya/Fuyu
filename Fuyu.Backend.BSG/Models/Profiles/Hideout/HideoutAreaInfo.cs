@@ -1,5 +1,7 @@
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Hideout;
+using Fuyu.Backend.BSG.Models.Items;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Hideout;
 
@@ -26,8 +28,8 @@ public class HideoutAreaInfo
     public bool conclassing { get; set; }
 
     // TODO: proper type
-    [DataMember]
-    public object[] slots { get; set; }
+    [DataMember(Name = "slots")]
+    public HideoutSlot[] Slots { get; set; }
 
     [DataMember]
     public string lastRecipe { get; set; }
