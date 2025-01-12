@@ -29,23 +29,4 @@ public class HideoutInfo
 
     [DataMember]
     public Union<Dictionary<string, MongoId>, object[]> MannequinPoses { get; set; }
-
-    [IgnoreDataMember]
-    public ItemInstance[] AllItemsInSlots
-    {
-        get
-        {
-            var items = new List<ItemInstance>();
-            foreach (var areaInfo in Areas)
-            {
-                int slotsCount = areaInfo.Slots.Length;
-                for (int i = 0; i < slotsCount; i++)
-                {
-                    items.AddRange(areaInfo.Slots[i].Items);
-                }
-            }
-
-            return [.. items];
-        }
-    }
 }

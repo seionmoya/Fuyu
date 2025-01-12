@@ -66,7 +66,8 @@ public class GetOtherProfileController : AbstractEftHttpController<GetOtherProfi
                 PmcStats = targetProfile.Pmc.Stats.ToSimpleStatsInfo(),
                 ScavStats = targetProfile.Savage.Stats.ToSimpleStatsInfo(),
                 Skills = targetProfile.Pmc.Skills
-                // TODO: Fix hideout data
+                // TODO: Fix hideout data, our models and implementation are not completed so this data cannot be filled
+                // -- Lacyway 2025-01-12
                 /*Hideout = targetProfile.Pmc.Hideout,
                 Items = targetProfile.Pmc.Hideout.AllItemsInSlots,
                 HideoutAreaStashes = []*/
