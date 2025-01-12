@@ -18,28 +18,28 @@ public class ConfigTest
         Assert.IsNotNull(configservice);
 
         // creating empty and other empty TestConfig.
-        var empty_config = new TestConfig();
-        var test_config = configservice.GetConfig<TestConfig>("testing");
+        var emptyConfig = new TestConfig();
+        var testConfig = configservice.GetConfig<TestConfig>("testing");
 
         // we are checking if both are the same
-        Assert.AreEqual(test_config.GetHashCode(), empty_config.GetHashCode());
-        Assert.AreEqual(test_config.Text, empty_config.Text);
+        Assert.AreEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
+        Assert.AreEqual(testConfig.Text, emptyConfig.Text);
 
         // we changing the value and saving it
-        test_config.Text = "changedValue";
-        configservice.SaveConfig("testing", test_config);
+        testConfig.Text = "changedValue";
+        configservice.SaveConfig("testing", testConfig);
         // we make sure it is not Equal!
-        Assert.AreNotEqual(test_config.Text, empty_config.Text);
+        Assert.AreNotEqual(testConfig.Text, emptyConfig.Text);
 
         // we reload from the config change
-        test_config = configservice.GetConfig<TestConfig>("testing");
+        testConfig = configservice.GetConfig<TestConfig>("testing");
 
-        // we make sure the test_config is not empty!
-        Assert.AreNotEqual(test_config.GetHashCode(), empty_config.GetHashCode());
-        Assert.AreNotEqual(test_config.Text, empty_config.Text);
+        // we make sure the testConfig is not empty!
+        Assert.AreNotEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
+        Assert.AreNotEqual(testConfig.Text, emptyConfig.Text);
 
         // we make sure the Text is our prev set value.
-        Assert.AreEqual(test_config.Text, "changedValue");
+        Assert.AreEqual(testConfig.Text, "changedValue");
 
         // freeing and re-getting for test.
         ConfigService.FreeInstance("test");
@@ -47,19 +47,19 @@ public class ConfigTest
         Assert.IsNotNull(configservice);
 
         // check if the config from disk not empty
-        test_config = configservice.GetConfig<TestConfig>("testing");
-        Assert.AreNotEqual(test_config.GetHashCode(), empty_config.GetHashCode());
-        Assert.AreNotEqual(test_config.Text, empty_config.Text);
+        testConfig = configservice.GetConfig<TestConfig>("testing");
+        Assert.AreNotEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
+        Assert.AreNotEqual(testConfig.Text, emptyConfig.Text);
 
         // deleting the config
         configservice.DeleteConfig("testing");
 
         // getting the deleted config.
-        test_config = configservice.GetConfig<TestConfig>("testing");
+        testConfig = configservice.GetConfig<TestConfig>("testing");
 
         // testing if its actually empty.
-        Assert.AreEqual(test_config.GetHashCode(), empty_config.GetHashCode());
-        Assert.AreEqual(test_config.Text, empty_config.Text);
+        Assert.AreEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
+        Assert.AreEqual(testConfig.Text, emptyConfig.Text);
 
         // lastly we free (ensuring nothing will use it.)
         ConfigService.FreeInstance("test");
@@ -73,21 +73,21 @@ public class ConfigTest
         Assert.IsNotNull(configservice);
 
         // first we init both
-        var empty_config = new TestConfig();
-        var test_config = new TestConfig();
+        var emptyConfig = new TestConfig();
+        var testConfig = new TestConfig();
 
         // getting the lazy and check the same
-        configservice.GetConfigLazy("lazy", ref test_config);
-        Assert.AreEqual(test_config.GetHashCode(), empty_config.GetHashCode());
+        configservice.GetConfigLazy("lazy", ref testConfig);
+        Assert.AreEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
 
         // value change + save.
-        test_config.Text = "changedValue";
+        testConfig.Text = "changedValue";
         configservice.SaveConfigLazy("lazy");
 
         // we load from cache and see if not the same.
-        configservice.GetConfigLazy("lazy", ref test_config);
-        Assert.AreNotEqual(test_config.GetHashCode(), empty_config.GetHashCode());
-        Assert.AreEqual(test_config.Text, "changedValue");
+        configservice.GetConfigLazy("lazy", ref testConfig);
+        Assert.AreNotEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
+        Assert.AreEqual(testConfig.Text, "changedValue");
 
         // here we want to see if TestConfig2 what will produce
         TestConfig2 testConfig2 = new();
@@ -97,11 +97,11 @@ public class ConfigTest
 
 
         // we reloading the config from disk instead of "cache"
-        configservice.GetConfigLazy("lazy", ref test_config, true);
+        configservice.GetConfigLazy("lazy", ref testConfig, true);
 
-        // check if its the same not the same, but the test_config has prev changed value
-        Assert.AreNotEqual(test_config.GetHashCode(), empty_config.GetHashCode());
-        Assert.AreEqual(test_config.Text, "changedValue");
+        // check if its the same not the same, but the testConfig has prev changed value
+        Assert.AreNotEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
+        Assert.AreEqual(testConfig.Text, "changedValue");
 
         // freeing instance (if we have get we should have free like mem de/alloc)
         ConfigService.FreeInstance("lazy");
@@ -111,15 +111,15 @@ public class ConfigTest
         Assert.IsNotNull(configservice);
 
         // again get the config and check if not the same as empty
-        configservice.GetConfigLazy("lazy", ref test_config);
-        Assert.AreNotEqual(test_config.GetHashCode(), empty_config.GetHashCode());
+        configservice.GetConfigLazy("lazy", ref testConfig);
+        Assert.AreNotEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
 
         // deleting config inside lazy and file too!
         configservice.DeleteConfigLazy("lazy");
 
         // we check it must be same as before.
-        configservice.GetConfigLazy("lazy", ref test_config);
-        Assert.AreEqual(test_config.GetHashCode(), empty_config.GetHashCode());
+        configservice.GetConfigLazy("lazy", ref testConfig);
+        Assert.AreEqual(testConfig.GetHashCode(), emptyConfig.GetHashCode());
         ConfigService.FreeInstance("lazy");
     }
 
