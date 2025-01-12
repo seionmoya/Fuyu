@@ -2,6 +2,8 @@ using Fuyu.Common.Serialization;
 using Fuyu.Launcher.Common.Models.Messages;
 using Fuyu.Launcher.Common.Models.Pages;
 
+namespace Fuyu.Launcher.Core.Pages;
+
 public class SettingsPage : AbstractPage
 {
     protected override string Id { get; } = "Fuyu.Launcher.Core";

@@ -5,6 +5,8 @@ using Fuyu.Launcher.Common.Models.Pages;
 using Fuyu.Launcher.Core.Models.Configs;
 using Fuyu.Launcher.Core.Models.Replies;
 
+namespace Fuyu.Launcher.Core.Pages;
+
 public class GameEftPage : AbstractPage
 {
     protected override string Id { get; } = "Fuyu.Launcher.Core";

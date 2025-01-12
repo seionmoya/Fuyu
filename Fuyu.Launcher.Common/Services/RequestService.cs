@@ -21,10 +21,17 @@ public class RequestService
         _httpClients = [];
     }
 
-    public void AddClient<T>(string id, Func<HttpClient> callback)
+    public void AddOrSetClient<T>(string id, Func<HttpClient> callback)
     {
-        var httpClient = callback();
-        _httpClients.Add(id, httpClient);
+        if (_httpClients.ContainsKey(id))
+        {
+            _httpClients[id] = callback();
+        }
+        else
+        {
+            var httpClient = callback();
+            _httpClients.Add(id, httpClient);
+        }
     }
 
     byte[] GetRequestBody(object o)

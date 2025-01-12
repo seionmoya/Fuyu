@@ -4,10 +4,10 @@ using Fuyu.Launcher.Common.Models.Pages;
 
 namespace Fuyu.Launcher.Core.Pages;
 
-public class StoreEftPage : AbstractPage
+public class IndexPage : AbstractPage
 {
-    protected override string Id { get; } = "Fuyu.Launcher.Core";
-    protected override string Path { get; } = "store-eft.html";
+    protected override string Id { get; } = "Fuyu.Launcher";
+    protected override string Path { get; } = "index.html";
 
     protected override void HandleMessage(string message)
     {
@@ -18,21 +18,13 @@ public class StoreEftPage : AbstractPage
             case "LOADED_PAGE":
                 OnLoadedPageMessage(message);
                 return;
-
-            case "ADD_GAME":
-                OnAddGameMessage(message);
-                return;
         }
     }
 
     void OnLoadedPageMessage(string message)
     {
         // var body = Json.Parse<LoadedPageMessage>(message);
-    }
-
-    void OnAddGameMessage(string message)
-    {
-        // var body = Json.Parse<Message>(message);
-        // do something
+        var page = "account-login.html";
+        NavigationService.NavigateInternal(page);
     }
 }

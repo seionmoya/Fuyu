@@ -21,8 +21,8 @@ public abstract class AbstractPage
         NavigationService = NavigationService.Instance;
 
         // register page
-        ContentService.Add(Id, Path, Path);
-        MessageService.Add(Path, HandleMessage);
+        ContentService.SetOrAddLoader(Path, LoadContent);
+        MessageService.SetOrAddHandler(Path, HandleMessage);
     }
 
     protected virtual Stream LoadContent(string path)

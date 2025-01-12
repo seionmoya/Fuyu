@@ -3,6 +3,7 @@ using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 using Fuyu.Launcher.Common.Services;
+using System.IO;
 
 namespace Fuyu.Launcher;
 
@@ -37,10 +38,9 @@ public partial class MainWindow : Window
         messageService.Initialize(webview);
 
         // set content
-        var id = "Fuyu.Launcher";
-        Resx.SetSource(id, this.GetType().Assembly);
-        contentService.Add(id, "favicon.ico", "icon.ico");
-        contentService.Add(id, "index.html",  "index.html");
+        Resx.SetSource("Fuyu.Launcher", this.GetType().Assembly);
+        contentService.SetOrAddLoader("index.html", LoadContent);
+        contentService.SetOrAddLoader("favicon.ico", LoadContent);
 
         // load mods
         Terminal.WriteLine("Loading mods...");
@@ -58,5 +58,15 @@ public partial class MainWindow : Window
         // load initial page
         var url = navigationService.GetInternalUrl("index.html");
         navigationService.NavigateInternal(url);
+    }
+
+    Stream LoadContent(string path)
+    {
+        return path switch
+        {
+            "index.html"  => Resx.GetStream("Fuyu.Launcher", "index.html"),
+            "favicon.ico" => Resx.GetStream("Fuyu.Launcher", "icon.ico"),
+            _             => throw new FileNotFoundException()
+        };
     }
 }

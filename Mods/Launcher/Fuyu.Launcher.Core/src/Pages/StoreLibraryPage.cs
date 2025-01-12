@@ -3,6 +3,8 @@ using Fuyu.Launcher.Common.Models.Messages;
 using Fuyu.Launcher.Common.Models.Pages;
 using Fuyu.Launcher.Core.Models.Messages;
 
+namespace Fuyu.Launcher.Core.Pages;
+
 public class StoreLibraryPage : AbstractPage
 {
     protected override string Id { get; } = "Fuyu.Launcher.Core";

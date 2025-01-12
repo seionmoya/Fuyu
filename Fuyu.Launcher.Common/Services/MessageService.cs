@@ -10,7 +10,7 @@ public class MessageService
     public static MessageService Instance => instance.Value;
     private static readonly Lazy<MessageService> instance = new(() => new MessageService());
 
-    //                                 path           msg
+    //                          path           msg
     private readonly Dictionary<string, Action<string>> _messageCallbacks;
     private CoreWebView2 _webview;
 
@@ -28,9 +28,16 @@ public class MessageService
         _webview = webview;
     }
 
-    public void Add(string path, Action<string> callback)
+    public void SetOrAddHandler(string path, Action<string> callback)
     {
-        _messageCallbacks.Add(path, callback);
+        if (_messageCallbacks.ContainsKey(path))
+        {
+            _messageCallbacks[path] = callback;
+        }
+        else
+        {
+            _messageCallbacks.Add(path, callback);
+        }
     }
 
     public void HandleMessage(string path, string message)

@@ -4,6 +4,8 @@ using Fuyu.Launcher.Common.Models.Pages;
 using Fuyu.Launcher.Core.Models.Messages;
 using Fuyu.Launcher.Core.Models.Replies;
 
+namespace Fuyu.Launcher.Core.Pages;
+
 public class AccountRegisterPage : AbstractPage
 {
     protected override string Id { get; } = "Fuyu.Launcher.Core";
