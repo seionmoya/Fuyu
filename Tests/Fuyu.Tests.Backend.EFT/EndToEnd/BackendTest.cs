@@ -1051,7 +1051,7 @@ public class BackendTest
     }
 
     [TestMethod]
-    public async Task SearchOtherProfileTest()
+    public async Task TestSearchOtherProfile()
     {
         var profile = EftOrm.Instance.GetActiveProfile(_eftSessionId);
 
