@@ -1,7 +1,5 @@
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Hideout;
-using Fuyu.Backend.BSG.Models.Items;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Hideout;
 

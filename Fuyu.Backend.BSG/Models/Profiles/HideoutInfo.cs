@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Models.Profiles.Hideout;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
