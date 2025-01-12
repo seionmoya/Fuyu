@@ -4,5 +4,6 @@ An app wrapped around `Fuyu.Launcher.Core`.
 
 ## Usage
 
-1. Place `Fuyu.Launcher.exe` besides `EscapeFromTarkov.exe`
-2. Start `Fuyu.Launcher.exe`
+1. Run `dotnet publish`
+2. Place `bin/Release/net9.0-windows/publish/*.*` besides `EscapeFromTarkov.exe`
+3. Start `Fuyu.Launcher.exe`

@@ -5,9 +5,8 @@ Fuyu mod loader for clients using NLog.
 ## Installation
 
 1. Build the project
-2. Place `Fuyu.Modding.NLog` inside `<game data>/Managed/`
-3. Place `NLog.dll` inside `<game data>/Managed/`, override when prompted
-4. Add the following to `NLog/NLog.config`:
+2. Copy-paste `bin/<configuration>/net48/*.dll` except `Newtonsoft.Json.dll` inside `<game data>/Managed/`, override when prompted
+3. Add the following sections (marked `<!-- FUYU -->`) to `NLog/NLog.config`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -19,19 +18,19 @@ Fuyu mod loader for clients using NLog.
       throwExceptions="true"
       internalLogLevel="Off" internalLogFile="c:\temp\nlog-internal.log">
 
+    <!-- FUYU -->
     <extensions> 
         <add assembly="Fuyu.Modding.NLog"/> 
     </extensions> 
+    <!-- FUYU -->
 
     <targets async="true">
-        <target name="FuyuTarget" xsi:type="FuyuTarget" />
+        <!-- FUYU -->
+        <target name="FuyuClient" xsi:type="FuyuClient" />
+        <!-- FUYU -->
+
         <!-- ... -->
     </targets>
-
-    <rules>
-        <logger name="FuyuTarget" minlevel="Off" writeTo="traceFile" />
-        <!-- ... -->
-    </rules>
 </nlog>
 ```
 
