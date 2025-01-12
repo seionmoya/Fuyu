@@ -6,15 +6,18 @@ namespace Fuyu.Backend.BSG.Models.Profiles;
 [DataContract]
 public class CustomizationInfo
 {
-    [DataMember]
+    [DataMember(Name = "head")]
     public MongoId Head { get; set; }
 
-    [DataMember]
+    [DataMember(Name = "body")]
     public MongoId Body { get; set; }
 
-    [DataMember]
+    [DataMember(Name = "feet")]
     public MongoId Feet { get; set; }
 
-    [DataMember]
+    [DataMember(Name = "hands")]
     public MongoId Hands { get; set; }
+
+    [DataMember(Name = "dogtag", EmitDefaultValue = false)]
+    public MongoId DogTag { get; set; }
 }

@@ -1,24 +1,25 @@
 using System.Runtime.Serialization;
+using Fuyu.Backend.BSG.Models.Profiles.Info;
 
 namespace Fuyu.Backend.BSG.Models.Raid;
 
 [DataContract]
-public class SquadInfo
+public class ChatMemberInfo
 {
     [DataMember]
     public string Nickname { get; set; }
 
     [DataMember]
-    public string Side { get; set; }
+    public EPlayerSide Side { get; set; }
 
     [DataMember]
     public int Level { get; set; }
 
     [DataMember]
-    public int MemberCategory { get; set; }
+    public EMemberCategory MemberCategory { get; set; }
 
     [DataMember]
-    public int SelectedCategory { get; set; }
+    public EMemberCategory SelectedCategory { get; set; }
 
     [DataMember]
     public string GameVersion { get; set; }
@@ -30,5 +31,5 @@ public class SquadInfo
     public string SavageNickname { get; set; }
 
     [DataMember]
-    public bool hasCoopExtension { get; set; }
+    public bool HasCoopExtension { get; set; }
 }

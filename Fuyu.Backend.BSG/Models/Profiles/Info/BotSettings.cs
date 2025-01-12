@@ -9,7 +9,7 @@ public class BotSettings
 {
     [DataMember]
     [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-    public EBotRole Role { get; set; }
+    public EWildSpawnType Role { get; set; }
 
     [DataMember]
     [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]

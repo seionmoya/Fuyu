@@ -70,7 +70,10 @@ public class AccountService
         // find all gap entries
         var found = new List<int>();
 
-        for (var i = 0; i < sorted.Length; ++i)
+        // accounts must start at 1 as there are checks handle 0 as error in the client
+        var offset = 1;
+
+        for (var i = offset; i < sorted.Length; ++i)
         {
             if (sorted[i].Id != i)
             {
@@ -86,7 +89,7 @@ public class AccountService
         else
         {
             // use new entry
-            return sorted.Length;
+            return sorted.Length + offset;
         }
     }
 

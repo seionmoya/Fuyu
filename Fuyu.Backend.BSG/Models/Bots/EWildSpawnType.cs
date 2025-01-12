@@ -1,7 +1,7 @@
 namespace Fuyu.Backend.BSG.Models.Bots;
 
 // Assembly-CSharp.dll: EFT.WildSpawnType
-public enum EBotRole
+public enum EWildSpawnType
 {
     marksman,
     assault,

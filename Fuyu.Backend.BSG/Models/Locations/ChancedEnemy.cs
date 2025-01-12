@@ -10,5 +10,5 @@ public class ChancedEnemy
     public int EnemyChance { get; set; }
 
     [DataMember]
-    public EBotRole Role { get; set; }
+    public EWildSpawnType Role { get; set; }
 }

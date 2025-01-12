@@ -8,7 +8,7 @@ public class BotCondition
 {
     [DataMember]
     [Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
-    public EBotRole Role { get; set; }
+    public EWildSpawnType Role { get; set; }
 
     [DataMember]
     public int Limit { get; set; }
