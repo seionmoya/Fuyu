@@ -1,5 +1,4 @@
-#if NET6_0_OR_GREATER
-using System.IO;
+using System;
 using System.IO.Compression;
 
 namespace Fuyu.Common.Compression;
@@ -33,10 +32,10 @@ public static class MemoryZlib
         }
     }
 
-    // NOTE: assumes this is running inside the backend or launcher
-    // -- seionmoya, 2024-10-07
     public static byte[] Compress(byte[] data, CompressionLevel level)
     {
+#if NET6_0_OR_GREATER
+        // backend or launcher: decompress
         using (var msin = new MemoryStream(data))
         {
             using (var msout = new MemoryStream())
@@ -49,13 +48,16 @@ public static class MemoryZlib
                 }
             }
         }
+#else
+        // client: not supported
+        throw new NotSupportedException();
+#endif
     }
 
-    // NOTE: assumes this is running inside the backend or launcher
-    // -- seionmoya, 2024-10-07
     public static byte[] Decompress(byte[] data)
     {
-
+#if NET6_0_OR_GREATER
+        // backend or launcher: decompress
         using (var msin = new MemoryStream(data))
         {
             using (var msout = new MemoryStream())
@@ -67,6 +69,9 @@ public static class MemoryZlib
                 }
             }
         }
+#else
+        // client: not supported
+        throw new NotSupportedException();
+#endif
     }
 }
-#endif
