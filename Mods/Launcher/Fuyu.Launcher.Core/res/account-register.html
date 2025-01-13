@@ -7,6 +7,20 @@
 </head>
 
 <body>
+    <!-- message window -->
+    <div class="modal" id="message-window" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p id="message-text">Placeholder.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- navbar -->
     <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom">
         <div class="container-fluid">
@@ -27,8 +41,8 @@
             <div class="my-3">
 
                 <!-- username -->
-                <label for="field_username" class="form-label">Username</label>
-                <input type="text" id="field_username" class="form-control" placeholder="User">
+                <label for="input-username" class="form-label">Username</label>
+                <input type="text" id="input-username" class="form-control" placeholder="User">
                 <div class="form-text">
                     Your username must:
                     <ul>
@@ -38,8 +52,8 @@
                 </div>
 
                 <!-- password -->
-                <label for="field_password" class="form-label">Password</label>
-                <input type="password" id="field_password" class="form-control" placeholder="********">
+                <label for="input-password" class="form-label">Password</label>
+                <input type="password" id="input-password" class="form-control" placeholder="********">
                 <div class="form-text">
                     Your password must:
                     <ul>
@@ -67,42 +81,44 @@
         }
 
         function register() {
-            const username = document.getElementById("field_username").value;
-            const password = document.getElementById("field_password").value;
+            const usernameElement = document.getElementById("input-username");
+            const passwordElement = document.getElementById("input-password");
 
             const data = {
                 type: "REGISTER_CORE",
-                username: username,
-                password: password
+                username: usernameElement.value,
+                password: passwordElement.value
             };
 
             sendMessage(data);
         };
 
-        function onLoad() {
-            const data = {
-                type: "LOADED_PAGE"
-            };
+        function showMessage(text) {
+            const messageWindowElement = document.getElementById('message-window');
+            const messageTextElement = document.getElementById('message-text');
 
-            sendMessage(data);
-        };
+            // set text to display
+            messageTextElement.innerHTML = text;
+
+            // show the message window
+            const messageWindow = new bootstrap.Modal(messageWindowElement);
+            messageWindow.show();
+        }
 
         function onMessage(event) {
             const data = JSON.parse(event.data);
 
-            switch (data.type)
-            {
+            switch (data.type) {
                 case "REGISTER_ERROR":
-                    alert(data.message);
+                    showMessage(data.message);
                     return;
 
                 case "REGISTER_SUCCESS":
-                    alert(data.message);
+                    showMessage(data.message);
                     return;
             }
         }
 
-        window.onload = onLoad;
         window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

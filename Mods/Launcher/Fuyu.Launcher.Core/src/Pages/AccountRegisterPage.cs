@@ -1,5 +1,6 @@
 using System;
 using Fuyu.Backend.Core.Models.Responses;
+using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
 using Fuyu.Launcher.Common.Models.Messages;
 using Fuyu.Launcher.Common.Models.Pages;
@@ -23,25 +24,17 @@ public class AccountRegisterPage : AbstractPage
 
         switch (data.Type)
         {
-            case "LOADED_PAGE":
-                OnLoadedPageMessage(message);
-                return;
-
             case "REGISTER_CORE":
                 OnAccountRegisterMessage(message);
                 return;
         }
     }
 
-    void OnLoadedPageMessage(string message)
-    {
-        // var body = Json.Parse<LoadedPageMessage>(message);
-    }
-
     void OnAccountRegisterMessage(string message)
     {
         var data = Json.Parse<RegisterAccountMessage>(message);
 
+        // validate input for null/empty
         if (string.IsNullOrWhiteSpace(data.Username))
         {
             SendRegisterErrorReply("Username is empty");
@@ -54,19 +47,29 @@ public class AccountRegisterPage : AbstractPage
             return;
         }
 
+        // get request
         var request = new AccountRegisterRequest()
         {
             Username = data.Username,
             Password = data.Password
         };
-        var response = RequestService.Instance.Post<AccountRegisterResponse>("core", "/account/register", request);
+
+        // receive response
+        AccountRegisterResponse response;
+        try
+        {
+            response = RequestService.Instance.Post<AccountRegisterResponse>("core", "/account/register", request);
+        }
+        catch (Exception ex)
+        {
+            SendRegisterErrorReply("There is a connection issue.");
+            Terminal.WriteLine(ex);
+            return;
+        }
 
         if (response.Status == ERegisterStatus.Success)
         {
             SendRegisterSuccessReply();
-
-            var page = "account-login.html";
-            NavigationService.NavigateInternal(page);
         }
         else
         {

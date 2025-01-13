@@ -27,19 +27,10 @@ public class GameEftPage : AbstractPage
 
         switch (data.Type)
         {
-            case "LOADED_PAGE":
-                OnLoadedPageMessage(message);
-                return;
-
             case "LAUNCH_GAME":
                 OnGameLaunchMessage(message);
                 return;
         }
-    }
-
-    void OnLoadedPageMessage(string message)
-    {
-        // var body = Json.Parse<LoadedPageMessage>(message);
     }
 
     void OnGameLaunchMessage(string message)

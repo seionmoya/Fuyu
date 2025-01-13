@@ -15,19 +15,10 @@ public class SettingsPage : AbstractPage
 
         switch (data.Type)
         {
-            case "LOADED_PAGE":
-                OnLoadedPageMessage(message);
-                return;
-
             case "SAVE_SETTINGS":
                 OnSaveSettingsMessage(message);
                 return;
         }
-    }
-
-    void OnLoadedPageMessage(string message)
-    {
-        // var body = Json.Parse<LoadedPageMessage>(message);
     }
 
     void OnSaveSettingsMessage(string message)

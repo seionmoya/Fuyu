@@ -16,19 +16,10 @@ public class StoreLibraryPage : AbstractPage
 
         switch (data.Type)
         {
-            case "LOADED_PAGE":
-                OnLoadedPageMessage(message);
-                return;
-
             case "NAVIGATE_GAME":
                 OnNavigateGameMessage(message);
                 return;
         }
-    }
-
-    void OnLoadedPageMessage(string message)
-    {
-        // var body = Json.Parse<LoadedPageMessage>(message);
     }
 
     void OnNavigateGameMessage(string message)

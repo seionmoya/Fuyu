@@ -1,6 +1,7 @@
 using System;
 using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.Hashing;
+using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
 using Fuyu.Launcher.Common.Models.Messages;
 using Fuyu.Launcher.Common.Models.Pages;
@@ -29,28 +30,23 @@ public class AccountLoginPage : AbstractPage
     {
         var data = Json.Parse<Message>(message);
 
-        switch (data.Type)
+        Action<string> callback = data.Type switch
         {
-            case "LOADED_PAGE":
-                OnLoadedPageMessage(message);
-                return;
+            "LOGIN_CORE" => OnLoginAccountMessage,
+            _ => throw new Exception($"Unhandled message {message}")
+        };
 
-            case "LOGIN_CORE":
-                OnLoginAccountMessage(message);
-                return;
+        if (callback != null)
+        {
+            callback(message);
         }
-    }
-
-    void OnLoadedPageMessage(string message)
-    {
-        // var body = Json.Parse<LoadedPageMessage>(message);
     }
 
     void OnLoginAccountMessage(string message)
     {
         var body = Json.Parse<LoginAccountMessage>(message);
 
-        // validate forms
+        // validate input for null/empty
         if (string.IsNullOrWhiteSpace(body.Username))
         {
             SendLoginErrorReply("Empty username");
@@ -63,14 +59,26 @@ public class AccountLoginPage : AbstractPage
             return;
         }
 
-        // send request
+        // get request
         var hashedPassword = Sha256.Generate(body.Password);
         var request = new AccountLoginRequest()
         {
             Username = body.Username,
             Password = hashedPassword
         };
-        var response = _requestService.Post<AccountLoginResponse>("core", "/account/login", request);
+
+        // receive response
+        AccountLoginResponse response;
+        try
+        {
+            response = _requestService.Post<AccountLoginResponse>("core", "/account/login", request);
+        }
+        catch (Exception ex)
+        {
+            SendLoginErrorReply("There is a connection issue.");
+            Terminal.WriteLine(ex);
+            return;
+        }
 
         // handle response
         if (response.Status == ELoginStatus.Success)

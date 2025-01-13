@@ -78,19 +78,10 @@
             sendMessage(data);
         };
 
-        function onLoad() {
-            const data = {
-                type: "LOADED_PAGE"
-            };
-
-            sendMessage(data);
-        };
-
         function onMessage(event) {
             // code here
         }
 
-        window.onload = onLoad;
         window.chrome.webview.addEventListener("message", onMessage);
     </script>
 </body>

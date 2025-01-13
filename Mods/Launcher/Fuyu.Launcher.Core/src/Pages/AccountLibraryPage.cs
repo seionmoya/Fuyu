@@ -17,19 +17,10 @@ public class AccountLibraryPage : AbstractPage
 
         switch (data.Type)
         {
-            case "LOADED_PAGE":
-                OnLoadedPageMessage(message);
-                return;
-
             case "NAVIGATE_GAME":
                 OnViewAccountGameMessage(message);
                 return;
         }
-    }
-
-    void OnLoadedPageMessage(string message)
-    {
-        // var body = Json.Parse<LoadedPageMessage>(message);
     }
 
     void OnViewAccountGameMessage(string message)

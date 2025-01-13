@@ -15,19 +15,10 @@ public class StoreEftPage : AbstractPage
 
         switch (data.Type)
         {
-            case "LOADED_PAGE":
-                OnLoadedPageMessage(message);
-                return;
-
             case "ADD_GAME":
                 OnAddGameMessage(message);
                 return;
         }
-    }
-
-    void OnLoadedPageMessage(string message)
-    {
-        // var body = Json.Parse<LoadedPageMessage>(message);
     }
 
     void OnAddGameMessage(string message)

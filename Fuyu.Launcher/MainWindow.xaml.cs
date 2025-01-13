@@ -22,6 +22,8 @@ public partial class MainWindow : Window
         // resolve dependencies
         var container = new DependencyContainer();
 
+        Terminal.SetLogFile("Fuyu/Logs/Launcher.log");
+
         var contentService = ContentService.Instance;
         var messageService = MessageService.Instance;
         var modManager = ModManager.Instance;
