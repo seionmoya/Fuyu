@@ -4,7 +4,7 @@ using System.Text;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
 
-namespace Fuyu.Launcher.Common.Services;
+namespace Fuyu.Common.Services;
 
 public class RequestService
 {

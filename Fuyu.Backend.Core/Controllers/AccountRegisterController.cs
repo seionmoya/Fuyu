@@ -24,6 +24,7 @@ public class AccountRegisterController : CoreHttpController<AccountRegisterReque
             Status = result
         };
 
-        return context.SendJsonAsync(Json.Stringify(response));
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text);
     }
 }

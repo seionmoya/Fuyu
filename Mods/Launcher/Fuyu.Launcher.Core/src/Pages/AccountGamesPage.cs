@@ -9,7 +9,7 @@ namespace Fuyu.Launcher.Core.Pages;
 public class AccountLibraryPage : AbstractPage
 {
     protected override string Id { get; } = "Fuyu.Launcher.Core";
-    protected override string Path { get; } = "account-library.html";
+    protected override string Path { get; } = "account-games.html";
 
     protected override void HandleMessage(string message)
     {

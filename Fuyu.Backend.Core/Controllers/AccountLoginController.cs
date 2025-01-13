@@ -19,6 +19,7 @@ public class AccountLoginController : CoreHttpController<AccountLoginRequest>
     {
         var response = _accountService.LoginAccount(body.Username, body.Password);
 
-        return context.SendJsonAsync(Json.Stringify(response));
+        var text = Json.Stringify(response);
+        return context.SendJsonAsync(text);
     }
 }

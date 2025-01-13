@@ -45,11 +45,11 @@ public class Mod : AbstractMod
 
     void InitializeAssets()
     {
-        //                              http://launcher.fuyu.api/*             callback
-        _contentService.SetOrAddLoader("assets/css/bootstrap.min.css",         LoadContent);
-        _contentService.SetOrAddLoader("assets/css/styles.css",                LoadContent);
-        _contentService.SetOrAddLoader("assets/img/logo.png",                  LoadContent);
-        _contentService.SetOrAddLoader("assets/js/bootstrap.bundle.min.js",    LoadContent);
+        //                              http://launcher.fuyu.api/*          callback
+        _contentService.SetOrAddLoader("assets/css/bootstrap.min.css",      LoadContent);
+        _contentService.SetOrAddLoader("assets/css/styles.css",             LoadContent);
+        _contentService.SetOrAddLoader("assets/img/logo.png",               LoadContent);
+        _contentService.SetOrAddLoader("assets/js/bootstrap.bundle.min.js", LoadContent);
     }
 
     Stream LoadContent(string path)
