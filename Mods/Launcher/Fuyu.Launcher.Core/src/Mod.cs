@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Fuyu.Common.IO;
+using Fuyu.Common.Networking;
 using Fuyu.DependencyInjection;
 using Fuyu.Launcher.Common.Services;
 using Fuyu.Launcher.Core.Pages;
@@ -23,6 +24,9 @@ public class Mod : AbstractMod
 
         InitializePages();
         InitializeAssets();
+
+        var coreHttpClient = new HttpClient("http://localhost:8000");
+        RequestService.Instance.AddOrSetClient("core", coreHttpClient);
 
         return Task.CompletedTask;
     }

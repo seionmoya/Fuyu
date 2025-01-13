@@ -19,7 +19,6 @@ public class AccountService
     private static readonly Lazy<AccountService> instance = new(() => new AccountService());
 
     private readonly CoreOrm _coreOrm;
-    private readonly RequestService _requestService;
 
     /// <summary>
     /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
@@ -27,7 +26,6 @@ public class AccountService
     private AccountService()
     {
         _coreOrm = CoreOrm.Instance;
-        _requestService = RequestService.Instance;
     }
 
     public int AccountExists(string username)
@@ -203,35 +201,6 @@ public class AccountService
         WriteToDisk(account);
 
         return ERegisterStatus.Success;
-    }
-
-    public AccountRegisterGameResponse RegisterGame(string sessionId, string game, string edition)
-    {
-        var account = _coreOrm.GetAccount(sessionId);
-
-        // find existing game
-        if (account.Games.ContainsKey(game) && account.Games[game].HasValue)
-        {
-            return new AccountRegisterGameResponse()
-            {
-                Status = ERegisterStatus.AlreadyExists,
-                AccountId = -1
-            };
-        }
-
-        // register game
-        var accountId = _requestService.RegisterGame(game, account.Username, edition);
-        account.Games[game] = accountId;
-
-        // store result
-        _coreOrm.SetOrAddAccount(account);
-        WriteToDisk(account);
-
-        return new AccountRegisterGameResponse()
-        {
-            Status = ERegisterStatus.Success,
-            AccountId = accountId
-        };
     }
 
     public Dictionary<string, int?> GetGames(string sessionId)

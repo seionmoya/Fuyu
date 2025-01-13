@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -215,6 +216,8 @@ public class ModManager
                     .Where(a => !string.IsNullOrEmpty(a.Location))
                     // Ensure DataContract is included
                     .Append(typeof(DataContractAttribute).Assembly)
+                    // Ensure HttpClient is included
+                    .Append(typeof(HttpClient).Assembly)
                     // Create a MetadataReference from it
                     .Select(a => MetadataReference.CreateFromFile(a.Location));
         }

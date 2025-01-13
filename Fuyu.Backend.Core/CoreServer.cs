@@ -15,7 +15,6 @@ public class CoreServer : HttpServer
         HttpRouter.AddController<AccountLoginController>();
         HttpRouter.AddController<AccountLogoutController>();
         HttpRouter.AddController<AccountRegisterController>();
-        HttpRouter.AddController<AccountRegisterGameController>();
         HttpRouter.AddController<AccountGamesController>();
     }
 }

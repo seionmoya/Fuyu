@@ -66,7 +66,7 @@ public class HttpClient : IDisposable
         if (!response.IsSuccessStatusCode)
         {
             // response error
-            throw new Exception($"Code {response.StatusCode}");
+            throw new Exception($"Code {(int)response.StatusCode}");
         }
 
         var body = Array.Empty<byte>();

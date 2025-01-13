@@ -28,14 +28,14 @@ public static partial class AccountValidationService
     // NOTE: regex has no length constraint as the validation method
     //       contains it instead.
     // -- seionmoya, 2024/09/08
-    [GeneratedRegex("^(?=.*?[A-Z]).{0,}$")]
+    [GeneratedRegex("^(?=.*?[a-z]).{0,}$")]
     private static partial Regex LowerCaseRegex();
 
     // compile-time generated regex
     // NOTE: regex has no length constraint as the validation method
     //       contains it instead.
     // -- seionmoya, 2024/09/08
-    [GeneratedRegex("^(?=.*?[a-z]).{0,}$")]
+    [GeneratedRegex("^(?=.*?[A-Z]).{0,}$")]
     private static partial Regex UpperCaseRegex();
 
     // compile-time generated regex
@@ -62,7 +62,7 @@ public static partial class AccountValidationService
     // NOTE: regex has no length constraint as the validation method
     //       contains it instead.
     // -- seionmoya, 2024/09/08
-    [GeneratedRegex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{0,}$")]
+    [GeneratedRegex("^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{0,}$")]
     private static partial Regex PasswordRegex();
 
     public static ERegisterStatus ValidateUsername(string username)

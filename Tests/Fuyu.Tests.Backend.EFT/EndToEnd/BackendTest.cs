@@ -46,15 +46,7 @@ public class BackendTest
 
     private static int CreateGameAccount(string sessionId, string game, string edition)
     {
-        var response = AccountService.Instance.RegisterGame(sessionId, game, edition);
-
-        if (response.Status != ERegisterStatus.Success)
-        {
-            throw new Exception(response.Status.ToString());
-        }
-
         var gameAccountId = CoreOrm.Instance.GetAccount(sessionId).Games[game].Value;
-
         return gameAccountId;
     }
 

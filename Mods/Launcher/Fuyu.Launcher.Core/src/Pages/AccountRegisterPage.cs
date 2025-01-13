@@ -1,8 +1,14 @@
+using System;
+using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.Serialization;
 using Fuyu.Launcher.Common.Models.Messages;
 using Fuyu.Launcher.Common.Models.Pages;
+using Fuyu.Launcher.Common.Services;
+using Fuyu.Launcher.Core.Models.Accounts;
 using Fuyu.Launcher.Core.Models.Messages;
 using Fuyu.Launcher.Core.Models.Replies;
+using Fuyu.Launcher.Core.Models.Requests;
+using Fuyu.Launcher.Core.Models.Responses;
 
 namespace Fuyu.Launcher.Core.Pages;
 
@@ -38,42 +44,66 @@ public class AccountRegisterPage : AbstractPage
 
         if (string.IsNullOrWhiteSpace(data.Username))
         {
-            ReplyRegisterError();
+            SendRegisterErrorReply("Username is empty");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(data.Password))
         {
-            ReplyRegisterError();
+            SendRegisterErrorReply("Password is empty");
             return;
         }
 
-        // TODO: Registration request
-        // -- seionmoya, 2025-01-11
+        var request = new AccountRegisterRequest()
+        {
+            Username = data.Username,
+            Password = data.Password
+        };
+        var response = RequestService.Instance.Post<AccountRegisterResponse>("core", "/account/register", request);
 
-        // TODO: Registration validation
-        // -- seionmoya, 2025-01-11
+        if (response.Status == ERegisterStatus.Success)
+        {
+            SendRegisterSuccessReply();
 
-        // success! redirect
-        ReplyRegisterSuccess();
+            var page = "account-login.html";
+            NavigationService.NavigateInternal(page);
+        }
+        else
+        {
+            var errorMessage = response.Status switch
+            {
+                ERegisterStatus.UsernameEmpty => "No username provided.",
+                ERegisterStatus.UsernameTooShort => "Username is too short.",
+                ERegisterStatus.UsernameTooLong => "Username is too long.",
+                ERegisterStatus.UsernameInvalidCharacter => "Username contains invalid characters.",
+                ERegisterStatus.PasswordEmpty => "No password provided.",
+                ERegisterStatus.PasswordTooShort => "Password is too short.",
+                ERegisterStatus.PasswordTooLong => "Password is too long.",
+                ERegisterStatus.PasswordMissingLowerCase => "Password doesn't contain lower-case characters.",
+                ERegisterStatus.PasswordMissingUpperCase => "Password doesn't contain upper-case characters.",
+                ERegisterStatus.PasswordMissingDigit => "Password doesn't contain digits.",
+                ERegisterStatus.PasswordMissingSpecial => "Password doesn't contain special characters.",
+                ERegisterStatus.AlreadyExists => "Account already exists.",
+                _ => throw new Exception($"{response.Status} is not being handled")
+            };
 
-        var page = "account-login.html";
-        NavigationService.NavigateInternal(page);
+            SendRegisterErrorReply(errorMessage);
+        }
     }
 
-    void ReplyRegisterError()
+    void SendRegisterErrorReply(string errorMessage)
     {
         var reply = new RegisterAccountReply
         {
             Type = "REGISTER_ERROR",
-            Message = "Incorrect username or password."
+            Message = errorMessage
         };
 
         var json = Json.Stringify(reply);
         MessageService.SendMessage(json);
     }
 
-    void ReplyRegisterSuccess()
+    void SendRegisterSuccessReply()
     {
         var reply = new RegisterAccountReply
         {

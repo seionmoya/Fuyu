@@ -21,30 +21,29 @@ public class RequestService
         _httpClients = [];
     }
 
-    public void AddOrSetClient<T>(string id, Func<HttpClient> callback)
+    public void AddOrSetClient(string id, HttpClient httpClient)
     {
         if (_httpClients.ContainsKey(id))
         {
-            _httpClients[id] = callback();
+            _httpClients[id] = httpClient;
         }
         else
         {
-            var httpClient = callback();
             _httpClients.Add(id, httpClient);
         }
     }
 
     byte[] GetRequestBody(object o)
     {
-        var reqJson = Json.Stringify(o);
-        var body = Encoding.UTF8.GetBytes(reqJson);
+        var json = Json.Stringify(o);
+        var body = Encoding.UTF8.GetBytes(json);
         return body;
     }
 
     T GetResponseJson<T>(byte[] bytes)
     {
-        var respJson = Encoding.UTF8.GetString(bytes);
-        var o = Json.Parse<T>(respJson);
+        var json = Encoding.UTF8.GetString(bytes);
+        var o = Json.Parse<T>(json);
         return o;
     }
 
@@ -57,7 +56,7 @@ public class RequestService
     public TResponse Post<TResponse>(string id, string path, object o)
     {
         var body = GetRequestBody(o);
-        var resp = _httpClients[id].Put(path, body);
+        var resp = _httpClients[id].Post(path, body);
         return GetResponseJson<TResponse>(resp.Body);
     }
 
