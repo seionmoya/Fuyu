@@ -8,7 +8,7 @@ public static class Sha256
     public static string Generate(string text)
     {
         using var sha256 = SHA256.Create();
-        
+
         var sb = new StringBuilder();
         var encoded = Encoding.UTF8.GetBytes(text);
         var hash = sha256.ComputeHash(encoded);

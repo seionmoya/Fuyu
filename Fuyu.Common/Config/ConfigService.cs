@@ -27,7 +27,7 @@ public class ConfigService
         {
             instances.Value[platform] = new ConfigService(platform);
         }
-        
+
         return instances.Value[platform];
     }
 

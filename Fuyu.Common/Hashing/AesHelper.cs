@@ -18,7 +18,7 @@ public static class AesHelper
         using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
         using var ms = new MemoryStream();
         using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
-        
+
         cs.Write(data, 0, data.Length);
         cs.Close();
 
