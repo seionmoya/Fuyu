@@ -2,6 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Fuyu.Common.IO;
 using Fuyu.Common.Networking;
+using Fuyu.Common.Services;
 using Fuyu.DependencyInjection;
 using Fuyu.Launcher.Common.Services;
 using Fuyu.Launcher.Core.Pages;
@@ -16,17 +17,19 @@ public class Mod : AbstractMod
     public override string[] Dependencies { get; } = [];
 
     private ContentService _contentService;
+    private RequestService _requestService;
 
     public override Task OnLoad(DependencyContainer container)
     {
         // resolve dependencies
         _contentService = ContentService.Instance;
+        _requestService = RequestService.Instance;
 
         InitializePages();
         InitializeAssets();
 
         var coreHttpClient = new HttpClient("http://localhost:8000");
-        RequestService.Instance.AddOrSetClient("core", coreHttpClient);
+        _requestService.AddOrSetClient("core", coreHttpClient);
 
         return Task.CompletedTask;
     }
@@ -39,8 +42,6 @@ public class Mod : AbstractMod
         _ = new AccountRegisterPage();
         _ = new GameEftPage();
         _ = new SettingsPage();
-        _ = new StoreEftPage();
-        _ = new StoreLibraryPage();
     }
 
     void InitializeAssets()
@@ -48,7 +49,8 @@ public class Mod : AbstractMod
         //                              http://launcher.fuyu.api/*          callback
         _contentService.SetOrAddLoader("assets/css/bootstrap.min.css",      LoadContent);
         _contentService.SetOrAddLoader("assets/css/styles.css",             LoadContent);
-        _contentService.SetOrAddLoader("assets/img/logo.png",               LoadContent);
+        _contentService.SetOrAddLoader("assets/img/bg-eft.png",             LoadContent);
+        _contentService.SetOrAddLoader("assets/img/logo-eft.png",           LoadContent);
         _contentService.SetOrAddLoader("assets/js/bootstrap.bundle.min.js", LoadContent);
     }
 
@@ -58,7 +60,8 @@ public class Mod : AbstractMod
         {
             "assets/css/bootstrap.min.css"      => Resx.GetStream(Id, "assets.css.bootstrap.min.css"),
             "assets/css/styles.css"             => Resx.GetStream(Id, "assets.css.styles.css"),
-            "assets/img/logo.png"               => Resx.GetStream(Id, "assets.img.logo.png"),
+            "assets/img/bg-eft.png"             => Resx.GetStream(Id, "assets.img.bg-eft.png"),
+            "assets/img/logo-eft.png"           => Resx.GetStream(Id, "assets.img.logo-eft.png"),
             "assets/js/bootstrap.bundle.min.js" => Resx.GetStream(Id, "assets.js.bootstrap.bundle.min.js"),
             _                                   => throw new FileNotFoundException()
         };

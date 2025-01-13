@@ -1,5 +1,4 @@
 using System;
-using Fuyu.Backend.Core.Models.Responses;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
 using Fuyu.Launcher.Common.Models.Messages;
@@ -58,7 +57,7 @@ public class AccountRegisterPage : AbstractPage
         AccountRegisterResponse response;
         try
         {
-            response = RequestService.Instance.Post<AccountRegisterResponse>("core", "/account/register", request);
+            response = RequestService.Post<AccountRegisterResponse>("core", "/account/register", request);
         }
         catch (Exception ex)
         {

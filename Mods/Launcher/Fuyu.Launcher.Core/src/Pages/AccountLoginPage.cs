@@ -19,13 +19,6 @@ public class AccountLoginPage : AbstractPage
     protected override string Id { get; } = "Fuyu.Launcher.Core";
     protected override string Path { get; } = "account-login.html";
 
-    private readonly RequestService _requestService;
-
-    public AccountLoginPage() : base()
-    {
-        _requestService = RequestService.Instance;
-    }
-
     protected override void HandleMessage(string message)
     {
         var data = Json.Parse<Message>(message);
@@ -71,7 +64,7 @@ public class AccountLoginPage : AbstractPage
         AccountLoginResponse response;
         try
         {
-            response = _requestService.Post<AccountLoginResponse>("core", "/account/login", request);
+            response = RequestService.Post<AccountLoginResponse>("core", "/account/login", request);
         }
         catch (Exception ex)
         {
@@ -84,9 +77,9 @@ public class AccountLoginPage : AbstractPage
         if (response.Status == ELoginStatus.Success)
         {
             var coreClient = new CoreHttpClient("http://localhost:8000", response.SessionId);
-            _requestService.AddOrSetClient("core", coreClient);
+            RequestService.AddOrSetClient("core", coreClient);
 
-            var page = "account-library.html";
+            var page = "account-games.html";
             NavigationService.NavigateInternal(page);
         }
         else

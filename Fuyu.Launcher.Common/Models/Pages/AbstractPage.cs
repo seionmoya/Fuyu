@@ -1,5 +1,6 @@
 using System.IO;
 using Fuyu.Common.IO;
+using Fuyu.Common.Services;
 using Fuyu.Launcher.Common.Services;
 
 namespace Fuyu.Launcher.Common.Models.Pages;
@@ -12,6 +13,7 @@ public abstract class AbstractPage
     protected readonly ContentService ContentService;
     protected readonly MessageService MessageService;
     protected readonly NavigationService NavigationService;
+    protected readonly RequestService RequestService;
 
     public AbstractPage()
     {
@@ -19,6 +21,7 @@ public abstract class AbstractPage
         ContentService = ContentService.Instance;
         MessageService = MessageService.Instance;
         NavigationService = NavigationService.Instance;
+        RequestService = RequestService.Instance;
 
         // register page
         ContentService.SetOrAddLoader(Path, LoadContent);
