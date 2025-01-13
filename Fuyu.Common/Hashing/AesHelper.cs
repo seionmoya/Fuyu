@@ -6,46 +6,80 @@ namespace Fuyu.Common.Hashing;
 
 public static class AesHelper
 {
-    public static byte[] EncryptAes(byte[] data, byte[] Key)
-    {
-        using Aes aes = Aes.Create();
-        aes.GenerateIV();
-        aes.Padding = PaddingMode.Zeros;
-        aes.Key = Key;
-        var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+    private const int IV_SIZE = 16;
 
+    public static byte[] EncryptAes(byte[] data, byte[] key)
+    {
+        using var aes = Aes.Create();
+        aes.Padding = PaddingMode.Zeros;
+        aes.Key = key;
+        aes.GenerateIV();
+
+        using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
         using var ms = new MemoryStream();
-        // TODO: Make this better. Maybe just aes.EncryptEcb ?
         using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
+        
         cs.Write(data, 0, data.Length);
         cs.Close();
 
-        // EFT concat the bytes
+        // Concat faster than making new, using that.
         return aes.IV.Concat(ms.ToArray()).ToArray();
     }
 
-    public static byte[] DecryptAes(byte[] data, byte[] Key)
+
+    // NOTE: removeTail should always be true unless the trailing zero byte is desirable to keep
+    // -- seionmoya, 2025-01-11
+#if NET5_0_OR_GREATER
+    public static byte[] DecryptAes(byte[] data, byte[] key, bool removeTail = true)
     {
-        using Aes aes = Aes.Create();
+        using var aes = Aes.Create();
         aes.Padding = PaddingMode.Zeros;
-#if NET5_0_OR_GREATER
-        // This is faster than Linq.
-        aes.IV = data[..16];
-#else
-        aes.IV = data.Take(16).ToArray();
-#endif
-        aes.Key = Key;
+        aes.Key = key;
+        // get first 16 bytes as IV
+        aes.IV = data[..IV_SIZE];
+
         using var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-        // TODO: Make this better. Maybe just aes.DecryptEcb ?
         using var memory = new MemoryStream();
-        CryptoStream cryptoStream = new CryptoStream(memory, decryptor, CryptoStreamMode.Write);
-#if NET5_0_OR_GREATER
-        byte[] newData = data[..16];
-#else
-        byte[] newData = data.Skip(16).ToArray();
-#endif
+        using var cryptoStream = new CryptoStream(memory, decryptor, CryptoStreamMode.Write);
+
+        // get bytes after the length 16
+        var newData = data[IV_SIZE..];
         cryptoStream.Write(newData, 0, newData.Length);
         cryptoStream.Close();
-        return memory.ToArray();
+
+        var result = memory.ToArray();
+        if (removeTail)
+        {
+            // take the full length - 1
+            result = result[..^1];
+        }
+
+        return result;
     }
+#else
+    public static byte[] DecryptAes(byte[] data, byte[] Key, bool removeTail = true)
+    {
+        using var aes = Aes.Create();
+        aes.Padding = PaddingMode.Zeros;
+        aes.Key = Key;
+        aes.IV = data.Take(IV_SIZE).ToArray();
+
+        using var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+        using var memory = new MemoryStream();
+        using var cryptoStream = new CryptoStream(memory, decryptor, CryptoStreamMode.Write);
+
+        var newData = data.Skip(IV_SIZE).ToArray();
+        cryptoStream.Write(newData, 0, newData.Length);
+        cryptoStream.Close();
+        
+        var result = memory.ToArray();
+        if (removeTail)
+        {
+            result = result.Take(result.Length - 1).ToArray();
+        }
+
+        return result;
+    }
+#endif
+
 }
