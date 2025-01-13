@@ -28,6 +28,12 @@ public class WebViewService
     {
         _webview = webview;
 
+        // disable settings
+        _webview.Settings.AreDefaultContextMenusEnabled = false;
+        _webview.Settings.IsZoomControlEnabled = false;
+        _webview.Settings.IsPinchZoomEnabled = false;
+        _webview.Settings.IsSwipeNavigationEnabled = false;
+
         // add event listeners
         _webview.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
         _webview.NavigationStarting += NavigationStarting;
