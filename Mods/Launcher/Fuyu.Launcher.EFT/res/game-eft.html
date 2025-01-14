@@ -24,33 +24,26 @@
     </nav>
 
     <!-- content -->
-    <main>
-        <div class="p-5 text-light text-center bg-eft">
-            <div class="container py-5">
+    <main class="bg-eft">
+        <div class="container-fluid p-5">
+            <div class="py-5">
+
                 <!-- game banner -->
-                <h1 class="text-body-emphasis">Escape From Tarkov</h1>
-                <button class="btn btn-outline-warning" type="button" onclick="launchGame()">Launch</button>
-            </div>
-        </div>
+                <img src="./assets/img/logo-eft.png" alt="Logo">
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
-                    <!-- player stats here -->
-                </div>
-
-                <div class="col-6 justify-content-end">
-                    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                        <!-- side buttons -->
-                        <button type="button" class="btn btn-outline-light">View mods</button>
-                        <button type="button" class="btn btn-outline-light">View logs</button>
-                        <button type="button" class="btn btn-outline-light">Open game folder</button>
-                        <button type="button" class="btn btn-outline-light">Wipe profile</button>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
+
+    <!-- footer -->
+    <footer class="footer py-2 bg-body-tertiary">
+        <div class="container-fluid py-1">
+
+            <!-- launch game -->
+            <button class="btn btn-outline-warning" type="button" onclick="launchGame()">Launch</button>
+
+        </div>
+    </footer>
 
     <!-- load javascript -->
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
