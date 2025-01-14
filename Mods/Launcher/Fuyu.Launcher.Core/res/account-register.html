@@ -38,35 +38,59 @@
     <!-- content -->
     <main>
         <div class="container-fluid">
-            <div class="my-3">
+            <div class="row">
 
-                <!-- username -->
-                <label for="input-username" class="form-label">Username</label>
-                <input type="text" id="input-username" class="form-control" placeholder="User">
-                <div class="form-text">
-                    Your username must:
-                    <ul>
-                        <li>Be 8-15 characters long</li>
-                        <li>NOT contain special characters</li>
-                    </ul>
+                <!-- left side -->
+                <div class="col-6">
+
+                    <div class="mt-3">
+                        <!-- username -->
+                        <label for="input-username" class="form-label">Username</label>
+                        <input type="text" id="input-username" class="form-control" placeholder="User">
+                    </div>
+                    
+                    <div class="mt-3">
+                        <!-- password -->
+                        <label for="input-password" class="form-label">Password</label>
+                        <input type="password" id="input-password" class="form-control" placeholder="********">
+                    </div>
+    
+                    <div class="mt-3">
+                        <!-- submit -->
+                        <button class="btn btn-outline-light" type="button" onclick="register()">Register</button>
+                    </div>
+
                 </div>
 
-                <!-- password -->
-                <label for="input-password" class="form-label">Password</label>
-                <input type="password" id="input-password" class="form-control" placeholder="********">
-                <div class="form-text">
-                    Your password must:
-                    <ul>
-                        <li>Be 8-32 characters long</li>
-                        <li>Contain lowercase letters</li>
-                        <li>Contain uppercase letters</li>
-                        <li>Contain numbers</li>
-                        <li>Contain special characters</li>
-                    </ul>
-                </div>
+                <!-- right side -->
+                <div class="col-6 justify-content-end">
 
-                <!-- submit -->
-                <button class="btn btn-outline-light" type="button" onclick="register()">Register</button>
+                    <div class="mt-3">
+                        <!-- username requirements -->
+                        <div class="form-text">
+                            <p>Your username must:</p>
+                            <ul>
+                                <li>Be 3-15 characters long</li>
+                                <li>NOT contain special characters</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <!-- password requirements -->
+                        <div class="form-text mt-3">
+                            <p>Your password must:</p>
+                            <ul>
+                                <li>Be 8-32 characters long</li>
+                                <li>Contain lowercase letters</li>
+                                <li>Contain uppercase letters</li>
+                                <li>Contain numbers</li>
+                                <li>Contain special characters</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
         </div>

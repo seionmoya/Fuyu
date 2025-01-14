@@ -25,21 +25,23 @@
 
     <!-- content -->
     <main>
-        <div class="container-fluid">
-            <div class="p-3">
-                <div class="p-5 text-light text-center bg-eft">
-                    <h1 class="text-body-emphasis">Escape From Tarkov</h1>
-                    <button class="btn btn-outline" type="button btn-outline-warn" onclick="launchGame()">Launch</button>
-                </div>
+        <div class="p-5 text-light text-center bg-eft">
+            <div class="container py-5">
+                <!-- game banner -->
+                <h1 class="text-body-emphasis">Escape From Tarkov</h1>
+                <button class="btn btn-outline-warning" type="button" onclick="launchGame()">Launch</button>
             </div>
+        </div>
 
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
                     <!-- player stats here -->
                 </div>
 
-                <div class="col-6 align-right">
+                <div class="col-6 justify-content-end">
                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                        <!-- side buttons -->
                         <button type="button" class="btn btn-outline-light">View mods</button>
                         <button type="button" class="btn btn-outline-light">View logs</button>
                         <button type="button" class="btn btn-outline-light">Open game folder</button>
