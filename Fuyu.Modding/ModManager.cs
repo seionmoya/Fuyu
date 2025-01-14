@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using Fuyu.DependencyInjection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+
 
 namespace Fuyu.Modding;
 
@@ -226,10 +228,10 @@ public class ModManager
                 AppDomain.CurrentDomain.GetAssemblies()
                     // Where it is a disk on file
                     .Where(a => !string.IsNullOrEmpty(a.Location))
-                    // Ensure DataContract is included
+                    // Ensure type inclusion
                     .Append(typeof(DataContractAttribute).Assembly)
-                    // Ensure HttpClient is included
                     .Append(typeof(HttpClient).Assembly)
+                    .Append(typeof(CompressionLevel).Assembly)
                     // Create a MetadataReference from it
                     .Select(a => MetadataReference.CreateFromFile(a.Location));
         }
