@@ -1,10 +1,11 @@
 using System;
 using System.Reflection;
-using Fuyu.Common.IO;
 using HarmonyLib;
 
 namespace Fuyu.Client.Common.Reflection;
 
+// TODO: client-side logging
+// -- seionmoya, 2025-01-14
 public abstract class AbstractPatch
 {
     public readonly string Id;
@@ -28,7 +29,7 @@ public abstract class AbstractPatch
 
     public void Enable()
     {
-        Terminal.WriteLine($"Enabling: {Id}");
+        // Terminal.WriteLine($"Enabling: {Id}");
 
         var patch = GetPatchMethod();
         var target = GetOriginalMethod();
@@ -59,7 +60,7 @@ public abstract class AbstractPatch
 
     public void Disable()
     {
-        Terminal.WriteLine($"Disabling: {Id}");
+        // Terminal.WriteLine($"Disabling: {Id}");
 
         Harmony.UnpatchSelf();
     }

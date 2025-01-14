@@ -25,6 +25,8 @@ public class Mod : AbstractMod
         _contentService = ContentService.Instance;
         _requestService = RequestService.Instance;
 
+        Resx.SetSource(Id, this.GetType().Assembly);
+
         InitializePages();
         InitializeAssets();
 

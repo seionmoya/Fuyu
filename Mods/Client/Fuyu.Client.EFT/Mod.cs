@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Fuyu.Client.Common.Reflection;
 using Fuyu.Client.EFT.Patches;
 using Fuyu.Client.EFT.Utils;
-using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 
@@ -26,7 +25,7 @@ public class EFTMod : AbstractMod
 
     public override Task OnLoad(DependencyContainer container)
     {
-        Terminal.WriteLine("Patching...");
+        // Terminal.WriteLine("Patching...");
 
         // TODO: disable when running on HTTPS
         // -- seionmoya, 2024-11-19
@@ -42,7 +41,7 @@ public class EFTMod : AbstractMod
 
     public override Task OnShutdown()
     {
-        Terminal.WriteLine("Unpatching...");
+        // Terminal.WriteLine("Unpatching...");
 
         foreach (var patch in _patches)
         {

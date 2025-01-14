@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Fuyu.Client.Arena.Patches;
 using Fuyu.Client.Arena.Utils;
 using Fuyu.Client.Common.Reflection;
-using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 
@@ -27,7 +26,7 @@ public class ArenaMod : AbstractMod
 
     public override Task OnLoad(DependencyContainer container)
     {
-        Terminal.WriteLine("Patching...");
+        // Terminal.WriteLine("Patching...");
 
         // TODO: disable when running on HTTPS
         // -- seionmoya, 2024-11-19
@@ -43,7 +42,7 @@ public class ArenaMod : AbstractMod
 
     public override Task OnShutdown()
     {
-        Terminal.WriteLine("Unpatching...");
+        // Terminal.WriteLine("Unpatching...");
 
         foreach (var patch in _patches)
         {

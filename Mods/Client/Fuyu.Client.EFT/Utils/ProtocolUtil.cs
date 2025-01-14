@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fuyu.Client.EFT.Reflection;
-using Fuyu.Common.IO;
 using HarmonyLib;
 
 namespace Fuyu.Client.EFT.Utils;
@@ -14,7 +13,7 @@ public static class ProtocolUtil
     // -- seionmoya, 2024/08/xx
     public static void RemoveTransportPrefixes()
     {
-        Terminal.WriteLine("Removing transport prefixes...");
+        // Terminal.WriteLine("Removing transport prefixes...");
 
         var target = "TransportPrefixes";
         var type = PatchHelper.Types.Single(t => t.GetField(target) != null);

@@ -6,12 +6,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
-#if NET
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-#endif
 
 namespace Fuyu.Modding;
 
@@ -30,15 +27,14 @@ public class ModManager
 
     private readonly List<AbstractMod> _mods = new List<AbstractMod>();
 
-#if NET
     private ResourceDescription[] GetResources(string assemblyName, string rootPath)
     {
         var resourceRootPath = Path.Combine(rootPath, "res");
         var resourcePaths = Array.Empty<string>();
 
-        if (VFS.DirectoryExists(resourceRootPath))
+        if (Directory.Exists(resourceRootPath))
         {
-            resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
+            resourcePaths = Directory.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
         }
 
         if (resourcePaths.Length == 0)
@@ -61,24 +57,23 @@ public class ModManager
 
             return new ResourceDescription(
                 fileName,
-                () => VFS.OpenRead(resourcePath),
+                () => new FileStream(resourcePath, FileMode.Open, FileAccess.Read, FileShare.None),
                 isPublic: true
             );
         }).ToArray();
 
         return resources;
     }
-#endif
 
     public void AddMods(string directory)
     {
-        if (!VFS.DirectoryExists(directory))
+        if (!Directory.Exists(directory))
         {
-            VFS.CreateDirectory(directory);
+            Directory.CreateDirectory(directory);
             return;
         }
 
-        var subdirectories = VFS.GetDirectories(directory);
+        var subdirectories = Directory.GetDirectories(directory);
 
         foreach (var subdirectory in subdirectories)
         {
@@ -90,11 +85,11 @@ public class ModManager
                 case EModType.DLL:
                     ProcessDLLMod(modDirectory);
                     break;
-#if NET
+
                 case EModType.Source:
                     ProcessSourceFiles(modDirectory);
                     break;
-#endif
+
                 default:
                     throw new Exception($"{modDirectory} does not contain a valid mod setup");
             }
@@ -103,14 +98,14 @@ public class ModManager
 
     private EModType GetModType(string directory)
     {
-        if (VFS.GetFiles(directory, "*.dll").Length > 0)
+        if (Directory.GetFiles(directory, "*.dll").Length > 0)
         {
             return EModType.DLL;
         }
 
-        if (VFS.DirectoryExists(Path.Combine(directory, "src")))
+        if (Directory.Exists(Path.Combine(directory, "src")))
         {
-            if (VFS.GetFiles(Path.Combine(directory, "src"), "*.cs").Length > 0)
+            if (Directory.GetFiles(Path.Combine(directory, "src"), "*.cs").Length > 0)
             {
                 return EModType.Source;
             }
@@ -121,7 +116,7 @@ public class ModManager
 
     private void ProcessDLLMod(string directory)
     {
-        var dllPaths = VFS.GetFiles(directory, "*.dll");
+        var dllPaths = Directory.GetFiles(directory, "*.dll");
 
         foreach (var dllPath in dllPaths)
         {
@@ -132,17 +127,6 @@ public class ModManager
 
     private void ProcessAssembly(Assembly assembly, EModType assemblyModType)
     {
-#if NET
-        if (assemblyModType == EModType.DLL)
-        {
-            var resourceAssembly = GenerateResourceAssembly(assembly);
-            if (resourceAssembly != null)
-            {
-                Resx.SetSource(assembly.GetName().Name, resourceAssembly);
-            }
-        }
-#endif
-
         // Get types where T inherits from Mod
         var modTypes = assembly.GetExportedTypes()
             .Where(t => typeof(AbstractMod).IsAssignableFrom(t));
@@ -157,7 +141,7 @@ public class ModManager
                 throw new Exception($"A mod with the id {mod.Id} has already been added");
             }
 
-            Terminal.WriteLine($"Adding mod {mod.Name} ({mod.Id})");
+            Console.WriteLine($"Adding mod {mod.Name} ({mod.Id})");
             _mods.Add(mod);
         }
     }
@@ -219,7 +203,7 @@ public class ModManager
     {
         if (mod.IsLoaded)
         {
-            Terminal.WriteLine($"[{mod.Name} - ({mod.Id})] Unloading");
+            Console.WriteLine($"[{mod.Name} - ({mod.Id})] Unloading");
             await mod.OnShutdown();
             mod.IsLoaded = false;
         }
@@ -227,7 +211,6 @@ public class ModManager
         _mods.Remove(mod);
     }
 
-#if NET
     private CSharpCompilation CreateCompilation(
         string assemblyName,
         IEnumerable<SyntaxTree> syntaxTrees,
@@ -265,7 +248,7 @@ public class ModManager
 
     private void ProcessSourceFiles(string directory)
     {
-        var sourceFiles = VFS.GetFiles(Path.Combine(directory, "src"), "*.cs", SearchOption.AllDirectories);
+        var sourceFiles = Directory.GetFiles(Path.Combine(directory, "src"), "*.cs", SearchOption.AllDirectories);
 
         if (sourceFiles.Length == 0)
         {
@@ -277,7 +260,7 @@ public class ModManager
 
         foreach (var file in sourceFiles)
         {
-            var fileContents = VFS.ReadTextFile(file);
+            var fileContents = File.ReadAllText(file);
             var syntaxTree = CSharpSyntaxTree.ParseText(
                 fileContents,
                 new CSharpParseOptions(
@@ -316,7 +299,6 @@ public class ModManager
             assembly = Assembly.Load(ms.ToArray());
         }
 
-        Resx.SetSource(assemblyName, assembly);
         ProcessAssembly(assembly, EModType.Source);
     }
 
@@ -347,5 +329,4 @@ public class ModManager
             return resourceAssembly;
         }
     }
-#endif
 }

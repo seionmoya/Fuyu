@@ -35,7 +35,6 @@ public static class MemoryZlib
 
     public static byte[] Compress(byte[] data, CompressionLevel level)
     {
-#if NET6_0_OR_GREATER
         // backend or launcher: decompress
         using (var msin = new MemoryStream(data))
         {
@@ -49,15 +48,10 @@ public static class MemoryZlib
                 }
             }
         }
-#else
-        // client: not supported
-        throw new NotSupportedException();
-#endif
     }
 
     public static byte[] Decompress(byte[] data)
     {
-#if NET6_0_OR_GREATER
         // backend or launcher: decompress
         using (var msin = new MemoryStream(data))
         {
@@ -70,9 +64,5 @@ public static class MemoryZlib
                 }
             }
         }
-#else
-        // client: not supported
-        throw new NotSupportedException();
-#endif
     }
 }

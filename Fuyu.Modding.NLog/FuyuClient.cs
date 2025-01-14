@@ -1,29 +1,27 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
-using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
-using NLog;
 using NLog.Targets;
 
 [Target(nameof(FuyuClient))]
 public sealed class FuyuClient : TargetWithLayout
 {
+    // TODO: Client logging support
+    // -- seionmoya, 2024-01-14
     protected override void InitializeTarget()
     {
         var container = new DependencyContainer();
 
-        Terminal.SetLogFile("Fuyu/Logs/Client.log");
+        // Terminal.SetLogFile("Fuyu/Logs/Client.log");
 
         CheckIncompatibleSoftware();
 
-        Terminal.WriteLine("Loading mods...");
+        // Terminal.WriteLine("Loading mods...");
         ModManager.Instance.AddMods("./Fuyu/Mods/Client");
         ModManager.Instance.Load(container).GetAwaiter().GetResult();
-        Terminal.WriteLine("Finished loading mods");
-
-        // TODO: OnApplicationQuit
-        // -- seionmoya, 20205-01-04
+        // Terminal.WriteLine("Finished loading mods");
     }
 
     private void CheckIncompatibleSoftware()
@@ -40,7 +38,7 @@ public sealed class FuyuClient : TargetWithLayout
 
         foreach (var kvp in record)
         {
-            if (VFS.Exists(kvp.Key))
+            if (File.Exists(kvp.Key))
             {
                 throw new Exception($"{kvp.Value} found. Please remove the software from the client before proceeding.");
             }
