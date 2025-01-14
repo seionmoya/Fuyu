@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using Fuyu.Common.Client.Services;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 using NLog.Targets;
@@ -8,20 +8,29 @@ using NLog.Targets;
 [Target(nameof(FuyuClient))]
 public sealed class FuyuClient : TargetWithLayout
 {
-    // TODO: Client logging support
-    // -- seionmoya, 2024-01-14
+    private FileSystemService _fileSystemService;
+    private LogService _logService;
+
     protected override void InitializeTarget()
     {
         var container = new DependencyContainer();
 
-        // Terminal.SetLogFile("Fuyu/Logs/Client.log");
+        // resolve dependencies
+        _fileSystemService = FileSystemService.Instance;
+        _logService = LogService.Instance;
 
+        // setup logging
+        _logService.SetLogConfig("Fuyu.Client", "Fuyu/Logs/Client.log");
+
+        // verify game directory
         CheckIncompatibleSoftware();
 
-        // Terminal.WriteLine("Loading mods...");
+        // load mods
+        _logService.WriteLine("Loading mods...");
         ModManager.Instance.AddMods("./Fuyu/Mods/Client");
         ModManager.Instance.Load(container).GetAwaiter().GetResult();
-        // Terminal.WriteLine("Finished loading mods");
+
+        _logService.WriteLine("Finished loading!");
     }
 
     private void CheckIncompatibleSoftware()
@@ -38,9 +47,11 @@ public sealed class FuyuClient : TargetWithLayout
 
         foreach (var kvp in record)
         {
-            if (File.Exists(kvp.Key))
+            if (_fileSystemService.FileExists(kvp.Key))
             {
-                throw new Exception($"{kvp.Value} found. Please remove the software from the client before proceeding.");
+                var ex = new Exception($"{kvp.Value} found. Please remove the software from the client before proceeding.");
+                _logService.WriteLine(ex);
+                throw ex;
             }
         }
     }

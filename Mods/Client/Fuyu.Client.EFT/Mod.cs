@@ -7,29 +7,26 @@ using Fuyu.Modding;
 
 namespace Fuyu.Client.EFT;
 
-public class EFTMod : AbstractMod
+public class Mod : AbstractMod
 {
-    private readonly AbstractPatch[] _patches;
-
     public override string Id { get; } = "Fuyu.Client.EFT";
     public override string Name { get; } = "Fuyu.Client.EFT";
 
-    public EFTMod()
+    private readonly AbstractPatch[] _patches;
+
+    public Mod()
     {
-        _patches = new AbstractPatch[]
-        {
+        _patches = [
             new BattlEyePatch(),
             new ConsistencyGeneralPatch()
-        };
+        ];
     }
 
     public override Task OnLoad(DependencyContainer container)
     {
-        // Terminal.WriteLine("Patching...");
-
         // TODO: disable when running on HTTPS
         // -- seionmoya, 2024-11-19
-        ProtocolUtil.RemoveTransportPrefixes();
+        new ProtocolUtil().RemoveTransportPrefixes();
 
         foreach (var patch in _patches)
         {
@@ -41,8 +38,6 @@ public class EFTMod : AbstractMod
 
     public override Task OnShutdown()
     {
-        // Terminal.WriteLine("Unpatching...");
-
         foreach (var patch in _patches)
         {
             patch.Disable();

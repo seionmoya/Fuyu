@@ -1,19 +1,22 @@
 using System;
 using System.Reflection;
+using Fuyu.Common.Client.Services;
 using HarmonyLib;
 
 namespace Fuyu.Common.Client.Reflection;
 
-// TODO: client-side logging
-// -- seionmoya, 2025-01-14
 public abstract class AbstractPatch
 {
+    public readonly LogService LogService;
+
     public readonly string Id;
     public readonly EPatchType Type;
     public readonly Harmony Harmony;
 
     public AbstractPatch(string id, EPatchType type)
     {
+        LogService = LogService.Instance;
+
         Id = id;
         Type = type;
         Harmony = new Harmony(Id);
@@ -29,14 +32,16 @@ public abstract class AbstractPatch
 
     public void Enable()
     {
-        // Terminal.WriteLine($"Enabling: {Id}");
+        LogService.WriteLine($"Enabling: {Id}");
 
         var patch = GetPatchMethod();
         var target = GetOriginalMethod();
 
         if (target == null)
         {
-            throw new InvalidOperationException($"{Id}: GetOriginalMethod returns null");
+            var ex = new InvalidOperationException($"{Id}: GetOriginalMethod returns null");
+            LogService.WriteLine(ex);
+            throw ex;
         }
 
         switch (Type)
@@ -54,14 +59,15 @@ public abstract class AbstractPatch
                 return;
 
             default:
-                throw new NotImplementedException("Patch type");
+                var ex = new NotImplementedException("Patch type");
+                LogService.WriteLine(ex);
+                throw ex;
         }
     }
 
     public void Disable()
     {
-        // Terminal.WriteLine($"Disabling: {Id}");
-
+        LogService.WriteLine($"Disabling: {Id}");
         Harmony.UnpatchSelf();
     }
 }
