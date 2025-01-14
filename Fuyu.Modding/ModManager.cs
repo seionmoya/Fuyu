@@ -302,32 +302,4 @@ public class ModManager
 
         ProcessAssembly(assembly, EModType.Source);
     }
-
-    private Assembly GenerateResourceAssembly(Assembly sourceAssembly)
-    {
-        var assemblyName = sourceAssembly.GetName().Name;
-        var resources = GetResources(assemblyName, sourceAssembly.Location);
-        var compilation = CreateCompilation($"{assemblyName}.Resources", Array.Empty<SyntaxTree>(), false);
-
-        using (var assemblyStream = new MemoryStream())
-        {
-            var emitResult = compilation.Emit(assemblyStream, manifestResources: resources);
-
-            if (!emitResult.Success)
-            {
-                var errors = emitResult.Diagnostics
-                    .Where(d => !d.IsSuppressed && d.Severity == DiagnosticSeverity.Error);
-
-                // Technically no cleanup is being done here but that's because this is considered a
-                // failed state and the ModManager should no longer live (and therefore the program)
-                // -- nexus4880, 2024-12-3
-
-                throw new Exception(string.Join(Environment.NewLine, errors));
-            }
-
-            var resourceAssembly = Assembly.Load(assemblyStream.ToArray());
-
-            return resourceAssembly;
-        }
-    }
 }
