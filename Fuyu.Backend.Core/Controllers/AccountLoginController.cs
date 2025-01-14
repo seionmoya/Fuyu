@@ -6,7 +6,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.Core.Controllers;
 
-public class AccountLoginController : CoreHttpController<AccountLoginRequest>
+public class AccountLoginController : AbstractCoreHttpController<AccountLoginRequest>
 {
     private readonly AccountService _accountService;
 

@@ -155,11 +155,6 @@ public class AccountService
         }
     }
 
-    // TODO:
-    // * store max username length, min/max password length, security requirements in config
-    // * validate username characters (only alphabetical, numbers)
-    // * validate password characters (only alphabetical, numbers, some special characters)
-    // -- seionmoya, 2024/09/08
     public ERegisterStatus RegisterAccount(string username, string password)
     {
         // validate username
@@ -189,11 +184,7 @@ public class AccountService
             Id = GetNewAccountId(),
             Username = username.ToLowerInvariant(),
             Password = hashedPassword,
-            Games = new Dictionary<string, int?>
-            {
-                { "eft",    null },
-                { "arena",  null }
-            },
+            Games = [],
             IsBanned = false
         };
 
@@ -203,10 +194,17 @@ public class AccountService
         return ERegisterStatus.Success;
     }
 
-    public Dictionary<string, int?> GetGames(string sessionId)
+    public AccountGetResponse GetStrippedAccount(string sessionId)
     {
         var account = _coreOrm.GetAccount(sessionId);
-        return account.Games;
+
+        var strippedAccount = new AccountGetResponse()
+        {
+            Username = account.Username,
+            Games = account.Games
+        };
+
+        return strippedAccount;
     }
 
     public void WriteToDisk(Account account)

@@ -1,7 +1,7 @@
 using Fuyu.Backend.Core.Controllers;
 using Fuyu.Common.Networking;
 
-namespace Fuyu.Backend.Core.Servers;
+namespace Fuyu.Backend.Core;
 
 public class CoreServer : HttpServer
 {
@@ -12,9 +12,9 @@ public class CoreServer : HttpServer
     public void RegisterServices()
     {
         HttpRouter.AddController<PingController>();
+        HttpRouter.AddController<AccountGetController>();
         HttpRouter.AddController<AccountLoginController>();
         HttpRouter.AddController<AccountLogoutController>();
         HttpRouter.AddController<AccountRegisterController>();
-        HttpRouter.AddController<AccountGamesController>();
     }
 }
