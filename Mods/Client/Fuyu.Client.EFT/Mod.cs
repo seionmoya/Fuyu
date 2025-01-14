@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Fuyu.Client.Common.Reflection;
+using Fuyu.Common.Client.Reflection;
 using Fuyu.Client.EFT.Patches;
 using Fuyu.Client.EFT.Utils;
 using Fuyu.DependencyInjection;

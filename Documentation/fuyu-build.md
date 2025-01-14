@@ -72,5 +72,5 @@ Terminal > Run Task... > Fuyu: Test
 4. Copy-paste `Mods/` into `<gamedir>/Fuyu/`
 5. Delete `bin` and `obj` inside `<gamedir>/Fuyu/Mods/**/*`
 6. Copy-paste `Fuyu.Modding.NLog/bin/Release/net48/publish/*.dll` into `<gamedir>/EscapeFroMTarkov_data/Managed/`
-7. Copy-paste `Mods/Client/Fuyu.Client.Common//bin/Release/net48/publish/*.dll`
-   except `Fuyu.Client.Common.dll` into `<gamedir>/Fuyu/Client/Fuyu.Client.Common/`
+7. Copy-paste `Mods/Client/Fuyu.Common.Client//bin/Release/net48/publish/*.dll`
+   except `Fuyu.Common.Client.dll` into `<gamedir>/Fuyu/Client/Fuyu.Common.Client/`

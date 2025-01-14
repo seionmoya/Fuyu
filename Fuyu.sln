@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Arena", "Fuyu.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.BSG", "Fuyu.Backend.BSG\Fuyu.Backend.BSG.csproj", "{E17DFDEA-8EF9-4859-8671-F16A0C0F9AB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Common", "Fuyu.Backend.Common\Fuyu.Backend.Common.csproj", "{BB644821-DCB4-4BFB-B291-FDCAAEE0CD76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Common.Backend", "Fuyu.Common.Backend\Fuyu.Common.Backend.csproj", "{BB644821-DCB4-4BFB-B291-FDCAAEE0CD76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Backend.Core", "Fuyu.Backend.Core\Fuyu.Backend.Core.csproj", "{26EAF8DC-D482-409F-B2D5-FEB314413F61}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Launcher.Core", "Mods\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Client.Arena", "Mods\Client\Fuyu.Client.Arena\Fuyu.Client.Arena.csproj", "{1346446F-1914-4008-BF39-C115303A0B0A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Client.Common", "Mods\Client\Fuyu.Client.Common\Fuyu.Client.Common.csproj", "{C9544557-EF73-485C-9578-410F373DFCF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fuyu.Common.Client", "Fuyu.Common.Client\Fuyu.Common.Client.csproj", "{C9544557-EF73-485C-9578-410F373DFCF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Client.EFT", "Mods\Client\Fuyu.Client.EFT\Fuyu.Client.EFT.csproj", "{6C285025-50E9-4970-AFBF-4D216BCD4D7D}"
 EndProject
@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Modding", "Fuyu.Moddin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Modding.NLog", "Fuyu.Modding.NLog\Fuyu.Modding.NLog.csproj", "{335E42B4-0EDD-4CDD-908A-C109272FB181}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Launcher.Common", "Fuyu.Launcher.Common\Fuyu.Launcher.Common.csproj", "{DBBA78DD-8B76-4BFB-BA80-138337A6BE5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Common.Launcher", "Fuyu.Common.Launcher\Fuyu.Common.Launcher.csproj", "{DBBA78DD-8B76-4BFB-BA80-138337A6BE5C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mods", "Mods", "{EC717D12-BC9D-4470-9A98-67B2A870CF36}"
 EndProject

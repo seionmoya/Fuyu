@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Fuyu.Client.Common/Fuyu.Client.Common.csproj" />
+    <ProjectReference Include="../../../Fuyu.Common.Client/Fuyu.Common.Client.csproj" />
   </ItemGroup>
 
 </Project>

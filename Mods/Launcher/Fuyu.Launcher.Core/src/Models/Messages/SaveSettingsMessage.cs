@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Launcher.Common.Models.Messages;
+namespace Fuyu.Common.Launcher.Models.Messages;
 
 [DataContract]
 public class SaveSettingsMessage : Message

@@ -3,7 +3,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Fuyu.Client.Common.Reflection;
+using Fuyu.Common.Client.Reflection;
 using Fuyu.Client.EFT.Reflection;
 
 namespace Fuyu.Client.EFT.Patches;

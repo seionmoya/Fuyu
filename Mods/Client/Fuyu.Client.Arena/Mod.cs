@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Fuyu.Client.Arena.Patches;
 using Fuyu.Client.Arena.Utils;
-using Fuyu.Client.Common.Reflection;
+using Fuyu.Common.Client.Reflection;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 

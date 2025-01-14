@@ -1,9 +1,9 @@
 using System;
 using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using Fuyu.Launcher.Common.Models.Messages;
-using Fuyu.Launcher.Common.Models.Pages;
-using Fuyu.Launcher.Common.Services;
+using Fuyu.Common.Launcher.Models.Messages;
+using Fuyu.Common.Launcher.Models.Pages;
+using Fuyu.Common.Launcher.Services;
 using Fuyu.Launcher.Core.Models.Accounts;
 using Fuyu.Launcher.Core.Models.Messages;
 using Fuyu.Launcher.Core.Models.Replies;

@@ -4,7 +4,7 @@ using Fuyu.Common.IO;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Services;
 using Fuyu.DependencyInjection;
-using Fuyu.Launcher.Common.Services;
+using Fuyu.Common.Launcher.Services;
 using Fuyu.Launcher.Core.Pages;
 using Fuyu.Modding;
 

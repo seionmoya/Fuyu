@@ -1,6 +1,6 @@
 using Fuyu.Common.Serialization;
-using Fuyu.Launcher.Common.Models.Messages;
-using Fuyu.Launcher.Common.Models.Pages;
+using Fuyu.Common.Launcher.Models.Messages;
+using Fuyu.Common.Launcher.Models.Pages;
 
 namespace Fuyu.Launcher.Core.Pages;
 

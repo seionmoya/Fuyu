@@ -1,5 +1,5 @@
 using System.Runtime.Serialization;
-using Fuyu.Launcher.Common.Models.Replies;
+using Fuyu.Common.Launcher.Models.Replies;
 
 namespace Fuyu.Launcher.Core.Models.Replies;
 

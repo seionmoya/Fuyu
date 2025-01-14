@@ -2,7 +2,7 @@
 using Fuyu.Common.IO;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
-using Fuyu.Launcher.Common.Services;
+using Fuyu.Common.Launcher.Services;
 using System.IO;
 
 namespace Fuyu.Launcher;
@@ -49,7 +49,7 @@ public partial class MainWindow : Window
 
 #if DEBUG
         // NOTE: assumes running inside VSCode or VS2022+
-        var modPath = "../../../../Mods/Launcher";
+        var modPath = "../../../../../Mods/Launcher";
 #else
         var modPath = "./Fuyu/Mods/Launcher";
 #endif

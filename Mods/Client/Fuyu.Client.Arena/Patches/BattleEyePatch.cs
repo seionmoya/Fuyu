@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Fuyu.Client.Arena.Reflection;
-using Fuyu.Client.Common.Reflection;
+using Fuyu.Common.Client.Reflection;
 
 namespace Fuyu.Client.Arena.Patches;
 
