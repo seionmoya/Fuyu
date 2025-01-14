@@ -19,13 +19,18 @@ public class Mod : AbstractMod
     ];
 
     private ContentService _contentService;
+    private RequestService _requestService;
 
     public override Task OnLoad(DependencyContainer container)
     {
         // resolve dependencies
         _contentService = ContentService.Instance;
+        _requestService = RequestService.Instance;
 
         Resx.SetSource(Id, this.GetType().Assembly);
+
+        var eftHttpClient = new HttpClient("http://localhost:8010");
+        _requestService.AddOrSetClient("eft", eftHttpClient);
 
         InitializePages();
         InitializeAssets();

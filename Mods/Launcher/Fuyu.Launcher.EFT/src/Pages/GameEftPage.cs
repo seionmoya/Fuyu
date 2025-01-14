@@ -5,6 +5,8 @@ using Fuyu.Common.Launcher.Models.Pages;
 using Fuyu.Launcher.EFT.Models.Configs;
 using Fuyu.Launcher.EFT.Models.Messages;
 using Fuyu.Launcher.EFT.Models.Replies;
+using Fuyu.Launcher.EFT.Models.Responses;
+using Fuyu.Launcher.EFT.Models.Requests;
 
 namespace Fuyu.Launcher.EFT.Pages;
 
@@ -13,13 +15,11 @@ public class GameEftPage : AbstractPage
     protected override string Id { get; } = "Fuyu.Launcher.EFT";
     protected override string Path { get; } = "game-eft.html";
 
-    private string _eftPath;
-    private string _eftSessionId;
+    private readonly string _eftPath;
 
     public GameEftPage() : base()
     {
-        _eftPath = string.Empty;
-        _eftSessionId = string.Empty;
+        _eftPath = @"C:\Games\EFT-Live";
     }
 
     protected override void HandleMessage(string message)
@@ -38,9 +38,13 @@ public class GameEftPage : AbstractPage
     {
         var body = Json.Parse<LaunchGameMessage>(message);
 
+        // request sessionId
+        var accountId = RequestGameAccountId("eft", "unheard");
+        var gameSessionId = RequestSessionId(accountId);
+
         // TODO: Keep track of game lifecycle
         // -- seionmoya, 2025-01-11
-        var process = GetEftProcess(_eftPath, "http://localhost:8010/", _eftSessionId);
+        var process = GetEftProcess(_eftPath, "http://localhost:8010/", gameSessionId);
         process.Start();
 
         ReplyLaunchSuccess();
@@ -56,6 +60,41 @@ public class GameEftPage : AbstractPage
 
         var json = Json.Stringify(reply);
         MessageService.SendMessage(json);
+    }
+
+    int RequestGameAccountId(string game, string edition)
+    {
+        var account = RequestService.Get<AccountGetResponse>("core", "/account/get");
+
+        if (account.Games.TryGetValue(game, out int? gameAccountId) && gameAccountId.HasValue)
+        {
+            // find existing game account
+            return gameAccountId.Value;
+        }
+        else
+        {
+            // register game
+            var request = new AccountRegisterGameRequest()
+            {
+                Game = game,
+                Edition = edition
+            };
+            var response = RequestService.Post<AccountRegisterGameResponse>("core", "/account/register/game", request);
+
+            return response.AccountId;
+        }
+    }
+
+    string RequestSessionId(int accountId)
+    {
+        var request = new FuyuGameLoginRequest()
+        {
+            AccountId = accountId
+        };
+        var response = RequestService.Post<FuyuGameLoginResponse>("eft", "/fuyu/game/login", request);
+
+        var sessionId = response.SessionId;
+        return sessionId;
     }
 
     Process GetEftProcess(string cwd, string sessionId, string address)

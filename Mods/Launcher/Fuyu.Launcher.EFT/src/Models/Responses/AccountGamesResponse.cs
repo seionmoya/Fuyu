@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Fuyu.Backend.Core.Models.Responses;
+namespace Fuyu.Launcher.EFT.Models.Responses;
 
 [DataContract]
 public class AccountGamesResponse

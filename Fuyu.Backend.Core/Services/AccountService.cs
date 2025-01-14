@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Fuyu.Backend.Core.Models.Accounts;
 using Fuyu.Backend.Core.Models.Responses;
+using Fuyu.Common.Backend.Models.Responses;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
+using Fuyu.Common.Models.Requests;
 using Fuyu.Common.Serialization;
+using Fuyu.Common.Services;
 
 namespace Fuyu.Backend.Core.Services;
 
@@ -19,6 +22,7 @@ public class AccountService
     private static readonly Lazy<AccountService> instance = new(() => new AccountService());
 
     private readonly CoreOrm _coreOrm;
+    private readonly RequestService _requestService;
 
     /// <summary>
     /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
@@ -26,6 +30,7 @@ public class AccountService
     private AccountService()
     {
         _coreOrm = CoreOrm.Instance;
+        _requestService = RequestService.Instance;
     }
 
     public int AccountExists(string username)
@@ -192,6 +197,31 @@ public class AccountService
         WriteToDisk(account);
 
         return ERegisterStatus.Success;
+    }
+
+    public AccountRegisterGameResponse RegisterGame(string sessionId, string game, string edition)
+    {
+        var account = _coreOrm.GetAccount(sessionId);
+
+        // register game
+        var request = new FuyuGameRegisterRequest()
+        {
+            Username = game,
+            Edition = edition
+        };
+        var response = _requestService.Post<FuyuGameRegisterResponse>(game, "/fuyu/game/register", request);
+        var accountId = response.AccountId;
+
+        // store result
+        account.Games[game] = accountId;
+
+        _coreOrm.SetOrAddAccount(account);
+        WriteToDisk(account);
+
+        return new AccountRegisterGameResponse()
+        {
+            AccountId = accountId
+        };
     }
 
     public AccountGetResponse GetStrippedAccount(string sessionId)
