@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.EFTMain.Networking;
@@ -19,7 +20,8 @@ public class GameStartController : AbstractEftHttpController
         {
             data = new GameStartResponse()
             {
-                utc_time = 1711579783.2164
+                // TODO: update with TimeService later
+                utc_time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() / 1000d
             }
         };
 
