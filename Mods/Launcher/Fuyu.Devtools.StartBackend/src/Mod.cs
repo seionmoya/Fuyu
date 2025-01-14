@@ -13,7 +13,7 @@ public class Mod : AbstractMod
 
     public override Task OnLoad(DependencyContainer container)
     {
-        var cwd = "../../../../Fuyu.Backend/bin/Debug/net9.0/win-x64";
+        var cwd = "../../../../../Fuyu.Backend/bin/Debug/net9.0/win-x64";
         var process = new Process()
         {
             StartInfo = new ProcessStartInfo()
