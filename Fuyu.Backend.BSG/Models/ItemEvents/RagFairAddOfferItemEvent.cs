@@ -13,7 +13,7 @@ public class RagFairAddOfferItemEvent : BaseItemEvent
 
     [DataMember(Name = "items")]
     public List<MongoId> Items { get; set; }
-    
+
     [DataMember(Name = "requirements")]
     public List<HandoverRequirement> Requirements { get; set; }
 }

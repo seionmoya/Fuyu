@@ -14,7 +14,7 @@ public class RagFairRenewOfferItemEvent : BaseItemEvent
     // -- nexus4880, 2025-1-13
     /*[DataMember(Name = "priority")]
     public bool Priority { get; set; }*/
-    
+
     [DataMember(Name = "renewalTime")]
     public int RenewalTime { get; set; }
 }

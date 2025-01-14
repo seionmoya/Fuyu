@@ -22,7 +22,7 @@ public class HandbookTemplatesController : AbstractEftHttpController
         {
             data = _eftOrm.GetHandbook()
         };
-        
+
         return context.SendResponseAsync(response, true, true);
     }
 }

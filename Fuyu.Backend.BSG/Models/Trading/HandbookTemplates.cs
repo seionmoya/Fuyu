@@ -8,7 +8,7 @@ public class HandbookTemplates
 {
     [DataMember(Name = "Categories")]
     public List<HandbookCategory> Categories { get; set; }
-    
+
     [DataMember(Name = "Items")]
     public List<HandbookItem> Items { get; set; }
 }

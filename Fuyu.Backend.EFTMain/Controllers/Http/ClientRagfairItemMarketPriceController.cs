@@ -10,7 +10,7 @@ namespace Fuyu.Backend.EFTMain.Controllers.Http;
 public class ClientRagfairItemMarketPriceController : AbstractEftHttpController<ClientRagfairItemMarketPriceRequest>
 {
     private readonly RagfairService _ragfairService;
-    
+
     public ClientRagfairItemMarketPriceController() : base("/client/ragfair/itemMarketPrice")
     {
         _ragfairService = RagfairService.Instance;
@@ -23,12 +23,12 @@ public class ClientRagfairItemMarketPriceController : AbstractEftHttpController<
         var maximum = float.MinValue;
         var count = 0;
         var average = 0f;
-        
+
         foreach (var offer in offers)
         {
             count++;
             average += offer.ItemsCost;
-            
+
             if (offer.ItemsCost < minimum)
             {
                 minimum = offer.ItemsCost;
@@ -46,10 +46,12 @@ public class ClientRagfairItemMarketPriceController : AbstractEftHttpController<
         {
             data = new ClientRagfairItemMarketPriceResponse()
             {
-                Maximum = maximum, Minimum = minimum, Average = average
+                Maximum = maximum,
+                Minimum = minimum,
+                Average = average
             }
         };
-        
+
         return context.SendResponseAsync(response, true, true);
     }
 }

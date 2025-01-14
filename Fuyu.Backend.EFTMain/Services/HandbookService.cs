@@ -20,11 +20,11 @@ public class HandbookService
         _eftOrm = EftOrm.Instance;
         _generatedCategoryId = new MongoId(true);
     }
-    
+
     public HashSet<HandbookCategory> GetHandbookTree(List<HandbookCategory> categories, MongoId rootId)
     {
         var rootEntry = categories.Find(c => c.Id == rootId);
-        
+
         if (rootEntry == null)
         {
             return [];
@@ -53,21 +53,24 @@ public class HandbookService
     {
         var handbook = _eftOrm.GetHandbook();
         var entry = handbook.Items.Find(i => i.Id == templateId);
-        
+
         if (entry != null)
         {
             return entry.Price;
         }
 
         var generatedCategory = handbook.Categories.Find(i => i.Id == _generatedCategoryId);
-        
+
         if (generatedCategory == null)
         {
             generatedCategory = new HandbookCategory
             {
-                Id = _generatedCategoryId, ParentId = "", Icon = "dd", Color = "#ff0000"
+                Id = _generatedCategoryId,
+                ParentId = "",
+                Icon = "dd",
+                Color = "#ff0000"
             };
-            
+
             handbook.Categories.Add(generatedCategory);
         }
 

@@ -34,7 +34,7 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
         List<Offer> selectedOffers = [];
 
         var rootItemEntry = handbook.Items.Find(i => i.Id == body.HandbookId);
-        
+
         if (rootItemEntry != null)
         {
             templateIds.Add(body.HandbookId);

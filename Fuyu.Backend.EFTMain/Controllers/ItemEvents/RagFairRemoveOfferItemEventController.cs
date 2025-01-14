@@ -8,7 +8,7 @@ namespace Fuyu.Backend.EFTMain.Controllers.ItemEvents;
 public class RagFairRemoveOfferItemEventController : AbstractItemEventController<RagFairRemoveOfferItemEvent>
 {
     private readonly RagfairService _ragfairService;
-    
+
     public RagFairRemoveOfferItemEventController() : base("RagFairRemoveOffer")
     {
         _ragfairService = RagfairService.Instance;
@@ -17,7 +17,7 @@ public class RagFairRemoveOfferItemEventController : AbstractItemEventController
     public override Task RunAsync(ItemEventContext context, RagFairRemoveOfferItemEvent request)
     {
         var offer = _ragfairService.GetOffer(request.OfferId);
-        
+
         if (offer == null)
         {
             context.AppendInventoryError("Failed to find offer");
@@ -28,7 +28,7 @@ public class RagFairRemoveOfferItemEventController : AbstractItemEventController
             // -- nexus4880, 2025-1-13
             _ragfairService.RemoveOffer(offer);
         }
-        
+
         return Task.CompletedTask;
     }
 }

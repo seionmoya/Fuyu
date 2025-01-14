@@ -166,14 +166,14 @@ public class InventoryInfo
     public LocationInGrid GetNextFreeSlot(int width, int height, out string gridName, EItemRotation desiredRotation = EItemRotation.Horizontal)
     {
         gridName = null;
-        
+
         if (Stash == null)
         {
             return null;
         }
 
         var stashItem = Items.Find(i => i.Id == Stash.Value);
-        
+
         if (stashItem == null)
         {
             return null;

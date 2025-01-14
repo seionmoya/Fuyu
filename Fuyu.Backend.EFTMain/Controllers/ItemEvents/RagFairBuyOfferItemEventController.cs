@@ -57,7 +57,7 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
                         profile.Pmc.Inventory.Items.Add(itemToBuy);
                         context.Response.ProfileChanges[profile.Pmc._id].Items.New.Add(itemToBuy);
                     }
-                    
+
                     _ragfairService.RemoveOffer(ragfairOffer);
                 }
             }
