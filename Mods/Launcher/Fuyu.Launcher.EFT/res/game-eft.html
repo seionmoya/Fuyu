@@ -2,8 +2,11 @@
 <html lang="en" data-bs-theme="dark">
 
 <head>
+    <!-- loaded by Fuyu.Launcher.Core -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="./assets/css/styles.css" rel="stylesheet" />
+    <!-- loaded by Fuyu.Launcher.EFT -->
+    <link href="./assets/css/game-eft.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -23,24 +26,24 @@
     <!-- content -->
     <main>
         <div class="container-fluid">
-            <div class="p-3 text-center bg-eft">
-                <div class="container py-5 text-light">
+            <div class="p-3">
+                <div class="p-5 text-light text-center bg-eft">
                     <h1 class="text-body-emphasis">Escape From Tarkov</h1>
-                    <button class="btn btn-outline" type="button btn-outline-warning" onclick="launchGame()">Launch</button>
+                    <button class="btn btn-outline" type="button btn-outline-warn" onclick="launchGame()">Launch</button>
                 </div>
             </div>
 
             <div class="row">
-                <div class="column-6">
+                <div class="col-6">
                     <!-- player stats here -->
                 </div>
 
-                <div class="column-6">
+                <div class="col-6 align-right">
                     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-                        <button type="button" class="btn btn-light">View mods</button>
-                        <button type="button" class="btn btn-light">View logs</button>
-                        <button type="button" class="btn btn-light">Open game folder</button>
-                        <button type="button" class="btn btn-light">Wipe profile</button>
+                        <button type="button" class="btn btn-outline-light">View mods</button>
+                        <button type="button" class="btn btn-outline-light">View logs</button>
+                        <button type="button" class="btn btn-outline-light">Open game folder</button>
+                        <button type="button" class="btn btn-outline-light">Wipe profile</button>
                     </div>
                 </div>
             </div>

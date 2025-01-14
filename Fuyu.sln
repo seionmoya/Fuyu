@@ -43,6 +43,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Modding.NLog", "Fuyu.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Launcher.Common", "Fuyu.Launcher.Common\Fuyu.Launcher.Common.csproj", "{DBBA78DD-8B76-4BFB-BA80-138337A6BE5C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mods", "Mods", "{EC717D12-BC9D-4470-9A98-67B2A870CF36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Launcher", "Launcher", "{052933F6-495C-4574-AD7C-4094C441C637}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Launcher.EFT", "Mods\Launcher\Fuyu.Launcher.EFT\Fuyu.Launcher.EFT.csproj", "{F9BC3987-298A-42C0-9BEE-378EC4160FBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuyu.Devtools.StartBackend", "Mods\Launcher\Fuyu.Devtools.StartBackend\Fuyu.Devtools.StartBackend.csproj", "{12C089A2-1A24-4C50-8655-F44F9DF4BB40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,11 +137,24 @@ Global
 		{DBBA78DD-8B76-4BFB-BA80-138337A6BE5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBBA78DD-8B76-4BFB-BA80-138337A6BE5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBBA78DD-8B76-4BFB-BA80-138337A6BE5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9BC3987-298A-42C0-9BEE-378EC4160FBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9BC3987-298A-42C0-9BEE-378EC4160FBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9BC3987-298A-42C0-9BEE-378EC4160FBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9BC3987-298A-42C0-9BEE-378EC4160FBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C089A2-1A24-4C50-8655-F44F9DF4BB40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C089A2-1A24-4C50-8655-F44F9DF4BB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C089A2-1A24-4C50-8655-F44F9DF4BB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C089A2-1A24-4C50-8655-F44F9DF4BB40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67ADC3F3-9ADA-4F75-AEDC-DB5A17E9E5AF}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{052933F6-495C-4574-AD7C-4094C441C637} = {EC717D12-BC9D-4470-9A98-67B2A870CF36}
+		{F9BC3987-298A-42C0-9BEE-378EC4160FBB} = {052933F6-495C-4574-AD7C-4094C441C637}
+		{12C089A2-1A24-4C50-8655-F44F9DF4BB40} = {052933F6-495C-4574-AD7C-4094C441C637}
 	EndGlobalSection
 EndGlobal

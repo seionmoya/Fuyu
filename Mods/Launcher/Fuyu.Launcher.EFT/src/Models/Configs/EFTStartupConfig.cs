@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Fuyu.Launcher.Core.Models.Configs;
+namespace Fuyu.Launcher.EFT.Models.Configs;
 
 [DataContract]
 public class EFTStartupConfig

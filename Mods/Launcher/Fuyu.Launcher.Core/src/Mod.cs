@@ -40,7 +40,6 @@ public class Mod : AbstractMod
         _ = new AccountLibraryPage();
         _ = new AccountLoginPage();
         _ = new AccountRegisterPage();
-        _ = new GameEftPage();
         _ = new SettingsPage();
     }
 
@@ -49,8 +48,6 @@ public class Mod : AbstractMod
         //                              http://launcher.fuyu.api/*          callback
         _contentService.SetOrAddLoader("assets/css/bootstrap.min.css",      LoadContent);
         _contentService.SetOrAddLoader("assets/css/styles.css",             LoadContent);
-        _contentService.SetOrAddLoader("assets/img/bg-eft.png",             LoadContent);
-        _contentService.SetOrAddLoader("assets/img/logo-eft.png",           LoadContent);
         _contentService.SetOrAddLoader("assets/js/bootstrap.bundle.min.js", LoadContent);
     }
 
@@ -60,8 +57,6 @@ public class Mod : AbstractMod
         {
             "assets/css/bootstrap.min.css"      => Resx.GetStream(Id, "assets.css.bootstrap.min.css"),
             "assets/css/styles.css"             => Resx.GetStream(Id, "assets.css.styles.css"),
-            "assets/img/bg-eft.png"             => Resx.GetStream(Id, "assets.img.bg-eft.png"),
-            "assets/img/logo-eft.png"           => Resx.GetStream(Id, "assets.img.logo-eft.png"),
             "assets/js/bootstrap.bundle.min.js" => Resx.GetStream(Id, "assets.js.bootstrap.bundle.min.js"),
             _                                   => throw new FileNotFoundException()
         };

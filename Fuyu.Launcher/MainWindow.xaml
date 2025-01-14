@@ -6,7 +6,7 @@
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:Fuyu.Launcher"
         mc:Ignorable="d"
-        Title="Fuyu.Launcher" Height="450" Width="800">
+        Title="Fuyu.Launcher" Height="540" Width="960">
     <Grid>
 
     <DockPanel>

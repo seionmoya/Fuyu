@@ -2,14 +2,15 @@ using System.Diagnostics;
 using Fuyu.Common.Serialization;
 using Fuyu.Launcher.Common.Models.Messages;
 using Fuyu.Launcher.Common.Models.Pages;
-using Fuyu.Launcher.Core.Models.Configs;
-using Fuyu.Launcher.Core.Models.Replies;
+using Fuyu.Launcher.EFT.Models.Configs;
+using Fuyu.Launcher.EFT.Models.Messages;
+using Fuyu.Launcher.EFT.Models.Replies;
 
-namespace Fuyu.Launcher.Core.Pages;
+namespace Fuyu.Launcher.EFT.Pages;
 
 public class GameEftPage : AbstractPage
 {
-    protected override string Id { get; } = "Fuyu.Launcher.Core";
+    protected override string Id { get; } = "Fuyu.Launcher.EFT";
     protected override string Path { get; } = "game-eft.html";
 
     private string _eftPath;
