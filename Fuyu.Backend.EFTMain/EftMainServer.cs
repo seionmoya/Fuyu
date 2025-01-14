@@ -14,6 +14,10 @@ public class EftMainServer : HttpServer
 
     public void RegisterServices()
     {
+        // Fuyu
+        HttpRouter.AddController<FuyuGameLoginController>();
+        HttpRouter.AddController<FuyuGameRegisterController>();
+
         // EFT
         HttpRouter.AddController<AchievementListController>();
         HttpRouter.AddController<AchievementStatisticController>();

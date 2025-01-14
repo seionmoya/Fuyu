@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace Fuyu.Backend.Core.Models.Responses;
 
 [DataContract]
-public class AccountRegisterGameResponse
+public class AccountGameRegisterResponse
 {
     [DataMember]
     public int AccountId { get; set; }

@@ -12,6 +12,7 @@ public class CoreServer : HttpServer
     public void RegisterServices()
     {
         HttpRouter.AddController<PingController>();
+        HttpRouter.AddController<AccountGameRegisterController>();
         HttpRouter.AddController<AccountGetController>();
         HttpRouter.AddController<AccountLoginController>();
         HttpRouter.AddController<AccountLogoutController>();

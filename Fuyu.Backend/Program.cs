@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Services;
-using Fuyu.Common.Backend;
 using Fuyu.Backend.Core;
 using Fuyu.Backend.EFTMain;
+using Fuyu.Common.Backend;
 using Fuyu.Common.IO;
 using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
+using Fuyu.Common.Services;
 using Fuyu.DependencyInjection;
 using Fuyu.Modding;
 
@@ -19,6 +20,7 @@ public class Program
 
         Terminal.SetLogConfig("Fuyu.Backend", "Fuyu/Logs/Backend.log");
 
+        LoadClients(container);
         LoadDatabase(container);
         LoadServers(container);
         await LoadMods(container);
@@ -40,6 +42,12 @@ public class Program
         }
 
         await ModManager.Instance.UnloadAll();
+    }
+
+    static void LoadClients(DependencyContainer container)
+    {
+        var eftHttpClient = new HttpClient("http://localhost:8010");
+        RequestService.Instance.AddOrSetClient("eft", eftHttpClient);
     }
 
     static void LoadDatabase(DependencyContainer container)

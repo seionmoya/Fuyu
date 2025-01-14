@@ -199,7 +199,7 @@ public class AccountService
         return ERegisterStatus.Success;
     }
 
-    public AccountRegisterGameResponse RegisterGame(string sessionId, string game, string edition)
+    public AccountGameRegisterResponse RegisterGame(string sessionId, string game, string edition)
     {
         var account = _coreOrm.GetAccount(sessionId);
 
@@ -212,13 +212,21 @@ public class AccountService
         var response = _requestService.Post<FuyuGameRegisterResponse>(game, "/fuyu/game/register", request);
         var accountId = response.AccountId;
 
-        // store result
-        account.Games[game] = accountId;
+        // set or add accountId
+        if (account.Games.ContainsKey(game))
+        {
+            account.Games[game] = accountId;
+        }
+        else
+        {
+            account.Games.Add(game, accountId);
+        }
 
+        // store result
         _coreOrm.SetOrAddAccount(account);
         WriteToDisk(account);
 
-        return new AccountRegisterGameResponse()
+        return new AccountGameRegisterResponse()
         {
             AccountId = accountId
         };

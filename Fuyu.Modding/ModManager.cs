@@ -11,7 +11,6 @@ using Fuyu.DependencyInjection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-
 namespace Fuyu.Modding;
 
 // This should live during the entire lifetime of the application

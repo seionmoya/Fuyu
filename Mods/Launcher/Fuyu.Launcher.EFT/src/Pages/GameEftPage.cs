@@ -44,7 +44,7 @@ public class GameEftPage : AbstractPage
 
         // TODO: Keep track of game lifecycle
         // -- seionmoya, 2025-01-11
-        var process = GetEftProcess(_eftPath, "http://localhost:8010/", gameSessionId);
+        var process = GetEftProcess(_eftPath, gameSessionId, "http://localhost:8010/");
         process.Start();
 
         ReplyLaunchSuccess();
@@ -66,7 +66,7 @@ public class GameEftPage : AbstractPage
     {
         var account = RequestService.Get<AccountGetResponse>("core", "/account/get");
 
-        if (account.Games.TryGetValue(game, out int? gameAccountId) && gameAccountId.HasValue)
+        if (account.Games.TryGetValue(game, out int? gameAccountId))
         {
             // find existing game account
             return gameAccountId.Value;
@@ -74,12 +74,12 @@ public class GameEftPage : AbstractPage
         else
         {
             // register game
-            var request = new AccountRegisterGameRequest()
+            var request = new AccountGameRegisterRequest()
             {
                 Game = game,
                 Edition = edition
             };
-            var response = RequestService.Post<AccountRegisterGameResponse>("core", "/account/register/game", request);
+            var response = RequestService.Post<AccountGameRegisterResponse>("core", "/account/game/register", request);
 
             return response.AccountId;
         }
@@ -118,7 +118,7 @@ public class GameEftPage : AbstractPage
         };
         var json = Json.Stringify(config);
 
-        processStartInfo.ArgumentList.Add(json);        
+        processStartInfo.ArgumentList.Add($"-config={json}");        
 
         // create process
         return new Process()

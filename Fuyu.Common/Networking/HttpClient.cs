@@ -27,6 +27,10 @@ public class HttpClient : IDisposable
         Httpv = new System.Net.Http.HttpClient(handler);
     }
 
+    public HttpClient()
+    {
+    }
+
     protected virtual HttpRequestMessage GetNewRequest(HttpMethod method, string path)
     {
         return new HttpRequestMessage()
