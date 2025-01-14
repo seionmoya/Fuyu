@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Servers;
@@ -28,9 +29,8 @@ public class GameConfigController : AbstractEftHttpController
                     Main = "http://localhost:8010",
                     RagFair = "http://localhost:8010"
                 },
-                // TODO: generate this
-                // --seionmoya, 2024-11-18
-                utc_time = 1724450891.010541,
+                // TODO: update with TimeService later
+                utc_time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() / 1000d,
                 reportAvailable = true,
                 // TODO: handle this
                 // --seionmoya, 2024-11-18

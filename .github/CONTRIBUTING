@@ -362,13 +362,15 @@ public class ItemService
 }
 ```
 
-- Use `var` wherever possible
+#### Variables
+
+Use `var` wherever possible
 
 ```cs
 var myVariable = 10;
 ```
 
-- Do **NOT** have uninitialized variables
+Do **NOT** have uninitialized variables
 
 > This is WRONG
 
