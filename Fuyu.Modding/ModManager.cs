@@ -26,20 +26,49 @@ public class ModManager
     /// </summary>
     private ModManager()
     {
-
     }
 
     private readonly List<AbstractMod> _mods = new List<AbstractMod>();
 
-    private string GetResourcePath(string resourceRootPath, string resourcePath)
+#if NET
+    private ResourceDescription[] GetResources(string assemblyName, string rootPath)
     {
-        return resourcePath
-            .Replace(resourceRootPath + "\\", string.Empty) // exp. Fuyu/Mods/Launcher
-            .Replace("../", string.Empty)                   // relative path ./
-            .Replace("./", string.Empty)                    // relative path ./
-            .Replace("\\", ".")                             // windows \
-            .Replace("/", ".");                             // unix /
+        var resourceRootPath = Path.Combine(rootPath, "res");
+        var resourcePaths = Array.Empty<string>();
+
+        if (VFS.DirectoryExists(resourceRootPath))
+        {
+            resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
+        }
+
+        if (resourcePaths.Length == 0)
+        {
+            return null;
+        }
+
+        var resources = resourcePaths.Select(resourcePath =>
+        {
+            // convert resource path to resx format
+            var resxPath = resourcePath
+                .Replace(resourceRootPath + "\\", string.Empty) // exp. Fuyu/Mods/Launcher
+                .Replace("../", string.Empty)                   // relative path ./
+                .Replace("./", string.Empty)                    // relative path ./
+                .Replace("\\", ".")                             // windows \
+                .Replace("/", ".");                             // unix /
+
+            // add resource
+            var fileName = $"{assemblyName}.Resources.{resxPath}";
+
+            return new ResourceDescription(
+                fileName,
+                () => VFS.OpenRead(resourcePath),
+                isPublic: true
+            );
+        }).ToArray();
+
+        return resources;
     }
+#endif
 
     public void AddMods(string directory)
     {
@@ -262,19 +291,7 @@ public class ModManager
             syntaxTrees.Add(syntaxTree);
         }
 
-        var resourceRootPath = Path.Combine(directory, "res");
-        var resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
-        var resources = resourcePaths.Select(resourcePath =>
-        {
-            var fileName = $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
-
-            return new ResourceDescription(
-                fileName,
-                () => VFS.OpenRead(resourcePath),
-                isPublic: true
-            );
-        }).ToArray();
-
+        var resources = GetResources(assemblyName, directory);
         var compilation = CreateCompilation(assemblyName, syntaxTrees, true);
 
         Assembly assembly;
@@ -306,34 +323,7 @@ public class ModManager
     private Assembly GenerateResourceAssembly(Assembly sourceAssembly)
     {
         var assemblyName = sourceAssembly.GetName().Name;
-        var resourceRootPath = Path.Combine(Path.GetDirectoryName(sourceAssembly.Location), "res");
-        string[] resourcePaths;
-
-        try
-        {
-            resourcePaths = VFS.GetFiles(resourceRootPath, "*.*", SearchOption.AllDirectories);
-        }
-        catch (DirectoryNotFoundException)
-        {
-            return null;
-        }
-
-        if (resourcePaths.Length == 0)
-        {
-            return null;
-        }
-
-        var resources = resourcePaths.Select(resourcePath =>
-        {
-            var fileName = $"{assemblyName}.Resources.{GetResourcePath(resourceRootPath, resourcePath)}";
-
-            return new ResourceDescription(
-                fileName,
-                () => VFS.OpenRead(resourcePath),
-                isPublic: true
-            );
-        }).ToArray();
-
+        var resources = GetResources(assemblyName, sourceAssembly.Location);
         var compilation = CreateCompilation($"{assemblyName}.Resources", Array.Empty<SyntaxTree>(), false);
 
         using (var assemblyStream = new MemoryStream())
