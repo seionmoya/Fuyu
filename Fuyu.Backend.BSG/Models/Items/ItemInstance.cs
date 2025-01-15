@@ -25,7 +25,7 @@ public class ItemInstance
 
     // emits when 'null'
     [DataMember(Name = "parentId", EmitDefaultValue = false)]
-    public MongoId? ParentId { get; set; }
+    public string ParentId { get; set; }
 
     // emits when 'null'
     [DataMember(Name = "slotId", EmitDefaultValue = false)]
