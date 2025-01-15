@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Items;
@@ -48,6 +49,44 @@ public class ItemFactoryService
         var template = ItemTemplates[tpl];
         var itemId = id.GetValueOrDefault(new MongoId(true));
         ItemUpdatable upd = CreateItemUpdatable(template);
+
+        var item = new ItemInstance
+        {
+            Id = itemId,
+            TemplateId = tpl,
+            Updatable = upd
+        };
+
+        return item;
+    }
+
+    /// <summary>
+    /// This method creates required slots, like aramid inserts for example
+    /// </summary>
+    public ItemInstance CreateItem(MongoId tpl, out List<ItemInstance> subItems, MongoId? id = null)
+    {
+        subItems = [];
+        var template = ItemTemplates[tpl];
+        var itemId = id.GetValueOrDefault(new MongoId(true));
+        var upd = CreateItemUpdatable(template);
+        var compoundItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
+
+        if (compoundItemProperties.Slots != null)
+        {
+            foreach (var slot in compoundItemProperties.Slots.Where(s => s.Required && s.Properties.Filters.Length > 0))
+            {
+                if (!slot.Properties.Filters[0].Plate.HasValue)
+                {
+                    continue;
+                }
+
+                var templateId = slot.Properties.Filters[0].Plate.Value;
+                var subItem = CreateItem(templateId);
+                subItem.ParentId = itemId;
+                subItem.SlotId = slot.Name;
+                subItems.Add(subItem);
+            }
+        }
 
         var item = new ItemInstance
         {
