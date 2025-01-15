@@ -147,7 +147,7 @@ public class InventoryInfo
         width += sizeLeft + sizeRight + forcedLeft + forcedRight;
         height += sizeUp + sizeDown + forcedUp + forcedDown;
 
-        if (root.Location.IsValue1 && root.Location.Value1.r == EItemRotation.Vertical)
+        if (root.Location.IsValue1 && root.Location.Value1 != null && root.Location.Value1.r == EItemRotation.Vertical)
         {
             return new Vector2
             {
@@ -197,6 +197,11 @@ public class InventoryInfo
                 }
 
                 var itemLocation = itemInThisGrid.Location.Value1;
+                if (itemLocation == null)
+                {
+                    continue;
+                }
+
                 var itemSize = GetItemSize(itemInThisGrid);
                 var itemWidth = itemSize.X;
                 var itemHeight = itemSize.Y;
