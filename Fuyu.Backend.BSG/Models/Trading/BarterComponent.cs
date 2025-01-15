@@ -12,12 +12,12 @@ public class BarterComponent
     [DataMember(Name = "count")]
     public double Count { get; set; }
 
-    [DataMember(Name = "level")]
-    public int Level { get; set; }
+    [DataMember(Name = "level", EmitDefaultValue = false)]
+    public int? Level { get; set; }
 
-    [DataMember(Name = "side")]
-    public EDogtagExchangeSide Side { get; set; }
+    [DataMember(Name = "side", EmitDefaultValue = false)]
+    public EDogtagExchangeSide? Side { get; set; }
 
-    [DataMember(Name = "onlyFunctional")]
-    public bool OnlyFunctional { get; set; }
+    [DataMember(Name = "onlyFunctional", EmitDefaultValue = false)]
+    public bool? OnlyFunctional { get; set; }
 }

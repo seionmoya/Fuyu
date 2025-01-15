@@ -13,5 +13,5 @@ public class BuyOffer
     public int Count { get; set; }
 
     [DataMember(Name = "items")]
-    public ItemOffer[] Items { get; set; }
+    public ItemOffer[] ItemOffers { get; set; }
 }
