@@ -89,7 +89,7 @@ public class EFTMod : AbstractMod
         {
             if (!File.Exists(info.FullName))
             {
-                throw new Exception("The Live EFT installation either does not exist or is damaged. Please validate your game files in BsgLauncher");
+                throw new Exception("The Live EFT installation either does not exist or is damaged. Please validate the integrity of your installation in BsgLauncher");
             }
         }
     }
