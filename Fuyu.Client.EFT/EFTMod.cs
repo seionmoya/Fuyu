@@ -66,7 +66,7 @@ public class EFTMod : AbstractMod
         
         if (registryEntry != null)
         {
-            installationPath = registryEntry.ToString()
+            installationPath = registryEntry.ToString();
         }
         else
         {
