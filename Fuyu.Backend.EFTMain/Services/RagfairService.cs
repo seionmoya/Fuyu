@@ -65,7 +65,7 @@ public class RagfairService
             Id = new MongoId(true),
             IntId = Offers.Count,
             User = user,
-            Root = items[0].Id,
+            RootItemId = items[0].Id,
             Items = items,
             ItemsCost =
                 (isBatch
