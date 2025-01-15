@@ -30,7 +30,7 @@ public class ItemService
             // replace item's parent id
             if (item.ParentId != null)
             {
-                item.ParentId = mapping[item.ParentId.Value];
+                item.ParentId = mapping[item.ParentId];
             }
         }
     }
@@ -58,34 +58,31 @@ public class ItemService
 
     public bool IsChildItem(ItemInstance item, List<MongoId> ids)
     {
-        if (!item.ParentId.HasValue)
+        if (item.ParentId == null)
         {
             return false;
         }
 
-        return ids.FindIndex(i => i == item.ParentId.Value) != -1;
+        return ids.FindIndex(i => i == item.ParentId) != -1;
     }
 
     // TODO: make the LINQ pattern more explicit
     public List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
     {
-        var foundNewItem = true;
-        var idsToReturn = new List<MongoId>
+        var idsToReturn = new List<string>
         {
             id
         };
 
-        while (foundNewItem)
+        start:
+        for (int i = 0; i < items.Count; i++)
         {
-            foundNewItem = false;
-            var found = items.Where(
-                i => !idsToReturn.Contains(i.Id)
-                && IsChildItem(i, idsToReturn));
+            var item = items[i];
 
-            if (found.Any())
+            if (!idsToReturn.Contains(item.Id) && idsToReturn.Contains(item.ParentId))
             {
-                foundNewItem = true;
-                idsToReturn.AddRange(found.Select(i => i.Id));
+                idsToReturn.Add(item.Id);
+                goto start;
             }
         }
 
