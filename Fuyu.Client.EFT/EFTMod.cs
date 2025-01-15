@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Fuyu.Client.Common.Reflection;
@@ -71,8 +72,6 @@ public class EFTMod : AbstractMod
         else
         {
             throw new Exception("Could not find Live EFT installation directory. Please ensure you ran Live EFT at least once on your machine.");
-            Terminal.WriteLine(ex);
-            throw ex;
         }
 
         var paths = new FileSystemInfo[]
@@ -90,9 +89,7 @@ public class EFTMod : AbstractMod
         {
             if (!File.Exists(info.FullName))
             {
-                var ex = new Exception("The Live EFT installation either does not exist or is damaged. Please validate your game files in BsgLauncher");
-                Terminal.WriteLine(ex);
-                throw ex;
+                throw new Exception("The Live EFT installation either does not exist or is damaged. Please validate your game files in BsgLauncher");
             }
         }
     }
