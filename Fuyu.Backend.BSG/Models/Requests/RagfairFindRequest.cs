@@ -58,7 +58,7 @@ public class RagfairFindRequest
     public bool UpdateOfferCount { get; set; }
 
     [DataMember(Name = "handbookId")]
-    public MongoId HandbookId { get; set; }
+    public string HandbookId { get; set; }
 
     [DataMember(Name = "linkedSearchId")]
     public string LinkedSearchId { get; set; }
@@ -67,7 +67,7 @@ public class RagfairFindRequest
     public string NeededSearchId { get; set; }
 
     [DataMember(Name = "buildItems")]
-    public Dictionary<MongoId, int> BuildItems { get; set; }
+    public Dictionary<string, int> BuildItems { get; set; }
 
     [DataMember(Name = "buildCount")]
     public int BuildCount { get; set; }
