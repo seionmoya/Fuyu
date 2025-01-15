@@ -11,7 +11,27 @@ public class TradingConfirmItemEvent : BaseItemEvent
 
     [DataMember(Name = "tid")]
     public MongoId TraderId { get; set; }
+}
 
+[DataContract]
+public class TradingConfirmBuyItemEvent : TradingConfirmItemEvent
+{
+    [DataMember(Name = "item_id")]
+    public MongoId ItemId { get; set; }
+
+    [DataMember(Name = "count")]
+    public int Count { get; set; }
+
+    [DataMember(Name = "scheme_id")]
+    public int SchemeId { get; set; }
+    
+    [DataMember(Name = "scheme_items")]
+    public TradingItemScheme[] Items { get; set; }
+}
+
+[DataContract]
+public class TradingConfirmSellItemEvent : TradingConfirmItemEvent
+{
     [DataMember(Name = "items")]
     public TradingItemScheme[] Items { get; set; }
 
