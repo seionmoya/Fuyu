@@ -61,7 +61,7 @@ public class ArenaMod : AbstractMod
         var registryPath = @"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\EscapeFromTarkovArena";
         var registryEntry = Registry.LocalMachine.OpenSubKey(registryPath, false).GetValue("InstallLocation");
         var installationPath = string.Empty;
-        
+
         if (registryEntry != null)
         {
             installationPath = registryEntry.ToString();
