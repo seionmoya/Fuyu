@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Fuyu.Client.Arena.Patches;
 using Fuyu.Client.Arena.Utils;
