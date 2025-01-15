@@ -165,7 +165,7 @@ public class WeaponItemProperties : CompoundItemItemProperties
     public float AimPlane;
 
     [DataMember(Name = "Chambers")]
-    public object[] Chambers;
+    public Slot[] Chambers;
 
     [DataMember(Name = "CenterOfImpact")]
     public float CenterOfImpact;
