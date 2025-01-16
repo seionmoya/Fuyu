@@ -1,5 +1,7 @@
-﻿using Fuyu.Common.Serialization;
+﻿using System;
+using Fuyu.Common.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Common.Collections;
 
@@ -14,4 +16,15 @@ namespace Fuyu.Common.Collections;
 public interface IUnion
 {
     object Value { get; }
+}
+
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+public class UnionMappingsAttribute : Attribute
+{
+    public JTokenType[] Tokens { get; set; }
+
+    public UnionMappingsAttribute(params JTokenType[] tokens)
+    {
+        Tokens = tokens;
+    }
 }
