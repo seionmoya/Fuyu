@@ -22,7 +22,6 @@ public class ItemFactoryService
     /// </summary>
     private ItemFactoryService()
     {
-
     }
 
     public Dictionary<MongoId, ItemTemplate> ItemTemplates { get; private set; }
@@ -44,31 +43,24 @@ public class ItemFactoryService
         return ItemTemplates[templateId].Props.ToObject<T>();
     }
 
-    public ItemInstance CreateItem(MongoId tpl, MongoId? id = null)
+    /*public List<ItemInstance> CreateItem(ItemTemplate template, int count, MongoId? id = null, string parentId = null,
+        string slotId = null)
     {
-        var template = ItemTemplates[tpl];
+        var items = new List<ItemInstance>();
         var itemId = id.GetValueOrDefault(new MongoId(true));
-        ItemUpdatable upd = CreateItemUpdatable(template);
+        var upd = CreateItemUpdatable(template);
 
         var item = new ItemInstance
         {
             Id = itemId,
-            TemplateId = tpl,
+            TemplateId = template.Id,
+            ParentId = parentId,
+            SlotId = slotId,
             Updatable = upd
         };
+        
+        items.Add(item);
 
-        return item;
-    }
-
-    /// <summary>
-    /// This method creates required slots, like aramid inserts for example
-    /// </summary>
-    public ItemInstance CreateItem(MongoId tpl, out List<ItemInstance> subItems, MongoId? id = null)
-    {
-        subItems = [];
-        var template = ItemTemplates[tpl];
-        var itemId = id.GetValueOrDefault(new MongoId(true));
-        var upd = CreateItemUpdatable(template);
         var compoundItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
 
         if (compoundItemProperties.Slots != null)
@@ -81,31 +73,79 @@ public class ItemFactoryService
                 }
 
                 var templateId = slot.Properties.Filters[0].Plate.Value;
-                var subItem = CreateItem(templateId);
-                subItem.ParentId = itemId;
-                subItem.SlotId = slot.Name;
-                subItems.Add(subItem);
+                if (ItemTemplates.TryGetValue(templateId, out template))
+                {
+                    var subItems = CreateItem(ItemTemplates[templateId], null, itemId, slot.Name);
+                    items.AddRange(subItems);
+                }
             }
         }
 
-        var item = new ItemInstance
+        return items;
+    }*/
+    
+    public List<ItemInstance> CreateItem(ItemTemplate template, int? count = null, MongoId? id = null, string parentId = null,
+        string slotId = null)
+    {
+        var items = new List<ItemInstance>();
+        var itemCount = count.GetValueOrDefault(1);
+        
+        for (var i = 0; i < itemCount; i++)
         {
-            Id = itemId,
-            TemplateId = tpl,
-            Updatable = upd
-        };
+            var itemId = i == 0 && id.HasValue ? id.Value : new MongoId(true);
+            var upd = CreateItemUpdatable(template);
 
-        return item;
+            var item = new ItemInstance
+            {
+                Id = itemId,
+                TemplateId = template.Id,
+                ParentId = parentId,
+                SlotId = slotId,
+                Updatable = upd
+            };
+        
+            items.Add(item);
+
+            var compoundItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
+
+            // Handle child items - these are created once per root item
+            if (compoundItemProperties.Slots != null)
+            {
+                foreach (var slot in compoundItemProperties.Slots.Where(s => s.Required && s.Properties.Filters.Length > 0))
+                {
+                    if (!slot.Properties.Filters[0].Plate.HasValue)
+                    {
+                        continue;
+                    }
+
+                    var templateId = slot.Properties.Filters[0].Plate.Value;
+                    if (ItemTemplates.TryGetValue(templateId, out var childTemplate))
+                    {
+                        var subItems = CreateItem(childTemplate, null, null, itemId, slot.Name);
+                        items.AddRange(subItems);
+                    }
+                }
+            }
+        }
+
+        return items;
     }
 
-    public ItemUpdatable CreateItemUpdatable(ItemTemplate template)
+    public ItemUpdatable CreateItemUpdatable(ItemTemplate template, int count = 1)
     {
         ItemUpdatable upd = null;
+
+        if (count > 1)
+        {
+            upd = new ItemUpdatable { StackObjectsCount = count };
+        }
+
         var updProperties = typeof(ItemUpdatable).GetProperties();
 
         foreach (var updProperty in updProperties)
         {
             var component = CreateItemComponent(template, updProperty.PropertyType, false);
+
             if (component != null)
             {
                 if (upd == null)
@@ -122,21 +162,22 @@ public class ItemFactoryService
 
     public object CreateItemComponent(ItemTemplate template, Type componentType, bool createDefault)
     {
-        var isItemComponentInterface = typeof(IItemComponent).IsAssignableFrom(componentType);
-        if (!isItemComponentInterface)
+        // This means we can't deserialize the type from an ItemTemplate
+        if (!typeof(IItemComponent).IsAssignableFrom(componentType))
         {
             return null;
         }
 
-        var bindingFlags = BindingFlags.Public | BindingFlags.Static;
-        var createComponentMethodName = nameof(IItemComponent.CreateComponent);
-        var createComponentMethod = componentType.GetMethod(createComponentMethodName, bindingFlags);
+        var createComponentMethod = componentType.GetMethod(nameof(IItemComponent.CreateComponent),
+            BindingFlags.Public | BindingFlags.Static);
+
         if (createComponentMethod == null)
         {
             return null;
         }
 
         var result = createComponentMethod.Invoke(null, [template.Props]);
+
         if (result == null && createDefault)
         {
             result = Activator.CreateInstance(componentType);

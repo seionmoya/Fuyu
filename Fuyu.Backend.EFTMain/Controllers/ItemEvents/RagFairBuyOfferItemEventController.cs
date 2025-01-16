@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.ItemEvents;
@@ -8,9 +7,7 @@ using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFTMain.Services;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.IO;
 using Fuyu.Common.Serialization;
-using Newtonsoft.Json;
 
 namespace Fuyu.Backend.EFTMain.Controllers.ItemEvents;
 
@@ -18,11 +15,13 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
 {
     private readonly EftOrm _eftOrm;
     private readonly RagfairService _ragfairService;
+    private readonly ItemService _itemService;
 
     public RagFairBuyOfferItemEventController() : base("RagFairBuyOffer")
     {
         _eftOrm = EftOrm.Instance;
         _ragfairService = RagfairService.Instance;
+        _itemService = ItemService.Instance;
     }
 
     // TODO: logic for buying is wrong
@@ -88,12 +87,13 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
             var properties = ItemFactoryService.Instance.GetItemProperties<ItemProperties>(clonedRootItem.TemplateId);
             clonedRootItem.Id = new MongoId(true);
             clonedRootItem.Updatable.StackObjectsCount = buyOffer.Count;
-            clonedRootItem.Location = profile.Pmc.Inventory.GetNextFreeSlot(properties.Width, properties.Height, out string gridName);
+            clonedRootItem.Location = profile.Pmc.Inventory.GetNextFreeSlot(_itemService, properties.Width, properties.Height, out string gridName);
             clonedRootItem.SlotId = gridName;
             clonedRootItem.ParentId = profile.Pmc.Inventory.Stash;
             
             profile.Pmc.Inventory.Items.Add(clonedRootItem);
             context.Response.ProfileChanges[profile.Pmc._id].Items.New.Add(clonedRootItem);
+            profile.Pmc.Inventory.EnsureMatrixGenerated(_itemService, ItemFactoryService.Instance, true);
         }
 
         return Task.CompletedTask;

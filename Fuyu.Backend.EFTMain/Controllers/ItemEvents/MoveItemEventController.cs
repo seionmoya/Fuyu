@@ -23,6 +23,7 @@ public class MoveItemEventController : AbstractItemEventController<MoveItemEvent
             item.Location = request.To.Location;
             item.ParentId = request.To.Id;
             item.SlotId = request.To.Container;
+            profile.Pmc.Inventory.EnsureMatrixGenerated(null, null, true);
             Terminal.WriteLine($"{request.Item} moved to {request.To.Location}");
         }
         else

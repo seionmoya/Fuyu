@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.Models.Profiles;
 
@@ -53,6 +54,7 @@ public class Profile
     public List<BonusInfo> Bonuses { get; set; }
 
     [DataMember]
+    [UnionMappings(JTokenType.Object, JTokenType.Array)]
     public Union<Dictionary<MongoId, EWishlistGroup>, object[]> WishList { get; set; }
 
     [DataMember(EmitDefaultValue = false)]
@@ -73,6 +75,7 @@ public class Profile
     public RagfairInfo RagfairInfo { get; set; }
 
     [DataMember(EmitDefaultValue = false)]
+    [UnionMappings(JTokenType.Object, JTokenType.Array)]
     public Union<Dictionary<MongoId, TraderInfo>, object[]>? TradersInfo { get; set; }
 
     [DataMember(EmitDefaultValue = false)]

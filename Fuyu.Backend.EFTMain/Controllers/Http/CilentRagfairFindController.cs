@@ -144,7 +144,7 @@ sendResponse:
 
         foreach (var offer in _ragfairService.Offers)
         {
-            if (templateIds.Contains(offer.Items[0].TemplateId))
+            if (templateIds.Contains(offer.RootItem.TemplateId))
             {
                 selectedOffers.Add(offer);
             }
@@ -222,6 +222,7 @@ sendResponse:
     private List<Offer> RequiredSearch(HandbookTemplates handbook, MongoId neededSearchId, out string selectedCategory)
     {
         selectedCategory = null;
-        return [];
+
+        return _ragfairService.Offers.Where(o => o.Requirements.Any(r => r.TemplateId == neededSearchId)).ToList();
     }
 }

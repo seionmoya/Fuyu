@@ -66,8 +66,8 @@ public class HandbookService
             generatedCategory = new HandbookCategory
             {
                 Id = _generatedCategoryId,
-                ParentId = "",
-                Icon = "dd",
+                ParentId = null,
+                Icon = "what",
                 Color = "#ff0000"
             };
 

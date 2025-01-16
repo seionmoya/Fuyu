@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.ItemEvents;
@@ -16,11 +17,13 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
 {
     private readonly EftOrm _eftOrm;
     private readonly TraderOrm _traderOrm;
+    private readonly ItemService _itemService;
 
     public TradingConfirmEventController() : base("TradingConfirm")
     {
         _eftOrm = EftOrm.Instance;
         _traderOrm = TraderOrm.Instance;
+        _itemService = ItemService.Instance;
     }
 
     public override Task RunAsync(ItemEventContext context, TradingConfirmItemEvent request)
@@ -60,7 +63,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
             try
             {
                 var removedItems = inventory.RemoveItem(tradingItem.Id);
-                context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(removedItems[0]);
+                context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(removedItems);
             }
             catch (Exception ex)
             {
@@ -73,6 +76,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
         var roublesItem = roubles[0];
         roublesItem.Updatable.StackObjectsCount += request.Price;
         context.Response.ProfileChanges[profile.Pmc._id].Items.Change.Add(roublesItem);
+        profile.Pmc.Inventory.EnsureMatrixGenerated(null, null, true);
 
         return Task.CompletedTask;
     }
@@ -81,9 +85,9 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
         var traderAssort = _traderOrm.GetTraderAssort(request.TraderId);
-        var itemToBuy = traderAssort.Items.Find(i => i.Id == request.ItemId);
+        var itemsToBuy = _itemService.GetItemAndChildren(traderAssort.Items, request.ItemId);
         
-        if (itemToBuy == null)
+        if (itemsToBuy.Count == 0)
         {
             throw new Exception("Failed to find item to buy");
         }
@@ -95,8 +99,8 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
             throw new Exception("Failed to get trader info");
         }
 
-        var properties = ItemFactoryService.Instance.GetItemProperties<ItemProperties>(itemToBuy.TemplateId);
-        var targetLocation = profile.Pmc.Inventory.GetNextFreeSlot(properties.Width, properties.Height, out string gridName);
+        (int itemWidth, int itemHeight) = _itemService.CalculateItemSize(itemsToBuy);
+        var targetLocation = profile.Pmc.Inventory.GetNextFreeSlot(_itemService, itemWidth, itemHeight, out string gridName);
         
         if (targetLocation == null)
         {
@@ -128,15 +132,18 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
             }
         }
 
-        var clonedRootItem = Json.Clone<ItemInstance>(itemToBuy);
-        clonedRootItem.Id = new MongoId(true);
-        clonedRootItem.Updatable.StackObjectsCount = request.Count;
-        clonedRootItem.Location = targetLocation;
-        clonedRootItem.SlotId = gridName;
-        clonedRootItem.ParentId = profile.Pmc.Inventory.Stash;
+        itemsToBuy = Json.Clone<List<ItemInstance>>(itemsToBuy);
+        _itemService.RegenerateItemIds(itemsToBuy);
+        var rootItem = itemsToBuy[0];
+        rootItem.Location = targetLocation;
+        rootItem.SlotId = gridName;
+        rootItem.ParentId = profile.Pmc.Inventory.Stash;
 
-        profile.Pmc.Inventory.Items.Add(clonedRootItem);
-        context.Response.ProfileChanges[profile.Pmc._id].Items.New.Add(clonedRootItem);
+        profile.Pmc.Inventory.AddItems(_itemService, ItemFactoryService.Instance,
+            itemsToBuy);
+
+        context.Response.ProfileChanges[profile.Pmc._id].Items.New.AddRange(itemsToBuy);
+        profile.Pmc.Inventory.EnsureMatrixGenerated(null, null, true);
 
         return Task.CompletedTask;
     }

@@ -13,6 +13,7 @@ public class RagfairService
 
     private readonly EftOrm _eftOrm;
     private readonly HandbookService _handbookService;
+    
     public Dictionary<MongoId, int> CategoricalOffers { get; } = [];
 
     private RagfairService()
@@ -44,11 +45,6 @@ public class RagfairService
 
         var handbook = _eftOrm.GetHandbook();
         var handbookItem = handbook.Items.Find(i => i.Id == items[0].TemplateId);
-
-        if (handbookItem == null)
-        {
-            return null;
-        }
 
         if (!CategoricalOffers.TryAdd(handbookItem.ParentId, 1))
         {
@@ -100,7 +96,7 @@ public class RagfairService
         }
 
         var handbook = _eftOrm.GetHandbook();
-        var handbookItem = handbook.Items.Find(i => i.Id == offer.Items[0].TemplateId);
+        var handbookItem = handbook.Items.Find(i => i.Id == offer.RootItem.TemplateId);
 
         if (handbookItem != null)
         {
@@ -110,9 +106,9 @@ public class RagfairService
             }
         }
 
-        if (!CategoricalOffers.ContainsKey(offer.Items[0].TemplateId))
+        if (!CategoricalOffers.ContainsKey(offer.RootItem.TemplateId))
         {
-            CategoricalOffers[offer.Items[0].TemplateId]--;
+            CategoricalOffers[offer.RootItem.TemplateId]--;
         }
     }
 }

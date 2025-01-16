@@ -78,7 +78,6 @@ public class EftMainServer : HttpServer
         HttpRouter.AddController<ClientItemsPriceController>();
         HttpRouter.AddController<GetTraderAssortController>();
         HttpRouter.AddController<ClientInsuranceItemsListCostController>();
-        HttpRouter.AddController<GetNextFreeSlotController>();
         HttpRouter.AddController<GameProfileVoiceChangeController>();
         HttpRouter.AddController<ProfileMagazineBuildSaveController>();
         HttpRouter.AddController<ProfileBuildDeleteController>();

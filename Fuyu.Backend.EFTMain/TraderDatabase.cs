@@ -42,42 +42,56 @@ public class TraderDatabase
         foreach (var traderTemplate in body.data)
         {
             _traders.Set(traderTemplate.Id, traderTemplate);
+            
+            string assortJson;
+            
             try
             {
-                var assortJson = Resx.GetText("eft",
+                assortJson = Resx.GetText("eft",
                     $"database.client.trading.api.getTraderAssort.{traderTemplate.Id}.json");
-                var traderAssort = Json.Parse<TraderAssort>(assortJson);
-                _traderAssort.Set(traderTemplate.Id, traderAssort);
-
-                var traderRagfairUser = new RagfairTraderUser(traderTemplate.Id);
-
-                foreach (var (itemId, scheme) in traderAssort.BarterScheme)
-                {
-                    var items = _itemService.GetItemAndChildren(traderAssort.Items, itemId);
-                    var handOverRequirements = new List<HandoverRequirement>();
-                    var loyaltyLevel = traderAssort.LoyaltyLevelItems[itemId];
-
-                    foreach (var requirement in scheme)
-                    {
-                        foreach (var requirement2 in requirement)
-                        {
-                            handOverRequirements.Add(new HandoverRequirement
-                            {
-                                Count = (int)requirement2.Count,
-                                TemplateId = requirement2.Template
-                            });
-                        }
-                    }
-
-                    _ragfairService.CreateAndAddOffer(traderRagfairUser, items, false, handOverRequirements, TimeSpan.FromHours(1d), false, loyaltyLevel);
-                }
-
-                Terminal.WriteLine($"Got assort for {traderTemplate.Id}");
             }
             catch (FileNotFoundException)
             {
                 Terminal.WriteLine($"Failed to get assort for {traderTemplate.Id}");
+                continue;
             }
+            
+            var traderAssort = Json.Parse<TraderAssort>(assortJson);
+            _traderAssort.Set(traderTemplate.Id, traderAssort);
+
+            var traderRagfairUser = new RagfairTraderUser(traderTemplate.Id);
+
+            foreach (var (itemId, scheme) in traderAssort.BarterScheme)
+            {
+                var items = _itemService.GetItemAndChildren(traderAssort.Items, itemId);
+                var handOverRequirements = new List<HandoverRequirement>();
+                var loyaltyLevel = traderAssort.LoyaltyLevelItems[itemId];
+
+                foreach (var requirement in scheme)
+                {
+                    foreach (var requirement2 in requirement)
+                    {
+                        handOverRequirements.Add(new HandoverRequirement
+                        {
+                            Count = (int)requirement2.Count, TemplateId = requirement2.Template
+                        });
+                    }
+                }
+
+                try
+                {
+                    HandbookService.Instance.GetPrice(items[0].TemplateId, handOverRequirements[0].Count);
+                    _ragfairService.CreateAndAddOffer(traderRagfairUser, items, false, handOverRequirements,
+                        TimeSpan.FromHours(1d), false, loyaltyLevel);
+                }
+                catch (Exception)
+                {
+                
+                }
+            }
+
+            Terminal.WriteLine($"Got assort for {traderTemplate.Id}");
+            
         }
     }
 

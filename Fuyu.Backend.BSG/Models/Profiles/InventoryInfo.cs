@@ -1,31 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.Serialization;
-using System.Text;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Items;
+using Fuyu.Backend.BSG.Models.Locations;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.IO;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Fuyu.Backend.BSG.Models.Profiles;
 
 [DataContract]
 public class InventoryInfo
 {
-    private readonly ItemFactoryService _itemFactoryService;
-    private readonly InventoryService _inventoryService;
-    private readonly ItemService _itemService;
-
-    public InventoryInfo()
-    {
-        _itemFactoryService = ItemFactoryService.Instance;
-        _inventoryService = InventoryService.Instance;
-        _itemService = ItemService.Instance;
-    }
-
     [DataMember(Name = "items")]
     public List<ItemInstance> Items { get; set; }
 
@@ -56,236 +44,223 @@ public class InventoryInfo
     [DataMember(Name = "hideoutCustomizationStashId")]
     public MongoId? HideoutCustomizationStashId { get; set; }
 
-    public List<ItemInstance> RemoveItem(ItemInstance item)
+    public LocationInGrid GetNextFreeSlot(ItemService itemService, int width, int height, out string gridName,
+        EItemRotation desiredRotation = EItemRotation.Horizontal)
     {
-        return _inventoryService.RemoveItem(this, item);
+        var result = itemService.GetNextFreeSlot(StashItem, Items, width, height, ref _matrix,
+            out gridName, desiredRotation);
+        return result;
+    }
+
+    public void EnsureMatrixGenerated(ItemService itemService, ItemFactoryService itemFactoryService, bool force = false)
+    {
+        if ((force || _matrix == null) && Stash.HasValue)
+        {
+            itemService ??= ItemService.Instance;
+            itemFactoryService ??= ItemFactoryService.Instance;
+
+            var stashItem = FindItem(Stash.Value);
+            var template = itemFactoryService.ItemTemplates[stashItem.TemplateId];
+            var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
+            var primaryGrid = compoundItemItemProperties.Grids[0].Properties;
+            _matrix = itemService.GenerateMatrix(primaryGrid.CellsHorizontal, primaryGrid.CellsVertical,
+                [.. Items]);
+        }
+    }
+
+    public void AddItems(ItemService itemService, ItemFactoryService itemFactoryService, List<ItemInstance> items)
+    {
+        if (items.Count == 0)
+        {
+            throw new Exception($"{nameof(items)}.Count must be greater than 0");
+        }
+
+        EnsureMatrixGenerated(itemService, itemFactoryService);
+
+        if (!Stash.HasValue)
+        {
+            return;
+        }
+
+        var stashItem = Items.Find(i => i.Id == Stash.Value);
+        var template = itemFactoryService.ItemTemplates[stashItem.TemplateId];
+        var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
+        var primaryGrid = compoundItemItemProperties.Grids[0].Properties;
+
+        var rootItem = items[0];
+
+        if (!rootItem.Location.IsValue1)
+        {
+            throw new Exception("!rootItem.Location.IsValue1");
+        }
+
+        var location = rootItem.Location.Value1;
+
+        if (location == null)
+        {
+            throw new Exception("Location is null");
+        }
+
+        var itemAndChildren = itemService.GetItemAndChildren(items, rootItem);
+        (int width, int height) = itemService.CalculateItemSize(itemAndChildren);
+        var x = rootItem.Location.Value1.x;
+        var y = rootItem.Location.Value1.y;
+
+        for (var dy = 0; dy < height; dy++)
+        {
+            for (var dx = 0; dx < width; dx++)
+            {
+                var tempX = x + dx;
+                var tempY = y + dx;
+                _matrix[tempY * primaryGrid.CellsHorizontal + tempX] = true;
+            }
+        }
+
+        Items.AddRange(items);
     }
 
     public ItemInstance FindItem(MongoId id)
     {
-        return Items.Find(x => x.Id == id);
+        return Items.Find(i => i.Id == id);
     }
 
-    public IEnumerable<ItemInstance> FindItems(List<MongoId> id)
+    public void MoveItem(ItemService itemService, ItemFactoryService itemFactoryService, List<ItemInstance> items, LocationInGrid targetLocation)
     {
-        int amount = id.Count;
-        for (int i = 0; i < amount; i++)
+        if (items.Count == 0)
         {
-            var item = FindItem(id[i]);
-            if (item != null)
-            {
-                yield return item;
-            }
-        }
-    }
-
-    public List<ItemInstance> RemoveItem(MongoId id)
-    {
-        var item = Items.Find(i => i.Id == id);
-        if (item == null)
-        {
-            throw new Exception($"Failed to find item with id {id} in inventory");
+            throw new Exception($"{nameof(items)}.Count must be greater than 0");
         }
 
-        return _inventoryService.RemoveItem(this, item);
-    }
-
-    public List<ItemInstance> GetItemsByTemplate(MongoId tpl)
-    {
-        return Items.Where(i => i.TemplateId == tpl).ToList();
-    }
-
-    public ItemInstance GetStock(ItemInstance root)
-    {
-        var rootItemTemplate = _itemFactoryService.ItemTemplates[root.TemplateId];
-        if (!rootItemTemplate.Props.ContainsKey("FoldedSlot"))
-        {
-            return null;
-        }
-
-        var weaponItemProperties = _itemFactoryService.GetItemProperties<WeaponItemProperties>(root.TemplateId);
-        var subItems = _itemService.GetItemAndChildren(Items, root).Skip(1);
-
-        return subItems.FirstOrDefault(i => i.SlotId == weaponItemProperties.FoldedSlot);
-    }
-
-    public Vector2 GetItemSize(ItemInstance root)
-    {
-        var rootProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
-        var width = rootProperties.Width;
-        var height = rootProperties.Height;
-
-        var sizeUp = 0;
-        var sizeDown = 0;
-        var sizeLeft = 0;
-        var sizeRight = 0;
-        var forcedUp = 0;
-        var forcedDown = 0;
-        var forcedLeft = 0;
-        var forcedRight = 0;
-
-        var children = _itemService.GetItemAndChildren(Items, root).Skip(1);
-        foreach (var child in children)
-        {
-            var itemProperties = _itemFactoryService.GetItemProperties<ItemProperties>(child.TemplateId);
-            if (itemProperties.ExtraSizeForceAdd)
-            {
-                forcedUp += itemProperties.ExtraSizeUp;
-                forcedDown += itemProperties.ExtraSizeDown;
-                forcedLeft += itemProperties.ExtraSizeLeft;
-                forcedRight += itemProperties.ExtraSizeRight;
-            }
-            else
-            {
-                sizeUp = Math.Max(sizeUp, itemProperties.ExtraSizeUp);
-                sizeDown = Math.Max(sizeDown, itemProperties.ExtraSizeDown);
-                sizeLeft = Math.Max(sizeLeft, itemProperties.ExtraSizeLeft);
-                sizeRight = Math.Max(sizeRight, itemProperties.ExtraSizeRight);
-            }
-        }
-
-        width += sizeLeft + sizeRight + forcedLeft + forcedRight;
-        height += sizeUp + sizeDown + forcedUp + forcedDown;
-
-        if (root.Location.IsValue1 && root.Location.Value1 != null && root.Location.Value1.r == EItemRotation.Vertical)
-        {
-            return new Vector2
-            {
-                X = height,
-                Y = width
-            };
-        }
-
-        return new Vector2
-        {
-            X = width,
-            Y = height
-        };
-    }
-
-    public LocationInGrid GetNextFreeSlot(int width, int height, out string gridName, EItemRotation desiredRotation = EItemRotation.Horizontal)
-    {
-        gridName = null;
-
-        if (Stash == null)
-        {
-            return null;
-        }
-
+        var rootItem = items[0];
         var stashItem = Items.Find(i => i.Id == Stash.Value);
+        var template = itemFactoryService.ItemTemplates[stashItem.TemplateId];
+        var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
+        var primaryGrid = compoundItemItemProperties.Grids[0].Properties;
 
-        if (stashItem == null)
+        if (!rootItem.Location.IsValue1)
         {
-            return null;
+            throw new Exception("!rootItem.Location.IsValue1");
         }
 
-        var stashItemProps = _itemFactoryService.GetItemProperties<CompoundItemItemProperties>(stashItem.TemplateId);
+        var location = rootItem.Location.Value1;
 
-        foreach (var grid in stashItemProps.Grids)
+        if (location == null)
         {
-            gridName = grid.Name;
-            var gridWidth = grid.Properties.CellsHorizontal;
-            var gridHeight = grid.Properties.CellsVertical;
-            var cells = new bool[gridWidth * gridHeight];
-            var itemsInThisGrid = _itemService.GetItemAndChildren(Items, stashItem).Skip(1);
+            throw new Exception("Location is null");
+        }
 
-            foreach (var itemInThisGrid in itemsInThisGrid)
+        var itemAndChildren = itemService.GetItemAndChildren(items, rootItem);
+        (int width, int height) = itemService.CalculateItemSize(itemAndChildren);
+        var previousX = location.x;
+        var previousY = location.y;
+        var targetX = targetLocation.x;
+        var targetY = targetLocation.y;
+
+        for (var dy = 0; dy < height; dy++)
+        {
+            for (var dx = 0; dx < width; dx++)
             {
-                if (!itemInThisGrid.Location.IsValue1)
-                {
-                    continue;
-                }
+                var tempPreviousX = previousX + dx;
+                var tempPreviousY = previousY + dx;
 
-                var itemLocation = itemInThisGrid.Location.Value1;
-                if (itemLocation == null)
-                {
-                    continue;
-                }
+                var tempTargetX = targetX + dx;
+                var tempTargetY = targetY + dx;
 
-                var itemSize = GetItemSize(itemInThisGrid);
-                var itemWidth = itemSize.X;
-                var itemHeight = itemSize.Y;
-
-                for (var y = 0; y < itemHeight; y++)
-                {
-                    for (var x = 0; x < itemWidth; x++)
-                    {
-                        var cellX = itemLocation.x + x;
-                        var cellY = itemLocation.y + y;
-                        if (cells[cellY * gridWidth + cellX])
-                        {
-                            throw new Exception("Overlap");
-                        }
-
-                        cells[cellY * gridWidth + cellX] = true;
-                    }
-                }
+                _matrix[tempPreviousY * primaryGrid.CellsHorizontal + tempPreviousX] = false;
+                _matrix[tempTargetY * primaryGrid.CellsHorizontal + tempTargetX] = true;
             }
+        }
 
-            /*var builder = new StringBuilder(cells.Length);
-            for (int i = 0; i < gridHeight; i++)
-            {
-                var line = cells.Skip(i * gridWidth).Take(gridWidth);
-                builder.Append(line.Select(b => b ? 'X' : 'O').ToArray());
-                if (i != gridHeight - 1)
-                {
-                    builder.AppendLine();
-                }
-            }
+        rootItem.Location = targetLocation;
+    }
 
-            Console.Clear();
-            Terminal.WriteLine(builder.ToString());*/
-
-            for (var idx = 0; idx < cells.Length; idx++)
-            {
-                if (cells[idx])
-                {
-                    continue;
-                }
-
-                var x = idx % gridWidth;
-                var y = idx / gridWidth;
-                var found = true;
-
-                for (int dy = 0; found && dy < height; dy++)
-                {
-                    for (int dx = 0; dx < width; dx++)
-                    {
-                        var tempX = x + dx;
-                        if (tempX > gridWidth)
-                        {
-                            found = false;
-                            break;
-                        }
-
-                        var tempY = y + dy;
-                        if (tempY > gridHeight)
-                        {
-                            found = false;
-                            break;
-                        }
-
-                        var tempIdx = tempY * gridWidth + tempX;
-                        if (cells[tempIdx])
-                        {
-                            found = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (found)
-                {
-                    return new LocationInGrid
-                    {
-                        x = x,
-                        y = y,
-                        r = desiredRotation
-                    };
-                }
-            }
+    public ItemInstance RemoveItem(ItemInstance item)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+        if (Items.Remove(item))
+        {
+            EnsureMatrixGenerated(null, null, true);
+            return item;
         }
 
         return null;
     }
+
+    public ItemInstance RemoveItem(MongoId id)
+    {
+        return RemoveItem(Items.Find(i => i.Id == id));
+    }
+
+    public void RemoveItem(ItemService itemService, ItemFactoryService itemFactoryService, List<ItemInstance> items)
+    {
+        foreach (var item in items)
+        {
+            var owningItem = Items.Find(i => i.Id == item.ParentId);
+            var owningItemProperties = itemFactoryService.GetItemProperties<CompoundItemItemProperties>(owningItem.TemplateId);
+            var owningGridProperties = owningItemProperties.Grids?.Find(i => i.Name == item.SlotId)?.Properties;
+
+            if (owningGridProperties == null)
+            {
+                throw new Exception($"Failed to find {nameof(owningGridProperties)}");
+            }
+
+            var itemAndChildren = itemService.GetItemAndChildren(Items, item);
+            (int width, int height) = itemService.CalculateItemSize(itemAndChildren);
+            var x = item.Location.Value1.x;
+            var y = item.Location.Value1.y;
+
+            for (var dy = 0; dy < height; dy++)
+            {
+                for (var dx = 0; dx < width; dx++)
+                {
+                    var tempX = x + dx;
+                    var tempY = y + dx;
+
+                    _matrix[tempY * owningGridProperties.CellsHorizontal + tempX] = false;
+                }
+            }
+        }
+
+        Items.RemoveAll(items.Contains);
+    }
+
+    public List<ItemInstance> GetItemAndChildren(ItemService itemService, MongoId id)
+    {
+        return itemService.GetItemAndChildren(Items, id);
+    }
+
+    public List<ItemInstance> GetItemsByTemplate(MongoId templateId)
+    {
+        return Items.FindAll(i => i.TemplateId == templateId);
+    }
+
+    public IEnumerable<ItemInstance> RootItems
+    {
+        get
+        {
+            for (var i = 0; i < Items.Count; i++)
+            {
+                var item = Items[i];
+                if (item.SlotId == "hideout" && item.Location.IsValue1 && item.Location.Value1 != null)
+                {
+                    yield return item;
+                }
+            }
+        }
+    }
+
+    public ItemInstance StashItem
+    {
+        get
+        {
+            if (Stash.HasValue)
+            {
+                return Items.Find(i => i.Id == Stash.Value);
+            }
+
+            return null;
+        }
+    }
+
+    private bool[] _matrix;
 }

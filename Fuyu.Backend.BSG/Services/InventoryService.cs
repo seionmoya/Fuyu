@@ -35,7 +35,7 @@ public class InventoryService
     // -- seionmoya, 2024-10-24
     public void RegenerateIds(InventoryInfo inventory)
     {
-        var mapping = new Dictionary<MongoId, MongoId>();
+        var mapping = new Dictionary<string, string>();
 
         // regenerate inventory equipment
         mapping.Add(inventory.Equipment, new MongoId(true));

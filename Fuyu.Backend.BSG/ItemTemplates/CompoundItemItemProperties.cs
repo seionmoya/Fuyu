@@ -9,16 +9,16 @@ namespace Fuyu.Backend.BSG.ItemTemplates;
 public class CompoundItemItemProperties : ItemProperties
 {
     [DataMember(Name = "Grids")]
-    public Grid[] Grids = [];
+    public List<Grid> Grids = [];
 
     [DataMember(Name = "Slots")]
-    public Slot[] Slots = [];
+    public List<Slot> Slots = [];
 
     [DataMember(Name = "CanPutIntoDuringTheRaid")]
     public bool CanPutIntoDuringTheRaid;
 
     [DataMember(Name = "CantRemoveFromSlotsDuringRaid")]
-    public EEquipmentSlot[] CantRemoveFromSlotsDuringRaid = [];
+    public List<EEquipmentSlot> CantRemoveFromSlotsDuringRaid = [];
 
     [DataMember(Name = "ForbidMissingVitalParts")]
     public bool ForbidMissingVitalParts;
@@ -85,7 +85,7 @@ public class SlotProperties
 public class SlotPropertiesFilter
 {
     [DataMember(Name = "Filter")]
-    public MongoId[] Filter { get; set; }
+    public List<MongoId> Filter { get; set; }
 
     [DataMember(Name = "Shift", EmitDefaultValue = false)]
     public int? Shift { get; set; }
@@ -154,8 +154,8 @@ public class GridProperties
 public class GridPropertiesFilter
 {
     [DataMember(Name = "Filter")]
-    public MongoId[] Filter { get; set; }
+    public List<MongoId> Filter { get; set; }
 
     [DataMember(Name = "ExcludedFilter")]
-    public MongoId[] ExcludedFilter { get; set; }
+    public List<MongoId> ExcludedFilter { get; set; }
 }

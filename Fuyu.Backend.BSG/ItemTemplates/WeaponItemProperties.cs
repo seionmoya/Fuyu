@@ -2,6 +2,7 @@ using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.DTO.Common;
 using Fuyu.Backend.BSG.Models.Common;
 using Fuyu.Common.Collections;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.ItemTemplates;
 
@@ -249,6 +250,7 @@ public class WeaponItemProperties : CompoundItemItemProperties
     public float BaseMalfunctionChance;
 
     [DataMember(Name = "AimSensitivity")]
+    [UnionMappings(JTokenType.Float, JTokenType.Array)]
     public Union<float, float[][]> AimSensitivity = 1f;
 
     [DataMember(Name = "DurabilityBurnRatio")]
