@@ -161,10 +161,10 @@ public class InventoryInfo
             for (var dx = 0; dx < width; dx++)
             {
                 var tempPreviousX = previousX + dx;
-                var tempPreviousY = previousY + dx;
+                var tempPreviousY = previousY + dy;
 
                 var tempTargetX = targetX + dx;
-                var tempTargetY = targetY + dx;
+                var tempTargetY = targetY + dy;
 
                 _matrix[tempPreviousY * primaryGrid.CellsHorizontal + tempPreviousX] = false;
                 _matrix[tempTargetY * primaryGrid.CellsHorizontal + tempTargetX] = true;
