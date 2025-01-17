@@ -32,12 +32,11 @@
                                     <button type="button" class="btn d-inline-flex align-items-center collapsed border-0" data-bs-toggle="collapse" data-bs-target="#contents-collapse">Contents</button>
                                     <ul class="list-unstyled ps-3 collapse" id="contents-collapse">
                                         <!-- sidebar subsection -->
-                                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="#typography">Typography</a></li>
-                                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="#images">Images</a></li>
-                                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="#tables">Tables</a></li>
-                                        <li><a class="d-inline-flex align-items-center rounded text-decoration-none" href="#figures">Figures</a></li>
+                                        <li><a class="text-decoration-none" href="#typography">Typography</a></li>
+                                        <li><a class="text-decoration-none" href="#images">Images</a></li>
+                                        <li><a class="text-decoration-none" href="#tables">Tables</a></li>
+                                        <li><a class="text-decoration-none" href="#figures">Figures</a></li>
                                     </ul>
-
 
                                 </li>
                             </ul>
@@ -63,7 +62,8 @@
     </main>
 
     <!-- load javascript -->
-    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/popper.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
     <script>
         function sendMessage(obj) {
             const json = JSON.stringify(obj);

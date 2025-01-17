@@ -6,8 +6,8 @@ namespace Fuyu.Common.Launcher.Services;
 
 public class WebViewService
 {
-    public static WebViewService Instance => instance.Value;
-    private static readonly Lazy<WebViewService> instance = new(() => new WebViewService());
+    public static WebViewService Instance => _instance.Value;
+    private static readonly Lazy<WebViewService> _instance = new(() => new WebViewService());
 
     private readonly ContentService _contentService;
     private readonly MessageService _messageService;

@@ -6,8 +6,8 @@ namespace Fuyu.Common.Launcher.Services;
 
 public class ContentService
 {
-    public static ContentService Instance => instance.Value;
-    private static readonly Lazy<ContentService> instance = new(() => new ContentService());
+    public static ContentService Instance => _instance.Value;
+    private static readonly Lazy<ContentService> _instance = new(() => new ContentService());
 
     //                          filepath      path    ret
     private readonly Dictionary<string, Func<string, Stream>> _loadCallbacks;

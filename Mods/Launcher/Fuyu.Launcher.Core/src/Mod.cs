@@ -47,20 +47,23 @@ public class Mod : AbstractMod
 
     void InitializeAssets()
     {
-        //                              http://launcher.fuyu.api/*          callback
-        _contentService.SetOrAddLoader("assets/css/bootstrap.min.css",      LoadContent);
-        _contentService.SetOrAddLoader("assets/css/styles.css",             LoadContent);
-        _contentService.SetOrAddLoader("assets/js/bootstrap.bundle.min.js", LoadContent);
+        //                              http://launcher.fuyu.api/*      callback
+        _contentService.SetOrAddLoader("assets/css/bootstrap.min.css",  LoadContent);
+        _contentService.SetOrAddLoader("assets/css/styles.css",         LoadContent);
+        _contentService.SetOrAddLoader("assets/js/bootstrap.min.js",    LoadContent);
+        _contentService.SetOrAddLoader("assets/js/popper.min.js",       LoadContent);
     }
 
     Stream LoadContent(string path)
     {
         return path switch
         {
-            "assets/css/bootstrap.min.css"      => Resx.GetStream(Id, "assets.css.bootstrap.min.css"),
-            "assets/css/styles.css"             => Resx.GetStream(Id, "assets.css.styles.css"),
-            "assets/js/bootstrap.bundle.min.js" => Resx.GetStream(Id, "assets.js.bootstrap.bundle.min.js"),
-            _                                   => throw new FileNotFoundException()
+            // filepath                        stream
+            "assets/css/bootstrap.min.css"  => Resx.GetStream(Id, "assets.css.bootstrap.min.css"),
+            "assets/css/styles.css"         => Resx.GetStream(Id, "assets.css.styles.css"),
+            "assets/js/bootstrap.min.js"    => Resx.GetStream(Id, "assets.js.bootstrap.min.js"),
+            "assets/js/popper.min.js"       => Resx.GetStream(Id, "assets.js.popper.min.js"),
+            _                               => throw new FileNotFoundException()
         };
     }
 }

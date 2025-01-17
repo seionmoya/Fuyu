@@ -6,8 +6,8 @@ namespace Fuyu.Common.Launcher.Services;
 
 public class NavigationService
 {
-    public static NavigationService Instance => instance.Value;
-    private static readonly Lazy<NavigationService> instance = new(() => new NavigationService());
+    public static NavigationService Instance => _instance.Value;
+    private static readonly Lazy<NavigationService> _instance = new(() => new NavigationService());
 
     public const string INTERNAL_DOMAIN = "http://launcher.fuyu.api";
     public string CurrentPage;

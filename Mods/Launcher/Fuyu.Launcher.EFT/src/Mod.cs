@@ -55,10 +55,11 @@ public class Mod : AbstractMod
     {
         return path switch
         {
-            "assets/css/game-eft.css"           => Resx.GetStream(Id, "assets.css.game-eft.css"),
-            "assets/img/bg-eft.png"             => Resx.GetStream(Id, "assets.img.bg-eft.png"),
-            "assets/img/logo-eft.png"           => Resx.GetStream(Id, "assets.img.logo-eft.png"),
-            _                                   => throw new FileNotFoundException()
+            // filepath                    stream
+            "assets/css/game-eft.css"   => Resx.GetStream(Id, "assets.css.game-eft.css"),
+            "assets/img/bg-eft.png"     => Resx.GetStream(Id, "assets.img.bg-eft.png"),
+            "assets/img/logo-eft.png"   => Resx.GetStream(Id, "assets.img.logo-eft.png"),
+            _                           => throw new FileNotFoundException()
         };
     }
 }
