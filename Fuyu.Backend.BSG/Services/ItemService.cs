@@ -64,6 +64,7 @@ public class ItemService
         return ids.FindIndex(i => i == item.ParentId) != -1;
     }
 
+    // TODO: refactor into recursive function
     public List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
     {
         var idsToReturn = new List<string> { id };
