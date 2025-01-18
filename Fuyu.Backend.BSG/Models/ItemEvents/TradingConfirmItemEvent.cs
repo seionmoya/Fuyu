@@ -24,7 +24,7 @@ public class TradingConfirmBuyItemEvent : TradingConfirmItemEvent
 
     [DataMember(Name = "scheme_id")]
     public int SchemeId { get; set; }
-    
+
     [DataMember(Name = "scheme_items")]
     public TradingItemScheme[] Items { get; set; }
 }

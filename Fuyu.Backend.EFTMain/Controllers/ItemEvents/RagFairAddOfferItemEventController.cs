@@ -43,7 +43,7 @@ public class RagFairAddOfferItemEventController : AbstractItemEventController<Ra
 
             items.AddRange(itemsRemoved);
         }
-        
+
         var offer = _ragfairService.CreateAndAddOffer(ragfairUser, items, request.SellAsPack, request.Requirements,
             TimeSpan.FromMinutes(30d), false);
 

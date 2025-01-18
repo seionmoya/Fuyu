@@ -25,7 +25,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
     public override Task RunAsync(ItemEventContext context, TradingConfirmItemEvent request)
     {
         Terminal.WriteLine(context.Data.ToString());
-        
+
         switch (request.Type)
         {
             case "sell_to_trader":
@@ -37,7 +37,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
                     return BuyFromTrader(context, context.GetData<TradingConfirmBuyItemEvent>());
                 }
         }
-        
+
         throw new Exception($"Unhandled TradingConfirm.Type '{request.Type}'");
     }
 
@@ -81,23 +81,23 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
         var traderAssort = _traderOrm.GetTraderAssort(request.TraderId);
         var itemsToBuy = _itemService.GetItemAndChildren(traderAssort.Items, request.ItemId);
-        
+
         if (itemsToBuy.Count == 0)
         {
             throw new Exception("Failed to find item to buy");
         }
-        
+
         if (!profile.Pmc.TradersInfo.HasValue
             || !profile.Pmc.TradersInfo.Value.IsValue1
             || !profile.Pmc.TradersInfo.Value.Value1.TryGetValue(request.TraderId, out var traderInfo))
         {
             throw new Exception("Failed to get trader info");
         }
-        
+
         foreach (var tradingItem in request.Items)
         {
             var itemInstance = profile.Pmc.Inventory.FindItem(tradingItem.Id);
-            
+
             if (itemInstance == null)
             {
                 throw new Exception("Failed to find item");
@@ -120,7 +120,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
         }
 
         var stacks = ItemFactoryService.Instance.CreateItemsFromTradeRequest(itemsToBuy, request.Count);
-        
+
         foreach (var stack in stacks)
         {
             (int itemWidth, int itemHeight) = _itemService.CalculateItemSize(stack);

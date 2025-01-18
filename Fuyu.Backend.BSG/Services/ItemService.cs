@@ -69,7 +69,7 @@ public class ItemService
     {
         var idsToReturn = new List<string> { id };
 
-        start:
+    start:
         for (int i = 0; i < items.Count; i++)
         {
             var item = items[i];

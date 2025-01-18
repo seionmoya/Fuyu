@@ -15,8 +15,8 @@ public partial class GetTraderAssortController : AbstractEftHttpController
     [GeneratedRegex("/client/trading/api/getTraderAssort/(?<traderId>[A-Za-z0-9]+)")]
     private static partial Regex PathExpression();
 
-    private EftOrm _eftOrm;
-    private TraderOrm _traderOrm;
+    private readonly EftOrm _eftOrm;
+    private readonly TraderOrm _traderOrm;
 
     public GetTraderAssortController() : base(PathExpression())
     {

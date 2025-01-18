@@ -83,13 +83,13 @@ public class ItemFactoryService
 
         return items;
     }*/
-    
+
     public List<ItemInstance> CreateItem(ItemTemplate template, int? count = null, MongoId? id = null, string parentId = null,
         string slotId = null)
     {
         var items = new List<ItemInstance>();
         var itemCount = count.GetValueOrDefault(1);
-        
+
         for (var i = 0; i < itemCount; i++)
         {
             var itemId = i == 0 && id.HasValue ? id.Value : new MongoId(true);
@@ -103,7 +103,7 @@ public class ItemFactoryService
                 SlotId = slotId,
                 Updatable = upd
             };
-        
+
             items.Add(item);
 
             var compoundItemProperties = template.Props.ToObject<CompoundItemItemProperties>();

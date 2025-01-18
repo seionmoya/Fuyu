@@ -45,7 +45,7 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
         ResponseBody<OffersListResponse> responseBody;
         List<Offer> selectedOffers;
         string selectedCategory;
-        
+
         if (!string.IsNullOrWhiteSpace(body.HandbookId))
         {
             selectedOffers = SearchByItem(handbook, body.HandbookId);
@@ -113,8 +113,8 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
         };
 
         Terminal.WriteLine(sw.ElapsedMilliseconds);
-        
-sendResponse:
+
+    sendResponse:
         return context.SendResponseAsync(responseBody, true, true);
     }
 
@@ -156,12 +156,12 @@ sendResponse:
     private List<Offer> LinkedSearch(HandbookTemplates handbook, MongoId linkedSearchId, out string selectedCategory)
     {
         var handbookItem = handbook.Items.Find(i => i.Id == linkedSearchId);
-        
+
         if (handbookItem == null)
         {
             throw new Exception($"Failed to find handbook entry for {linkedSearchId}");
         }
-        
+
         var handbookCategory = handbook.Categories.Find(i => i.Id == handbookItem.ParentId);
 
         if (handbookCategory == null)

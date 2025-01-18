@@ -138,7 +138,7 @@ public class InventoryInfo
         {
             item = null;
         }
-           
+
         return item;
     }
 

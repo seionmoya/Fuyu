@@ -13,7 +13,7 @@ public class RagfairService
 
     private readonly EftOrm _eftOrm;
     private readonly HandbookService _handbookService;
-    
+
     public Dictionary<MongoId, int> CategoricalOffers { get; } = [];
 
     private RagfairService()

@@ -42,9 +42,9 @@ public class TraderDatabase
         foreach (var traderTemplate in body.data)
         {
             _traders.Set(traderTemplate.Id, traderTemplate);
-            
+
             string assortJson;
-            
+
             try
             {
                 assortJson = Resx.GetText("eft",
@@ -55,7 +55,7 @@ public class TraderDatabase
                 Terminal.WriteLine($"Failed to get assort for {traderTemplate.Id}");
                 continue;
             }
-            
+
             var traderAssort = Json.Parse<TraderAssort>(assortJson);
             _traderAssort.Set(traderTemplate.Id, traderAssort);
 
@@ -73,7 +73,8 @@ public class TraderDatabase
                     {
                         handOverRequirements.Add(new HandoverRequirement
                         {
-                            Count = (int)requirement2.Count, TemplateId = requirement2.Template
+                            Count = (int)requirement2.Count,
+                            TemplateId = requirement2.Template
                         });
                     }
                 }
@@ -86,12 +87,12 @@ public class TraderDatabase
                 }
                 catch (Exception)
                 {
-                
+
                 }
             }
 
             Terminal.WriteLine($"Got assort for {traderTemplate.Id}");
-            
+
         }
     }
 

@@ -34,7 +34,7 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
         foreach (var buyOffer in request.BuyOffers)
         {
             var fleaOffer = _ragfairService.GetOffer(buyOffer.Id);
-            
+
             if (fleaOffer == null)
             {
                 throw new Exception("Failed to find offer");
@@ -44,7 +44,7 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
             {
                 throw new Exception("User wants to buy more than available");
             }
-            
+
             fleaOffer.RootItem.Updatable.StackObjectsCount -= buyOffer.Count;
 
             if (fleaOffer.RootItem.Updatable.StackObjectsCount <= 0)
@@ -68,14 +68,14 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
                 {
                     throw new Exception($"Item {itemOffer.Id} has no stack objects count");
                 }
-                
+
                 if (handOverItem.Updatable.StackObjectsCount < itemOffer.Count)
                 {
                     throw new Exception("Stack count mismatch");
                 }
-                
+
                 handOverItem.Updatable.StackObjectsCount -= itemOffer.Count;
-                
+
                 if (handOverItem.Updatable.StackObjectsCount.Value <= 0)
                 {
                     profile.Pmc.Inventory.RemoveItem(handOverItem);
