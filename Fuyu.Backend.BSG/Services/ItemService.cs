@@ -64,20 +64,24 @@ public class ItemService
         return ids.FindIndex(i => i == item.ParentId) != -1;
     }
 
-    // TODO: make the LINQ pattern more explicit
     public List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
     {
         var idsToReturn = new List<string> { id };
+        var keepSearching = true;
 
-    start:
-        for (int i = 0; i < items.Count; i++)
+        while (keepSearching)
         {
-            var item = items[i];
+            keepSearching = false;
 
-            if (!idsToReturn.Contains(item.Id) && idsToReturn.Contains(item.ParentId))
+            for (int i = 0; i < items.Count; i++)
             {
-                idsToReturn.Add(item.Id);
-                goto start;
+                var item = items[i];
+
+                if (!idsToReturn.Contains(item.Id) && idsToReturn.Contains(item.ParentId))
+                {
+                    idsToReturn.Add(item.Id);
+                    keepSearching = true;
+                }
             }
         }
 
