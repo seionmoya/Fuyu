@@ -21,15 +21,6 @@ public class InventoryService
         _itemService = ItemService.Instance;
     }
 
-    public List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
-    {
-        var itemsToRemove = _itemService.GetItemAndChildren(inventory.Items, item);
-
-        inventory.Items.RemoveAll(i => itemsToRemove.Contains(i));
-
-        return itemsToRemove;
-    }
-
     // NOTE:
     // * order is really important here!
     // -- seionmoya, 2024-10-24
@@ -72,11 +63,11 @@ public class InventoryService
         // regenerate inventory items
         if (inventory.Items != null)
         {
-            foreach (var item in inventory.Items)
+            foreach (var id in inventory.ItemsMap.Keys)
             {
-                if (!mapping.ContainsKey(item.Id))
+                if (!mapping.ContainsKey(id))
                 {
-                    mapping.Add(item.Id, new MongoId(true));
+                    mapping.Add(id, new MongoId(true));
                 }
             }
 

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.ItemEvents;
-using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFTMain.Services;
-using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
-using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFTMain.Controllers.ItemEvents;
 
@@ -100,7 +96,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
         
         foreach (var tradingItem in request.Items)
         {
-            var itemInstance = profile.Pmc.Inventory.Items.Find(i => i.Id == tradingItem.Id);
+            var itemInstance = profile.Pmc.Inventory.FindItem(tradingItem.Id);
             
             if (itemInstance == null)
             {
@@ -114,7 +110,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
 
             if (itemInstance.Updatable.StackObjectsCount <= 0)
             {
-                profile.Pmc.Inventory.Items.Remove(itemInstance);
+                profile.Pmc.Inventory.RemoveItem(itemInstance);
                 context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(itemInstance);
             }
             else

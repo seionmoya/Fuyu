@@ -17,7 +17,7 @@ public class ToggleItemEventController : AbstractItemEventController<ToggleItemE
     public override Task RunAsync(ItemEventContext context, ToggleItemEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
+        var item = profile.Pmc.Inventory.RemoveItem(request.Item);
 
         if (item == null)
         {

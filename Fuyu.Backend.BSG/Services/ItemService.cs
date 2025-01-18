@@ -12,7 +12,7 @@ public class ItemService
     public static ItemService Instance => instance.Value;
     private static readonly Lazy<ItemService> instance = new(() => new ItemService());
 
-    private ItemFactoryService _itemFactoryService;
+    private readonly ItemFactoryService _itemFactoryService;
 
     /// <summary>
     /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)

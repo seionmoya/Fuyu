@@ -4,18 +4,32 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Items;
-using Fuyu.Backend.BSG.Models.Locations;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Common.Hashing;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Fuyu.Backend.BSG.Models.Profiles;
 
 [DataContract]
 public class InventoryInfo
 {
+    public Dictionary<MongoId, ItemInstance> ItemsMap { get; private set; } = [];
+
+    public List<ItemInstance> Items => ItemsMap.Values.ToList();
+
     [DataMember(Name = "items")]
-    public List<ItemInstance> Items { get; set; }
+    private List<ItemInstance> _itemsForSerialization;
+
+    [OnSerializing]
+    private void OnSerializing(StreamingContext _)
+    {
+        _itemsForSerialization = Items;
+    }
+
+    [OnDeserialized]
+    private void OnDeserialized(StreamingContext _)
+    {
+        ItemsMap = _itemsForSerialization.ToDictionary(i => i.Id);
+    }
 
     [DataMember(Name = "equipment")]
     public MongoId Equipment { get; set; }
@@ -80,7 +94,7 @@ public class InventoryInfo
             return;
         }
 
-        var stashItem = Items.Find(i => i.Id == Stash.Value);
+        var stashItem = FindItem(Stash.Value);
         var template = itemFactoryService.ItemTemplates[stashItem.TemplateId];
         var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
         var primaryGrid = compoundItemItemProperties.Grids[0].Properties;
@@ -114,12 +128,18 @@ public class InventoryInfo
             }
         }
 
-        Items.AddRange(items);
+        items.ForEach(i => ItemsMap[i.Id] = i);
     }
 
+    /// <returns>The root item, not the full stack</returns>
     public ItemInstance FindItem(MongoId id)
     {
-        return Items.Find(i => i.Id == id);
+        if (!ItemsMap.TryGetValue(id, out var item))
+        {
+            item = null;
+        }
+           
+        return item;
     }
 
     public void MoveItem(ItemService itemService, ItemFactoryService itemFactoryService, List<ItemInstance> items, LocationInGrid targetLocation)
@@ -130,7 +150,7 @@ public class InventoryInfo
         }
 
         var rootItem = items[0];
-        var stashItem = Items.Find(i => i.Id == Stash.Value);
+        var stashItem = FindItem(Stash.Value);
         var template = itemFactoryService.ItemTemplates[stashItem.TemplateId];
         var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
         var primaryGrid = compoundItemItemProperties.Grids[0].Properties;
@@ -176,7 +196,7 @@ public class InventoryInfo
     {
         ArgumentNullException.ThrowIfNull(item);
 
-        if (!Items.Contains(item))
+        if (!ItemsMap.ContainsKey(item.Id))
         {
             return [];
         }
@@ -193,7 +213,7 @@ public class InventoryInfo
             throw new Exception("Location is null");
         }
 
-        var containerItem = Items.Find(i => i.Id == item.ParentId);
+        var containerItem = ItemsMap[item.ParentId];
 
         if (containerItem == null)
         {
@@ -226,47 +246,15 @@ public class InventoryInfo
             }
         }
 
-        Items.RemoveAll(itemAndChildren.Contains);
+        itemAndChildren.ForEach(i => ItemsMap.Remove(i.Id));
 
         return itemAndChildren;
     }
 
+    /// <returns>The item and children that were removed</returns>
     public List<ItemInstance> RemoveItem(MongoId id)
     {
-        return RemoveItem(Items.Find(i => i.Id == id));
-    }
-
-    public void RemoveItem(ItemService itemService, ItemFactoryService itemFactoryService, List<ItemInstance> items)
-    {
-        foreach (var item in items)
-        {
-            var owningItem = Items.Find(i => i.Id == item.ParentId);
-            var owningItemProperties = itemFactoryService.GetItemProperties<CompoundItemItemProperties>(owningItem.TemplateId);
-            var owningGridProperties = owningItemProperties.Grids?.Find(i => i.Name == item.SlotId)?.Properties;
-
-            if (owningGridProperties == null)
-            {
-                throw new Exception($"Failed to find {nameof(owningGridProperties)}");
-            }
-
-            var itemAndChildren = itemService.GetItemAndChildren(Items, item);
-            (int width, int height) = itemService.CalculateItemSize(itemAndChildren);
-            var x = item.Location.Value1.x;
-            var y = item.Location.Value1.y;
-
-            for (var dy = 0; dy < height; dy++)
-            {
-                for (var dx = 0; dx < width; dx++)
-                {
-                    var tempX = x + dx;
-                    var tempY = y + dx;
-
-                    _matrix[tempY * owningGridProperties.CellsHorizontal + tempX] = false;
-                }
-            }
-        }
-
-        Items.RemoveAll(items.Contains);
+        return RemoveItem(ItemsMap[id]);
     }
 
     public List<ItemInstance> GetItemAndChildren(ItemService itemService, MongoId id)
@@ -279,28 +267,13 @@ public class InventoryInfo
         return Items.FindAll(i => i.TemplateId == templateId);
     }
 
-    public IEnumerable<ItemInstance> RootItems
-    {
-        get
-        {
-            for (var i = 0; i < Items.Count; i++)
-            {
-                var item = Items[i];
-                if (item.SlotId == "hideout" && item.Location.IsValue1 && item.Location.Value1 != null)
-                {
-                    yield return item;
-                }
-            }
-        }
-    }
-
     public ItemInstance StashItem
     {
         get
         {
-            if (Stash.HasValue)
+            if (Stash.HasValue && ItemsMap.TryGetValue(Stash.Value, out var itemInstance))
             {
-                return Items.Find(i => i.Id == Stash.Value);
+                return itemInstance;
             }
 
             return null;

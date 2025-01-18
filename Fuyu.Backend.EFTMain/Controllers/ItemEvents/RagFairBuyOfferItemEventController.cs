@@ -16,12 +16,14 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
     private readonly EftOrm _eftOrm;
     private readonly RagfairService _ragfairService;
     private readonly ItemService _itemService;
+    private readonly ItemFactoryService _itemFactoryService;
 
     public RagFairBuyOfferItemEventController() : base("RagFairBuyOffer")
     {
         _eftOrm = EftOrm.Instance;
         _ragfairService = RagfairService.Instance;
         _itemService = ItemService.Instance;
+        _itemFactoryService = ItemFactoryService.Instance;
     }
 
     // TODO: logic for buying is wrong
@@ -53,12 +55,14 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
             // Remove items from player stash
             foreach (var itemOffer in buyOffer.ItemOffers)
             {
-                var handOverItem = profile.Pmc.Inventory.Items.Find(i => i.Id == itemOffer.Id);
+                var handOverItems = profile.Pmc.Inventory.GetItemAndChildren(_itemService, itemOffer.Id);
 
-                if (handOverItem == null)
+                if (handOverItems.Count == 0)
                 {
                     throw new Exception($"Failed to find item {itemOffer.Id}");
                 }
+
+                var handOverItem = handOverItems[0];
 
                 if (!handOverItem.Updatable.StackObjectsCount.HasValue)
                 {
@@ -74,7 +78,7 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
                 
                 if (handOverItem.Updatable.StackObjectsCount.Value <= 0)
                 {
-                    profile.Pmc.Inventory.Items.Remove(handOverItem);
+                    profile.Pmc.Inventory.RemoveItem(handOverItem);
                     context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(handOverItem);
                 }
                 else
@@ -83,16 +87,28 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
                 }
             }
 
-            var clonedRootItem = Json.Clone<ItemInstance>(fleaOffer.RootItem);
-            var properties = ItemFactoryService.Instance.GetItemProperties<ItemProperties>(clonedRootItem.TemplateId);
-            clonedRootItem.Id = new MongoId(true);
-            clonedRootItem.Updatable.StackObjectsCount = buyOffer.Count;
-            clonedRootItem.Location = profile.Pmc.Inventory.GetNextFreeSlot(_itemService, properties.Width, properties.Height, out string gridName);
-            clonedRootItem.SlotId = gridName;
-            clonedRootItem.ParentId = profile.Pmc.Inventory.Stash;
-            
-            profile.Pmc.Inventory.Items.Add(clonedRootItem);
-            context.Response.ProfileChanges[profile.Pmc._id].Items.New.Add(clonedRootItem);
+            var stacks = ItemFactoryService.Instance.CreateItemsFromTradeRequest(fleaOffer.Items, buyOffer.Count);
+
+            foreach (var stack in stacks)
+            {
+                (int itemWidth, int itemHeight) = _itemService.CalculateItemSize(stack);
+                var targetLocation = profile.Pmc.Inventory.GetNextFreeSlot(_itemService, itemWidth, itemHeight, out string gridName);
+
+                if (targetLocation == null)
+                {
+                    throw new Exception("No room for item");
+                }
+
+                var rootItem = stack[0];
+                rootItem.Location = targetLocation;
+                rootItem.SlotId = gridName;
+                rootItem.ParentId = profile.Pmc.Inventory.Stash;
+
+                profile.Pmc.Inventory.AddItems(_itemService, ItemFactoryService.Instance,
+                    stack);
+
+                context.Response.ProfileChanges[profile.Pmc._id].Items.New.AddRange(stack);
+            }
         }
 
         return Task.CompletedTask;

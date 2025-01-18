@@ -32,9 +32,16 @@ public class RagFairAddOfferItemEventController : AbstractItemEventController<Ra
 
         foreach (var itemToSellId in request.Items)
         {
-            var rootItem = profile.Pmc.Inventory.Items.Find(i => i.Id == itemToSellId);
-            context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(rootItem);
-            items.AddRange(_itemService.GetItemAndChildren(profile.Pmc.Inventory.Items, rootItem));
+            var itemsRemoved = profile.Pmc.Inventory.RemoveItem(itemToSellId);
+
+            if (itemsRemoved.Count == 0)
+            {
+                throw new Exception($"Item {itemToSellId} not found on backend");
+            }
+
+            context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(itemsRemoved[0]);
+
+            items.AddRange(itemsRemoved);
         }
         
         var offer = _ragfairService.CreateAndAddOffer(ragfairUser, items, request.SellAsPack, request.Requirements,
@@ -44,8 +51,6 @@ public class RagFairAddOfferItemEventController : AbstractItemEventController<Ra
         {
             throw new Exception("Failed to create offer");
         }
-
-        profile.Pmc.Inventory.Items.RemoveAll(items.Contains);
 
         return Task.CompletedTask;
     }

@@ -17,7 +17,7 @@ public class TagItemEventController : AbstractItemEventController<TagItemEvent>
     public override Task RunAsync(ItemEventContext context, TagItemEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
+        var item = profile.Pmc.Inventory.FindItem(request.Item);
 
         if (item != null)
         {

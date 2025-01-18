@@ -61,7 +61,7 @@ public class GetOtherProfileController : AbstractEftHttpController<GetOtherProfi
                 Equipment = new ItemInfo()
                 {
                     Id = targetProfile.Pmc.Inventory.Equipment,
-                    Items = [.. targetProfile.Pmc.Inventory.Items]
+                    Items = targetProfile.Pmc.Inventory.Items
                 },
                 PmcStats = targetProfile.Pmc.Stats.ToSimpleStatsInfo(),
                 ScavStats = targetProfile.Savage.Stats.ToSimpleStatsInfo(),
