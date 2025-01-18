@@ -75,8 +75,6 @@ public class InventoryInfo
             throw new Exception($"{nameof(items)}.Count must be greater than 0");
         }
 
-        EnsureMatrixGenerated(itemService, itemFactoryService);
-
         if (!Stash.HasValue)
         {
             return;
@@ -174,19 +172,66 @@ public class InventoryInfo
         rootItem.Location = targetLocation;
     }
 
-    public ItemInstance RemoveItem(ItemInstance item)
+    public List<ItemInstance> RemoveItem(ItemInstance item)
     {
         ArgumentNullException.ThrowIfNull(item);
-        if (Items.Remove(item))
+
+        if (!Items.Contains(item))
         {
-            EnsureMatrixGenerated(null, null, true);
-            return item;
+            return [];
         }
 
-        return null;
+        if (!item.Location.IsValue1)
+        {
+            throw new Exception("!item.Location.IsValue1");
+        }
+
+        var location = item.Location.Value1;
+
+        if (location == null)
+        {
+            throw new Exception("Location is null");
+        }
+
+        var containerItem = Items.Find(i => i.Id == item.ParentId);
+
+        if (containerItem == null)
+        {
+            throw new Exception($"Failed to find container {item.ParentId} for {item.Id}");
+        }
+
+        var itemService = ItemService.Instance;
+        var itemAndChildren = itemService.GetItemAndChildren(Items, item);
+        var template = ItemFactoryService.Instance.ItemTemplates[containerItem.TemplateId];
+        var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
+        var owningGrid = compoundItemItemProperties.Grids.Find(g => g.Name == item.SlotId)?.Properties;
+
+        if (owningGrid == null)
+        {
+            throw new Exception($"Failed to find owning grid on {containerItem.Id}.{item.SlotId}");
+        }
+
+        (int width, int height) = itemService.CalculateItemSize(itemAndChildren);
+        var previousX = location.x;
+        var previousY = location.y;
+
+        for (var dy = 0; dy < height; dy++)
+        {
+            for (var dx = 0; dx < width; dx++)
+            {
+                var tempPreviousX = previousX + dx;
+                var tempPreviousY = previousY + dy;
+
+                _matrix[tempPreviousY * owningGrid.CellsHorizontal + tempPreviousX] = false;
+            }
+        }
+
+        Items.RemoveAll(itemAndChildren.Contains);
+
+        return itemAndChildren;
     }
 
-    public ItemInstance RemoveItem(MongoId id)
+    public List<ItemInstance> RemoveItem(MongoId id)
     {
         return RemoveItem(Items.Find(i => i.Id == id));
     }

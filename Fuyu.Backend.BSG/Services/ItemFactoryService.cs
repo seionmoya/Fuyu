@@ -195,4 +195,38 @@ public class ItemFactoryService
     {
         return CreateItemComponent(ItemTemplates[tpl], componentType, createDefault);
     }
+
+    public List<List<ItemInstance>> CreateItemsFromTradeRequest(List<ItemInstance> purchasedItem, int count)
+    {
+        ArgumentNullException.ThrowIfNull(purchasedItem);
+
+        if (purchasedItem.Count == 0)
+        {
+            throw new Exception($"{nameof(purchasedItem)}.Count == 0");
+        }
+
+        var stacks = new List<List<ItemInstance>>();
+        var rootItemProperties = GetItemProperties<ItemProperties>(purchasedItem[0].TemplateId);
+        var maxCount = rootItemProperties.StackMaxSize;
+        var fullStacks = count / maxCount;
+        var remainingItems = count % maxCount;
+
+        for (var i = 0; i < fullStacks; i++)
+        {
+            var itemStack = Json.Clone<List<ItemInstance>>(purchasedItem);
+            itemStack[0].Updatable.StackObjectsCount = maxCount;
+            ItemService.Instance.RegenerateItemIds(itemStack);
+            stacks.Add(itemStack);
+        }
+
+        if (remainingItems > 0)
+        {
+            var itemStack = Json.Clone<List<ItemInstance>>(purchasedItem);
+            itemStack[0].Updatable.StackObjectsCount = remainingItems;
+            ItemService.Instance.RegenerateItemIds(itemStack);
+            stacks.Add(itemStack);
+        }
+
+        return stacks;
+    }
 }

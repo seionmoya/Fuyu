@@ -253,13 +253,4 @@ public class ItemService
 
         return matrix;
     }
-
-    public List<ItemInstance> Flatten(List<ItemInstance> items)
-    {
-        var result = new List<ItemInstance>();
-
-
-
-        return result;
-    }
 }

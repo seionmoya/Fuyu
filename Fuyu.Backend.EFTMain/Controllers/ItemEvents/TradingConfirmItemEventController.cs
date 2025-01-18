@@ -63,7 +63,7 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
             try
             {
                 var removedItems = inventory.RemoveItem(tradingItem.Id);
-                context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.Add(removedItems);
+                context.Response.ProfileChanges[profile.Pmc._id].Items.Delete.AddRange(removedItems);
             }
             catch (Exception ex)
             {
@@ -76,7 +76,6 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
         var roublesItem = roubles[0];
         roublesItem.Updatable.StackObjectsCount += request.Price;
         context.Response.ProfileChanges[profile.Pmc._id].Items.Change.Add(roublesItem);
-        profile.Pmc.Inventory.EnsureMatrixGenerated(null, null, true);
 
         return Task.CompletedTask;
     }
@@ -97,14 +96,6 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
             || !profile.Pmc.TradersInfo.Value.Value1.TryGetValue(request.TraderId, out var traderInfo))
         {
             throw new Exception("Failed to get trader info");
-        }
-
-        (int itemWidth, int itemHeight) = _itemService.CalculateItemSize(itemsToBuy);
-        var targetLocation = profile.Pmc.Inventory.GetNextFreeSlot(_itemService, itemWidth, itemHeight, out string gridName);
-        
-        if (targetLocation == null)
-        {
-            throw new Exception("No room for item");
         }
         
         foreach (var tradingItem in request.Items)
@@ -132,18 +123,28 @@ public class TradingConfirmEventController : AbstractItemEventController<Trading
             }
         }
 
-        itemsToBuy = Json.Clone<List<ItemInstance>>(itemsToBuy);
-        _itemService.RegenerateItemIds(itemsToBuy);
-        var rootItem = itemsToBuy[0];
-        rootItem.Location = targetLocation;
-        rootItem.SlotId = gridName;
-        rootItem.ParentId = profile.Pmc.Inventory.Stash;
+        var stacks = ItemFactoryService.Instance.CreateItemsFromTradeRequest(itemsToBuy, request.Count);
+        
+        foreach (var stack in stacks)
+        {
+            (int itemWidth, int itemHeight) = _itemService.CalculateItemSize(stack);
+            var targetLocation = profile.Pmc.Inventory.GetNextFreeSlot(_itemService, itemWidth, itemHeight, out string gridName);
 
-        profile.Pmc.Inventory.AddItems(_itemService, ItemFactoryService.Instance,
-            itemsToBuy);
+            if (targetLocation == null)
+            {
+                throw new Exception("No room for item");
+            }
 
-        context.Response.ProfileChanges[profile.Pmc._id].Items.New.AddRange(itemsToBuy);
-        profile.Pmc.Inventory.EnsureMatrixGenerated(null, null, true);
+            var rootItem = stack[0];
+            rootItem.Location = targetLocation;
+            rootItem.SlotId = gridName;
+            rootItem.ParentId = profile.Pmc.Inventory.Stash;
+
+            profile.Pmc.Inventory.AddItems(_itemService, ItemFactoryService.Instance,
+                stack);
+
+            context.Response.ProfileChanges[profile.Pmc._id].Items.New.AddRange(stack);
+        }
 
         return Task.CompletedTask;
     }

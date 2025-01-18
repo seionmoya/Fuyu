@@ -28,6 +28,7 @@ public class FoldItemEventController : AbstractItemEventController<FoldItemEvent
         }
 
         item.GetOrCreateUpdatable<ItemFoldableComponent>().Folded = request.Value;
+        item.Size = null;
 
         return Task.CompletedTask;
     }

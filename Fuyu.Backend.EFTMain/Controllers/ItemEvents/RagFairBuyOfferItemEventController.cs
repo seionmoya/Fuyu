@@ -93,7 +93,6 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
             
             profile.Pmc.Inventory.Items.Add(clonedRootItem);
             context.Response.ProfileChanges[profile.Pmc._id].Items.New.Add(clonedRootItem);
-            profile.Pmc.Inventory.EnsureMatrixGenerated(_itemService, ItemFactoryService.Instance, true);
         }
 
         return Task.CompletedTask;
