@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
-using Fuyu.Common.IO;
-using Fuyu.DependencyInjection;
-using Fuyu.Modding;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemTemplates;
+using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFTMain;
 using Fuyu.Backend.EFTMain.Services;
 using Fuyu.Common.Hashing;
+using Fuyu.Common.IO;
+using Fuyu.DependencyInjection;
+using Fuyu.Modding;
 
 public class GenerateFleaMarketOffersMod : AbstractMod
 {
@@ -22,8 +23,6 @@ public class GenerateFleaMarketOffersMod : AbstractMod
 
     public override Task OnLoad(DependencyContainer container)
     {
-        var player = new RagfairPlayerUser(new MongoId(true), 344, EMemberCategory.Developer, EMemberCategory.Developer,
-            "b1gdeveloper", 69.420f, true);
         new Thread(GenerateOffers).Start();
 
         return Task.CompletedTask;
@@ -31,7 +30,7 @@ public class GenerateFleaMarketOffersMod : AbstractMod
 
     static void GenerateOffers()
     {
-        var player = new RagfairPlayerUser(new MongoId(true), 344, EMemberCategory.Developer, EMemberCategory.Developer,
+        var player = new RagfairPlayerUser(MongoId.Generate(), 344, EMemberCategory.Developer, EMemberCategory.Developer,
             "b1gdeveloper", 69.420f, true);
         Terminal.WriteLine("Generating offers...");
 
@@ -43,38 +42,27 @@ public class GenerateFleaMarketOffersMod : AbstractMod
 
         foreach (var (tid, template) in templates)
         {
-            if (template.Type != ENodeType.Item)
+            if (template.Type == ENodeType.Node)
             {
                 continue;
             }
-            
-            var entry = handbook.Items.Find(i => i.Id == tid);
-            int price = entry?.Price ?? 100;
 
-            if (price <= 0)
-            {
-                price = 100;
-            }
+            int price = HandbookService.Instance.GetPrice(tid, 100).Value;
 
             try
             {
-                var rootItem = ItemFactoryService.Instance.CreateItem(template.Id, out var items);
-                items.Insert(0, rootItem);
+                var items = ItemFactoryService.Instance.CreateItem(template);
+                items[0].Updatable ??= new ItemUpdatable();
+                items[0].Updatable.StackObjectsCount = Random.Shared.Next(100, 100000);
 
-                rootItem.Updatable.StackObjectsCount = 100000;
-                
                 var createdOffer = RagfairService.Instance.CreateAndAddOffer(
                     player,
                     items,
                     false,
                     [
-                        new HandoverRequirement()
-                        {
-                            Count = price,
-                            TemplateId = "5449016a4bdc2d6f028b456f"
-                        }
+                        new HandoverRequirement() { Count = price, TemplateId = "5449016a4bdc2d6f028b456f" }
                     ],
-                    TimeSpan.FromMinutes(30d),
+                    TimeSpan.FromHours(30d),
                     true
                 );
 
@@ -87,9 +75,9 @@ public class GenerateFleaMarketOffersMod : AbstractMod
                     success++;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // ignored
+                failed++;
             }
         }
 
