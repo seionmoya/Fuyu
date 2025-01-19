@@ -78,7 +78,6 @@ public class EftMainServer : HttpServer
         HttpRouter.AddController<ClientItemsPriceController>();
         HttpRouter.AddController<GetTraderAssortController>();
         HttpRouter.AddController<ClientInsuranceItemsListCostController>();
-        HttpRouter.AddController<GetNextFreeSlotController>();
         HttpRouter.AddController<GameProfileVoiceChangeController>();
         HttpRouter.AddController<ProfileMagazineBuildSaveController>();
         HttpRouter.AddController<ProfileBuildDeleteController>();
@@ -87,7 +86,7 @@ public class EftMainServer : HttpServer
         HttpRouter.AddController<GameProfileNicknameChangeController>();
         HttpRouter.AddController<GetOtherProfileController>();
         HttpRouter.AddController<SearchOtherProfileController>();
-        HttpRouter.AddController<CilentRagfairFindController>();
+        HttpRouter.AddController<ClientRagfairFindController>();
         HttpRouter.AddController<ClientRagfairItemMarketPriceController>();
 
         // EFT-WS

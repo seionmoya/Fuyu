@@ -13,6 +13,7 @@ public class RagfairService
 
     private readonly EftOrm _eftOrm;
     private readonly HandbookService _handbookService;
+
     public Dictionary<MongoId, int> CategoricalOffers { get; } = [];
 
     private RagfairService()
@@ -28,9 +29,20 @@ public class RagfairService
     public Offer CreateAndAddOffer(IRagfairUser user, List<ItemInstance> items, bool isBatch,
         List<HandoverRequirement> requirements, TimeSpan lifetime, bool unlimitedCount, int loyaltyLevel = 1)
     {
-        ArgumentNullException.ThrowIfNull(user);
-        ArgumentNullException.ThrowIfNull(items);
-        ArgumentNullException.ThrowIfNull(requirements);
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user));
+        }
+
+        if (items == null)
+        {
+            throw new ArgumentNullException(nameof(items));
+        }
+
+        if (requirements == null)
+        {
+            throw new ArgumentNullException(nameof(requirements));
+        }
 
         if (items.Count == 0)
         {
@@ -45,11 +57,6 @@ public class RagfairService
         var handbook = _eftOrm.GetHandbook();
         var handbookItem = handbook.Items.Find(i => i.Id == items[0].TemplateId);
 
-        if (handbookItem == null)
-        {
-            return null;
-        }
-
         if (!CategoricalOffers.TryAdd(handbookItem.ParentId, 1))
         {
             CategoricalOffers[handbookItem.ParentId]++;
@@ -62,10 +69,10 @@ public class RagfairService
 
         var offer = new Offer()
         {
-            Id = new MongoId(true),
+            Id = MongoId.Generate(),
             IntId = Offers.Count,
             User = user,
-            Root = items[0].Id,
+            RootItemId = items[0].Id,
             Items = items,
             ItemsCost =
                 (isBatch
@@ -100,7 +107,7 @@ public class RagfairService
         }
 
         var handbook = _eftOrm.GetHandbook();
-        var handbookItem = handbook.Items.Find(i => i.Id == offer.Items[0].TemplateId);
+        var handbookItem = handbook.Items.Find(i => i.Id == offer.RootItem.TemplateId);
 
         if (handbookItem != null)
         {
@@ -110,9 +117,9 @@ public class RagfairService
             }
         }
 
-        if (!CategoricalOffers.ContainsKey(offer.Items[0].TemplateId))
+        if (!CategoricalOffers.ContainsKey(offer.RootItem.TemplateId))
         {
-            CategoricalOffers[offer.Items[0].TemplateId]--;
+            CategoricalOffers[offer.RootItem.TemplateId]--;
         }
     }
 }

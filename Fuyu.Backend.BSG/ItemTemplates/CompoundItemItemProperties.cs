@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.DataContracts;
 using Fuyu.Common.Hashing;
@@ -8,16 +9,16 @@ namespace Fuyu.Backend.BSG.ItemTemplates;
 public class CompoundItemItemProperties : ItemProperties
 {
     [DataMember(Name = "Grids")]
-    public Grid[] Grids = [];
+    public List<Grid> Grids = [];
 
     [DataMember(Name = "Slots")]
-    public Slot[] Slots = [];
+    public List<Slot> Slots = [];
 
     [DataMember(Name = "CanPutIntoDuringTheRaid")]
     public bool CanPutIntoDuringTheRaid;
 
     [DataMember(Name = "CantRemoveFromSlotsDuringRaid")]
-    public EEquipmentSlot[] CantRemoveFromSlotsDuringRaid = [];
+    public List<EEquipmentSlot> CantRemoveFromSlotsDuringRaid = [];
 
     [DataMember(Name = "ForbidMissingVitalParts")]
     public bool ForbidMissingVitalParts;
@@ -83,11 +84,26 @@ public class SlotProperties
 [DataContract]
 public class SlotPropertiesFilter
 {
-    [DataMember(Name = "Shift")]
-    public int Shift { get; set; }
-
     [DataMember(Name = "Filter")]
-    public MongoId[] Filter { get; set; }
+    public List<MongoId> Filter { get; set; }
+
+    [DataMember(Name = "Shift", EmitDefaultValue = false)]
+    public int? Shift { get; set; }
+
+    [DataMember(Name = "Plate", EmitDefaultValue = false)]
+    public MongoId? Plate { get; set; }
+
+    [DataMember(Name = "armorColliders", EmitDefaultValue = false)]
+    public List<string> ArmorColliders { get; set; }
+
+    [DataMember(Name = "armorPlateColliders", EmitDefaultValue = false)]
+    public List<string> ArmorPlateColliders { get; set; }
+
+    [DataMember(Name = "bluntDamageReduceFromSoftArmor", EmitDefaultValue = false)]
+    public bool? BluntDamageReduceFromSoftArmor { get; set; }
+
+    [DataMember(Name = "locked", EmitDefaultValue = false)]
+    public bool? Locked { get; set; }
 }
 
 [DataContract]
@@ -138,8 +154,8 @@ public class GridProperties
 public class GridPropertiesFilter
 {
     [DataMember(Name = "Filter")]
-    public MongoId[] Filter { get; set; }
+    public List<MongoId> Filter { get; set; }
 
     [DataMember(Name = "ExcludedFilter")]
-    public MongoId[] ExcludedFilter { get; set; }
+    public List<MongoId> ExcludedFilter { get; set; }
 }

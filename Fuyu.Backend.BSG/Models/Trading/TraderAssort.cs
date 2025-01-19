@@ -8,14 +8,11 @@ namespace Fuyu.Backend.BSG.Models.Trading;
 [DataContract]
 public class TraderAssort
 {
-    [DataMember(Name = "exchange_rate")]
-    public double ExchangeRate { get; set; }
-
     [DataMember(Name = "items")]
-    public ItemInstance[] Items { get; set; }
+    public List<ItemInstance> Items { get; set; }
 
     [DataMember(Name = "barter_scheme")]
-    public Dictionary<MongoId, BarterComponent[][]> BarterScheme { get; set; }
+    public Dictionary<MongoId, List<List<BarterComponent>>> BarterScheme { get; set; }
 
     [DataMember(Name = "loyal_level_items")]
     public Dictionary<MongoId, int> LoyaltyLevelItems { get; set; }

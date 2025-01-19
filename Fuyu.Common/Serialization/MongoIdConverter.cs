@@ -4,19 +4,22 @@ using Newtonsoft.Json;
 
 namespace Fuyu.Common.Serialization;
 
-public class MongoIdConverter : JsonConverter<MongoId>
+public class MongoIdConverter : JsonConverter<MongoId?>
 {
-    public override MongoId ReadJson(JsonReader reader, Type objectType, MongoId existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override MongoId? ReadJson(JsonReader reader, Type objectType, MongoId? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         if (reader.Value != null)
         {
-            return new MongoId((string)reader.Value);
+            if (MongoId.TryParse((string)reader.Value, out MongoId mongoId))
+            {
+                return mongoId;
+            }
         }
 
         return default;
     }
 
-    public override void WriteJson(JsonWriter writer, MongoId value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, MongoId? value, JsonSerializer serializer)
     {
         writer.WriteValue(value.ToString());
     }

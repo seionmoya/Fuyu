@@ -36,8 +36,10 @@ public class ProfileService
         };
 
         // generate new ids
-        var pmcId = new MongoId(true).ToString();
-        var savageId = new MongoId(pmcId, 1, false).ToString();
+        var mongoId = MongoId.Generate();
+        var pmcId = mongoId.ToString();
+        mongoId = mongoId.Next();
+        var savageId = mongoId.ToString();
 
         // set profile info
         profile.Pmc._id = pmcId;

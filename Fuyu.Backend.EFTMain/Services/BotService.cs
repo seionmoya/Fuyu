@@ -117,7 +117,7 @@ public class BotService
         var profile = Json.Parse<Profile>(_profiles[role]);
 
         // regenerate all ids
-        profile._id = new MongoId(true);
+        profile._id = MongoId.Generate();
         _inventoryService.RegenerateIds(profile.Inventory);
 
         // set difficulty

@@ -9,10 +9,9 @@ namespace Fuyu.Common.Hashing;
 public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
 {
     private static readonly Random _random = new Random();
-    private static readonly ulong _processId = Hash;
-    private static uint _newIdCounter;
     private readonly uint _timeStamp;
     private readonly ulong _counter;
+    public static readonly int RequiredStringLength = 24;
 
     public static uint UnixTimestamp
     {
@@ -33,35 +32,45 @@ public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
         }
     }
 
-    [JsonConstructor]
-    public MongoId([JsonProperty("$value")] string id)
+    public static bool TryParse(string str, out MongoId id)
     {
-        if (id == null || id.Length != 24)
+        if (str == null || str.Length != RequiredStringLength)
         {
-            throw new ArgumentOutOfRangeException($"Critical MongoId error: incorrect length. Id: {id}");
+            id = default;
+            return false;
         }
 
-        _timeStamp = GetTimestamp(id);
-        _counter = GetCounter(id);
+        var timeStamp = GetTimestamp(str);
+        var counter = GetCounter(str);
+        id = new MongoId(timeStamp, counter);
 
-        GenerateNew();
+        return true;
     }
 
-    public MongoId(bool newProcessId)
+    public MongoId(uint timeStamp, ulong counter)
     {
-        _timeStamp = 0U;
+        _timeStamp = timeStamp;
+        _counter = counter;
+    }
 
-        if (newProcessId)
+    public static MongoId Parse(string str)
+    {
+        if (str == null || str.Length != RequiredStringLength)
         {
-            _counter = Hash << 24;
-        }
-        else
-        {
-            _newIdCounter += 1U;
-            _counter = (_processId << 24) + (ulong)_newIdCounter;
+            throw new Exception();
         }
 
-        _timeStamp = UnixTimestamp;
+        var timeStamp = GetTimestamp(str);
+        var counter = GetCounter(str);
+
+        return new MongoId(timeStamp, counter);
+    }
+
+    public static MongoId Generate()
+    {
+        var counter = Hash << 24;
+
+        return new MongoId(UnixTimestamp, counter);
     }
 
     public MongoId(int accountId)
@@ -74,27 +83,6 @@ public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
         _counter = 4294967296UL | (ulong)num;
         _counter <<= 24;
         _counter |= (ulong)num2;
-    }
-
-    public MongoId(MongoId source, int increment, bool newTimestamp = true)
-    {
-        if (newTimestamp)
-        {
-            _timeStamp = UnixTimestamp;
-        }
-        else
-        {
-            _timeStamp = source._timeStamp;
-        }
-
-        if (increment > 0)
-        {
-            _counter = source._counter + (ulong)Convert.ToUInt32(increment);
-        }
-        else
-        {
-            _counter = source._counter - (ulong)Convert.ToUInt32(Math.Abs(increment));
-        }
     }
 
     // smethod_1
@@ -110,17 +98,9 @@ public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
     }
 
     // method_0
-    public void GenerateNew()
+    public MongoId Next()
     {
-        var num = Convert.ToUInt64(_counter >> 24);
-
-        if (_processId != num)
-        {
-            return;
-        }
-
-        var num2 = Convert.ToUInt32(_counter << 40 >> 40);
-        _newIdCounter = Math.Max(_newIdCounter, num2);
+        return new MongoId(_timeStamp, _counter + 1);
     }
 
     public bool Equals(MongoId other)
@@ -186,7 +166,7 @@ public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
 
     public static implicit operator MongoId(string id)
     {
-        return new MongoId(id);
+        return Parse(id);
     }
 
     public static bool operator ==(MongoId a, MongoId b)

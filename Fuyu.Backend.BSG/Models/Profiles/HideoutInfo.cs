@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Profiles.Hideout;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.Models.Profiles;
 
@@ -27,5 +28,6 @@ public class HideoutInfo
     public Dictionary<EHideoutCustomizationType, MongoId?> GlobalCustomization { get; set; }
 
     [DataMember]
+    [UnionMappings(JTokenType.Object, JTokenType.Array)]
     public Union<Dictionary<string, MongoId>, object[]> MannequinPoses { get; set; }
 }

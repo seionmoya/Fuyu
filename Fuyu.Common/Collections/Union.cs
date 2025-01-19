@@ -2,6 +2,9 @@ using System;
 
 namespace Fuyu.Common.Collections;
 
+/// <summary>
+/// See note on <see cref="IUnion"/>
+/// </summary>
 public readonly struct Union<T1, T2> : IUnion
 {
     // NOTE: While we could just use object I have intentionally used

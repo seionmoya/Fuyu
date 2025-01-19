@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Models.Profiles;
@@ -18,26 +19,21 @@ public class InsureEventController : AbstractItemEventController<InsureItemEvent
     public override Task RunAsync(ItemEventContext context, InsureItemEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var pmc = profile.Pmc;
-        var inventoryItems = pmc.Inventory.Items;
         var insuredItems = new List<InsuredItem>(request.Items.Length);
 
         foreach (var itemIdToInsure in request.Items)
         {
-            var itemInstance = inventoryItems.Find(i => i.Id == itemIdToInsure);
+            var itemInstance = profile.Pmc.Inventory.FindItem(itemIdToInsure);
+
             if (itemInstance == null)
             {
-                context.AppendInventoryError("Failed to find one or more items on backend");
+                throw new Exception("Failed to find one or more items on backend");
+            }
 
-                return Task.CompletedTask;
-            }
-            else
-            {
-                insuredItems.Add(new InsuredItem { itemId = itemIdToInsure, tid = request.TraderId });
-            }
+            insuredItems.Add(new InsuredItem { itemId = itemIdToInsure, tid = request.TraderId });
         }
 
-        pmc.InsuredItems.AddRange(insuredItems);
+        profile.Pmc.InsuredItems.AddRange(insuredItems);
 
         return Task.CompletedTask;
     }

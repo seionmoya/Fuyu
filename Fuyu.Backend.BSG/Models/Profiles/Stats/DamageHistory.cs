@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Profiles.Health;
 using Fuyu.Common.Collections;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.Models.Profiles.Stats;
 
@@ -16,5 +17,6 @@ public class DamageHistory
     public object LethalDamage { get; set; }
 
     [DataMember]
+    [UnionMappings(JTokenType.Object, JTokenType.Array)]
     public Union<Dictionary<string, List<BodyPartDamage>>, List<BodyPartDamage>> BodyParts { get; set; }
 }

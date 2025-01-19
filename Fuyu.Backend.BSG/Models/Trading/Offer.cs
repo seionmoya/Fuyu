@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Common.Hashing;
@@ -23,7 +24,7 @@ public class Offer
     /// The root item (more than likely will be Items[0].Id)
     /// </summary>
     [DataMember(Name = "root")]
-    public MongoId Root { get; set; }
+    public MongoId RootItemId { get; set; }
 
     [DataMember(Name = "items")]
     public List<ItemInstance> Items { get; set; }
@@ -77,4 +78,12 @@ public class Offer
 
     [DataMember(Name = "summaryCost")]
     public int SummaryCost { get; set; }
+
+    public ItemInstance RootItem
+    {
+        get
+        {
+            return Items.First(i => i.Id == RootItemId);
+        }
+    }
 }

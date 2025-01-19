@@ -11,6 +11,7 @@ public class ProfileChange
     {
         UnlockedRecipes = [];
         Items = new ItemChanges();
+        TradersData = [];
     }
 
     [DataMember(Name = "experience")]
@@ -21,4 +22,7 @@ public class ProfileChange
 
     [DataMember(Name = "items")]
     public ItemChanges Items { get; set; }
+
+    [DataMember(Name = "traderRelations")]
+    public Dictionary<MongoId, TraderData> TradersData { get; set; }
 }

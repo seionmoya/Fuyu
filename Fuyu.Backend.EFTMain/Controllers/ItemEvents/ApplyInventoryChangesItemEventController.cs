@@ -20,7 +20,7 @@ public class ApplyInventoryChangesItemEventController : AbstractItemEventControl
     public override Task RunAsync(ItemEventContext context, ApplyInventoryChangesEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var profileItems = new ThreadDictionary<MongoId, ItemInstance>(profile.Pmc.Inventory.Items.ToDictionary(i => i.Id, i => i));
+        var profileItems = new ThreadDictionary<MongoId, ItemInstance>(profile.Pmc.Inventory.ItemsMap);
 
         Parallel.ForEach(request.ChangedItems, changedItem =>
         {

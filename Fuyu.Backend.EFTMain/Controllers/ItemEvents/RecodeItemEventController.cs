@@ -17,7 +17,7 @@ public class RecodeItemEventController : AbstractItemEventController<RecodeItemE
     public override Task RunAsync(ItemEventContext context, RecodeItemEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
+        var item = profile.Pmc.Inventory.FindItem(request.Item);
 
         if (item == null)
         {
