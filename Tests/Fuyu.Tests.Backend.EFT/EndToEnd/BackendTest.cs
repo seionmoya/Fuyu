@@ -970,10 +970,10 @@ public class BackendTest
         // get request data
         var request = new EquipmentBuildSaveRequest()
         {
-            Id = new MongoId(true),
+            Id = MongoId.Generate(),
             Name = "TestEquipmentBuild",
             Items = [],
-            Root = new MongoId(true)
+            Root = MongoId.Generate()
         };
 
         // get request body
@@ -993,10 +993,10 @@ public class BackendTest
         // get request data
         var request = new WeaponBuildSaveRequest()
         {
-            Id = new MongoId(true),
+            Id = MongoId.Generate(),
             Name = "TestEquipmentBuild",
             Items = [],
-            Root = new MongoId(true)
+            Root = MongoId.Generate()
         };
 
         // get request body
@@ -1016,7 +1016,7 @@ public class BackendTest
         // get request data
         var request = new MagazineBuildSaveRequest()
         {
-            Id = new MongoId(true),
+            Id = MongoId.Generate(),
             Name = "TestEquipmentBuild",
             Items = [],
             BottomCount = 0,
