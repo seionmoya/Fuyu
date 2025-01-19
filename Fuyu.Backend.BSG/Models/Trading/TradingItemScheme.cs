@@ -4,7 +4,7 @@ using Fuyu.Common.Hashing;
 namespace Fuyu.Backend.BSG.Models.Trading;
 
 [DataContract]
-public class BuyOffer
+public class TradingItemScheme
 {
     [DataMember(Name = "id")]
     public MongoId Id { get; set; }
@@ -12,6 +12,6 @@ public class BuyOffer
     [DataMember(Name = "count")]
     public int Count { get; set; }
 
-    [DataMember(Name = "items")]
-    public ItemOffer[] ItemOffers { get; set; }
+    [DataMember(Name = "scheme_id")]
+    public int SchemeId { get; set; }
 }

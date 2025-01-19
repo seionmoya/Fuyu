@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Fuyu.Common.Collections;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.ItemTemplates;
 
@@ -14,9 +15,11 @@ public class MedsItemProperties : ItemProperties
     public KeyValuePair<EBodyPart, float>[] BodyPartTimeMults { get; set; }
 
     [DataMember(Name = "effects_health")]
+    [UnionMappings(JTokenType.Object, JTokenType.Array)]
     public Union<Dictionary<string, HealthEffect>, object[]> HealthEffects { get; set; }
 
     [DataMember(Name = "effects_damage")]
+    [UnionMappings(JTokenType.Object, JTokenType.Array)]
     public Union<Dictionary<string, DamageEffect>, object[]> DamageEffects { get; set; }
 
     [DataMember(Name = "StimulatorBuffs")]

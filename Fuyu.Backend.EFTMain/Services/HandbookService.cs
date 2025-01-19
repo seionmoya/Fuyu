@@ -18,7 +18,7 @@ public class HandbookService
     public HandbookService()
     {
         _eftOrm = EftOrm.Instance;
-        _generatedCategoryId = new MongoId(true);
+        _generatedCategoryId = MongoId.Generate();
     }
 
     public HashSet<HandbookCategory> GetHandbookTree(List<HandbookCategory> categories, MongoId rootId)
@@ -66,8 +66,8 @@ public class HandbookService
             generatedCategory = new HandbookCategory
             {
                 Id = _generatedCategoryId,
-                ParentId = "",
-                Icon = "dd",
+                ParentId = null,
+                Icon = "what",
                 Color = "#ff0000"
             };
 

@@ -17,7 +17,7 @@ public class FoldItemEventController : AbstractItemEventController<FoldItemEvent
     public override Task RunAsync(ItemEventContext context, FoldItemEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var item = profile.Pmc.Inventory.Items.Find(i => i.Id == request.ItemId);
+        var item = profile.Pmc.Inventory.FindItem(request.ItemId);
 
         if (item == null)
         {
@@ -28,6 +28,8 @@ public class FoldItemEventController : AbstractItemEventController<FoldItemEvent
         }
 
         item.GetOrCreateUpdatable<ItemFoldableComponent>().Folded = request.Value;
+        // Setting it to null here so that it gets recalculated
+        item.Size = null;
 
         return Task.CompletedTask;
     }

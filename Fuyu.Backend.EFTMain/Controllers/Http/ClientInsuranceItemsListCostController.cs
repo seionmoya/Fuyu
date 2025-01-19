@@ -23,13 +23,13 @@ public class ClientInsuranceItemsListCostController : AbstractEftHttpController<
     public override Task RunAsync(EftHttpContext context, InsuranceCostRequest body)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var items = profile.Pmc.Inventory.Items.FindAll(i => body.ItemIds.Contains(i.Id));
+        var items = body.ItemIds.Select(id => profile.Pmc.Inventory.ItemsMap[id]).ToArray();
         var response = new ResponseBody<InsuranceCostResponse>();
 
-        if (items.Count == body.ItemIds.Length)
+        if (items.Length == body.ItemIds.Length)
         {
             var insuranceCost = new InsuranceCostResponse(body.Traders.Length);
-            var prices = new Dictionary<MongoId, int>(items.Count);
+            var prices = new Dictionary<MongoId, int>(items.Length);
 
             foreach (var item in items)
             {

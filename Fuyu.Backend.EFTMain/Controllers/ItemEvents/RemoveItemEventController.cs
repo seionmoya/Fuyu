@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Fuyu.Backend.BSG.Models.ItemEvents;
 using Fuyu.Backend.BSG.Networking;
 
@@ -16,16 +17,12 @@ public class RemoveItemEventController : AbstractItemEventController<RemoveItemE
     public override Task RunAsync(ItemEventContext context, RemoveItemEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);
-        var itemToRemove = profile.Pmc.Inventory.Items.Find(i => i.Id == request.Item);
+        var removedItems = profile.Pmc.Inventory.RemoveItem(request.Item);
 
-        if (itemToRemove == null)
+        if (removedItems.Count == 0)
         {
-            context.AppendInventoryError($"Failed to find item on backend: {request.Item}");
-
-            return Task.CompletedTask;
+            throw new Exception($"Failed to find item on backend: {request.Item}");
         }
-
-        profile.Pmc.Inventory.RemoveItem(itemToRemove);
 
         return Task.CompletedTask;
     }

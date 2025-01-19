@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Common.Hashing;
 
@@ -58,16 +57,17 @@ public class RagfairFindRequest
     public bool UpdateOfferCount { get; set; }
 
     [DataMember(Name = "handbookId")]
-    public MongoId HandbookId { get; set; }
+    public MongoId? HandbookId { get; set; }
 
     [DataMember(Name = "linkedSearchId")]
-    public string LinkedSearchId { get; set; }
+    public MongoId? LinkedSearchId { get; set; }
 
     [DataMember(Name = "neededSearchId")]
-    public string NeededSearchId { get; set; }
+    public MongoId? NeededSearchId { get; set; }
 
     [DataMember(Name = "buildItems")]
-    public Dictionary<MongoId, int> BuildItems { get; set; }
+    // NOTE: may be a MongoId, I have yet to see a dump with this populated
+    public Dictionary<string, int> BuildItems { get; set; }
 
     [DataMember(Name = "buildCount")]
     public int BuildCount { get; set; }

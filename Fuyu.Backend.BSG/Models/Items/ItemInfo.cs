@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Fuyu.Common.Hashing;
 
 namespace Fuyu.Backend.BSG.Models.Items;
@@ -10,5 +11,5 @@ public class ItemInfo
     public MongoId Id { get; set; }
 
     [DataMember(Name = "Items")]
-    public ItemInstance[] Items { get; set; }
+    public List<ItemInstance> Items { get; set; }
 }

@@ -1,9 +1,11 @@
+using System;
 using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
+using Newtonsoft.Json.Linq;
 
 namespace Fuyu.Backend.BSG.Models.Items;
 
@@ -24,8 +26,9 @@ public class ItemInstance
     public MongoId TemplateId { get; set; }
 
     // emits when 'null'
+    // NOTE: This is a string instead of a MongoId as "hideout" is valid
     [DataMember(Name = "parentId", EmitDefaultValue = false)]
-    public MongoId? ParentId { get; set; }
+    public string ParentId { get; set; }
 
     // emits when 'null'
     [DataMember(Name = "slotId", EmitDefaultValue = false)]
@@ -33,11 +36,17 @@ public class ItemInstance
 
     // emits when 'null'
     [DataMember(Name = "location", EmitDefaultValue = false)]
+    [UnionMappings(JTokenType.Object, JTokenType.Integer)]
     public Union<LocationInGrid, int> Location { get; set; }
 
     // emits when 'null'
     [DataMember(Name = "upd", EmitDefaultValue = false)]
     public ItemUpdatable Updatable { get; set; }
+
+    /// <summary>
+    /// Do not access directly, use <see cref="ItemService.CalculateItemSize(System.Collections.Generic.List{ItemInstance})"/>
+    /// </summary>
+    public ValueTuple<int, int>? Size { get; set; }
 
     public T GetOrCreateUpdatable<T>() where T : class
     {

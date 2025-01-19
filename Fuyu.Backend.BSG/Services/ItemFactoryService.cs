@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Items;
@@ -21,7 +22,6 @@ public class ItemFactoryService
     /// </summary>
     private ItemFactoryService()
     {
-
     }
 
     public Dictionary<MongoId, ItemTemplate> ItemTemplates { get; private set; }
@@ -43,30 +43,68 @@ public class ItemFactoryService
         return ItemTemplates[templateId].Props.ToObject<T>();
     }
 
-    public ItemInstance CreateItem(MongoId tpl, MongoId? id = null)
+    public List<ItemInstance> CreateItem(ItemTemplate template, int? count = null, MongoId? id = null, string parentId = null,
+        string slotId = null)
     {
-        var template = ItemTemplates[tpl];
-        var itemId = id.GetValueOrDefault(new MongoId(true));
-        ItemUpdatable upd = CreateItemUpdatable(template);
+        var items = new List<ItemInstance>();
+        var itemCount = count.GetValueOrDefault(1);
 
-        var item = new ItemInstance
+        for (var i = 0; i < itemCount; i++)
         {
-            Id = itemId,
-            TemplateId = tpl,
-            Updatable = upd
-        };
+            var itemId = i == 0 && id.HasValue ? id.Value : MongoId.Generate();
+            var upd = CreateItemUpdatable(template);
 
-        return item;
+            var item = new ItemInstance
+            {
+                Id = itemId,
+                TemplateId = template.Id,
+                ParentId = parentId,
+                SlotId = slotId,
+                Updatable = upd
+            };
+
+            items.Add(item);
+
+            var compoundItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
+
+            // Handle child items - these are created once per root item
+            if (compoundItemProperties.Slots != null)
+            {
+                foreach (var slot in compoundItemProperties.Slots.Where(s => s.Required && s.Properties.Filters.Length > 0))
+                {
+                    if (!slot.Properties.Filters[0].Plate.HasValue)
+                    {
+                        continue;
+                    }
+
+                    var templateId = slot.Properties.Filters[0].Plate.Value;
+                    if (ItemTemplates.TryGetValue(templateId, out var childTemplate))
+                    {
+                        var subItems = CreateItem(childTemplate, null, null, itemId, slot.Name);
+                        items.AddRange(subItems);
+                    }
+                }
+            }
+        }
+
+        return items;
     }
 
-    public ItemUpdatable CreateItemUpdatable(ItemTemplate template)
+    public ItemUpdatable CreateItemUpdatable(ItemTemplate template, int count = 1)
     {
         ItemUpdatable upd = null;
+
+        if (count > 1)
+        {
+            upd = new ItemUpdatable { StackObjectsCount = count };
+        }
+
         var updProperties = typeof(ItemUpdatable).GetProperties();
 
         foreach (var updProperty in updProperties)
         {
             var component = CreateItemComponent(template, updProperty.PropertyType, false);
+
             if (component != null)
             {
                 if (upd == null)
@@ -83,21 +121,22 @@ public class ItemFactoryService
 
     public object CreateItemComponent(ItemTemplate template, Type componentType, bool createDefault)
     {
-        var isItemComponentInterface = typeof(IItemComponent).IsAssignableFrom(componentType);
-        if (!isItemComponentInterface)
+        // This means we can't deserialize the type from an ItemTemplate
+        if (!typeof(IItemComponent).IsAssignableFrom(componentType))
         {
             return null;
         }
 
-        var bindingFlags = BindingFlags.Public | BindingFlags.Static;
-        var createComponentMethodName = nameof(IItemComponent.CreateComponent);
-        var createComponentMethod = componentType.GetMethod(createComponentMethodName, bindingFlags);
+        var createComponentMethod = componentType.GetMethod(nameof(IItemComponent.CreateComponent),
+            BindingFlags.Public | BindingFlags.Static);
+
         if (createComponentMethod == null)
         {
             return null;
         }
 
         var result = createComponentMethod.Invoke(null, [template.Props]);
+
         if (result == null && createDefault)
         {
             result = Activator.CreateInstance(componentType);
@@ -114,5 +153,42 @@ public class ItemFactoryService
     public object CreateItemComponent(MongoId tpl, Type componentType, bool createDefault)
     {
         return CreateItemComponent(ItemTemplates[tpl], componentType, createDefault);
+    }
+
+    public List<List<ItemInstance>> CreateItemsFromTradeRequest(List<ItemInstance> purchasedItem, int count)
+    {
+        if (purchasedItem == null)
+        {
+            throw new ArgumentNullException(nameof(purchasedItem));
+        }
+
+        if (purchasedItem.Count == 0)
+        {
+            throw new Exception($"{nameof(purchasedItem)}.Count == 0");
+        }
+
+        var stacks = new List<List<ItemInstance>>();
+        var rootItemProperties = GetItemProperties<ItemProperties>(purchasedItem[0].TemplateId);
+        var maxCount = rootItemProperties.StackMaxSize;
+        var fullStacks = count / maxCount;
+        var remainingItems = count % maxCount;
+
+        for (var i = 0; i < fullStacks; i++)
+        {
+            var itemStack = Json.Clone<List<ItemInstance>>(purchasedItem);
+            itemStack[0].Updatable.StackObjectsCount = maxCount;
+            ItemService.Instance.RegenerateItemIds(itemStack);
+            stacks.Add(itemStack);
+        }
+
+        if (remainingItems > 0)
+        {
+            var itemStack = Json.Clone<List<ItemInstance>>(purchasedItem);
+            itemStack[0].Updatable.StackObjectsCount = remainingItems;
+            ItemService.Instance.RegenerateItemIds(itemStack);
+            stacks.Add(itemStack);
+        }
+
+        return stacks;
     }
 }

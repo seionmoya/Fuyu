@@ -23,4 +23,9 @@ public class TraderOrm
     {
         return _traderDatabase.GetTraderTemplates()[traderId];
     }
+
+    public TraderAssort GetTraderAssort(MongoId traderId)
+    {
+        return _traderDatabase.GetTraderAssort(traderId);
+    }
 }

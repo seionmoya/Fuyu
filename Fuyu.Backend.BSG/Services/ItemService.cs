@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Common.Hashing;
 
@@ -11,15 +12,17 @@ public class ItemService
     public static ItemService Instance => instance.Value;
     private static readonly Lazy<ItemService> instance = new(() => new ItemService());
 
+    private readonly ItemFactoryService _itemFactoryService;
+
     /// <summary>
     /// The construction of this class is handled in the <see cref="instance"/> (<see cref="Lazy{T}"/>)
     /// </summary>
     private ItemService()
     {
-
+        _itemFactoryService = ItemFactoryService.Instance;
     }
 
-    public void RegenerateItemIds(IEnumerable<ItemInstance> items, Dictionary<MongoId, MongoId> mapping)
+    public void RegenerateItemIds(IEnumerable<ItemInstance> items, Dictionary<string, string> mapping)
     {
         // replace ids
         foreach (var item in items)
@@ -28,24 +31,19 @@ public class ItemService
             item.Id = mapping[item.Id];
 
             // replace item's parent id
-            if (item.ParentId != null)
+            if (item.ParentId != null && mapping.TryGetValue(item.ParentId, out var parentId))
             {
-                item.ParentId = mapping[item.ParentId.Value];
+                item.ParentId = parentId;
             }
         }
     }
 
     public void RegenerateItemIds(List<ItemInstance> items)
     {
-        var mapping = new Dictionary<MongoId, MongoId>();
-
-        // find all old ids
+        var mapping = new Dictionary<string, string>();
         foreach (var item in items)
         {
-            if (!mapping.ContainsKey(item.Id))
-            {
-                mapping.Add(item.Id, new MongoId(true));
-            }
+            mapping.TryAdd(item.Id, MongoId.Generate());
         }
 
         RegenerateItemIds(items, mapping);
@@ -58,37 +56,217 @@ public class ItemService
 
     public bool IsChildItem(ItemInstance item, List<MongoId> ids)
     {
-        if (!item.ParentId.HasValue)
+        if (item.ParentId == null)
         {
             return false;
         }
 
-        return ids.FindIndex(i => i == item.ParentId.Value) != -1;
+        return ids.FindIndex(i => i == item.ParentId) != -1;
     }
 
-    // TODO: make the LINQ pattern more explicit
+    // TODO: refactor into recursive function
     public List<ItemInstance> GetItemAndChildren(List<ItemInstance> items, MongoId id)
     {
-        var foundNewItem = true;
-        var idsToReturn = new List<MongoId>
-        {
-            id
-        };
+        var idsToReturn = new List<string> { id };
+        var keepSearching = true;
 
-        while (foundNewItem)
+        while (keepSearching)
         {
-            foundNewItem = false;
-            var found = items.Where(
-                i => !idsToReturn.Contains(i.Id)
-                && IsChildItem(i, idsToReturn));
+            keepSearching = false;
 
-            if (found.Any())
+            for (var i = 0; i < items.Count; i++)
             {
-                foundNewItem = true;
-                idsToReturn.AddRange(found.Select(i => i.Id));
+                var item = items[i];
+
+                if (!idsToReturn.Contains(item.Id) && idsToReturn.Contains(item.ParentId))
+                {
+                    idsToReturn.Add(item.Id);
+                    keepSearching = true;
+                }
             }
         }
 
+        // Grab the ItemInstance of each found id and return it as a List
         return items.Where(i => idsToReturn.Contains(i.Id)).ToList();
+    }
+
+    /// <summary>
+    /// Only an item and its children should be passed into this
+    /// </summary>
+    public (int width, int height) CalculateItemSize(List<ItemInstance> items)
+    {
+        if (items == null)
+        {
+            throw new ArgumentNullException(nameof(items));
+        }
+
+        if (items.Count == 0)
+        {
+            throw new Exception($"{nameof(items)} is empty");
+        }
+
+        var root = items[0];
+
+        if (root.Size != null)
+        {
+            return root.Size.Value;
+        }
+
+        var rootProperties = _itemFactoryService.GetItemProperties<ItemProperties>(root.TemplateId);
+
+        var width = rootProperties.Width;
+        var height = rootProperties.Height;
+
+        var sizeUp = 0;
+        var sizeDown = 0;
+        var sizeLeft = 0;
+        var sizeRight = 0;
+        var forcedUp = 0;
+        var forcedDown = 0;
+        var forcedLeft = 0;
+        var forcedRight = 0;
+
+        for (var i = 1; i < items.Count; i++)
+        {
+            var itemProperties = _itemFactoryService.GetItemProperties<ItemProperties>(items[i].TemplateId);
+
+            if (itemProperties == null)
+            {
+                continue;
+            }
+
+            if (itemProperties.ExtraSizeForceAdd)
+            {
+                forcedUp += itemProperties.ExtraSizeUp;
+                forcedDown += itemProperties.ExtraSizeDown;
+                forcedLeft += itemProperties.ExtraSizeLeft;
+                forcedRight += itemProperties.ExtraSizeRight;
+            }
+            else
+            {
+                sizeUp = Math.Max(sizeUp, itemProperties.ExtraSizeUp);
+                sizeDown = Math.Max(sizeDown, itemProperties.ExtraSizeDown);
+                sizeLeft = Math.Max(sizeLeft, itemProperties.ExtraSizeLeft);
+                sizeRight = Math.Max(sizeRight, itemProperties.ExtraSizeRight);
+            }
+        }
+
+        width += sizeLeft + sizeRight + forcedLeft + forcedRight;
+        height += sizeUp + sizeDown + forcedUp + forcedDown;
+
+        if (root.Location.IsValue1 && root.Location.Value1 != null && root.Location.Value1.r == EItemRotation.Vertical)
+        {
+            root.Size = (height, width);
+            return (height, width);
+        }
+
+        root.Size = (width, height);
+        return (width, height);
+    }
+
+    public LocationInGrid GetNextFreeSlot(ItemInstance containerItem,
+        List<ItemInstance> items, int width, int height, ref bool[] matrix, out string gridName,
+        EItemRotation desiredRotation = EItemRotation.Horizontal)
+    {
+        if (width <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(width));
+        }
+
+        if (height <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(height));
+        }
+
+        gridName = null;
+
+        var containerItemProperties =
+            _itemFactoryService.GetItemProperties<CompoundItemItemProperties>(containerItem.TemplateId);
+
+        if (containerItemProperties?.Grids == null)
+        {
+            return null;
+        }
+
+        foreach (var grid in containerItemProperties.Grids)
+        {
+            gridName = grid.Name;
+            var gridWidth = grid.Properties.CellsHorizontal;
+            var gridHeight = grid.Properties.CellsVertical;
+
+            // Check if the item is too big for this grid
+            if (width > gridWidth || height > gridHeight)
+            {
+                continue;
+            }
+
+            if (matrix == null)
+            {
+                matrix = GenerateMatrix(gridWidth, gridHeight, items);
+            }
+
+            for (var y = 0; y <= gridHeight - height; y++)
+            {
+                for (var x = 0; x <= gridWidth - width; x++)
+                {
+                    var canFit = true;
+
+                    for (var dy = 0; canFit && dy < height; dy++)
+                    {
+                        for (var dx = 0; dx < width; dx++)
+                        {
+                            if (matrix[(y + dy) * gridWidth + (x + dx)])
+                            {
+                                canFit = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (canFit)
+                    {
+                        return new LocationInGrid { x = x, y = y, r = desiredRotation };
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public bool[] GenerateMatrix(int gridWidth, int gridHeight, List<ItemInstance> items)
+    {
+        var matrix = new bool[gridWidth * gridHeight];
+
+        foreach (var itemInThisGrid in items)
+        {
+            if (!itemInThisGrid.Location.IsValue1 || itemInThisGrid.Location.Value1 == null)
+            {
+                continue;
+            }
+
+            var itemLocation = itemInThisGrid.Location.Value1;
+            var itemAndChildren = GetItemAndChildren(items, itemInThisGrid);
+            (int itemWidth, int itemHeight) = CalculateItemSize(itemAndChildren);
+
+            if (itemLocation.x < 0 || itemLocation.y < 0 ||
+                itemLocation.x + itemWidth > gridWidth ||
+                itemLocation.y + itemHeight > gridHeight)
+            {
+                continue;
+            }
+
+            for (var y = 0; y < itemHeight; y++)
+            {
+                for (var x = 0; x < itemWidth; x++)
+                {
+                    var cellX = itemLocation.x + x;
+                    var cellY = itemLocation.y + y;
+                    matrix[cellY * gridWidth + cellX] = true;
+                }
+            }
+        }
+
+        return matrix;
     }
 }

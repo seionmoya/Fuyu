@@ -21,62 +21,53 @@ public class InventoryService
         _itemService = ItemService.Instance;
     }
 
-    public List<ItemInstance> RemoveItem(InventoryInfo inventory, ItemInstance item)
-    {
-        var itemsToRemove = _itemService.GetItemAndChildren(inventory.Items, item);
-
-        inventory.Items.RemoveAll(i => itemsToRemove.Contains(i));
-
-        return itemsToRemove;
-    }
-
     // NOTE:
     // * order is really important here!
     // -- seionmoya, 2024-10-24
     public void RegenerateIds(InventoryInfo inventory)
     {
-        var mapping = new Dictionary<MongoId, MongoId>();
+        var mapping = new Dictionary<string, string>();
 
         // regenerate inventory equipment
-        mapping.Add(inventory.Equipment, new MongoId(true));
+        mapping.Add(inventory.Equipment, MongoId.Generate());
         inventory.Equipment = mapping[inventory.Equipment];
 
         // regenerate inventory stash
         if (inventory.Stash != null)
         {
-            mapping.Add(inventory.Stash.Value, new MongoId(true));
+            mapping.Add(inventory.Stash.Value, MongoId.Generate());
             inventory.Stash = mapping[inventory.Stash.Value];
         }
 
         // regenerate inventory quest raid items
         if (inventory.QuestRaidItems != null)
         {
-            mapping.Add(inventory.QuestRaidItems.Value, new MongoId(true));
+            mapping.Add(inventory.QuestRaidItems.Value, MongoId.Generate());
             inventory.QuestRaidItems = mapping[inventory.QuestRaidItems.Value];
         }
 
         // regenerate inventory quest stash items
         if (inventory.QuestStashItems != null)
         {
-            mapping.Add(inventory.QuestStashItems.Value, new MongoId(true));
+            mapping.Add(inventory.QuestStashItems.Value, MongoId.Generate());
             inventory.QuestStashItems = mapping[inventory.QuestStashItems.Value];
         }
 
         // regenerate inventory sorting table
         if (inventory.SortingTable != null)
         {
-            mapping.Add(inventory.SortingTable.Value, new MongoId(true));
+            mapping.Add(inventory.SortingTable.Value, MongoId.Generate());
             inventory.SortingTable = mapping[inventory.SortingTable.Value];
         }
 
         // regenerate inventory items
         if (inventory.Items != null)
         {
-            foreach (var item in inventory.Items)
+            foreach (var id in inventory.ItemsMap.Keys)
             {
-                if (!mapping.ContainsKey(item.Id))
+                if (!mapping.ContainsKey(id))
                 {
-                    mapping.Add(item.Id, new MongoId(true));
+                    mapping.Add(id, MongoId.Generate());
                 }
             }
 

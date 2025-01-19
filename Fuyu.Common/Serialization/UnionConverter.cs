@@ -1,11 +1,25 @@
 ﻿using System;
+using System.Reflection;
 using Fuyu.Common.Collections;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace Fuyu.Common.Serialization;
 
 public class UnionConverter : JsonConverter
 {
+    private readonly PropertyInfo _propertyInfo;
+
+    public UnionConverter()
+    {
+    }
+
+    public UnionConverter(PropertyInfo propertyInfo)
+    {
+        _propertyInfo = propertyInfo;
+    }
+
     // NOTE: I don't think this gets ran at all but I'm leaving it
     // -- nexus4880, 2024-10-14
     public override bool CanConvert(Type objectType)
@@ -15,39 +29,73 @@ public class UnionConverter : JsonConverter
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
-        foreach (var type in objectType.GenericTypeArguments)
-        {
-            try
-            {
-                // NOTE: This will intentionally cause an exception because there
-                // is no other way of seeing if a type can be deserialized
-                // -- nexus4880, 2024-10-14
-                var result = serializer.Deserialize(reader, type);
-                if (result == null)
-                {
-                    // Cannot gather type info from null...
-                    continue;
-                }
+        var token = JToken.ReadFrom(reader);
 
-                // NOTE: This intentionally uses Activator.CreateInstance in order
-                // to return a Union<T1, T2> from T1 or T2 directly
-                // -- nexus4880, 2024-10-14
-                return Activator.CreateInstance(objectType, result);
-            }
-            catch (JsonSerializationException)
+        if (token.Type == JTokenType.Null)
+        {
+            return Activator.CreateInstance(objectType);
+        }
+
+        if (_propertyInfo == null)
+        {
+            var tokenObject = token.ToObject(objectType.GenericTypeArguments[0], serializer);
+
+            return Activator.CreateInstance(objectType, tokenObject);
+        }
+
+        var underlyingType = Nullable.GetUnderlyingType(_propertyInfo.PropertyType);
+        var isNullable = underlyingType != null;
+        var rootType = underlyingType ?? _propertyInfo.PropertyType;
+        var tokens = _propertyInfo.GetCustomAttribute<UnionMappingsAttribute>()?.Tokens;
+
+        if (tokens == null)
+        {
+            throw new Exception($"Missing {nameof(UnionMappingsAttribute)}");
+        }
+
+        if (tokens.Length != rootType.GenericTypeArguments.Length)
+        {
+            throw new Exception($"{nameof(UnionMappingsAttribute.Tokens)} count mismatch");
+        }
+
+        for (var i = 0; i < tokens.Length; i++)
+        {
+            if (tokens[i] == token.Type)
             {
+                var tokenObject = token.ToObject(rootType.GenericTypeArguments[i], serializer);
+
+                if (!isNullable)
+                {
+                    return Activator.CreateInstance(objectType, tokenObject);
+                }
+                else
+                {
+                    return Activator.CreateInstance(objectType, Activator.CreateInstance(underlyingType, tokenObject));
+                }
             }
         }
 
-        // Assume we will be working with T1
-        var defaultT1 = Activator.CreateInstance(objectType.GenericTypeArguments[0]);
-
-        // Return new Union<T1, T2>(T1);
-        return Activator.CreateInstance(objectType, defaultT1);
+        throw new Exception($"Unhandled token {token.Type}");
     }
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
         serializer.Serialize(writer, ((IUnion)value).Value);
+    }
+}
+
+public class UnionContractResolver : DefaultContractResolver
+{
+    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+    {
+        var property = base.CreateProperty(member, memberSerialization);
+        var rootType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
+        if (property.PropertyType.IsGenericType && typeof(IUnion).IsAssignableFrom(rootType))
+        {
+            property.Converter = new UnionConverter(member as PropertyInfo);
+        }
+
+        return property;
     }
 }
