@@ -79,20 +79,12 @@ public class TraderDatabase
                     }
                 }
 
-                try
-                {
-                    HandbookService.Instance.GetPrice(items[0].TemplateId, handOverRequirements[0].Count);
-                    _ragfairService.CreateAndAddOffer(traderRagfairUser, items, false, handOverRequirements,
-                        TimeSpan.FromHours(1d), false, loyaltyLevel);
-                }
-                catch (Exception)
-                {
-
-                }
+                HandbookService.Instance.GetPrice(items[0].TemplateId, handOverRequirements[0].Count);
+                _ragfairService.CreateAndAddOffer(traderRagfairUser, items, false, handOverRequirements,
+                    TimeSpan.FromHours(30d), false, loyaltyLevel);
             }
 
             Terminal.WriteLine($"Got assort for {traderTemplate.Id}");
-
         }
     }
 
