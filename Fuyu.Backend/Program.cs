@@ -20,7 +20,6 @@ public class Program
 
         Terminal.SetLogConfig("Fuyu.Backend", "Fuyu/Logs/Backend.log");
 
-        LoadClients(container);
         LoadDatabase(container);
         LoadServers(container);
         await LoadMods(container);
@@ -42,12 +41,6 @@ public class Program
         }
 
         await ModManager.Instance.UnloadAll();
-    }
-
-    static void LoadClients(DependencyContainer container)
-    {
-        var eftHttpClient = new HttpClient("http://localhost:8010");
-        RequestService.Instance.AddOrSetClient("eft", eftHttpClient);
     }
 
     static void LoadDatabase(DependencyContainer container)

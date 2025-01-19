@@ -12,7 +12,9 @@ using Fuyu.Backend.EFTMain;
 using Fuyu.Backend.EFTMain.Services;
 using Fuyu.Common.Hashing;
 using Fuyu.Common.IO;
+using Fuyu.Common.Networking;
 using Fuyu.Common.Serialization;
+using Fuyu.Common.Services;
 using Fuyu.Tests.Backend.EFT.Networking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AccountService = Fuyu.Backend.Core.Services.AccountService;
@@ -47,18 +49,13 @@ public class BackendTest
 
     private static int CreateGameAccount(string sessionId, string game, string edition)
     {
-        var gameAccountId = CoreOrm.Instance.GetAccount(sessionId).Games[game].Value;
-        return gameAccountId;
+        var response = AccountService.Instance.RegisterGame(sessionId, game, edition);
+        return response.AccountId;
     }
 
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        if (VFS.DirectoryExists("Fuyu/"))
-        {
-            Directory.Delete("Fuyu/", true);
-        }
-
         // setup databases
         CoreLoader.Instance.Load();
         EftLoader.Instance.Load();
