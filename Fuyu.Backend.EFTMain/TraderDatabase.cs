@@ -49,7 +49,7 @@ public class TraderDatabase
     {
         _traders.Set(id, traderTemplate);
     }
-    
+
     public void SetTraderAssort(MongoId id, TraderAssort traderAssort)
     {
         _traderAssort.Set(id, traderAssort);
