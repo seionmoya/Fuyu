@@ -43,6 +43,7 @@ public class ItemFactoryService
         return ItemTemplates[templateId].Props.ToObject<T>();
     }
 
+    // TODO: Remove at a later date
     /*public List<ItemInstance> CreateItem(ItemTemplate template, int count, MongoId? id = null, string parentId = null,
         string slotId = null)
     {
