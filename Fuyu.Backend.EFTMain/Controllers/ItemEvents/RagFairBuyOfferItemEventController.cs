@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Fuyu.Backend.BSG.ItemTemplates;
 using Fuyu.Backend.BSG.Models.ItemEvents;
-using Fuyu.Backend.BSG.Models.Items;
 using Fuyu.Backend.BSG.Networking;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFTMain.Services;
-using Fuyu.Common.Hashing;
-using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFTMain.Controllers.ItemEvents;
 
@@ -16,17 +12,14 @@ public class RagFairBuyOfferItemEventController : AbstractItemEventController<Ra
     private readonly EftOrm _eftOrm;
     private readonly RagfairService _ragfairService;
     private readonly ItemService _itemService;
-    private readonly ItemFactoryService _itemFactoryService;
 
     public RagFairBuyOfferItemEventController() : base("RagFairBuyOffer")
     {
         _eftOrm = EftOrm.Instance;
         _ragfairService = RagfairService.Instance;
         _itemService = ItemService.Instance;
-        _itemFactoryService = ItemFactoryService.Instance;
     }
 
-    // TODO: logic for buying is wrong
     public override Task RunAsync(ItemEventContext context, RagFairBuyOfferItemEvent request)
     {
         var profile = _eftOrm.GetActiveProfile(context.SessionId);

@@ -18,5 +18,5 @@ public class OffersListResponse
     public Dictionary<MongoId, int> Categories = [];
 
     [DataMember(Name = "selectedCategory")]
-    public string SelectedCategory;
+    public MongoId SelectedCategory;
 }

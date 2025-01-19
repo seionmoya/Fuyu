@@ -29,9 +29,20 @@ public class RagfairService
     public Offer CreateAndAddOffer(IRagfairUser user, List<ItemInstance> items, bool isBatch,
         List<HandoverRequirement> requirements, TimeSpan lifetime, bool unlimitedCount, int loyaltyLevel = 1)
     {
-        ArgumentNullException.ThrowIfNull(user);
-        ArgumentNullException.ThrowIfNull(items);
-        ArgumentNullException.ThrowIfNull(requirements);
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user));
+        }
+
+        if (items == null)
+        {
+            throw new ArgumentNullException(nameof(items));
+        }
+
+        if (requirements == null)
+        {
+            throw new ArgumentNullException(nameof(requirements));
+        }
 
         if (items.Count == 0)
         {

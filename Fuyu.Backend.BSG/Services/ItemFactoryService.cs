@@ -43,48 +43,6 @@ public class ItemFactoryService
         return ItemTemplates[templateId].Props.ToObject<T>();
     }
 
-    // TODO: Remove at a later date
-    /*public List<ItemInstance> CreateItem(ItemTemplate template, int count, MongoId? id = null, string parentId = null,
-        string slotId = null)
-    {
-        var items = new List<ItemInstance>();
-        var itemId = id.GetValueOrDefault(MongoId.Generate());
-        var upd = CreateItemUpdatable(template);
-
-        var item = new ItemInstance
-        {
-            Id = itemId,
-            TemplateId = template.Id,
-            ParentId = parentId,
-            SlotId = slotId,
-            Updatable = upd
-        };
-        
-        items.Add(item);
-
-        var compoundItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
-
-        if (compoundItemProperties.Slots != null)
-        {
-            foreach (var slot in compoundItemProperties.Slots.Where(s => s.Required && s.Properties.Filters.Length > 0))
-            {
-                if (!slot.Properties.Filters[0].Plate.HasValue)
-                {
-                    continue;
-                }
-
-                var templateId = slot.Properties.Filters[0].Plate.Value;
-                if (ItemTemplates.TryGetValue(templateId, out template))
-                {
-                    var subItems = CreateItem(ItemTemplates[templateId], null, itemId, slot.Name);
-                    items.AddRange(subItems);
-                }
-            }
-        }
-
-        return items;
-    }*/
-
     public List<ItemInstance> CreateItem(ItemTemplate template, int? count = null, MongoId? id = null, string parentId = null,
         string slotId = null)
     {
@@ -199,7 +157,10 @@ public class ItemFactoryService
 
     public List<List<ItemInstance>> CreateItemsFromTradeRequest(List<ItemInstance> purchasedItem, int count)
     {
-        ArgumentNullException.ThrowIfNull(purchasedItem);
+        if (purchasedItem == null)
+        {
+            throw new ArgumentNullException(nameof(purchasedItem));
+        }
 
         if (purchasedItem.Count == 0)
         {

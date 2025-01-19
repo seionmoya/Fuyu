@@ -11,6 +11,7 @@ public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
     private static readonly Random _random = new Random();
     private readonly uint _timeStamp;
     private readonly ulong _counter;
+    public static readonly int RequiredStringLength = 24;
 
     public static uint UnixTimestamp
     {
@@ -33,7 +34,7 @@ public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
 
     public static bool TryParse(string str, out MongoId id)
     {
-        if (str == null || str.Length != 24)
+        if (str == null || str.Length != RequiredStringLength)
         {
             id = default;
             return false;
@@ -54,7 +55,7 @@ public readonly struct MongoId : IComparable<MongoId>, IEquatable<MongoId>
 
     public static MongoId Parse(string str)
     {
-        if (str == null || str.Length != 24)
+        if (str == null || str.Length != RequiredStringLength)
         {
             throw new Exception();
         }

@@ -77,6 +77,7 @@ public class InventoryInfo
             var template = itemFactoryService.ItemTemplates[stashItem.TemplateId];
             var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
             var primaryGrid = compoundItemItemProperties.Grids[0].Properties;
+
             _matrix = itemService.GenerateMatrix(primaryGrid.CellsHorizontal, primaryGrid.CellsVertical,
                 [.. Items]);
         }
@@ -123,12 +124,16 @@ public class InventoryInfo
             for (var dx = 0; dx < width; dx++)
             {
                 var tempX = x + dx;
-                var tempY = y + dx;
+                var tempY = y + dy;
+
                 _matrix[tempY * primaryGrid.CellsHorizontal + tempX] = true;
             }
         }
 
-        items.ForEach(i => ItemsMap[i.Id] = i);
+        foreach (var item in items)
+        {
+            ItemsMap[item.Id] = item;
+        }
     }
 
     /// <returns>The root item, not the full stack</returns>
@@ -192,43 +197,46 @@ public class InventoryInfo
         rootItem.Location = targetLocation;
     }
 
-    public List<ItemInstance> RemoveItem(ItemInstance item)
+    public List<ItemInstance> RemoveItem(ItemInstance rootItem)
     {
-        ArgumentNullException.ThrowIfNull(item);
+        if (rootItem == null)
+        {
+            throw new ArgumentNullException(nameof(rootItem));
+        }
 
-        if (!ItemsMap.ContainsKey(item.Id))
+        if (!ItemsMap.ContainsKey(rootItem.Id))
         {
             return [];
         }
 
-        if (!item.Location.IsValue1)
+        if (!rootItem.Location.IsValue1)
         {
             throw new Exception("!item.Location.IsValue1");
         }
 
-        var location = item.Location.Value1;
+        var location = rootItem.Location.Value1;
 
         if (location == null)
         {
             throw new Exception("Location is null");
         }
 
-        var containerItem = ItemsMap[item.ParentId];
+        var containerItem = ItemsMap[rootItem.ParentId];
 
         if (containerItem == null)
         {
-            throw new Exception($"Failed to find container {item.ParentId} for {item.Id}");
+            throw new Exception($"Failed to find container {rootItem.ParentId} for {rootItem.Id}");
         }
 
         var itemService = ItemService.Instance;
-        var itemAndChildren = itemService.GetItemAndChildren(Items, item);
+        var itemAndChildren = itemService.GetItemAndChildren(Items, rootItem);
         var template = ItemFactoryService.Instance.ItemTemplates[containerItem.TemplateId];
         var compoundItemItemProperties = template.Props.ToObject<CompoundItemItemProperties>();
-        var owningGrid = compoundItemItemProperties.Grids.Find(g => g.Name == item.SlotId)?.Properties;
+        var owningGrid = compoundItemItemProperties.Grids.Find(g => g.Name == rootItem.SlotId)?.Properties;
 
         if (owningGrid == null)
         {
-            throw new Exception($"Failed to find owning grid on {containerItem.Id}.{item.SlotId}");
+            throw new Exception($"Failed to find owning grid on {containerItem.Id}.{rootItem.SlotId}");
         }
 
         (int width, int height) = itemService.CalculateItemSize(itemAndChildren);
@@ -246,7 +254,10 @@ public class InventoryInfo
             }
         }
 
-        itemAndChildren.ForEach(i => ItemsMap.Remove(i.Id));
+        foreach (var item in itemAndChildren)
+        {
+            ItemsMap.Remove(item.Id);
+        }
 
         return itemAndChildren;
     }

@@ -74,7 +74,7 @@ public class ItemService
         {
             keepSearching = false;
 
-            for (int i = 0; i < items.Count; i++)
+            for (var i = 0; i < items.Count; i++)
             {
                 var item = items[i];
 
@@ -86,6 +86,7 @@ public class ItemService
             }
         }
 
+        // Grab the ItemInstance of each found id and return it as a List
         return items.Where(i => idsToReturn.Contains(i.Id)).ToList();
     }
 
@@ -94,7 +95,10 @@ public class ItemService
     /// </summary>
     public (int width, int height) CalculateItemSize(List<ItemInstance> items)
     {
-        ArgumentNullException.ThrowIfNull(items);
+        if (items == null)
+        {
+            throw new ArgumentNullException(nameof(items));
+        }
 
         if (items.Count == 0)
         {
@@ -164,8 +168,15 @@ public class ItemService
         List<ItemInstance> items, int width, int height, ref bool[] matrix, out string gridName,
         EItemRotation desiredRotation = EItemRotation.Horizontal)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(width);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(height);
+        if (width <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(width));
+        }
+
+        if (height <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(height));
+        }
 
         gridName = null;
 

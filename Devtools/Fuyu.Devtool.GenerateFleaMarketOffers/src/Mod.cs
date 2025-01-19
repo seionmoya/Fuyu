@@ -21,9 +21,12 @@ public class GenerateFleaMarketOffersMod : AbstractMod
 
     public override string Name { get; } = "GenerateFleaMarketOffers";
 
+    private Thread _generateOffersThread;
+
     public override Task OnLoad(DependencyContainer container)
     {
-        new Thread(GenerateOffers).Start();
+        _generateOffersThread = new Thread(GenerateOffers);
+        _generateOffersThread.Start();
 
         return Task.CompletedTask;
     }
@@ -52,18 +55,23 @@ public class GenerateFleaMarketOffersMod : AbstractMod
             try
             {
                 var items = ItemFactoryService.Instance.CreateItem(template);
-                items[0].Updatable ??= new ItemUpdatable();
+
+                if (items[0].Updatable == null)
+                {
+                    items[0].Updatable = new ItemUpdatable();
+                }
+
                 items[0].Updatable.StackObjectsCount = Random.Shared.Next(100, 100000);
 
                 var createdOffer = RagfairService.Instance.CreateAndAddOffer(
-                    player,
-                    items,
-                    false,
-                    [
+                    user: player,
+                    items: items,
+                    isBatch: false,
+                    requirements: [
                         new HandoverRequirement() { Count = price, TemplateId = "5449016a4bdc2d6f028b456f" }
                     ],
-                    TimeSpan.FromHours(30d),
-                    true
+                    lifetime: TimeSpan.FromHours(30d),
+                    unlimitedCount: true
                 );
 
                 if (createdOffer == null)

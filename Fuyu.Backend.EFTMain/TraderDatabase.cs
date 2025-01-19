@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Trading;
 using Fuyu.Backend.BSG.Services;
 using Fuyu.Backend.EFTMain.Services;
 using Fuyu.Common.Collections;
 using Fuyu.Common.Hashing;
-using Fuyu.Common.IO;
-using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFTMain;
 
@@ -34,60 +30,6 @@ public class TraderDatabase
         _itemService = ItemService.Instance;
     }
 
-    public void Load()
-    {
-        var tradersJson = Resx.GetText("eft", "database.client.trading.api.traderSettings.json");
-        var body = Json.Parse<ResponseBody<TraderTemplate[]>>(tradersJson);
-
-        foreach (var traderTemplate in body.data)
-        {
-            _traders.Set(traderTemplate.Id, traderTemplate);
-
-            string assortJson;
-
-            try
-            {
-                assortJson = Resx.GetText("eft",
-                    $"database.client.trading.api.getTraderAssort.{traderTemplate.Id}.json");
-            }
-            catch (FileNotFoundException)
-            {
-                Terminal.WriteLine($"Failed to get assort for {traderTemplate.Id}");
-                continue;
-            }
-
-            var traderAssort = Json.Parse<TraderAssort>(assortJson);
-            _traderAssort.Set(traderTemplate.Id, traderAssort);
-
-            var traderRagfairUser = new RagfairTraderUser(traderTemplate.Id);
-
-            foreach (var (itemId, scheme) in traderAssort.BarterScheme)
-            {
-                var items = _itemService.GetItemAndChildren(traderAssort.Items, itemId);
-                var handOverRequirements = new List<HandoverRequirement>();
-                var loyaltyLevel = traderAssort.LoyaltyLevelItems[itemId];
-
-                foreach (var requirement in scheme)
-                {
-                    foreach (var requirement2 in requirement)
-                    {
-                        handOverRequirements.Add(new HandoverRequirement
-                        {
-                            Count = (int)requirement2.Count,
-                            TemplateId = requirement2.Template
-                        });
-                    }
-                }
-
-                HandbookService.Instance.GetPrice(items[0].TemplateId, handOverRequirements[0].Count);
-                _ragfairService.CreateAndAddOffer(traderRagfairUser, items, false, handOverRequirements,
-                    TimeSpan.FromHours(30d), false, loyaltyLevel);
-            }
-
-            Terminal.WriteLine($"Got assort for {traderTemplate.Id}");
-        }
-    }
-
     public Dictionary<MongoId, TraderTemplate> GetTraderTemplates()
     {
         return _traders.ToDictionary();
@@ -101,5 +43,44 @@ public class TraderDatabase
         }
 
         return result;
+    }
+
+    public void SetTraderTemplate(MongoId id, TraderTemplate traderTemplate)
+    {
+        _traders.Set(id, traderTemplate);
+    }
+    
+    public void SetTraderAssort(MongoId id, TraderAssort traderAssort)
+    {
+        _traderAssort.Set(id, traderAssort);
+
+        // NOTE: I don't know where this code should go
+        var traderRagfairUser = new RagfairTraderUser(id);
+
+        foreach (var (itemId, scheme) in traderAssort.BarterScheme)
+        {
+            var items = _itemService.GetItemAndChildren(traderAssort.Items, itemId);
+            var handOverRequirements = new List<HandoverRequirement>();
+            var loyaltyLevel = traderAssort.LoyaltyLevelItems[itemId];
+
+            foreach (var requirement in scheme)
+            {
+                foreach (var requirement2 in requirement)
+                {
+                    handOverRequirements.Add(new HandoverRequirement
+                    {
+                        Count = (int)requirement2.Count,
+                        TemplateId = requirement2.Template
+                    });
+                }
+            }
+
+            // This is called so that the item will be in the 
+            // generated category if it doesn't exist
+            HandbookService.Instance.GetPrice(items[0].TemplateId, handOverRequirements[0].Count);
+
+            _ragfairService.CreateAndAddOffer(traderRagfairUser, items, false, handOverRequirements,
+                TimeSpan.FromHours(30d), false, loyaltyLevel);
+        }
     }
 }

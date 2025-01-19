@@ -48,7 +48,7 @@ public class Program
 
         CoreLoader.Instance.Load();
         EftLoader.Instance.Load();
-        TraderDatabase.Instance.Load();
+        TraderLoader.Instance.Load();
         ItemFactoryService.Instance.Load();
     }
 

@@ -26,10 +26,8 @@ public partial class GetTraderAssortController : AbstractEftHttpController
 
     public override Task RunAsync(EftHttpContext context)
     {
-        var profile = _eftOrm.GetActiveProfile(context.SessionId);
         var parameters = context.GetPathParameters(this);
         var traderId = parameters["traderId"];
-        var traderTemplate = _traderOrm.GetTraderTemplate(traderId);
         var assort = _traderOrm.GetTraderAssort(traderId);
 
         if (assort == null)
@@ -37,7 +35,7 @@ public partial class GetTraderAssortController : AbstractEftHttpController
             throw new Exception($"Failed to find assort for trader {traderId}");
         }
 
-        var assortClone = Json.Clone<TraderAssort>(assort);
+        var profile = _eftOrm.GetActiveProfile(context.SessionId);
 
         if (!profile.Pmc.TradersInfo.HasValue)
         {
@@ -54,20 +52,18 @@ public partial class GetTraderAssortController : AbstractEftHttpController
             throw new Exception($"User has no trader info for {traderId}");
         }
 
-        int level = 0;
+        var traderTemplate = _traderOrm.GetTraderTemplate(traderId);
+        var assortClone = Json.Clone<TraderAssort>(assort);
+        var level = 0;
 
-        for (int index = 0; index < traderTemplate.LoyaltyLevels.Length; index++)
+        for (var index = 0; index < traderTemplate.LoyaltyLevels.Length; index++)
         {
             var loyaltyInfo = traderTemplate.LoyaltyLevels[index];
+
             if (loyaltyInfo.MinStanding < traderInfo.standing)
             {
                 level = index + 1;
             }
-        }
-
-        if (level == 0)
-        {
-            throw new Exception("Loyalty level is 0");
         }
 
         foreach (var (id, requiredLevel) in assortClone.LoyaltyLevelItems)
@@ -76,6 +72,7 @@ public partial class GetTraderAssortController : AbstractEftHttpController
             {
                 assortClone.BarterScheme.Remove(id);
                 var item = assortClone.Items.Find(i => i.Id == id);
+
                 if (item != null)
                 {
                     assortClone.Items.Remove(item);
@@ -83,7 +80,10 @@ public partial class GetTraderAssortController : AbstractEftHttpController
             }
         }
 
-        var response = new ResponseBody<TraderAssort> { data = assortClone };
+        var response = new ResponseBody<TraderAssort>
+        {
+            data = assortClone
+        };
 
         return context.SendResponseAsync(response, true, true);
     }

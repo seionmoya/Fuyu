@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Fuyu.Backend.BSG.ItemTemplates;
+using Fuyu.Backend.BSG.Models.Profiles.Info;
 using Fuyu.Backend.BSG.Models.Requests;
 using Fuyu.Backend.BSG.Models.Responses;
 using Fuyu.Backend.BSG.Models.Trading;
@@ -16,7 +17,7 @@ using Fuyu.Common.Serialization;
 
 namespace Fuyu.Backend.EFTMain.Controllers.Http;
 
-public class CilentRagfairFindController : AbstractEftHttpController<RagfairFindRequest>
+public class ClientRagfairFindController : AbstractEftHttpController<RagfairFindRequest>
 {
     private readonly EftOrm _eftOrm;
     private readonly RagfairService _ragfairService;
@@ -25,10 +26,15 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
 
     private readonly HashSet<MongoId> _money = new HashSet<MongoId>
     {
-        "5449016a4bdc2d6f028b456f", "5696686a4bdc2da3298b456a", "569668774bdc2da2298b4568"
+        // Roubles
+        "5449016a4bdc2d6f028b456f",
+        // Dollars
+        "5696686a4bdc2da3298b456a",
+        // Euros
+        "569668774bdc2da2298b4568"
     };
 
-    public CilentRagfairFindController() : base("/client/ragfair/find")
+    public ClientRagfairFindController() : base("/client/ragfair/find")
     {
         _eftOrm = EftOrm.Instance;
         _ragfairService = RagfairService.Instance;
@@ -46,19 +52,19 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
         List<Offer> selectedOffers;
         string selectedCategory;
 
-        if (!string.IsNullOrWhiteSpace(body.HandbookId))
+        if (body.HandbookId.HasValue)
         {
-            selectedOffers = SearchByItem(handbook, body.HandbookId);
+            selectedOffers = SearchByItem(handbook, body.HandbookId.Value);
             selectedCategory = body.HandbookId;
         }
-        else if (!string.IsNullOrWhiteSpace(body.LinkedSearchId))
+        else if (body.LinkedSearchId.HasValue)
         {
-            selectedOffers = LinkedSearch(handbook, body.LinkedSearchId, out selectedCategory);
+            selectedOffers = LinkedSearch(handbook, body.LinkedSearchId.Value, out selectedCategory);
             selectedCategory = body.LinkedSearchId;
         }
-        else if (!string.IsNullOrWhiteSpace(body.NeededSearchId))
+        else if (body.NeededSearchId.HasValue)
         {
-            selectedOffers = RequiredSearch(handbook, body.NeededSearchId, out selectedCategory);
+            selectedOffers = RequiredSearch(handbook, body.NeededSearchId.Value, out selectedCategory);
             selectedCategory = body.NeededSearchId;
         }
         else
@@ -70,17 +76,20 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
         switch (body.OfferOwnerType)
         {
             // All, just leaving to show that
-            case 0: break;
+            case 0:
+                {
+                    break;
+                }
             // Traders only
             case 1:
                 {
-                    selectedOffers.RemoveAll(o => o.User is not RagfairTraderUser);
+                    selectedOffers.RemoveAll(o => !o.User.MemberCategory.HasFlag(EMemberCategory.Trader));
                     break;
                 }
             // Players only
             case 2:
                 {
-                    selectedOffers.RemoveAll(o => o.User is not RagfairPlayerUser);
+                    selectedOffers.RemoveAll(o => o.User.MemberCategory.HasFlag(EMemberCategory.Trader));
                     break;
                 }
         }
@@ -101,12 +110,18 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
             selectedOffers.Sort((a, b) => b.ItemsCost - a.ItemsCost);
         }
 
+        // Moves the enumerator N times (essentially removing them from the list)
+        var offers = selectedOffers.Skip(body.Page * body.Limit);
+
+        // Creates a slice of the next N elements
+        offers = offers.Take(body.Limit);
+
         responseBody = new ResponseBody<OffersListResponse>()
         {
             data = new OffersListResponse
             {
                 Categories = _ragfairService.CategoricalOffers,
-                Offers = selectedOffers.Skip(body.Page * body.Limit).Take(body.Limit).ToList(),
+                Offers = offers.ToList(),
                 OffersCount = selectedOffers.Count,
                 SelectedCategory = selectedCategory
             }
@@ -223,6 +238,16 @@ public class CilentRagfairFindController : AbstractEftHttpController<RagfairFind
     {
         selectedCategory = null;
 
-        return _ragfairService.Offers.Where(o => o.Requirements.Any(r => r.TemplateId == neededSearchId)).ToList();
+        var result = new List<Offer>();
+
+        foreach (var offer in _ragfairService.Offers)
+        {
+            if (offer.Requirements.Exists(requirement => requirement.TemplateId == neededSearchId))
+            {
+                result.Add(offer);
+            }
+        }
+
+        return result;
     }
 }
