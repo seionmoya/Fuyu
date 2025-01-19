@@ -26,6 +26,7 @@ public class ItemInstance
     public MongoId TemplateId { get; set; }
 
     // emits when 'null'
+    // NOTE: This is a string instead of a MongoId as "hideout" is valid
     [DataMember(Name = "parentId", EmitDefaultValue = false)]
     public string ParentId { get; set; }
 
