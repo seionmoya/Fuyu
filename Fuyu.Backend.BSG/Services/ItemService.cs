@@ -43,7 +43,7 @@ public class ItemService
         var mapping = new Dictionary<string, string>();
         foreach (var item in items)
         {
-            mapping.TryAdd(item.Id, new MongoId(true));
+            mapping.TryAdd(item.Id, MongoId.Generate());
         }
 
         RegenerateItemIds(items, mapping);

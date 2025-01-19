@@ -29,34 +29,34 @@ public class InventoryService
         var mapping = new Dictionary<string, string>();
 
         // regenerate inventory equipment
-        mapping.Add(inventory.Equipment, new MongoId(true));
+        mapping.Add(inventory.Equipment, MongoId.Generate());
         inventory.Equipment = mapping[inventory.Equipment];
 
         // regenerate inventory stash
         if (inventory.Stash != null)
         {
-            mapping.Add(inventory.Stash.Value, new MongoId(true));
+            mapping.Add(inventory.Stash.Value, MongoId.Generate());
             inventory.Stash = mapping[inventory.Stash.Value];
         }
 
         // regenerate inventory quest raid items
         if (inventory.QuestRaidItems != null)
         {
-            mapping.Add(inventory.QuestRaidItems.Value, new MongoId(true));
+            mapping.Add(inventory.QuestRaidItems.Value, MongoId.Generate());
             inventory.QuestRaidItems = mapping[inventory.QuestRaidItems.Value];
         }
 
         // regenerate inventory quest stash items
         if (inventory.QuestStashItems != null)
         {
-            mapping.Add(inventory.QuestStashItems.Value, new MongoId(true));
+            mapping.Add(inventory.QuestStashItems.Value, MongoId.Generate());
             inventory.QuestStashItems = mapping[inventory.QuestStashItems.Value];
         }
 
         // regenerate inventory sorting table
         if (inventory.SortingTable != null)
         {
-            mapping.Add(inventory.SortingTable.Value, new MongoId(true));
+            mapping.Add(inventory.SortingTable.Value, MongoId.Generate());
             inventory.SortingTable = mapping[inventory.SortingTable.Value];
         }
 
@@ -67,7 +67,7 @@ public class InventoryService
             {
                 if (!mapping.ContainsKey(id))
                 {
-                    mapping.Add(id, new MongoId(true));
+                    mapping.Add(id, MongoId.Generate());
                 }
             }
 

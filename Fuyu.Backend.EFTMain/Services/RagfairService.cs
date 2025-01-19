@@ -58,7 +58,7 @@ public class RagfairService
 
         var offer = new Offer()
         {
-            Id = new MongoId(true),
+            Id = MongoId.Generate(),
             IntId = Offers.Count,
             User = user,
             RootItemId = items[0].Id,

@@ -10,10 +10,9 @@ public class MongoIdConverter : JsonConverter<MongoId?>
     {
         if (reader.Value != null)
         {
-            var str = (string)reader.Value;
-            if (str.Length == 24)
+            if (MongoId.TryParse((string)reader.Value, out MongoId mongoId))
             {
-                return new MongoId(str);
+                return mongoId;
             }
         }
 

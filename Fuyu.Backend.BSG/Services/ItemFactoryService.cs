@@ -47,7 +47,7 @@ public class ItemFactoryService
         string slotId = null)
     {
         var items = new List<ItemInstance>();
-        var itemId = id.GetValueOrDefault(new MongoId(true));
+        var itemId = id.GetValueOrDefault(MongoId.Generate());
         var upd = CreateItemUpdatable(template);
 
         var item = new ItemInstance
@@ -92,7 +92,7 @@ public class ItemFactoryService
 
         for (var i = 0; i < itemCount; i++)
         {
-            var itemId = i == 0 && id.HasValue ? id.Value : new MongoId(true);
+            var itemId = i == 0 && id.HasValue ? id.Value : MongoId.Generate();
             var upd = CreateItemUpdatable(template);
 
             var item = new ItemInstance
